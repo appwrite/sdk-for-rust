@@ -8,9 +8,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let string_in_array = vec!["string in array".to_string()];
 
     let client = Client::new()
-        .set_endpoint("http://mockapi/v1")
-        .set_project("appwrite")
-        .set_key("apikey")
+        .set_endpoint("http://mockapi/v1")?
+        .set_project("appwrite")?
+        .set_key("apikey")?
         .add_header("Origin", "http://localhost");
 
     println!("\n\nTest Started");

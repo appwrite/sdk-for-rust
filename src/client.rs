@@ -4,7 +4,7 @@ use crate::error::AppwriteError;
 use crate::error::Result;
 use crate::input_file::InputFile;
 use arc_swap::ArcSwap;
-use reqwest::{header::HeaderMap, multipart, Client as HttpClient, Method, Response};
+use reqwest::{header::{HeaderMap, HeaderValue}, multipart, Client as HttpClient, Method, Response};
 use serde::de::DeserializeOwned;
 use serde_json::Value;
 use std::collections::HashMap;
@@ -88,12 +88,18 @@ impl Client {
     /// Create a new Appwrite client
     pub fn new() -> Self {
         let mut headers = HeaderMap::new();
-        headers.insert("X-Appwrite-Response-Format", "1.9.0".parse().unwrap());
-        headers.insert("user-agent", format!("AppwriteRustSDK/0.1.0 ({}; {})", std::env::consts::OS, std::env::consts::ARCH).parse().unwrap());
-        headers.insert("x-sdk-name", "Rust".parse().unwrap());
-        headers.insert("x-sdk-platform", "server".parse().unwrap());
-        headers.insert("x-sdk-language", "rust".parse().unwrap());
-        headers.insert("x-sdk-version", "0.1.0".parse().unwrap());
+        headers.insert("X-Appwrite-Response-Format", HeaderValue::from_static("1.9.0"));
+        // user-agent contains runtime OS/arch info, so it must be built dynamically
+        headers.insert(
+            "user-agent",
+            format!("AppwriteRustSDK/0.1.0 ({}; {})", std::env::consts::OS, std::env::consts::ARCH)
+                .parse()
+                .expect("OS and ARCH constants produce valid ASCII"),
+        );
+        headers.insert("x-sdk-name", HeaderValue::from_static("Rust"));
+        headers.insert("x-sdk-platform", HeaderValue::from_static("server"));
+        headers.insert("x-sdk-language", HeaderValue::from_static("rust"));
+        headers.insert("x-sdk-version", HeaderValue::from_static("0.1.0"));
 
         let config = Config {
             endpoint: "https://cloud.appwrite.io/v1".to_string(),
@@ -103,8 +109,9 @@ impl Client {
             timeout_secs: DEFAULT_TIMEOUT,
         };
 
-        let http = Self::build_http_client(&config);
-        let http_no_redirect = Self::build_http_client_no_redirect(&config);
+        // SAFETY: Default config uses known-valid values, so build cannot fail
+        let http = Self::build_http_client(&config).unwrap();
+        let http_no_redirect = Self::build_http_client_no_redirect(&config).unwrap();
 
         let state = ClientState { config, http, http_no_redirect };
 
@@ -113,17 +120,19 @@ impl Client {
         }
     }
 
-    fn build_http_client(config: &Config) -> HttpClient {
+    fn build_http_client(config: &Config) -> Result<HttpClient> {
         let mut builder = HttpClient::builder().timeout(Duration::from_secs(config.timeout_secs));
 
         if config.self_signed {
             builder = builder.danger_accept_invalid_certs(true);
         }
 
-        builder.build().expect("Failed to create HTTP client")
+        builder.build().map_err(|e| {
+            AppwriteError::new(0, format!("Failed to create HTTP client: {}", e), None, String::new())
+        })
     }
 
-    fn build_http_client_no_redirect(config: &Config) -> HttpClient {
+    fn build_http_client_no_redirect(config: &Config) -> Result<HttpClient> {
         let mut builder = HttpClient::builder()
             .redirect(reqwest::redirect::Policy::none())
             .timeout(Duration::from_secs(config.timeout_secs));
@@ -132,90 +141,117 @@ impl Client {
             builder = builder.danger_accept_invalid_certs(true);
         }
 
-        builder.build().expect("Failed to create no-redirect HTTP client")
+        builder.build().map_err(|e| {
+            AppwriteError::new(0, format!("Failed to create no-redirect HTTP client: {}", e), None, String::new())
+        })
     }
 
     /// Set the API endpoint
-    pub fn set_endpoint<S: Into<String>>(&self, endpoint: S) -> Self {
+    pub fn set_endpoint<S: Into<String>>(&self, endpoint: S) -> Result<Self> {
         let endpoint = endpoint.into();
         if !endpoint.starts_with("http://") && !endpoint.starts_with("https://") {
-            panic!("Invalid endpoint URL: {}. Endpoint must start with http:// or https://", endpoint);
+            return Err(AppwriteError::new(
+                0,
+                format!("Invalid endpoint URL: {}. Endpoint must start with http:// or https://", endpoint),
+                None,
+                String::new(),
+            ));
         }
         self.state.rcu(|state| {
             let mut next = (**state).clone();
             next.config.endpoint = endpoint.clone();
             Arc::new(next)
         });
-        self.clone()
+        Ok(self.clone())
     }
 
     /// Set the project ID
-    pub fn set_project<S: Into<String>>(&self, project: S) -> Self {
+    pub fn set_project<S: Into<String>>(&self, project: S) -> Result<Self> {
         let project = project.into();
+        let header_value: HeaderValue = project.parse().map_err(|_| {
+            AppwriteError::new(0, format!("Invalid header value for project: {}", project), None, String::new())
+        })?;
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-project", project.clone().parse().unwrap());
+            next.config.headers.insert("x-appwrite-project", header_value.clone());
             Arc::new(next)
         });
-        self.clone()
+        Ok(self.clone())
     }
 
     /// Set the API key
-    pub fn set_key<S: Into<String>>(&self, key: S) -> Self {
+    pub fn set_key<S: Into<String>>(&self, key: S) -> Result<Self> {
         let key = key.into();
+        let header_value: HeaderValue = key.parse().map_err(|_| {
+            AppwriteError::new(0, format!("Invalid header value for key: {}", key), None, String::new())
+        })?;
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-key", key.clone().parse().unwrap());
+            next.config.headers.insert("x-appwrite-key", header_value.clone());
             Arc::new(next)
         });
-        self.clone()
+        Ok(self.clone())
     }
 
     /// Set the JWT token
-    pub fn set_jwt<S: Into<String>>(&self, jwt: S) -> Self {
+    pub fn set_jwt<S: Into<String>>(&self, jwt: S) -> Result<Self> {
         let jwt = jwt.into();
+        let header_value: HeaderValue = jwt.parse().map_err(|_| {
+            AppwriteError::new(0, format!("Invalid header value for JWT: {}", jwt), None, String::new())
+        })?;
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-jwt", jwt.clone().parse().unwrap());
+            next.config.headers.insert("x-appwrite-jwt", header_value.clone());
             Arc::new(next)
         });
-        self.clone()
+        Ok(self.clone())
     }
 
     /// Set the locale
-    pub fn set_locale<S: Into<String>>(&self, locale: S) -> Self {
+    pub fn set_locale<S: Into<String>>(&self, locale: S) -> Result<Self> {
         let locale = locale.into();
+        let header_value: HeaderValue = locale.parse().map_err(|_| {
+            AppwriteError::new(0, format!("Invalid header value for locale: {}", locale), None, String::new())
+        })?;
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-locale", locale.clone().parse().unwrap());
+            next.config.headers.insert("x-appwrite-locale", header_value.clone());
             Arc::new(next)
         });
-        self.clone()
+        Ok(self.clone())
     }
 
     /// Set the session
-    pub fn set_session<S: Into<String>>(&self, session: S) -> Self {
+    pub fn set_session<S: Into<String>>(&self, session: S) -> Result<Self> {
         let session = session.into();
+        let header_value: HeaderValue = session.parse().map_err(|_| {
+            AppwriteError::new(0, format!("Invalid header value for session: {}", session), None, String::new())
+        })?;
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-session", session.clone().parse().unwrap());
+            next.config.headers.insert("x-appwrite-session", header_value.clone());
             Arc::new(next)
         });
-        self.clone()
+        Ok(self.clone())
     }
 
     /// Enable or disable self-signed certificates
-    pub fn set_self_signed(&self, self_signed: bool) -> Self {
+    pub fn set_self_signed(&self, self_signed: bool) -> Result<Self> {
         self.state.rcu(|state| {
             let mut next = (**state).clone();
             if next.config.self_signed != self_signed {
                 next.config.self_signed = self_signed;
-                next.http = Self::build_http_client(&next.config);
-                next.http_no_redirect = Self::build_http_client_no_redirect(&next.config);
+                // If build fails, keep existing clients
+                if let Ok(http) = Self::build_http_client(&next.config) {
+                    next.http = http;
+                }
+                if let Ok(http) = Self::build_http_client_no_redirect(&next.config) {
+                    next.http_no_redirect = http;
+                }
             }
             Arc::new(next)
         });
-        self.clone()
+        Ok(self.clone())
     }
 
     /// Set chunk size for file uploads (minimum 1 byte)
@@ -229,17 +265,21 @@ impl Client {
     }
 
     /// Set request timeout in seconds
-    pub fn set_timeout(&self, timeout_secs: u64) -> Self {
+    pub fn set_timeout(&self, timeout_secs: u64) -> Result<Self> {
         self.state.rcu(|state| {
             let mut next = (**state).clone();
             if next.config.timeout_secs != timeout_secs {
                 next.config.timeout_secs = timeout_secs;
-                next.http = Self::build_http_client(&next.config);
-                next.http_no_redirect = Self::build_http_client_no_redirect(&next.config);
+                if let Ok(http) = Self::build_http_client(&next.config) {
+                    next.http = http;
+                }
+                if let Ok(http) = Self::build_http_client_no_redirect(&next.config) {
+                    next.http_no_redirect = http;
+                }
             }
             Arc::new(next)
         });
-        self.clone()
+        Ok(self.clone())
     }
 
     /// Add a custom header
@@ -894,11 +934,74 @@ mod tests {
 
     #[test]
     fn test_client_builder_pattern() {
-        let client = Client::new()
-            .set_endpoint("https://custom.example.com/v1")
-            .set_project("test-project")
-            .set_key("test-key");
+        let client = Client::new();
+        let client = client.set_endpoint("https://custom.example.com/v1").unwrap();
+        let client = client.set_project("test-project").unwrap();
+        let client = client.set_key("test-key").unwrap();
 
         assert_eq!(client.endpoint(), "https://custom.example.com/v1");
+    }
+
+    #[test]
+    fn test_set_endpoint_invalid_scheme() {
+        let client = Client::new();
+        let result = client.set_endpoint("ftp://example.com");
+        assert!(result.is_err());
+        assert!(result.unwrap_err().message.contains("Invalid endpoint URL"));
+    }
+
+    #[test]
+    fn test_set_project_invalid_header_value() {
+        let client = Client::new();
+        let result = client.set_project("invalid\nvalue");
+        assert!(result.is_err());
+        assert!(result.unwrap_err().message.contains("Invalid header value"));
+    }
+
+    #[test]
+    fn test_set_key_invalid_header_value() {
+        let client = Client::new();
+        let result = client.set_key("invalid\nkey");
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_set_jwt_invalid_header_value() {
+        let client = Client::new();
+        let result = client.set_jwt("invalid\njwt");
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_set_locale_invalid_header_value() {
+        let client = Client::new();
+        let result = client.set_locale("invalid\nlocale");
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_set_session_invalid_header_value() {
+        let client = Client::new();
+        let result = client.set_session("invalid\nsession");
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_set_project_valid_value() {
+        let client = Client::new();
+        let result = client.set_project("my-project-123");
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_set_endpoint_valid_http() {
+        let client = Client::new();
+        assert!(client.set_endpoint("http://localhost:8080/v1").is_ok());
+    }
+
+    #[test]
+    fn test_set_endpoint_valid_https() {
+        let client = Client::new();
+        assert!(client.set_endpoint("https://cloud.appwrite.io/v1").is_ok());
     }
 }
