@@ -1746,9 +1746,9 @@ impl Databases {
         database_id: impl Into<String>,
         collection_id: impl Into<String>,
         key: impl Into<String>,
-        r#type: crate::enums::IndexType,
+        r#type: crate::enums::DatabasesIndexType,
         attributes: impl IntoIterator<Item = impl Into<String>>,
-        orders: Option<crate::enums::OrderBy>,
+        orders: Option<Vec<crate::enums::OrderBy>>,
         lengths: Option<Vec<i64>>,
     ) -> crate::error::Result<crate::models::Index> {
         let mut params = HashMap::new();

@@ -11,7 +11,7 @@ pub struct ColumnList {
     pub total: i64,
     /// List of columns.
     #[serde(rename = "columns")]
-    pub columns: Vec<String>,
+    pub columns: Vec<serde_json::Value>,
 }
 
 impl ColumnList {
@@ -21,7 +21,7 @@ impl ColumnList {
     }
 
     /// Get columns
-    pub fn columns(&self) -> &Vec<String> {
+    pub fn columns(&self) -> &Vec<serde_json::Value> {
         &self.columns
     }
 

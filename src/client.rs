@@ -89,11 +89,11 @@ impl Client {
     pub fn new() -> Self {
         let mut headers = HeaderMap::new();
         headers.insert("X-Appwrite-Response-Format", "1.9.0".parse().unwrap());
-        headers.insert("user-agent", format!("AppwriteRustSDK/0.1.0 ({}; {})", std::env::consts::OS, std::env::consts::ARCH).parse().unwrap());
+        headers.insert("user-agent", format!("AppwriteRustSDK/0.2.0 ({}; {})", std::env::consts::OS, std::env::consts::ARCH).parse().unwrap());
         headers.insert("x-sdk-name", "Rust".parse().unwrap());
         headers.insert("x-sdk-platform", "server".parse().unwrap());
         headers.insert("x-sdk-language", "rust".parse().unwrap());
-        headers.insert("x-sdk-version", "0.1.0".parse().unwrap());
+        headers.insert("x-sdk-version", "0.2.0".parse().unwrap());
 
         let config = Config {
             endpoint: "https://cloud.appwrite.io/v1".to_string(),
@@ -618,11 +618,7 @@ impl Client {
 
         if file_size <= chunk_size as u64 {
             let state = self.state.load_full();
-            let url = if let Some(id) = &options.upload_id {
-                format!("{}{}/{}", state.config.endpoint, path, id)
-            } else {
-                format!("{}{}", state.config.endpoint, path)
-            };
+            let url = format!("{}{}", state.config.endpoint, path);
 
             let result = self.single_file_upload(&url, headers, params, param_name, &input_file).await?;
 

@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, Default)]
-pub enum IndexType {
+pub enum DatabasesIndexType {
     #[serde(rename = "key")]
     #[default]
     Key,
@@ -13,19 +13,19 @@ pub enum IndexType {
     Spatial,
 }
 
-impl IndexType {
+impl DatabasesIndexType {
     /// Get the string value of the enum
     pub fn as_str(&self) -> &str {
         match self {
-            IndexType::Key => "key",
-            IndexType::Fulltext => "fulltext",
-            IndexType::Unique => "unique",
-            IndexType::Spatial => "spatial",
+            DatabasesIndexType::Key => "key",
+            DatabasesIndexType::Fulltext => "fulltext",
+            DatabasesIndexType::Unique => "unique",
+            DatabasesIndexType::Spatial => "spatial",
         }
     }
 }
 
-impl std::fmt::Display for IndexType {
+impl std::fmt::Display for DatabasesIndexType {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.as_str())
     }

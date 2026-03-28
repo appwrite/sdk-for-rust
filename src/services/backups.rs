@@ -38,7 +38,7 @@ impl Backups {
     /// Create a new archive asynchronously for a project.
     pub async fn create_archive(
         &self,
-        services: crate::enums::BackupServices,
+        services: Vec<crate::enums::BackupServices>,
         resource_id: Option<&str>,
     ) -> crate::error::Result<crate::models::BackupArchive> {
         let mut params = HashMap::new();
@@ -100,7 +100,7 @@ impl Backups {
     pub async fn create_policy(
         &self,
         policy_id: impl Into<String>,
-        services: crate::enums::BackupServices,
+        services: Vec<crate::enums::BackupServices>,
         retention: i64,
         schedule: impl Into<String>,
         name: Option<&str>,
@@ -189,7 +189,7 @@ impl Backups {
     pub async fn create_restoration(
         &self,
         archive_id: impl Into<String>,
-        services: crate::enums::BackupServices,
+        services: Vec<crate::enums::BackupServices>,
         new_resource_id: Option<&str>,
         new_resource_name: Option<&str>,
     ) -> crate::error::Result<crate::models::BackupRestoration> {

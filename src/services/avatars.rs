@@ -259,7 +259,7 @@ impl Avatars {
         longitude: Option<f64>,
         accuracy: Option<f64>,
         touch: Option<bool>,
-        permissions: Option<crate::enums::BrowserPermission>,
+        permissions: Option<Vec<crate::enums::BrowserPermission>>,
         sleep: Option<i64>,
         width: Option<i64>,
         height: Option<i64>,
