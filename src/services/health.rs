@@ -129,36 +129,6 @@ impl Health {
         self.client.call(Method::GET, &path, None, Some(params)).await
     }
 
-    /// Get billing project aggregation queue.
-    pub async fn get_queue_billing_project_aggregation(
-        &self,
-        threshold: Option<i64>,
-    ) -> crate::error::Result<crate::models::HealthQueue> {
-        let mut params = HashMap::new();
-        if let Some(value) = threshold {
-            params.insert("threshold".to_string(), json!(value));
-        }
-
-        let path = "/health/queue/billing-project-aggregation".to_string();
-
-        self.client.call(Method::GET, &path, None, Some(params)).await
-    }
-
-    /// Get billing team aggregation queue.
-    pub async fn get_queue_billing_team_aggregation(
-        &self,
-        threshold: Option<i64>,
-    ) -> crate::error::Result<crate::models::HealthQueue> {
-        let mut params = HashMap::new();
-        if let Some(value) = threshold {
-            params.insert("threshold".to_string(), json!(value));
-        }
-
-        let path = "/health/queue/billing-team-aggregation".to_string();
-
-        self.client.call(Method::GET, &path, None, Some(params)).await
-    }
-
     /// Get the number of builds that are waiting to be processed in the Appwrite
     /// internal queue server.
     pub async fn get_queue_builds(
@@ -171,21 +141,6 @@ impl Health {
         }
 
         let path = "/health/queue/builds".to_string();
-
-        self.client.call(Method::GET, &path, None, Some(params)).await
-    }
-
-    /// Get the priority builds queue size.
-    pub async fn get_queue_priority_builds(
-        &self,
-        threshold: Option<i64>,
-    ) -> crate::error::Result<crate::models::HealthQueue> {
-        let mut params = HashMap::new();
-        if let Some(value) = threshold {
-            params.insert("threshold".to_string(), json!(value));
-        }
-
-        let path = "/health/queue/builds-priority".to_string();
 
         self.client.call(Method::GET, &path, None, Some(params)).await
     }
@@ -339,21 +294,6 @@ impl Health {
         self.client.call(Method::GET, &path, None, Some(params)).await
     }
 
-    /// Get region manager queue.
-    pub async fn get_queue_region_manager(
-        &self,
-        threshold: Option<i64>,
-    ) -> crate::error::Result<crate::models::HealthQueue> {
-        let mut params = HashMap::new();
-        if let Some(value) = threshold {
-            params.insert("threshold".to_string(), json!(value));
-        }
-
-        let path = "/health/queue/region-manager".to_string();
-
-        self.client.call(Method::GET, &path, None, Some(params)).await
-    }
-
     /// Get the number of metrics that are waiting to be processed in the Appwrite
     /// stats resources queue.
     pub async fn get_queue_stats_resources(
@@ -382,21 +322,6 @@ impl Health {
         }
 
         let path = "/health/queue/stats-usage".to_string();
-
-        self.client.call(Method::GET, &path, None, Some(params)).await
-    }
-
-    /// Get threats queue.
-    pub async fn get_queue_threats(
-        &self,
-        threshold: Option<i64>,
-    ) -> crate::error::Result<crate::models::HealthQueue> {
-        let mut params = HashMap::new();
-        if let Some(value) = threshold {
-            params.insert("threshold".to_string(), json!(value));
-        }
-
-        let path = "/health/queue/threats".to_string();
 
         self.client.call(Method::GET, &path, None, Some(params)).await
     }

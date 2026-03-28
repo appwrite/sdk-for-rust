@@ -121,6 +121,10 @@ pub enum Scopes {
     WebhooksRead,
     #[serde(rename = "webhooks.write")]
     WebhooksWrite,
+    #[serde(rename = "project.read")]
+    ProjectRead,
+    #[serde(rename = "project.write")]
+    ProjectWrite,
     #[serde(rename = "policies.write")]
     PoliciesWrite,
     #[serde(rename = "policies.read")]
@@ -204,6 +208,8 @@ impl Scopes {
             Scopes::TokensWrite => "tokens.write",
             Scopes::WebhooksRead => "webhooks.read",
             Scopes::WebhooksWrite => "webhooks.write",
+            Scopes::ProjectRead => "project.read",
+            Scopes::ProjectWrite => "project.write",
             Scopes::PoliciesWrite => "policies.write",
             Scopes::PoliciesRead => "policies.read",
             Scopes::ArchivesRead => "archives.read",

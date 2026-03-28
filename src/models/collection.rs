@@ -36,7 +36,7 @@ pub struct Collection {
     pub document_security: bool,
     /// Collection attributes.
     #[serde(rename = "attributes")]
-    pub attributes: Vec<String>,
+    pub attributes: Vec<serde_json::Value>,
     /// Collection indexes.
     #[serde(rename = "indexes")]
     pub indexes: Vec<crate::models::Index>,
@@ -90,7 +90,7 @@ impl Collection {
     }
 
     /// Get attributes
-    pub fn attributes(&self) -> &Vec<String> {
+    pub fn attributes(&self) -> &Vec<serde_json::Value> {
         &self.attributes
     }
 

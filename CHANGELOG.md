@@ -29,9 +29,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Databases service with 69 methods
 - Functions service with 26 methods
 - Graphql service with 2 methods
-- Health service with 29 methods
+- Health service with 24 methods
 - Locale service with 8 methods
 - Messaging service with 56 methods
+- Project service with 5 methods
 - Sites service with 25 methods
 - Storage service with 13 methods
 - TablesDB service with 69 methods
@@ -331,10 +332,7 @@ The Health service allows you to both validate and monitor your Appwrite server&
 - `get_db()` - Check the Appwrite database servers are up and connection is successful.
 - `get_pub_sub()` - Check the Appwrite pub-sub servers are up and connection is successful.
 - `get_queue_audits()` - Get the number of audit logs that are waiting to be processed in the Appwrite internal queue server.
-- `get_queue_billing_project_aggregation()` - Get billing project aggregation queue.
-- `get_queue_billing_team_aggregation()` - Get billing team aggregation queue.
 - `get_queue_builds()` - Get the number of builds that are waiting to be processed in the Appwrite internal queue server.
-- `get_queue_priority_builds()` - Get the priority builds queue size.
 - `get_queue_certificates()` - Get the number of certificates that are waiting to be issued against [Letsencrypt](https://letsencrypt.org/) in the Appwrite internal queue server.
 - `get_queue_databases()` - Get the number of database changes that are waiting to be processed in the Appwrite internal queue server.
 - `get_queue_deletes()` - Get the number of background destructive changes that are waiting to be processed in the Appwrite internal queue server.
@@ -345,10 +343,8 @@ The Health service allows you to both validate and monitor your Appwrite server&
 - `get_queue_mails()` - Get the number of mails that are waiting to be processed in the Appwrite internal queue server.
 - `get_queue_messaging()` - Get the number of messages that are waiting to be processed in the Appwrite internal queue server.
 - `get_queue_migrations()` - Get the number of migrations that are waiting to be processed in the Appwrite internal queue server.
-- `get_queue_region_manager()` - Get region manager queue.
 - `get_queue_stats_resources()` - Get the number of metrics that are waiting to be processed in the Appwrite stats resources queue.
 - `get_queue_usage()` - Get the number of metrics that are waiting to be processed in the Appwrite internal queue server.
-- `get_queue_threats()` - Get threats queue.
 - `get_queue_webhooks()` - Get the number of webhooks that are waiting to be processed in the Appwrite internal queue server.
 - `get_storage()` - Check the Appwrite storage device is up and connection is successful.
 - `get_storage_local()` - Check the Appwrite local storage device is up and connection is successful.
@@ -434,6 +430,14 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 - `get_subscriber()` - Get a subscriber by its unique ID.
 
 - `delete_subscriber()` - Delete a subscriber by its unique ID.
+
+#### Project
+The Project service allows you to manage all the projects in your Appwrite server.
+- `list_variables()` - Get a list of all project environment variables.
+- `create_variable()` - Create a new project environment variable. These variables can be accessed by all functions and sites in the project.
+- `get_variable()` - Get a variable by its unique ID. 
+- `update_variable()` - Update variable by its unique ID.
+- `delete_variable()` - Delete a variable by its unique ID. 
 
 #### Sites
 The Sites Service allows you view, create and manage your web applications.

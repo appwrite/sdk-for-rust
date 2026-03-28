@@ -36,7 +36,7 @@ pub struct Table {
     pub row_security: bool,
     /// Table columns.
     #[serde(rename = "columns")]
-    pub columns: Vec<String>,
+    pub columns: Vec<serde_json::Value>,
     /// Table indexes.
     #[serde(rename = "indexes")]
     pub indexes: Vec<crate::models::ColumnIndex>,
@@ -90,7 +90,7 @@ impl Table {
     }
 
     /// Get columns
-    pub fn columns(&self) -> &Vec<String> {
+    pub fn columns(&self) -> &Vec<serde_json::Value> {
         &self.columns
     }
 

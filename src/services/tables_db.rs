@@ -1420,9 +1420,9 @@ impl TablesDB {
         database_id: impl Into<String>,
         table_id: impl Into<String>,
         key: impl Into<String>,
-        r#type: crate::enums::IndexType,
+        r#type: crate::enums::TablesDBIndexType,
         columns: impl IntoIterator<Item = impl Into<String>>,
-        orders: Option<crate::enums::OrderBy>,
+        orders: Option<Vec<crate::enums::OrderBy>>,
         lengths: Option<Vec<i64>>,
     ) -> crate::error::Result<crate::models::ColumnIndex> {
         let mut params = HashMap::new();

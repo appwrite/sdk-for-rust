@@ -11,7 +11,7 @@ pub struct AttributeList {
     pub total: i64,
     /// List of attributes.
     #[serde(rename = "attributes")]
-    pub attributes: Vec<String>,
+    pub attributes: Vec<serde_json::Value>,
 }
 
 impl AttributeList {
@@ -21,7 +21,7 @@ impl AttributeList {
     }
 
     /// Get attributes
-    pub fn attributes(&self) -> &Vec<String> {
+    pub fn attributes(&self) -> &Vec<serde_json::Value> {
         &self.attributes
     }
 

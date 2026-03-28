@@ -7,6 +7,10 @@ pub enum DatabaseType {
     Legacy,
     #[serde(rename = "tablesdb")]
     Tablesdb,
+    #[serde(rename = "documentsdb")]
+    Documentsdb,
+    #[serde(rename = "vectorsdb")]
+    Vectorsdb,
 }
 
 impl DatabaseType {
@@ -15,6 +19,8 @@ impl DatabaseType {
         match self {
             DatabaseType::Legacy => "legacy",
             DatabaseType::Tablesdb => "tablesdb",
+            DatabaseType::Documentsdb => "documentsdb",
+            DatabaseType::Vectorsdb => "vectorsdb",
         }
     }
 }
