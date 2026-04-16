@@ -295,6 +295,7 @@ impl TablesDB {
     }
 
     /// Update a table by its unique ID.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_table(
         &self,
         database_id: impl Into<String>,
@@ -303,6 +304,7 @@ impl TablesDB {
         permissions: Option<Vec<String>>,
         row_security: Option<bool>,
         enabled: Option<bool>,
+        purge: Option<bool>,
     ) -> crate::error::Result<crate::models::Table> {
         let mut params = HashMap::new();
         if let Some(value) = name {
@@ -316,6 +318,9 @@ impl TablesDB {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = purge {
+            params.insert("purge".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

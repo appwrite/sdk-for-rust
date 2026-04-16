@@ -24,18 +24,19 @@ pub struct Webhook {
     /// Webhook trigger events.
     #[serde(rename = "events")]
     pub events: Vec<String>,
-    /// Indicated if SSL / TLS Certificate verification is enabled.
-    #[serde(rename = "security")]
-    pub security: bool,
+    /// Indicates if SSL / TLS certificate verification is enabled.
+    #[serde(rename = "tls")]
+    pub tls: bool,
     /// HTTP basic authentication username.
-    #[serde(rename = "httpUser")]
-    pub http_user: String,
+    #[serde(rename = "authUsername")]
+    pub auth_username: String,
     /// HTTP basic authentication password.
-    #[serde(rename = "httpPass")]
-    pub http_pass: String,
-    /// Signature key which can be used to validated incoming
-    #[serde(rename = "signatureKey")]
-    pub signature_key: String,
+    #[serde(rename = "authPassword")]
+    pub auth_password: String,
+    /// Signature key which can be used to validate incoming webhook payloads. Only
+    /// returned on creation and secret rotation.
+    #[serde(rename = "secret")]
+    pub secret: String,
     /// Indicates if this webhook is enabled.
     #[serde(rename = "enabled")]
     pub enabled: bool,
@@ -78,24 +79,24 @@ impl Webhook {
         &self.events
     }
 
-    /// Get security
-    pub fn security(&self) -> &bool {
-        &self.security
+    /// Get tls
+    pub fn tls(&self) -> &bool {
+        &self.tls
     }
 
-    /// Get http_user
-    pub fn http_user(&self) -> &String {
-        &self.http_user
+    /// Get auth_username
+    pub fn auth_username(&self) -> &String {
+        &self.auth_username
     }
 
-    /// Get http_pass
-    pub fn http_pass(&self) -> &String {
-        &self.http_pass
+    /// Get auth_password
+    pub fn auth_password(&self) -> &String {
+        &self.auth_password
     }
 
-    /// Get signature_key
-    pub fn signature_key(&self) -> &String {
-        &self.signature_key
+    /// Get secret
+    pub fn secret(&self) -> &String {
+        &self.secret
     }
 
     /// Get enabled
@@ -128,10 +129,10 @@ mod tests {
         let _ = _model.name();
         let _ = _model.url();
         let _ = _model.events();
-        let _ = _model.security();
-        let _ = _model.http_user();
-        let _ = _model.http_pass();
-        let _ = _model.signature_key();
+        let _ = _model.tls();
+        let _ = _model.auth_username();
+        let _ = _model.auth_password();
+        let _ = _model.secret();
         let _ = _model.enabled();
         let _ = _model.logs();
         let _ = _model.attempts();

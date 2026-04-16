@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.0] - TBD
+## [0.3.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
-- Full support for Appwrite API 1.9.0
+- Full support for Appwrite API 1.9.1
 - Async/await support with tokio runtime
 - Built-in error handling with custom error types
 - File upload support with automatic chunking
@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Health service with 24 methods
 - Locale service with 8 methods
 - Messaging service with 56 methods
-- Project service with 5 methods
+- Project service with 26 methods
 - Sites service with 25 methods
 - Storage service with 13 methods
 - TablesDB service with 69 methods
@@ -332,6 +332,7 @@ The Health service allows you to both validate and monitor your Appwrite server&
 - `get_db()` - Check the Appwrite database servers are up and connection is successful.
 - `get_pub_sub()` - Check the Appwrite pub-sub servers are up and connection is successful.
 - `get_queue_audits()` - Get the number of audit logs that are waiting to be processed in the Appwrite internal queue server.
+
 - `get_queue_builds()` - Get the number of builds that are waiting to be processed in the Appwrite internal queue server.
 - `get_queue_certificates()` - Get the number of certificates that are waiting to be issued against [Letsencrypt](https://letsencrypt.org/) in the Appwrite internal queue server.
 - `get_queue_databases()` - Get the number of database changes that are waiting to be processed in the Appwrite internal queue server.
@@ -433,6 +434,27 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 
 #### Project
 The Project service allows you to manage all the projects in your Appwrite server.
+- `list_keys()` - Get a list of all API keys from the current project.
+- `create_key()` - Create a new API key. It&#039;s recommended to have multiple API keys with strict scopes for separate functions within your project.
+- `get_key()` - Get a key by its unique ID. 
+- `update_key()` - Update a key by its unique ID. Use this endpoint to update the name, scopes, or expiration time of an API key.
+- `delete_key()` - Delete a key by its unique ID. Once deleted, the key can no longer be used to authenticate API calls.
+- `update_labels()` - Update the project labels. Labels can be used to easily filter projects in an organization.
+- `list_platforms()` - Get a list of all platforms in the project. This endpoint returns an array of all platforms and their configurations.
+- `create_android_platform()` - Create a new Android platform for your project. Use this endpoint to register a new Android platform where your users will run your application which will interact with the Appwrite API.
+- `update_android_platform()` - Update an Android platform by its unique ID. Use this endpoint to update the platform&#039;s name or application ID.
+- `create_apple_platform()` - Create a new Apple platform for your project. Use this endpoint to register a new Apple platform where your users will run your application which will interact with the Appwrite API.
+- `update_apple_platform()` - Update an Apple platform by its unique ID. Use this endpoint to update the platform&#039;s name or bundle identifier.
+- `create_linux_platform()` - Create a new Linux platform for your project. Use this endpoint to register a new Linux platform where your users will run your application which will interact with the Appwrite API.
+- `update_linux_platform()` - Update a Linux platform by its unique ID. Use this endpoint to update the platform&#039;s name or package name.
+- `create_web_platform()` - Create a new web platform for your project. Use this endpoint to register a new platform where your users will run your application which will interact with the Appwrite API.
+- `update_web_platform()` - Update a web platform by its unique ID. Use this endpoint to update the platform&#039;s name or hostname.
+- `create_windows_platform()` - Create a new Windows platform for your project. Use this endpoint to register a new Windows platform where your users will run your application which will interact with the Appwrite API.
+- `update_windows_platform()` - Update a Windows platform by its unique ID. Use this endpoint to update the platform&#039;s name or package identifier name.
+- `get_platform()` - Get a platform by its unique ID. This endpoint returns the platform&#039;s details, including its name, type, and key configurations.
+- `delete_platform()` - Delete a platform by its unique ID. This endpoint removes the platform and all its configurations from the project.
+- `update_protocol_status()` - Update the status of a specific protocol. Use this endpoint to enable or disable a protocol in your project. 
+- `update_service_status()` - Update the status of a specific service. Use this endpoint to enable or disable a service in your project. 
 - `list_variables()` - Get a list of all project environment variables.
 - `create_variable()` - Create a new project environment variable. These variables can be accessed by all functions and sites in the project.
 - `get_variable()` - Get a variable by its unique ID. 
@@ -693,7 +715,7 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `get()` - Get a webhook by its unique ID. This endpoint returns details about a specific webhook configured for a project. 
 - `update()` - Update a webhook by its unique ID. Use this endpoint to update the URL, events, or status of an existing webhook.
 - `delete()` - Delete a webhook by its unique ID. Once deleted, the webhook will no longer receive project events. 
-- `update_signature()` - Update the webhook signature key. This endpoint can be used to regenerate the signature key used to sign and validate payload deliveries for a specific webhook.
+- `update_secret()` - Update the webhook signing key. This endpoint can be used to regenerate the signing key used to sign and validate payload deliveries for a specific webhook.
 
 
 ### Models
@@ -720,6 +742,7 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `DeploymentList` - Deployments List
 - `ExecutionList` - Executions List
 - `WebhookList` - Webhooks List
+- `KeyList` - API Keys List
 - `CountryList` - Countries List
 - `ContinentList` - Continents List
 - `LanguageList` - Languages List
@@ -806,7 +829,18 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `FrameworkAdapter` - Framework Adapter
 - `Deployment` - Deployment
 - `Execution` - Execution
+- `Project` - Project
 - `Webhook` - Webhook
+- `Key` - Key
+- `DevKey` - DevKey
+- `MockNumber` - Mock Number
+- `AuthProvider` - AuthProvider
+- `PlatformWeb` - Platform Web
+- `PlatformApple` - Platform Apple
+- `PlatformAndroid` - Platform Android
+- `PlatformWindows` - Platform Windows
+- `PlatformLinux` - Platform Linux
+- `PlatformList` - Platforms List
 - `Variable` - Variable
 - `Country` - Country
 - `Continent` - Continent
@@ -832,6 +866,8 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `Target` - Target
 - `ActivityEvent` - ActivityEvent
 - `BackupArchive` - Archive
+- `BillingLimits` - BillingLimits
+- `Block` - Block
 - `BackupPolicy` - backup
 - `BackupRestoration` - Restoration
 - `ActivityEventList` - Activity event list
@@ -853,4 +889,4 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - File upload examples
 - Query builder documentation
 
-[0.2.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.2.0
+[0.3.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.3.0

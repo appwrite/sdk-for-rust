@@ -46,6 +46,8 @@ pub mod execution_list;
 pub use execution_list::ExecutionList;
 pub mod webhook_list;
 pub use webhook_list::WebhookList;
+pub mod key_list;
+pub use key_list::KeyList;
 pub mod country_list;
 pub use country_list::CountryList;
 pub mod continent_list;
@@ -218,8 +220,30 @@ pub mod deployment;
 pub use deployment::Deployment;
 pub mod execution;
 pub use execution::Execution;
+pub mod project;
+pub use project::Project;
 pub mod webhook;
 pub use webhook::Webhook;
+pub mod key;
+pub use key::Key;
+pub mod dev_key;
+pub use dev_key::DevKey;
+pub mod mock_number;
+pub use mock_number::MockNumber;
+pub mod auth_provider;
+pub use auth_provider::AuthProvider;
+pub mod platform_web;
+pub use platform_web::PlatformWeb;
+pub mod platform_apple;
+pub use platform_apple::PlatformApple;
+pub mod platform_android;
+pub use platform_android::PlatformAndroid;
+pub mod platform_windows;
+pub use platform_windows::PlatformWindows;
+pub mod platform_linux;
+pub use platform_linux::PlatformLinux;
+pub mod platform_list;
+pub use platform_list::PlatformList;
 pub mod variable;
 pub use variable::Variable;
 pub mod country;
@@ -270,6 +294,10 @@ pub mod activity_event;
 pub use activity_event::ActivityEvent;
 pub mod backup_archive;
 pub use backup_archive::BackupArchive;
+pub mod billing_limits;
+pub use billing_limits::BillingLimits;
+pub mod block;
+pub use block::Block;
 pub mod backup_policy;
 pub use backup_policy::BackupPolicy;
 pub mod backup_restoration;
@@ -313,6 +341,7 @@ impl Model for RuntimeList {}
 impl Model for DeploymentList {}
 impl Model for ExecutionList {}
 impl Model for WebhookList {}
+impl Model for KeyList {}
 impl Model for CountryList {}
 impl Model for ContinentList {}
 impl Model for LanguageList {}
@@ -399,7 +428,18 @@ impl Model for Framework {}
 impl Model for FrameworkAdapter {}
 impl Model for Deployment {}
 impl Model for Execution {}
+impl Model for Project {}
 impl Model for Webhook {}
+impl Model for Key {}
+impl Model for DevKey {}
+impl Model for MockNumber {}
+impl Model for AuthProvider {}
+impl Model for PlatformWeb {}
+impl Model for PlatformApple {}
+impl Model for PlatformAndroid {}
+impl Model for PlatformWindows {}
+impl Model for PlatformLinux {}
+impl Model for PlatformList {}
 impl Model for Variable {}
 impl Model for Country {}
 impl Model for Continent {}
@@ -425,6 +465,8 @@ impl Model for Subscriber {}
 impl Model for Target {}
 impl Model for ActivityEvent {}
 impl Model for BackupArchive {}
+impl Model for BillingLimits {}
+impl Model for Block {}
 impl Model for BackupPolicy {}
 impl Model for BackupRestoration {}
 impl Model for ActivityEventList {}

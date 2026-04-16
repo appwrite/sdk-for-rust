@@ -88,12 +88,12 @@ impl Client {
     /// Create a new Appwrite client
     pub fn new() -> Self {
         let mut headers = HeaderMap::new();
-        headers.insert("X-Appwrite-Response-Format", "1.9.0".parse().unwrap());
-        headers.insert("user-agent", format!("AppwriteRustSDK/0.2.0 ({}; {})", std::env::consts::OS, std::env::consts::ARCH).parse().unwrap());
+        headers.insert("X-Appwrite-Response-Format", "1.9.1".parse().unwrap());
+        headers.insert("user-agent", format!("AppwriteRustSDK/0.3.0 ({}; {})", std::env::consts::OS, std::env::consts::ARCH).parse().unwrap());
         headers.insert("x-sdk-name", "Rust".parse().unwrap());
         headers.insert("x-sdk-platform", "server".parse().unwrap());
         headers.insert("x-sdk-language", "rust".parse().unwrap());
-        headers.insert("x-sdk-version", "0.2.0".parse().unwrap());
+        headers.insert("x-sdk-version", "0.3.0".parse().unwrap());
 
         let config = Config {
             endpoint: "https://cloud.appwrite.io/v1".to_string(),
@@ -260,6 +260,28 @@ impl Client {
             Arc::new(next)
         });
         self.clone()
+    }
+
+    /// Get a copy of the current request headers
+    pub fn get_headers(&self) -> HashMap<String, String> {
+        let state = self.state.load();
+
+        state
+            .config
+            .headers
+            .iter()
+            .filter_map(|(key, value)| match value.to_str() {
+                Ok(value) => Some((key.as_str().to_string(), value.to_string())),
+                Err(_) => {
+                    debug_assert!(
+                        false,
+                        "Non-UTF-8 header value found for key {}",
+                        key.as_str()
+                    );
+                    None
+                }
+            })
+            .collect()
     }
 
     /// Get the current endpoint
