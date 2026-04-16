@@ -297,6 +297,7 @@ impl Databases {
     }
 
     /// Update a collection by its unique ID.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_collection(
         &self,
         database_id: impl Into<String>,
@@ -305,6 +306,7 @@ impl Databases {
         permissions: Option<Vec<String>>,
         document_security: Option<bool>,
         enabled: Option<bool>,
+        purge: Option<bool>,
     ) -> crate::error::Result<crate::models::Collection> {
         let mut params = HashMap::new();
         if let Some(value) = name {
@@ -318,6 +320,9 @@ impl Databases {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = purge {
+            params.insert("purge".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

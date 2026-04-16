@@ -24,6 +24,10 @@ pub struct Log {
     /// API mode when event triggered.
     #[serde(rename = "mode")]
     pub mode: String,
+    /// User type who triggered the audit log. Possible values: user, admin, guest,
+    /// keyProject, keyAccount, keyOrganization.
+    #[serde(rename = "userType")]
+    pub user_type: String,
     /// IP session in use when the session was created.
     #[serde(rename = "ip")]
     pub ip: String,
@@ -100,6 +104,11 @@ impl Log {
     /// Get mode
     pub fn mode(&self) -> &String {
         &self.mode
+    }
+
+    /// Get user_type
+    pub fn user_type(&self) -> &String {
+        &self.user_type
     }
 
     /// Get ip
@@ -196,6 +205,7 @@ mod tests {
         let _ = _model.user_email();
         let _ = _model.user_name();
         let _ = _model.mode();
+        let _ = _model.user_type();
         let _ = _model.ip();
         let _ = _model.time();
         let _ = _model.os_code();

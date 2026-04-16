@@ -50,9 +50,10 @@ impl Webhooks {
         name: impl Into<String>,
         events: impl IntoIterator<Item = impl Into<String>>,
         enabled: Option<bool>,
-        security: Option<bool>,
-        http_user: Option<&str>,
-        http_pass: Option<&str>,
+        tls: Option<bool>,
+        auth_username: Option<&str>,
+        auth_password: Option<&str>,
+        secret: Option<&str>,
     ) -> crate::error::Result<crate::models::Webhook> {
         let mut params = HashMap::new();
         params.insert("webhookId".to_string(), json!(webhook_id.into()));
@@ -62,14 +63,17 @@ impl Webhooks {
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
         }
-        if let Some(value) = security {
-            params.insert("security".to_string(), json!(value));
+        if let Some(value) = tls {
+            params.insert("tls".to_string(), json!(value));
         }
-        if let Some(value) = http_user {
-            params.insert("httpUser".to_string(), json!(value));
+        if let Some(value) = auth_username {
+            params.insert("authUsername".to_string(), json!(value));
         }
-        if let Some(value) = http_pass {
-            params.insert("httpPass".to_string(), json!(value));
+        if let Some(value) = auth_password {
+            params.insert("authPassword".to_string(), json!(value));
+        }
+        if let Some(value) = secret {
+            params.insert("secret".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -102,9 +106,9 @@ impl Webhooks {
         url: impl Into<String>,
         events: impl IntoIterator<Item = impl Into<String>>,
         enabled: Option<bool>,
-        security: Option<bool>,
-        http_user: Option<&str>,
-        http_pass: Option<&str>,
+        tls: Option<bool>,
+        auth_username: Option<&str>,
+        auth_password: Option<&str>,
     ) -> crate::error::Result<crate::models::Webhook> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
@@ -113,14 +117,14 @@ impl Webhooks {
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
         }
-        if let Some(value) = security {
-            params.insert("security".to_string(), json!(value));
+        if let Some(value) = tls {
+            params.insert("tls".to_string(), json!(value));
         }
-        if let Some(value) = http_user {
-            params.insert("httpUser".to_string(), json!(value));
+        if let Some(value) = auth_username {
+            params.insert("authUsername".to_string(), json!(value));
         }
-        if let Some(value) = http_pass {
-            params.insert("httpPass".to_string(), json!(value));
+        if let Some(value) = auth_password {
+            params.insert("authPassword".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -145,18 +149,22 @@ impl Webhooks {
         self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
     }
 
-    /// Update the webhook signature key. This endpoint can be used to regenerate
-    /// the signature key used to sign and validate payload deliveries for a
-    /// specific webhook.
-    pub async fn update_signature(
+    /// Update the webhook signing key. This endpoint can be used to regenerate the
+    /// signing key used to sign and validate payload deliveries for a specific
+    /// webhook.
+    pub async fn update_secret(
         &self,
         webhook_id: impl Into<String>,
+        secret: Option<&str>,
     ) -> crate::error::Result<crate::models::Webhook> {
-        let params = HashMap::new();
+        let mut params = HashMap::new();
+        if let Some(value) = secret {
+            params.insert("secret".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/webhooks/{webhookId}/signature".to_string().replace("{webhookId}", &webhook_id.into().to_string());
+        let path = "/webhooks/{webhookId}/secret".to_string().replace("{webhookId}", &webhook_id.into().to_string());
 
         self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
     }

@@ -71,6 +71,8 @@ pub enum OAuthProvider {
     Twitch,
     #[serde(rename = "wordpress")]
     Wordpress,
+    #[serde(rename = "x")]
+    X,
     #[serde(rename = "yahoo")]
     Yahoo,
     #[serde(rename = "yammer")]
@@ -121,6 +123,7 @@ impl OAuthProvider {
             OAuthProvider::TradeshiftBox => "tradeshiftBox",
             OAuthProvider::Twitch => "twitch",
             OAuthProvider::Wordpress => "wordpress",
+            OAuthProvider::X => "x",
             OAuthProvider::Yahoo => "yahoo",
             OAuthProvider::Yammer => "yammer",
             OAuthProvider::Yandex => "yandex",
