@@ -33,12 +33,18 @@ pub enum OAuthProvider {
     Facebook,
     #[serde(rename = "figma")]
     Figma,
+    #[serde(rename = "fusionauth")]
+    Fusionauth,
     #[serde(rename = "github")]
     Github,
     #[serde(rename = "gitlab")]
     Gitlab,
     #[serde(rename = "google")]
     Google,
+    #[serde(rename = "keycloak")]
+    Keycloak,
+    #[serde(rename = "kick")]
+    Kick,
     #[serde(rename = "linkedin")]
     Linkedin,
     #[serde(rename = "microsoft")]
@@ -104,9 +110,12 @@ impl OAuthProvider {
             OAuthProvider::Etsy => "etsy",
             OAuthProvider::Facebook => "facebook",
             OAuthProvider::Figma => "figma",
+            OAuthProvider::Fusionauth => "fusionauth",
             OAuthProvider::Github => "github",
             OAuthProvider::Gitlab => "gitlab",
             OAuthProvider::Google => "google",
+            OAuthProvider::Keycloak => "keycloak",
+            OAuthProvider::Kick => "kick",
             OAuthProvider::Linkedin => "linkedin",
             OAuthProvider::Microsoft => "microsoft",
             OAuthProvider::Notion => "notion",

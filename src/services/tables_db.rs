@@ -367,6 +367,79 @@ impl TablesDB {
         self.client.call(Method::GET, &path, None, Some(params)).await
     }
 
+    /// Create a bigint column. Optionally, minimum and maximum values can be
+    /// provided.
+    #[allow(clippy::too_many_arguments)]
+    pub async fn create_big_int_column(
+        &self,
+        database_id: impl Into<String>,
+        table_id: impl Into<String>,
+        key: impl Into<String>,
+        required: bool,
+        min: Option<i64>,
+        max: Option<i64>,
+        default: Option<i64>,
+        array: Option<bool>,
+    ) -> crate::error::Result<crate::models::ColumnBigint> {
+        let mut params = HashMap::new();
+        params.insert("key".to_string(), json!(key.into()));
+        params.insert("required".to_string(), json!(required));
+        if let Some(value) = min {
+            params.insert("min".to_string(), json!(value));
+        }
+        if let Some(value) = max {
+            params.insert("max".to_string(), json!(value));
+        }
+        if let Some(value) = default {
+            params.insert("default".to_string(), json!(value));
+        }
+        if let Some(value) = array {
+            params.insert("array".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/bigint".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+
+        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Update a bigint column. Changing the `default` value will not update
+    /// already existing rows.
+    #[allow(clippy::too_many_arguments)]
+    pub async fn update_big_int_column(
+        &self,
+        database_id: impl Into<String>,
+        table_id: impl Into<String>,
+        key: impl Into<String>,
+        required: bool,
+        default: Option<i64>,
+        min: Option<i64>,
+        max: Option<i64>,
+        new_key: Option<&str>,
+    ) -> crate::error::Result<crate::models::ColumnBigint> {
+        let mut params = HashMap::new();
+        params.insert("required".to_string(), json!(required));
+        if let Some(value) = min {
+            params.insert("min".to_string(), json!(value));
+        }
+        if let Some(value) = max {
+            params.insert("max".to_string(), json!(value));
+        }
+        if let Some(value) = default {
+            params.insert("default".to_string(), json!(value));
+        }
+        if let Some(value) = new_key {
+            params.insert("newKey".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/bigint/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+
+        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+    }
+
     /// Create a boolean column.
     pub async fn create_boolean_column(
         &self,

@@ -12,7 +12,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let functions = Functions::new(&client);
 
     let result = functions.list_variables(
-        "<FUNCTION_ID>"
+        "<FUNCTION_ID>",
+        Some(vec![]), // optional
+        Some(false) // optional
     ).await?;
 
     let _ = result;

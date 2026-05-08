@@ -22,7 +22,7 @@ pub struct BackupArchive {
     #[serde(rename = "size")]
     pub size: i64,
     /// The status of the archive creation. Possible values: pending, processing,
-    /// uploading, completed, failed.
+    /// uploading, completed, failed, skipped.
     #[serde(rename = "status")]
     pub status: String,
     /// The backup start time.

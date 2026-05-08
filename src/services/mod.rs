@@ -20,8 +20,12 @@ pub mod locale;
 pub use locale::Locale;
 pub mod messaging;
 pub use messaging::Messaging;
+pub mod presences;
+pub use presences::Presences;
 pub mod project;
 pub use project::Project;
+pub mod proxy;
+pub use proxy::Proxy;
 pub mod sites;
 pub use sites::Sites;
 pub mod storage;
@@ -58,7 +62,9 @@ pub struct Services {
     health: Health,
     locale: Locale,
     messaging: Messaging,
+    presences: Presences,
     project: Project,
+    proxy: Proxy,
     sites: Sites,
     storage: Storage,
     tables_db: TablesDB,
@@ -82,7 +88,9 @@ impl Services {
             health: Health::new(&client),
             locale: Locale::new(&client),
             messaging: Messaging::new(&client),
+            presences: Presences::new(&client),
             project: Project::new(&client),
+            proxy: Proxy::new(&client),
             sites: Sites::new(&client),
             storage: Storage::new(&client),
             tables_db: TablesDB::new(&client),
@@ -139,9 +147,17 @@ impl Services {
     pub fn messaging(&self) -> &Messaging {
         &self.messaging
     }
+    /// Get Presences service
+    pub fn presences(&self) -> &Presences {
+        &self.presences
+    }
     /// Get Project service
     pub fn project(&self) -> &Project {
         &self.project
+    }
+    /// Get Proxy service
+    pub fn proxy(&self) -> &Proxy {
+        &self.proxy
     }
     /// Get Sites service
     pub fn sites(&self) -> &Sites {

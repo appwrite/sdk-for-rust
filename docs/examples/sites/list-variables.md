@@ -12,7 +12,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let sites = Sites::new(&client);
 
     let result = sites.list_variables(
-        "<SITE_ID>"
+        "<SITE_ID>",
+        Some(vec![]), // optional
+        Some(false) // optional
     ).await?;
 
     let _ = result;
