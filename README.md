@@ -1,11 +1,11 @@
 # Appwrite Rust SDK
 
 ![License](https://img.shields.io/github/license/appwrite/sdk-for-rust.svg)
-![Version](https://img.shields.io/badge/api%20version-1.9.2-blue.svg)
+![Version](https://img.shields.io/badge/api%20version-1.9.4-blue.svg)
 [![Crates.io](https://img.shields.io/crates/v/appwrite.svg)](https://crates.io/crates/appwrite)
 [![Documentation](https://docs.rs/appwrite/badge.svg)](https://docs.rs/appwrite)
 
-**This SDK is compatible with Appwrite server version 1.9.x. For older versions, please check [previous releases](https://github.com/appwrite/sdk-for-rust/releases).**
+**This SDK is compatible with Appwrite server version latest. For older versions, please check [previous releases](https://github.com/appwrite/sdk-for-rust/releases).**
 
 Appwrite is an open-source backend as a service server that abstracts and simplifies complex and repetitive development tasks behind a very simple to use REST API. Appwrite aims to help you develop your apps faster and in a more secure way. Use the Rust SDK to integrate your app with the Appwrite server to easily start interacting with all of Appwrite backend APIs and tools. For full API documentation and tutorials go to [https://appwrite.io/docs](https://appwrite.io/docs)
 
@@ -17,7 +17,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-appwrite = "0.4.0"
+appwrite = "0.5.0"
 tokio = { version = "1.48", features = ["full"] }
 ```
 

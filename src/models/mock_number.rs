@@ -8,22 +8,38 @@ use serde::{Deserialize, Serialize};
 pub struct MockNumber {
     /// Mock phone number for testing phone authentication. Useful for testing
     /// phone authentication without sending an SMS.
-    #[serde(rename = "phone")]
-    pub phone: String,
+    #[serde(rename = "number")]
+    pub number: String,
     /// Mock OTP for the number.
     #[serde(rename = "otp")]
     pub otp: String,
+    /// Attribute creation date in ISO 8601 format.
+    #[serde(rename = "$createdAt")]
+    pub created_at: String,
+    /// Attribute update date in ISO 8601 format.
+    #[serde(rename = "$updatedAt")]
+    pub updated_at: String,
 }
 
 impl MockNumber {
-    /// Get phone
-    pub fn phone(&self) -> &String {
-        &self.phone
+    /// Get number
+    pub fn number(&self) -> &String {
+        &self.number
     }
 
     /// Get otp
     pub fn otp(&self) -> &String {
         &self.otp
+    }
+
+    /// Get created_at
+    pub fn created_at(&self) -> &String {
+        &self.created_at
+    }
+
+    /// Get updated_at
+    pub fn updated_at(&self) -> &String {
+        &self.updated_at
     }
 
 }
@@ -35,8 +51,10 @@ mod tests {
     #[test]
     fn test_mock_number_creation() {
         let _model = <MockNumber as Default>::default();
-        let _ = _model.phone();
+        let _ = _model.number();
         let _ = _model.otp();
+        let _ = _model.created_at();
+        let _ = _model.updated_at();
     }
 
     #[test]

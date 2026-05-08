@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.0] - TBD
+## [0.5.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
-- Full support for Appwrite API 1.9.2
+- Full support for Appwrite API 1.9.4
 - Async/await support with tokio runtime
 - Built-in error handling with custom error types
 - File upload support with automatic chunking
@@ -26,16 +26,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Activities service with 2 methods
 - Avatars service with 8 methods
 - Backups service with 12 methods
-- Databases service with 69 methods
+- Databases service with 71 methods
 - Functions service with 26 methods
 - Graphql service with 2 methods
 - Health service with 24 methods
 - Locale service with 8 methods
 - Messaging service with 56 methods
-- Project service with 39 methods
+- Presences service with 5 methods
+- Project service with 94 methods
+- Proxy service with 8 methods
 - Sites service with 25 methods
 - Storage service with 13 methods
-- TablesDB service with 69 methods
+- TablesDB service with 71 methods
 - Teams service with 13 methods
 - Tokens service with 5 methods
 - Users service with 49 methods
@@ -199,6 +201,10 @@ The Databases service allows you to create structured collections of documents, 
 - `update_collection()` - Update a collection by its unique ID.
 - `delete_collection()` - Delete a collection by its unique ID. Only users with write permissions have access to delete this resource.
 - `list_attributes()` - List attributes in the collection.
+- `create_big_int_attribute()` - Create a bigint attribute. Optionally, minimum and maximum values can be provided.
+
+- `update_big_int_attribute()` - Update a bigint attribute. Changing the `default` value will not update already existing documents.
+
 - `create_boolean_attribute()` - Create a boolean attribute.
 
 - `update_boolean_attribute()` - Update a boolean attribute. Changing the `default` value will not update already existing documents.
@@ -432,14 +438,78 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 
 - `delete_subscriber()` - Delete a subscriber by its unique ID.
 
+#### Presences
+
+- `list()` - List presence logs.
+- `get()` - Get a presence log by its unique ID.
+- `upsert()` - Create or update a presence log by its unique ID.
+- `update_presence()` - Update a presence log by its unique ID.
+- `delete()` - Delete a presence log by its unique ID.
+
 #### Project
 The Project service allows you to manage all the projects in your Appwrite server.
+- `delete()` - Delete a project.
+- `update_auth_method()` - Update properties of a specific auth method. Use this endpoint to enable or disable a method in your project. 
 - `list_keys()` - Get a list of all API keys from the current project.
 - `create_key()` - Create a new API key. It&#039;s recommended to have multiple API keys with strict scopes for separate functions within your project.
+
+You can also create an ephemeral API key if you need a short-lived key instead.
+- `create_ephemeral_key()` - Create a new ephemeral API key. It&#039;s recommended to have multiple API keys with strict scopes for separate functions within your project.
+
+You can also create a standard API key if you need a longer-lived key instead.
 - `get_key()` - Get a key by its unique ID. 
 - `update_key()` - Update a key by its unique ID. Use this endpoint to update the name, scopes, or expiration time of an API key.
 - `delete_key()` - Delete a key by its unique ID. Once deleted, the key can no longer be used to authenticate API calls.
 - `update_labels()` - Update the project labels. Labels can be used to easily filter projects in an organization.
+- `list_mock_phones()` - Get a list of all mock phones in the project. This endpoint returns an array of all mock phones and their OTPs.
+- `create_mock_phone()` - Create a new mock phone for your project. Use this endpoint to register a mock phone number and its sign-in OTP for your testers.
+- `get_mock_phone()` - Get a mock phone by its unique number. This endpoint returns the mock phone&#039;s OTP.
+- `update_mock_phone()` - Update a mock phone by its unique number. Use this endpoint to update the mock phone&#039;s OTP.
+- `delete_mock_phone()` - Delete a mock phone by its unique number. This endpoint removes the mock phone and its OTP configuration from the project.
+- `list_o_auth2_providers()` - Get a list of all OAuth2 providers supported by the server, along with the project&#039;s configuration for each. Credential fields are write-only and always returned empty.
+- `get_o_auth2_provider()` - Get a single OAuth2 provider configuration. Credential fields (client secret, p8 file, key/team IDs) are write-only and always returned empty.
+- `update_o_auth2_amazon()` - Update the project OAuth2 Amazon configuration.
+- `update_o_auth2_apple()` - Update the project OAuth2 Apple configuration.
+- `update_o_auth2_auth0()` - Update the project OAuth2 Auth0 configuration.
+- `update_o_auth2_authentik()` - Update the project OAuth2 Authentik configuration.
+- `update_o_auth2_autodesk()` - Update the project OAuth2 Autodesk configuration.
+- `update_o_auth2_bitbucket()` - Update the project OAuth2 Bitbucket configuration.
+- `update_o_auth2_bitly()` - Update the project OAuth2 Bitly configuration.
+- `update_o_auth2_box()` - Update the project OAuth2 Box configuration.
+- `update_o_auth2_dailymotion()` - Update the project OAuth2 Dailymotion configuration.
+- `update_o_auth2_discord()` - Update the project OAuth2 Discord configuration.
+- `update_o_auth2_disqus()` - Update the project OAuth2 Disqus configuration.
+- `update_o_auth2_dropbox()` - Update the project OAuth2 Dropbox configuration.
+- `update_o_auth2_etsy()` - Update the project OAuth2 Etsy configuration.
+- `update_o_auth2_facebook()` - Update the project OAuth2 Facebook configuration.
+- `update_o_auth2_figma()` - Update the project OAuth2 Figma configuration.
+- `update_o_auth2_fusion_auth()` - Update the project OAuth2 FusionAuth configuration.
+- `update_o_auth2_git_hub()` - Update the project OAuth2 GitHub configuration.
+- `update_o_auth2_gitlab()` - Update the project OAuth2 Gitlab configuration.
+- `update_o_auth2_google()` - Update the project OAuth2 Google configuration.
+- `update_o_auth2_keycloak()` - Update the project OAuth2 Keycloak configuration.
+- `update_o_auth2_kick()` - Update the project OAuth2 Kick configuration.
+- `update_o_auth2_linkedin()` - Update the project OAuth2 Linkedin configuration.
+- `update_o_auth2_microsoft()` - Update the project OAuth2 Microsoft configuration.
+- `update_o_auth2_notion()` - Update the project OAuth2 Notion configuration.
+- `update_o_auth2_oidc()` - Update the project OAuth2 Oidc configuration.
+- `update_o_auth2_okta()` - Update the project OAuth2 Okta configuration.
+- `update_o_auth2_paypal()` - Update the project OAuth2 Paypal configuration.
+- `update_o_auth2_paypal_sandbox()` - Update the project OAuth2 PaypalSandbox configuration.
+- `update_o_auth2_podio()` - Update the project OAuth2 Podio configuration.
+- `update_o_auth2_salesforce()` - Update the project OAuth2 Salesforce configuration.
+- `update_o_auth2_slack()` - Update the project OAuth2 Slack configuration.
+- `update_o_auth2_spotify()` - Update the project OAuth2 Spotify configuration.
+- `update_o_auth2_stripe()` - Update the project OAuth2 Stripe configuration.
+- `update_o_auth2_tradeshift()` - Update the project OAuth2 Tradeshift configuration.
+- `update_o_auth2_tradeshift_sandbox()` - Update the project OAuth2 Tradeshift Sandbox configuration.
+- `update_o_auth2_twitch()` - Update the project OAuth2 Twitch configuration.
+- `update_o_auth2_word_press()` - Update the project OAuth2 WordPress configuration.
+- `update_o_auth2_x()` - Update the project OAuth2 X configuration.
+- `update_o_auth2_yahoo()` - Update the project OAuth2 Yahoo configuration.
+- `update_o_auth2_yandex()` - Update the project OAuth2 Yandex configuration.
+- `update_o_auth2_zoho()` - Update the project OAuth2 Zoho configuration.
+- `update_o_auth2_zoom()` - Update the project OAuth2 Zoom configuration.
 - `list_platforms()` - Get a list of all platforms in the project. This endpoint returns an array of all platforms and their configurations.
 - `create_android_platform()` - Create a new Android platform for your project. Use this endpoint to register a new Android platform where your users will run your application which will interact with the Appwrite API.
 - `update_android_platform()` - Update an Android platform by its unique ID. Use this endpoint to update the platform&#039;s name or application ID.
@@ -453,6 +523,7 @@ The Project service allows you to manage all the projects in your Appwrite serve
 - `update_windows_platform()` - Update a Windows platform by its unique ID. Use this endpoint to update the platform&#039;s name or package identifier name.
 - `get_platform()` - Get a platform by its unique ID. This endpoint returns the platform&#039;s details, including its name, type, and key configurations.
 - `delete_platform()` - Delete a platform by its unique ID. This endpoint removes the platform and all its configurations from the project.
+- `list_policies()` - Get a list of all project policies and their current configuration.
 - `update_membership_privacy_policy()` - Updating this policy allows you to control if team members can see other members information. When enabled, all team members can see ID, name, email, phone number, and MFA status of other members..
 - `update_password_dictionary_policy()` - Updating this policy allows you to control if new passwords are checked against most common passwords dictionary. When enabled, and user changes their password, password must not be contained in the dictionary.
 - `update_password_history_policy()` - Updates one of password strength policies. Based on total length configured, previous password hashes are stored, and users cannot choose a new password that is already stored in the passwird history list, when updating an user password, or setting new one through password recovery.
@@ -464,10 +535,12 @@ Keep in mind, while password history policy is disabled, the history is not bein
 - `update_session_invalidation_policy()` - Updating this policy allows you to control if existing sessions should be invalidated when a password of a user is changed. When enabled, and user changes their password, they will be logged out of all their devices.
 - `update_session_limit_policy()` - Update the maximum number of sessions allowed per user. When the limit is hit, the oldest session will be deleted to make room for new one.
 - `update_user_limit_policy()` - Update the maximum number of users in the project. When the limit is hit or amount of existing users already exceeded the limit, all users remain active, but new user sign up will be prohibited.
+- `get_policy()` - Get a policy by its unique ID. This endpoint returns the current configuration for the requested project policy.
 - `update_protocol()` - Update properties of a specific protocol. Use this endpoint to enable or disable a protocol in your project. 
 - `update_service()` - Update properties of a specific service. Use this endpoint to enable or disable a service in your project. 
 - `update_smtp()` - Update the SMTP configuration for your project. Use this endpoint to configure your project&#039;s SMTP provider with your custom settings for sending transactional emails.
 - `create_smtp_test()` - Send a test email to verify SMTP configuration. 
+- `list_email_templates()` - Get a list of all custom email templates configured for the project. This endpoint returns an array of all configured email templates and their locales.
 - `update_email_template()` - Update a custom email template for the specified locale and type. Use this endpoint to modify the content of your email templates.
 - `get_email_template()` - Get a custom email template for the specified locale and type. This endpoint returns the template content, subject, and other configuration details.
 - `list_variables()` - Get a list of all project environment variables.
@@ -475,6 +548,25 @@ Keep in mind, while password history policy is disabled, the history is not bein
 - `get_variable()` - Get a variable by its unique ID. 
 - `update_variable()` - Update variable by its unique ID.
 - `delete_variable()` - Delete a variable by its unique ID. 
+
+#### Proxy
+The Proxy Service allows you to configure actions for your domains beyond DNS configuration.
+- `list_rules()` - Get a list of all the proxy rules. You can use the query params to filter your results.
+- `create_api_rule()` - Create a new proxy rule for serving Appwrite&#039;s API on custom domain.
+
+Rule ID is automatically generated as MD5 hash of a rule domain for performance purposes.
+- `create_function_rule()` - Create a new proxy rule for executing Appwrite Function on custom domain.
+
+Rule ID is automatically generated as MD5 hash of a rule domain for performance purposes.
+- `create_redirect_rule()` - Create a new proxy rule for to redirect from custom domain to another domain.
+
+Rule ID is automatically generated as MD5 hash of a rule domain for performance purposes.
+- `create_site_rule()` - Create a new proxy rule for serving Appwrite Site on custom domain.
+
+Rule ID is automatically generated as MD5 hash of a rule domain for performance purposes.
+- `get_rule()` - Get a proxy rule by its unique ID.
+- `delete_rule()` - Delete a proxy rule by its unique ID.
+- `update_rule_status()` - If not succeeded yet, retry verification process of a proxy rule domain. This endpoint triggers domain verification by checking DNS records. If verification is successful, a TLS certificate will be automatically provisioned for the domain asynchronously in the background.
 
 #### Sites
 The Sites Service allows you view, create and manage your web applications.
@@ -551,6 +643,10 @@ If you&#039;re creating a new file using one of the Appwrite SDKs, all the chunk
 - `update_table()` - Update a table by its unique ID.
 - `delete_table()` - Delete a table by its unique ID. Only users with write permissions have access to delete this resource.
 - `list_columns()` - List columns in the table.
+- `create_big_int_column()` - Create a bigint column. Optionally, minimum and maximum values can be provided.
+
+- `update_big_int_column()` - Update a bigint column. Changing the `default` value will not update already existing rows.
+
 - `create_boolean_column()` - Create a boolean column.
 
 - `update_boolean_column()` - Update a boolean column. Changing the `default` value will not update already existing rows.
@@ -736,6 +832,7 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 ### Models
 - `RowList` - Rows List
 - `DocumentList` - Documents List
+- `PresenceList` - Presences List
 - `TableList` - Tables List
 - `CollectionList` - Collections List
 - `DatabaseList` - Databases List
@@ -764,7 +861,11 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `CurrencyList` - Currencies List
 - `PhoneList` - Phones List
 - `VariableList` - Variables List
+- `MockNumberList` - Mock Numbers List
+- `PolicyList` - Policies List
+- `EmailTemplateList` - Email Templates List
 - `HealthStatusList` - Status List
+- `ProxyRuleList` - Rule List
 - `LocaleCodeList` - Locale codes list
 - `ProviderList` - Provider list
 - `MessageList` - Message list
@@ -778,6 +879,7 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `AttributeList` - Attributes List
 - `AttributeString` - AttributeString
 - `AttributeInteger` - AttributeInteger
+- `AttributeBigint` - AttributeBigInt
 - `AttributeFloat` - AttributeFloat
 - `AttributeBoolean` - AttributeBoolean
 - `AttributeEmail` - AttributeEmail
@@ -797,6 +899,7 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `ColumnList` - Columns List
 - `ColumnString` - ColumnString
 - `ColumnInteger` - ColumnInteger
+- `ColumnBigint` - ColumnBigInt
 - `ColumnFloat` - ColumnFloat
 - `ColumnBoolean` - ColumnBoolean
 - `ColumnEmail` - ColumnEmail
@@ -816,6 +919,7 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `ColumnIndex` - Index
 - `Row` - Row
 - `Document` - Document
+- `Presence` - Presence
 - `Log` - Log
 - `User` - User
 - `AlgoMd5` - AlgoMD5
@@ -847,8 +951,59 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `Project` - Project
 - `Webhook` - Webhook
 - `Key` - Key
+- `EphemeralKey` - Ephemeral Key
 - `DevKey` - DevKey
 - `MockNumber` - Mock Number
+- `OAuth2Github` - OAuth2GitHub
+- `OAuth2Discord` - OAuth2Discord
+- `OAuth2Figma` - OAuth2Figma
+- `OAuth2Dropbox` - OAuth2Dropbox
+- `OAuth2Dailymotion` - OAuth2Dailymotion
+- `OAuth2Bitbucket` - OAuth2Bitbucket
+- `OAuth2Bitly` - OAuth2Bitly
+- `OAuth2Box` - OAuth2Box
+- `OAuth2Autodesk` - OAuth2Autodesk
+- `OAuth2Google` - OAuth2Google
+- `OAuth2Zoom` - OAuth2Zoom
+- `OAuth2Zoho` - OAuth2Zoho
+- `OAuth2Yandex` - OAuth2Yandex
+- `OAuth2X` - OAuth2X
+- `OAuth2WordPress` - OAuth2WordPress
+- `OAuth2Twitch` - OAuth2Twitch
+- `OAuth2Stripe` - OAuth2Stripe
+- `OAuth2Spotify` - OAuth2Spotify
+- `OAuth2Slack` - OAuth2Slack
+- `OAuth2Podio` - OAuth2Podio
+- `OAuth2Notion` - OAuth2Notion
+- `OAuth2Salesforce` - OAuth2Salesforce
+- `OAuth2Yahoo` - OAuth2Yahoo
+- `OAuth2Linkedin` - OAuth2Linkedin
+- `OAuth2Disqus` - OAuth2Disqus
+- `OAuth2Amazon` - OAuth2Amazon
+- `OAuth2Etsy` - OAuth2Etsy
+- `OAuth2Facebook` - OAuth2Facebook
+- `OAuth2Tradeshift` - OAuth2Tradeshift
+- `OAuth2Paypal` - OAuth2Paypal
+- `OAuth2Gitlab` - OAuth2Gitlab
+- `OAuth2Authentik` - OAuth2Authentik
+- `OAuth2Auth0` - OAuth2Auth0
+- `OAuth2FusionAuth` - OAuth2FusionAuth
+- `OAuth2Keycloak` - OAuth2Keycloak
+- `OAuth2Oidc` - OAuth2Oidc
+- `OAuth2Okta` - OAuth2Okta
+- `OAuth2Kick` - OAuth2Kick
+- `OAuth2Apple` - OAuth2Apple
+- `OAuth2Microsoft` - OAuth2Microsoft
+- `OAuth2ProviderList` - OAuth2 Providers List
+- `PolicyPasswordDictionary` - Policy Password Dictionary
+- `PolicyPasswordHistory` - Policy Password History
+- `PolicyPasswordPersonalData` - Policy Password Personal Data
+- `PolicySessionAlert` - Policy Session Alert
+- `PolicySessionDuration` - Policy Session Duration
+- `PolicySessionInvalidation` - Policy Session Invalidation
+- `PolicySessionLimit` - Policy Session Limit
+- `PolicyUserLimit` - Policy User Limit
+- `PolicyMembershipPrivacy` - Policy Membership Privacy
 - `AuthProvider` - AuthProvider
 - `PlatformWeb` - Platform Web
 - `PlatformApple` - Platform Apple
@@ -869,6 +1024,7 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `HealthTime` - Health Time
 - `Headers` - Headers
 - `Specification` - Specification
+- `ProxyRule` - Rule
 - `EmailTemplate` - EmailTemplate
 - `MfaChallenge` - MFA Challenge
 - `MfaRecoveryCodes` - MFA Recovery Codes
@@ -905,4 +1061,4 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - File upload examples
 - Query builder documentation
 
-[0.4.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.4.0
+[0.5.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.5.0

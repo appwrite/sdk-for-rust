@@ -13,6 +13,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = sites.create_variable(
         "<SITE_ID>",
+        "<VARIABLE_ID>",
         "<KEY>",
         "<VALUE>",
         Some(false) // optional

@@ -13,6 +13,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = functions.create_variable(
         "<FUNCTION_ID>",
+        "<VARIABLE_ID>",
         "<KEY>",
         "<VALUE>",
         Some(false) // optional

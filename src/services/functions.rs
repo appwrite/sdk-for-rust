@@ -592,8 +592,16 @@ impl Functions {
     pub async fn list_variables(
         &self,
         function_id: impl Into<String>,
+        queries: Option<Vec<String>>,
+        total: Option<bool>,
     ) -> crate::error::Result<crate::models::VariableList> {
-        let params = HashMap::new();
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
 
         let path = "/functions/{functionId}/variables".to_string().replace("{functionId}", &function_id.into().to_string());
 
@@ -605,11 +613,13 @@ impl Functions {
     pub async fn create_variable(
         &self,
         function_id: impl Into<String>,
+        variable_id: impl Into<String>,
         key: impl Into<String>,
         value: impl Into<String>,
         secret: Option<bool>,
     ) -> crate::error::Result<crate::models::Variable> {
         let mut params = HashMap::new();
+        params.insert("variableId".to_string(), json!(variable_id.into()));
         params.insert("key".to_string(), json!(key.into()));
         params.insert("value".to_string(), json!(value.into()));
         if let Some(value) = secret {
@@ -641,12 +651,14 @@ impl Functions {
         &self,
         function_id: impl Into<String>,
         variable_id: impl Into<String>,
-        key: impl Into<String>,
+        key: Option<&str>,
         value: Option<&str>,
         secret: Option<bool>,
     ) -> crate::error::Result<crate::models::Variable> {
         let mut params = HashMap::new();
-        params.insert("key".to_string(), json!(key.into()));
+        if let Some(value) = key {
+            params.insert("key".to_string(), json!(value));
+        }
         if let Some(value) = value {
             params.insert("value".to_string(), json!(value));
         }

@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = functions.update_variable(
         "<FUNCTION_ID>",
         "<VARIABLE_ID>",
-        "<KEY>",
+        Some("<KEY>"), // optional
         Some("<VALUE>"), // optional
         Some(false) // optional
     ).await?;

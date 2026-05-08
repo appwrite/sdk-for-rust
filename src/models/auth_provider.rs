@@ -16,7 +16,7 @@ pub struct AuthProvider {
     #[serde(rename = "appId")]
     pub app_id: String,
     /// OAuth 2.0 application secret. Might be JSON string if provider requires
-    /// extra configuration.
+    /// extra configuration. This property is write-only and always returned empty.
     #[serde(rename = "secret")]
     pub secret: String,
     /// Auth Provider is active and can be used to create session.
