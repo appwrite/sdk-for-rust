@@ -541,6 +541,44 @@ impl Account {
         self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
     }
 
+    /// Allow the user to login to their account using the OAuth2 provider of their
+    /// choice. Each OAuth2 provider should be enabled from the Appwrite console
+    /// first. Use the success and failure arguments to provide a redirect URL's
+    /// back to your app when login is completed.
+    /// 
+    /// If there is already an active session, the new session will be attached to
+    /// the logged-in account. If there are no active sessions, the server will
+    /// attempt to look for a user with the same email address as the email
+    /// received from the OAuth2 provider and attach the new session to the
+    /// existing user. If no matching user is found - the server will create a new
+    /// user.
+    /// 
+    /// A user is limited to 10 active sessions at a time by default. [Learn more
+    /// about session
+    /// limits](https://appwrite.io/docs/authentication-security#limits).
+    pub async fn create_o_auth2_session(
+        &self,
+        provider: crate::enums::OAuthProvider,
+        success: Option<&str>,
+        failure: Option<&str>,
+        scopes: Option<Vec<String>>,
+    ) -> crate::error::Result<String> {
+        let mut params = HashMap::new();
+        if let Some(value) = success {
+            params.insert("success".to_string(), json!(value));
+        }
+        if let Some(value) = failure {
+            params.insert("failure".to_string(), json!(value));
+        }
+        if let Some(value) = scopes {
+            params.insert("scopes".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        }
+
+        let path = "/account/sessions/oauth2/{provider}".to_string().replace("{provider}", &provider.to_string());
+
+        self.client.call_location(Method::GET, &path, None, Some(params)).await
+    }
+
     /// Use this endpoint to create a session from token. Provide the **userId**
     /// and **secret** parameters from the successful response of authentication
     /// flows initiated by token creation. For example, magic URL and phone login.
@@ -639,6 +677,67 @@ impl Account {
         let path = "/account/status".to_string();
 
         self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Use this endpoint to register a device for push notifications. Provide a
+    /// target ID (custom or generated using ID.unique()), a device identifier
+    /// (usually a device token), and optionally specify which provider should send
+    /// notifications to this target. The target is automatically linked to the
+    /// current session and includes device information like brand and model.
+    pub async fn create_push_target(
+        &self,
+        target_id: impl Into<String>,
+        identifier: impl Into<String>,
+        provider_id: Option<&str>,
+    ) -> crate::error::Result<crate::models::Target> {
+        let mut params = HashMap::new();
+        params.insert("targetId".to_string(), json!(target_id.into()));
+        params.insert("identifier".to_string(), json!(identifier.into()));
+        if let Some(value) = provider_id {
+            params.insert("providerId".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+
+        let path = "/account/targets/push".to_string();
+
+        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Update the currently logged in user's push notification target. You can
+    /// modify the target's identifier (device token) and provider ID (token,
+    /// email, phone etc.). The target must exist and belong to the current user.
+    /// If you change the provider ID, notifications will be sent through the new
+    /// messaging provider instead.
+    pub async fn update_push_target(
+        &self,
+        target_id: impl Into<String>,
+        identifier: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Target> {
+        let mut params = HashMap::new();
+        params.insert("identifier".to_string(), json!(identifier.into()));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+
+        let path = "/account/targets/{targetId}/push".to_string().replace("{targetId}", &target_id.into().to_string());
+
+        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Delete a push notification target for the currently logged in user. After
+    /// deletion, the device will no longer receive push notifications. The target
+    /// must exist and belong to the current user.
+    pub async fn delete_push_target(
+        &self,
+        target_id: impl Into<String>,
+    ) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+
+        let path = "/account/targets/{targetId}/push".to_string().replace("{targetId}", &target_id.into().to_string());
+
+        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
     }
 
     /// Sends the user an email with a secret key for creating a session. If the
