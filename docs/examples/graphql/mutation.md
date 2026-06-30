@@ -11,9 +11,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let graphql = Graphql::new(&client);
 
-    graphql.mutation(
+    let result = graphql.mutation(
         serde_json::json!({})
     ).await?;
+
+    let _ = result;
 
     Ok(())
 }

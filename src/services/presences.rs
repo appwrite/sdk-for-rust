@@ -37,10 +37,12 @@ impl Presences {
         if let Some(value) = ttl {
             params.insert("ttl".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/presences".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get a presence log by its unique ID. Entries whose `expiresAt` is in the
@@ -50,10 +52,12 @@ impl Presences {
         presence_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Presence> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/presences/{presenceId}".to_string().replace("{presenceId}", &presence_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create or update a presence log by its user ID.
@@ -80,6 +84,7 @@ impl Presences {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/presences/{presenceId}".to_string().replace("{presenceId}", &presence_id.into().to_string());
 
@@ -118,6 +123,7 @@ impl Presences {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/presences/{presenceId}".to_string().replace("{presenceId}", &presence_id.into().to_string());
 

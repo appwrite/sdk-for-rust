@@ -40,6 +40,10 @@ pub struct BackupPolicy {
     /// Policy backup schedule in CRON format.
     #[serde(rename = "schedule")]
     pub schedule: String,
+    /// Backup type. Possible values: full (complete database snapshot),
+    /// incremental (changes since last backup).
+    #[serde(rename = "type")]
+    pub r#type: String,
     /// Is this policy enabled.
     #[serde(rename = "enabled")]
     pub enabled: bool,
@@ -108,6 +112,11 @@ impl BackupPolicy {
         &self.schedule
     }
 
+    /// Get r#type
+    pub fn r#type(&self) -> &String {
+        &self.r#type
+    }
+
     /// Get enabled
     pub fn enabled(&self) -> &bool {
         &self.enabled
@@ -130,6 +139,7 @@ mod tests {
         let _ = _model.resources();
         let _ = _model.retention();
         let _ = _model.schedule();
+        let _ = _model.r#type();
         let _ = _model.enabled();
     }
 

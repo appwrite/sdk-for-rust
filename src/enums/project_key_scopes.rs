@@ -31,6 +31,10 @@ pub enum ProjectKeyScopes {
     TemplatesRead,
     #[serde(rename = "templates.write")]
     TemplatesWrite,
+    #[serde(rename = "stages.read")]
+    StagesRead,
+    #[serde(rename = "stages.write")]
+    StagesWrite,
     #[serde(rename = "oauth2.read")]
     Oauth2Read,
     #[serde(rename = "oauth2.write")]
@@ -183,6 +187,8 @@ pub enum ProjectKeyScopes {
     RestorationsRead,
     #[serde(rename = "restorations.write")]
     RestorationsWrite,
+    #[serde(rename = "dedicatedDatabases.execute")]
+    DedicatedDatabasesExecute,
     #[serde(rename = "domains.read")]
     DomainsRead,
     #[serde(rename = "domains.write")]
@@ -215,6 +221,8 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::ProjectPoliciesWrite => "project.policies.write",
             ProjectKeyScopes::TemplatesRead => "templates.read",
             ProjectKeyScopes::TemplatesWrite => "templates.write",
+            ProjectKeyScopes::StagesRead => "stages.read",
+            ProjectKeyScopes::StagesWrite => "stages.write",
             ProjectKeyScopes::Oauth2Read => "oauth2.read",
             ProjectKeyScopes::Oauth2Write => "oauth2.write",
             ProjectKeyScopes::UsersRead => "users.read",
@@ -291,6 +299,7 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::ArchivesWrite => "archives.write",
             ProjectKeyScopes::RestorationsRead => "restorations.read",
             ProjectKeyScopes::RestorationsWrite => "restorations.write",
+            ProjectKeyScopes::DedicatedDatabasesExecute => "dedicatedDatabases.execute",
             ProjectKeyScopes::DomainsRead => "domains.read",
             ProjectKeyScopes::DomainsWrite => "domains.write",
             ProjectKeyScopes::EventsRead => "events.read",

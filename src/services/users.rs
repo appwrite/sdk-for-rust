@@ -39,10 +39,12 @@ impl Users {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new user.
@@ -70,6 +72,7 @@ impl Users {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users".to_string();
 
@@ -96,6 +99,7 @@ impl Users {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/argon2".to_string();
 
@@ -122,6 +126,7 @@ impl Users {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/bcrypt".to_string();
 
@@ -145,10 +150,12 @@ impl Users {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/identities".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete an identity by its unique ID.
@@ -185,6 +192,7 @@ impl Users {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/md5".to_string();
 
@@ -211,6 +219,7 @@ impl Users {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/phpass".to_string();
 
@@ -248,6 +257,7 @@ impl Users {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/scrypt".to_string();
 
@@ -282,6 +292,7 @@ impl Users {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/scrypt-modified".to_string();
 
@@ -312,6 +323,7 @@ impl Users {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/sha".to_string();
 
@@ -324,10 +336,12 @@ impl Users {
         user_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::User> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}".to_string().replace("{userId}", &user_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete a user by its unique ID, thereby releasing it's ID. Since ID is
@@ -359,6 +373,7 @@ impl Users {
         params.insert("email".to_string(), json!(email.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/email".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -379,6 +394,7 @@ impl Users {
         params.insert("impersonator".to_string(), json!(impersonator));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/impersonator".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -403,6 +419,7 @@ impl Users {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/jwts".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -424,6 +441,7 @@ impl Users {
         params.insert("labels".to_string(), json!(labels.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/labels".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -444,10 +462,12 @@ impl Users {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/logs".to_string().replace("{userId}", &user_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the user membership list by its unique ID.
@@ -468,10 +488,12 @@ impl Users {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/memberships".to_string().replace("{userId}", &user_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Enable or disable MFA on a user account.
@@ -484,6 +506,7 @@ impl Users {
         params.insert("mfa".to_string(), json!(mfa));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/mfa".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -511,10 +534,12 @@ impl Users {
         user_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::MfaFactors> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/mfa/factors".to_string().replace("{userId}", &user_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get recovery codes that can be used as backup for MFA flow by User ID.
@@ -526,10 +551,12 @@ impl Users {
         user_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::MfaRecoveryCodes> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/mfa/recovery-codes".to_string().replace("{userId}", &user_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Regenerate recovery codes that can be used as backup for MFA flow by User
@@ -543,6 +570,7 @@ impl Users {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/mfa/recovery-codes".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -560,6 +588,7 @@ impl Users {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/mfa/recovery-codes".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -576,6 +605,7 @@ impl Users {
         params.insert("name".to_string(), json!(name.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/name".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -592,6 +622,7 @@ impl Users {
         params.insert("password".to_string(), json!(password.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/password".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -608,6 +639,7 @@ impl Users {
         params.insert("number".to_string(), json!(number.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/phone".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -620,10 +652,12 @@ impl Users {
         user_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Preferences> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/prefs".to_string().replace("{userId}", &user_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update the user preferences by its unique ID. The object you pass is stored
@@ -638,6 +672,7 @@ impl Users {
         params.insert("prefs".to_string(), json!(prefs));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/prefs".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -654,10 +689,12 @@ impl Users {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/sessions".to_string().replace("{userId}", &user_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Creates a session for a user. Returns an immediately usable session object.
@@ -673,6 +710,7 @@ impl Users {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/sessions".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -719,6 +757,7 @@ impl Users {
         params.insert("status".to_string(), json!(status));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/status".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -739,10 +778,12 @@ impl Users {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/targets".to_string().replace("{userId}", &user_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a messaging target.
@@ -767,6 +808,7 @@ impl Users {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/targets".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -780,10 +822,12 @@ impl Users {
         target_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Target> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/targets/{targetId}".to_string().replace("{userId}", &user_id.into().to_string()).replace("{targetId}", &target_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a messaging target.
@@ -807,6 +851,7 @@ impl Users {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/targets/{targetId}".to_string().replace("{userId}", &user_id.into().to_string()).replace("{targetId}", &target_id.into().to_string());
 
@@ -847,6 +892,7 @@ impl Users {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/tokens".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -863,6 +909,7 @@ impl Users {
         params.insert("emailVerification".to_string(), json!(email_verification));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/verification".to_string().replace("{userId}", &user_id.into().to_string());
 
@@ -879,6 +926,7 @@ impl Users {
         params.insert("phoneVerification".to_string(), json!(phone_verification));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/users/{userId}/verification/phone".to_string().replace("{userId}", &user_id.into().to_string());
 

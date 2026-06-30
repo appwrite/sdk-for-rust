@@ -39,10 +39,12 @@ impl Messaging {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/messages".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new email message.
@@ -95,6 +97,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/messages/email".to_string();
 
@@ -156,6 +159,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/messages/email/{messageId}".to_string().replace("{messageId}", &message_id.into().to_string());
 
@@ -244,6 +248,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/messages/push".to_string();
 
@@ -333,6 +338,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/messages/push/{messageId}".to_string().replace("{messageId}", &message_id.into().to_string());
 
@@ -371,6 +377,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/messages/sms".to_string();
 
@@ -412,6 +419,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/messages/sms/{messageId}".to_string().replace("{messageId}", &message_id.into().to_string());
 
@@ -424,10 +432,12 @@ impl Messaging {
         message_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Message> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/messages/{messageId}".to_string().replace("{messageId}", &message_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete a message. If the message is not a draft or scheduled, but has been
@@ -459,10 +469,12 @@ impl Messaging {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/messages/{messageId}/logs".to_string().replace("{messageId}", &message_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get a list of the targets associated with a message.
@@ -479,10 +491,12 @@ impl Messaging {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/messages/{messageId}/targets".to_string().replace("{messageId}", &message_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get a list of all providers from the current Appwrite project.
@@ -502,10 +516,12 @@ impl Messaging {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new Apple Push Notification service provider.
@@ -544,6 +560,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/apns".to_string();
 
@@ -587,6 +604,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/apns/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
 
@@ -612,6 +630,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/fcm".to_string();
 
@@ -638,6 +657,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/fcm/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
 
@@ -688,6 +708,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/mailgun".to_string();
 
@@ -739,6 +760,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/mailgun/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
 
@@ -772,6 +794,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/msg91".to_string();
 
@@ -806,6 +829,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/msg91/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
 
@@ -848,6 +872,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/resend".to_string();
 
@@ -891,6 +916,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/resend/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
 
@@ -933,6 +959,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/sendgrid".to_string();
 
@@ -976,6 +1003,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/sendgrid/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
 
@@ -1026,6 +1054,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/ses".to_string();
 
@@ -1077,6 +1106,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/ses/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
 
@@ -1141,6 +1171,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/smtp".to_string();
 
@@ -1208,6 +1239,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/smtp/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
 
@@ -1241,6 +1273,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/telesign".to_string();
 
@@ -1275,6 +1308,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/telesign/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
 
@@ -1308,6 +1342,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/textmagic".to_string();
 
@@ -1342,6 +1377,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/textmagic/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
 
@@ -1375,6 +1411,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/twilio".to_string();
 
@@ -1409,6 +1446,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/twilio/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
 
@@ -1442,6 +1480,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/vonage".to_string();
 
@@ -1476,6 +1515,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/vonage/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
 
@@ -1488,10 +1528,12 @@ impl Messaging {
         provider_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Provider> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete a provider by its unique ID.
@@ -1522,10 +1564,12 @@ impl Messaging {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/providers/{providerId}/logs".to_string().replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the subscriber activity logs listed by its unique ID.
@@ -1542,10 +1586,12 @@ impl Messaging {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/subscribers/{subscriberId}/logs".to_string().replace("{subscriberId}", &subscriber_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get a list of all topics from the current Appwrite project.
@@ -1565,10 +1611,12 @@ impl Messaging {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/topics".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new topic.
@@ -1586,6 +1634,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/topics".to_string();
 
@@ -1598,10 +1647,12 @@ impl Messaging {
         topic_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Topic> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/topics/{topicId}".to_string().replace("{topicId}", &topic_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a topic by its unique ID.
@@ -1620,6 +1671,7 @@ impl Messaging {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/topics/{topicId}".to_string().replace("{topicId}", &topic_id.into().to_string());
 
@@ -1654,10 +1706,12 @@ impl Messaging {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/topics/{topicId}/logs".to_string().replace("{topicId}", &topic_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get a list of all subscribers from the current Appwrite project.
@@ -1678,10 +1732,12 @@ impl Messaging {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/topics/{topicId}/subscribers".to_string().replace("{topicId}", &topic_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new subscriber.
@@ -1696,6 +1752,7 @@ impl Messaging {
         params.insert("targetId".to_string(), json!(target_id.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/topics/{topicId}/subscribers".to_string().replace("{topicId}", &topic_id.into().to_string());
 
@@ -1709,10 +1766,12 @@ impl Messaging {
         subscriber_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Subscriber> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/messaging/topics/{topicId}/subscribers/{subscriberId}".to_string().replace("{topicId}", &topic_id.into().to_string()).replace("{subscriberId}", &subscriber_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete a subscriber by its unique ID.

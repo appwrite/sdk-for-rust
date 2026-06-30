@@ -26,12 +26,13 @@ impl Graphql {
     pub async fn query(
         &self,
         query: serde_json::Value,
-    ) -> crate::error::Result<()> {
+    ) -> crate::error::Result<serde_json::Value> {
         let mut params = HashMap::new();
         params.insert("query".to_string(), json!(query));
         let mut api_headers = HashMap::new();
         api_headers.insert("x-sdk-graphql".to_string(), "true".to_string());
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/graphql".to_string();
 
@@ -42,12 +43,13 @@ impl Graphql {
     pub async fn mutation(
         &self,
         query: serde_json::Value,
-    ) -> crate::error::Result<()> {
+    ) -> crate::error::Result<serde_json::Value> {
         let mut params = HashMap::new();
         params.insert("query".to_string(), json!(query));
         let mut api_headers = HashMap::new();
         api_headers.insert("x-sdk-graphql".to_string(), "true".to_string());
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/graphql/mutation".to_string();
 

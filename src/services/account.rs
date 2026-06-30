@@ -26,10 +26,12 @@ impl Account {
         &self,
     ) -> crate::error::Result<crate::models::User> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Use this endpoint to allow a new user to register a new account in your
@@ -55,6 +57,7 @@ impl Account {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account".to_string();
 
@@ -78,6 +81,7 @@ impl Account {
         params.insert("password".to_string(), json!(password.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/email".to_string();
 
@@ -97,10 +101,12 @@ impl Account {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/identities".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete an identity by its unique ID.
@@ -132,6 +138,7 @@ impl Account {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/jwts".to_string();
 
@@ -152,10 +159,12 @@ impl Account {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/logs".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Enable or disable MFA on an account.
@@ -167,6 +176,7 @@ impl Account {
         params.insert("mfa".to_string(), json!(mfa));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/mfa".to_string();
 
@@ -184,6 +194,7 @@ impl Account {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/mfa/authenticators/{type}".to_string().replace("{type}", &r#type.to_string());
 
@@ -202,6 +213,7 @@ impl Account {
         params.insert("otp".to_string(), json!(otp.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/mfa/authenticators/{type}".to_string().replace("{type}", &r#type.to_string());
 
@@ -233,6 +245,7 @@ impl Account {
         params.insert("factor".to_string(), json!(factor));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/mfa/challenges".to_string();
 
@@ -254,6 +267,7 @@ impl Account {
         params.insert("otp".to_string(), json!(otp.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/mfa/challenges".to_string();
 
@@ -265,10 +279,12 @@ impl Account {
         &self,
     ) -> crate::error::Result<crate::models::MfaFactors> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/mfa/factors".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get recovery codes that can be used as backup for MFA flow. Before getting
@@ -279,10 +295,12 @@ impl Account {
         &self,
     ) -> crate::error::Result<crate::models::MfaRecoveryCodes> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/mfa/recovery-codes".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Generate recovery codes as backup for MFA flow. It's recommended to
@@ -296,6 +314,7 @@ impl Account {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/mfa/recovery-codes".to_string();
 
@@ -312,6 +331,7 @@ impl Account {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/mfa/recovery-codes".to_string();
 
@@ -327,6 +347,7 @@ impl Account {
         params.insert("name".to_string(), json!(name.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/name".to_string();
 
@@ -348,6 +369,7 @@ impl Account {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/password".to_string();
 
@@ -369,6 +391,7 @@ impl Account {
         params.insert("password".to_string(), json!(password.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/phone".to_string();
 
@@ -380,10 +403,12 @@ impl Account {
         &self,
     ) -> crate::error::Result<crate::models::Preferences> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/prefs".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update currently logged in user account preferences. The object you pass is
@@ -397,6 +422,7 @@ impl Account {
         params.insert("prefs".to_string(), json!(prefs));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/prefs".to_string();
 
@@ -421,6 +447,7 @@ impl Account {
         params.insert("url".to_string(), json!(url.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/recovery".to_string();
 
@@ -449,6 +476,7 @@ impl Account {
         params.insert("password".to_string(), json!(password.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/recovery".to_string();
 
@@ -461,10 +489,12 @@ impl Account {
         &self,
     ) -> crate::error::Result<crate::models::SessionList> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/sessions".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete all sessions from the user account and remove any sessions cookies
@@ -494,6 +524,7 @@ impl Account {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/sessions/anonymous".to_string();
 
@@ -516,6 +547,7 @@ impl Account {
         params.insert("password".to_string(), json!(password.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/sessions/email".to_string();
 
@@ -535,6 +567,7 @@ impl Account {
         params.insert("secret".to_string(), json!(secret.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/sessions/magic-url".to_string();
 
@@ -554,6 +587,7 @@ impl Account {
         params.insert("secret".to_string(), json!(secret.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/sessions/phone".to_string();
 
@@ -573,6 +607,7 @@ impl Account {
         params.insert("secret".to_string(), json!(secret.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/sessions/token".to_string();
 
@@ -586,10 +621,12 @@ impl Account {
         session_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Session> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/sessions/{sessionId}".to_string().replace("{sessionId}", &session_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Use this endpoint to extend a session's length. Extending a session is
@@ -602,6 +639,7 @@ impl Account {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/sessions/{sessionId}".to_string().replace("{sessionId}", &session_id.into().to_string());
 
@@ -635,6 +673,7 @@ impl Account {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/status".to_string();
 
@@ -668,6 +707,7 @@ impl Account {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/tokens/email".to_string();
 
@@ -705,6 +745,7 @@ impl Account {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/tokens/magic-url".to_string();
 
@@ -742,10 +783,12 @@ impl Account {
         if let Some(value) = scopes {
             params.insert("scopes".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "text/html".to_string());
 
         let path = "/account/tokens/oauth2/{provider}".to_string().replace("{provider}", &provider.to_string());
 
-        self.client.call_location(Method::GET, &path, None, Some(params)).await
+        self.client.call_location(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Sends the user an SMS with a secret key for creating a session. If the
@@ -768,6 +811,7 @@ impl Account {
         params.insert("phone".to_string(), json!(phone.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/tokens/phone".to_string();
 
@@ -796,6 +840,7 @@ impl Account {
         params.insert("url".to_string(), json!(url.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/verifications/email".to_string();
 
@@ -824,6 +869,7 @@ impl Account {
         params.insert("url".to_string(), json!(url.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/verifications/email".to_string();
 
@@ -844,6 +890,7 @@ impl Account {
         params.insert("secret".to_string(), json!(secret.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/verifications/email".to_string();
 
@@ -864,6 +911,7 @@ impl Account {
         params.insert("secret".to_string(), json!(secret.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/verifications/email".to_string();
 
@@ -884,6 +932,7 @@ impl Account {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/verifications/phone".to_string();
 
@@ -904,6 +953,7 @@ impl Account {
         params.insert("secret".to_string(), json!(secret.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/verifications/phone".to_string();
 

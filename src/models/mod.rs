@@ -22,6 +22,8 @@ pub mod session_list;
 pub use session_list::SessionList;
 pub mod identity_list;
 pub use identity_list::IdentityList;
+pub mod notification_list;
+pub use notification_list::NotificationList;
 pub mod log_list;
 pub use log_list::LogList;
 pub mod file_list;
@@ -210,6 +212,8 @@ pub mod session;
 pub use session::Session;
 pub mod identity;
 pub use identity::Identity;
+pub mod notification;
+pub use notification::Notification;
 pub mod token;
 pub use token::Token;
 pub mod jwt;
@@ -446,12 +450,18 @@ pub mod policy_deny_disposable_email;
 pub use policy_deny_disposable_email::PolicyDenyDisposableEmail;
 pub mod policy_deny_free_email;
 pub use policy_deny_free_email::PolicyDenyFreeEmail;
+pub mod policy_deny_corporate_email;
+pub use policy_deny_corporate_email::PolicyDenyCorporateEmail;
 pub mod backup_restoration;
 pub use backup_restoration::BackupRestoration;
-pub mod usage_event;
-pub use usage_event::UsageEvent;
-pub mod usage_gauge;
-pub use usage_gauge::UsageGauge;
+pub mod usage_data_point;
+pub use usage_data_point::UsageDataPoint;
+pub mod usage_event_list;
+pub use usage_event_list::UsageEventList;
+pub mod usage_gauge_list;
+pub use usage_gauge_list::UsageGaugeList;
+pub mod usage_metric;
+pub use usage_metric::UsageMetric;
 pub mod activity_event_list;
 pub use activity_event_list::ActivityEventList;
 pub mod backup_archive_list;
@@ -460,10 +470,6 @@ pub mod backup_policy_list;
 pub use backup_policy_list::BackupPolicyList;
 pub mod backup_restoration_list;
 pub use backup_restoration_list::BackupRestorationList;
-pub mod usage_event_list;
-pub use usage_event_list::UsageEventList;
-pub mod usage_gauge_list;
-pub use usage_gauge_list::UsageGaugeList;
 
 // Re-export commonly used types
 use serde::{Deserialize, Serialize};
@@ -483,6 +489,7 @@ impl Model for ColumnIndexList {}
 impl Model for UserList {}
 impl Model for SessionList {}
 impl Model for IdentityList {}
+impl Model for NotificationList {}
 impl Model for LogList {}
 impl Model for FileList {}
 impl Model for BucketList {}
@@ -577,6 +584,7 @@ impl Model for AlgoArgon2 {}
 impl Model for Preferences {}
 impl Model for Session {}
 impl Model for Identity {}
+impl Model for Notification {}
 impl Model for Token {}
 impl Model for Jwt {}
 impl Model for Locale {}
@@ -695,12 +703,13 @@ impl Model for BackupPolicy {}
 impl Model for PolicyDenyAliasedEmail {}
 impl Model for PolicyDenyDisposableEmail {}
 impl Model for PolicyDenyFreeEmail {}
+impl Model for PolicyDenyCorporateEmail {}
 impl Model for BackupRestoration {}
-impl Model for UsageEvent {}
-impl Model for UsageGauge {}
+impl Model for UsageDataPoint {}
+impl Model for UsageEventList {}
+impl Model for UsageGaugeList {}
+impl Model for UsageMetric {}
 impl Model for ActivityEventList {}
 impl Model for BackupArchiveList {}
 impl Model for BackupPolicyList {}
 impl Model for BackupRestorationList {}
-impl Model for UsageEventList {}
-impl Model for UsageGaugeList {}

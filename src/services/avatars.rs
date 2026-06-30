@@ -49,10 +49,12 @@ impl Avatars {
         if let Some(value) = quality {
             params.insert("quality".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "image/png".to_string());
 
         let path = "/avatars/browsers/{code}".to_string().replace("{code}", &code.to_string());
 
-        self.client.call_bytes(Method::GET, &path, None, Some(params)).await
+        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// The credit card endpoint will return you the icon of the credit card
@@ -80,10 +82,12 @@ impl Avatars {
         if let Some(value) = quality {
             params.insert("quality".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "image/png".to_string());
 
         let path = "/avatars/credit-cards/{code}".to_string().replace("{code}", &code.to_string());
 
-        self.client.call_bytes(Method::GET, &path, None, Some(params)).await
+        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Use this endpoint to fetch the favorite icon (AKA favicon) of any remote
@@ -96,10 +100,12 @@ impl Avatars {
     ) -> crate::error::Result<Vec<u8>> {
         let mut params = HashMap::new();
         params.insert("url".to_string(), json!(url.into()));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "image/*".to_string());
 
         let path = "/avatars/favicon".to_string();
 
-        self.client.call_bytes(Method::GET, &path, None, Some(params)).await
+        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// You can use this endpoint to show different country flags icons to your
@@ -128,10 +134,12 @@ impl Avatars {
         if let Some(value) = quality {
             params.insert("quality".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "image/png".to_string());
 
         let path = "/avatars/flags/{code}".to_string().replace("{code}", &code.to_string());
 
-        self.client.call_bytes(Method::GET, &path, None, Some(params)).await
+        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Use this endpoint to fetch a remote image URL and crop it to any image size
@@ -159,10 +167,12 @@ impl Avatars {
         if let Some(value) = height {
             params.insert("height".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "image/*".to_string());
 
         let path = "/avatars/image".to_string();
 
-        self.client.call_bytes(Method::GET, &path, None, Some(params)).await
+        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Use this endpoint to show your user initials avatar icon on your website or
@@ -200,10 +210,12 @@ impl Avatars {
         if let Some(value) = background {
             params.insert("background".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "image/png".to_string());
 
         let path = "/avatars/initials".to_string();
 
-        self.client.call_bytes(Method::GET, &path, None, Some(params)).await
+        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Converts a given plain text to a QR code image. You can use the query
@@ -226,10 +238,12 @@ impl Avatars {
         if let Some(value) = download {
             params.insert("download".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "image/png".to_string());
 
         let path = "/avatars/qr".to_string();
 
-        self.client.call_bytes(Method::GET, &path, None, Some(params)).await
+        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Use this endpoint to capture a screenshot of any website URL. This endpoint
@@ -325,10 +339,12 @@ impl Avatars {
         if let Some(value) = output {
             params.insert("output".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "image/png".to_string());
 
         let path = "/avatars/screenshots".to_string();
 
-        self.client.call_bytes(Method::GET, &path, None, Some(params)).await
+        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
 }

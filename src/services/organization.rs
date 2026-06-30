@@ -6,6 +6,7 @@ use reqwest::Method;
 use serde_json::json;
 use std::collections::HashMap;
 
+/// The Organization service allows you to manage organization-level projects.
 #[derive(Debug, Clone)]
 pub struct Organization {
     client: Client,
@@ -33,10 +34,12 @@ impl Organization {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/organization/keys".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new organization API key.
@@ -56,6 +59,7 @@ impl Organization {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/organization/keys".to_string();
 
@@ -69,10 +73,12 @@ impl Organization {
         key_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Key> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/organization/keys/{keyId}".to_string().replace("{keyId}", &key_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a key by its unique ID. Use this endpoint to update the name,
@@ -92,6 +98,7 @@ impl Organization {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/organization/keys/{keyId}".to_string().replace("{keyId}", &key_id.into().to_string());
 
@@ -131,10 +138,12 @@ impl Organization {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/organization/projects".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new project.
@@ -152,6 +161,7 @@ impl Organization {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/organization/projects".to_string();
 
@@ -180,6 +190,7 @@ impl Organization {
         params.insert("name".to_string(), json!(name.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/organization/projects/{projectId}".to_string().replace("{projectId}", &project_id.into().to_string());
 

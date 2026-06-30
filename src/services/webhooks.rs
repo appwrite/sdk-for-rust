@@ -34,10 +34,12 @@ impl Webhooks {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/webhooks".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new webhook. Use this endpoint to configure a URL that will
@@ -77,6 +79,7 @@ impl Webhooks {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/webhooks".to_string();
 
@@ -90,10 +93,12 @@ impl Webhooks {
         webhook_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Webhook> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/webhooks/{webhookId}".to_string().replace("{webhookId}", &webhook_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a webhook by its unique ID. Use this endpoint to update the URL,
@@ -128,6 +133,7 @@ impl Webhooks {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/webhooks/{webhookId}".to_string().replace("{webhookId}", &webhook_id.into().to_string());
 
@@ -163,6 +169,7 @@ impl Webhooks {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/webhooks/{webhookId}/secret".to_string().replace("{webhookId}", &webhook_id.into().to_string());
 

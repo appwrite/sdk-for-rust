@@ -38,10 +38,12 @@ impl TablesDB {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new Database.
@@ -50,6 +52,7 @@ impl TablesDB {
         database_id: impl Into<String>,
         name: impl Into<String>,
         enabled: Option<bool>,
+        dedicated_database_id: Option<&str>,
     ) -> crate::error::Result<crate::models::Database> {
         let mut params = HashMap::new();
         params.insert("databaseId".to_string(), json!(database_id.into()));
@@ -57,8 +60,12 @@ impl TablesDB {
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
         }
+        if let Some(value) = dedicated_database_id {
+            params.insert("dedicatedDatabaseId".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb".to_string();
 
@@ -74,10 +81,12 @@ impl TablesDB {
         if let Some(value) = queries {
             params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/transactions".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new transaction.
@@ -91,6 +100,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/transactions".to_string();
 
@@ -103,10 +113,12 @@ impl TablesDB {
         transaction_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Transaction> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/transactions/{transactionId}".to_string().replace("{transactionId}", &transaction_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a transaction, to either commit or roll back its operations.
@@ -125,6 +137,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/transactions/{transactionId}".to_string().replace("{transactionId}", &transaction_id.into().to_string());
 
@@ -157,6 +170,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/transactions/{transactionId}/operations".to_string().replace("{transactionId}", &transaction_id.into().to_string());
 
@@ -170,10 +184,12 @@ impl TablesDB {
         database_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Database> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}".to_string().replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a database by its unique ID.
@@ -192,6 +208,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}".to_string().replace("{databaseId}", &database_id.into().to_string());
 
@@ -232,10 +249,12 @@ impl TablesDB {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables".to_string().replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new Table. Before using this route, you should create a new
@@ -274,6 +293,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables".to_string().replace("{databaseId}", &database_id.into().to_string());
 
@@ -288,10 +308,12 @@ impl TablesDB {
         table_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Table> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a table by its unique ID.
@@ -324,6 +346,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -361,10 +384,12 @@ impl TablesDB {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a bigint column. Optionally, minimum and maximum values can be
@@ -398,6 +423,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/bigint".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -434,6 +460,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/bigint/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -461,6 +488,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/boolean".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -488,6 +516,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/boolean/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -515,6 +544,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/datetime".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -542,6 +572,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/datetime/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -569,6 +600,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/email".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -596,6 +628,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/email/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -627,6 +660,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/enum".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -657,6 +691,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/enum/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -694,6 +729,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/float".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -730,6 +766,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/float/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -767,6 +804,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/integer".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -803,6 +841,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/integer/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -830,6 +869,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/ip".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -857,6 +897,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/ip/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -870,16 +911,17 @@ impl TablesDB {
         table_id: impl Into<String>,
         key: impl Into<String>,
         required: bool,
-        default: Option<Vec<String>>,
+        default: Option<Vec<Vec<String>>>,
     ) -> crate::error::Result<crate::models::ColumnLine> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
-            params.insert("default".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert("default".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/line".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -894,19 +936,20 @@ impl TablesDB {
         table_id: impl Into<String>,
         key: impl Into<String>,
         required: bool,
-        default: Option<Vec<String>>,
+        default: Option<Vec<Vec<String>>>,
         new_key: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnLine> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
-            params.insert("default".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert("default".to_string(), json!(value));
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/line/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -939,6 +982,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/longtext".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -966,6 +1010,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/longtext/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -998,6 +1043,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1025,6 +1071,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1038,16 +1085,17 @@ impl TablesDB {
         table_id: impl Into<String>,
         key: impl Into<String>,
         required: bool,
-        default: Option<Vec<String>>,
+        default: Option<Vec<f64>>,
     ) -> crate::error::Result<crate::models::ColumnPoint> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
-            params.insert("default".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert("default".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/point".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1062,19 +1110,20 @@ impl TablesDB {
         table_id: impl Into<String>,
         key: impl Into<String>,
         required: bool,
-        default: Option<Vec<String>>,
+        default: Option<Vec<f64>>,
         new_key: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnPoint> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
-            params.insert("default".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert("default".to_string(), json!(value));
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/point/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1088,16 +1137,17 @@ impl TablesDB {
         table_id: impl Into<String>,
         key: impl Into<String>,
         required: bool,
-        default: Option<Vec<String>>,
+        default: Option<Vec<Vec<String>>>,
     ) -> crate::error::Result<crate::models::ColumnPolygon> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
-            params.insert("default".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert("default".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/polygon".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1112,19 +1162,20 @@ impl TablesDB {
         table_id: impl Into<String>,
         key: impl Into<String>,
         required: bool,
-        default: Option<Vec<String>>,
+        default: Option<Vec<Vec<String>>>,
         new_key: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnPolygon> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
-            params.insert("default".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert("default".to_string(), json!(value));
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/polygon/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1162,6 +1213,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/relationship".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1196,6 +1248,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/string".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1228,6 +1281,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/string/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1260,6 +1314,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/text".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1287,6 +1342,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/text/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1314,6 +1370,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/url".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1341,6 +1398,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/url/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1375,6 +1433,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/varchar".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1407,6 +1466,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/varchar/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1421,10 +1481,12 @@ impl TablesDB {
         key: impl Into<String>,
     ) -> crate::error::Result<serde_json::Value> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Deletes a column.
@@ -1462,6 +1524,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/{key}/relationship".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1483,10 +1546,12 @@ impl TablesDB {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Creates an index on the columns listed. Your index should include all the
@@ -1515,6 +1580,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1529,10 +1595,12 @@ impl TablesDB {
         key: impl Into<String>,
     ) -> crate::error::Result<crate::models::ColumnIndex> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete an index.
@@ -1575,10 +1643,12 @@ impl TablesDB {
         if let Some(value) = ttl {
             params.insert("ttl".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new Row. Before using this route, you should create a new table
@@ -1605,6 +1675,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1629,6 +1700,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1653,6 +1725,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1681,6 +1754,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1705,6 +1779,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
 
@@ -1728,10 +1803,12 @@ impl TablesDB {
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{rowId}", &row_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create or update a Row. Before using this route, you should create a new
@@ -1759,6 +1836,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{rowId}", &row_id.into().to_string());
 
@@ -1788,6 +1866,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{rowId}", &row_id.into().to_string());
 
@@ -1838,6 +1917,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/decrement".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{rowId}", &row_id.into().to_string()).replace("{column}", &column.into().to_string());
 
@@ -1868,6 +1948,7 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/increment".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{rowId}", &row_id.into().to_string()).replace("{column}", &column.into().to_string());
 

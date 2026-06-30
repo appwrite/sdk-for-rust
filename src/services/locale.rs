@@ -32,10 +32,12 @@ impl Locale {
         &self,
     ) -> crate::error::Result<crate::models::Locale> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/locale".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// List of all locale codes in [ISO
@@ -44,10 +46,12 @@ impl Locale {
         &self,
     ) -> crate::error::Result<crate::models::LocaleCodeList> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/locale/codes".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// List of all continents. You can use the locale header to get the data in a
@@ -56,10 +60,12 @@ impl Locale {
         &self,
     ) -> crate::error::Result<crate::models::ContinentList> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/locale/continents".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// List of all countries. You can use the locale header to get the data in a
@@ -68,10 +74,12 @@ impl Locale {
         &self,
     ) -> crate::error::Result<crate::models::CountryList> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/locale/countries".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// List of all countries that are currently members of the EU. You can use the
@@ -80,10 +88,12 @@ impl Locale {
         &self,
     ) -> crate::error::Result<crate::models::CountryList> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/locale/countries/eu".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// List of all countries phone codes. You can use the locale header to get the
@@ -92,10 +102,12 @@ impl Locale {
         &self,
     ) -> crate::error::Result<crate::models::PhoneList> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/locale/countries/phones".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// List of all currencies, including currency symbol, name, plural, and
@@ -105,10 +117,12 @@ impl Locale {
         &self,
     ) -> crate::error::Result<crate::models::CurrencyList> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/locale/currencies".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// List of all languages classified by ISO 639-1 including 2-letter code, name
@@ -117,10 +131,12 @@ impl Locale {
         &self,
     ) -> crate::error::Result<crate::models::LanguageList> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/locale/languages".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
 }

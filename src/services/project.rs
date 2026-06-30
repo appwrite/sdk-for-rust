@@ -57,6 +57,7 @@ impl Project {
         params.insert("enabled".to_string(), json!(enabled));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/auth-methods/{methodId}".to_string().replace("{methodId}", &method_id.to_string());
 
@@ -76,10 +77,12 @@ impl Project {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/keys".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new API key. It's recommended to have multiple API keys with
@@ -103,6 +106,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/keys".to_string();
 
@@ -124,6 +128,7 @@ impl Project {
         params.insert("duration".to_string(), json!(duration));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/keys/ephemeral".to_string();
 
@@ -136,10 +141,12 @@ impl Project {
         key_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Key> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/keys/{keyId}".to_string().replace("{keyId}", &key_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a key by its unique ID. Use this endpoint to update the name,
@@ -159,6 +166,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/keys/{keyId}".to_string().replace("{keyId}", &key_id.into().to_string());
 
@@ -190,6 +198,7 @@ impl Project {
         params.insert("labels".to_string(), json!(labels.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/labels".to_string();
 
@@ -210,10 +219,12 @@ impl Project {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/mock-phones".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new mock phone for your project. Use this endpoint to register a
@@ -228,6 +239,7 @@ impl Project {
         params.insert("otp".to_string(), json!(otp.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/mock-phones".to_string();
 
@@ -241,10 +253,12 @@ impl Project {
         number: impl Into<String>,
     ) -> crate::error::Result<crate::models::MockNumber> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/mock-phones/{number}".to_string().replace("{number}", &number.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a mock phone by its unique number. Use this endpoint to update the
@@ -258,6 +272,7 @@ impl Project {
         params.insert("otp".to_string(), json!(otp.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/mock-phones/{number}".to_string().replace("{number}", &number.into().to_string());
 
@@ -294,10 +309,12 @@ impl Project {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update the OAuth2 server (OIDC provider) configuration.
@@ -307,17 +324,25 @@ impl Project {
         enabled: bool,
         authorization_url: impl Into<String>,
         scopes: Option<Vec<String>>,
+        authorization_details_types: Option<Vec<String>>,
         access_token_duration: Option<i64>,
         refresh_token_duration: Option<i64>,
         public_access_token_duration: Option<i64>,
         public_refresh_token_duration: Option<i64>,
         confidential_pkce: Option<bool>,
+        verification_url: Option<&str>,
+        user_code_length: Option<i64>,
+        user_code_format: Option<&str>,
+        device_code_duration: Option<i64>,
     ) -> crate::error::Result<crate::models::Project> {
         let mut params = HashMap::new();
         params.insert("enabled".to_string(), json!(enabled));
         params.insert("authorizationUrl".to_string(), json!(authorization_url.into()));
         if let Some(value) = scopes {
             params.insert("scopes".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        }
+        if let Some(value) = authorization_details_types {
+            params.insert("authorizationDetailsTypes".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
         }
         if let Some(value) = access_token_duration {
             params.insert("accessTokenDuration".to_string(), json!(value));
@@ -334,8 +359,21 @@ impl Project {
         if let Some(value) = confidential_pkce {
             params.insert("confidentialPkce".to_string(), json!(value));
         }
+        if let Some(value) = verification_url {
+            params.insert("verificationUrl".to_string(), json!(value));
+        }
+        if let Some(value) = user_code_length {
+            params.insert("userCodeLength".to_string(), json!(value));
+        }
+        if let Some(value) = user_code_format {
+            params.insert("userCodeFormat".to_string(), json!(value));
+        }
+        if let Some(value) = device_code_duration {
+            params.insert("deviceCodeDuration".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2-server".to_string();
 
@@ -361,6 +399,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/amazon".to_string();
 
@@ -394,6 +433,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/apple".to_string();
 
@@ -423,6 +463,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/auth0".to_string();
 
@@ -452,6 +493,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/authentik".to_string();
 
@@ -477,6 +519,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/autodesk".to_string();
 
@@ -502,6 +545,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/bitbucket".to_string();
 
@@ -527,6 +571,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/bitly".to_string();
 
@@ -552,6 +597,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/box".to_string();
 
@@ -577,6 +623,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/dailymotion".to_string();
 
@@ -602,6 +649,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/discord".to_string();
 
@@ -627,6 +675,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/disqus".to_string();
 
@@ -652,6 +701,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/dropbox".to_string();
 
@@ -677,6 +727,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/etsy".to_string();
 
@@ -702,6 +753,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/facebook".to_string();
 
@@ -727,6 +779,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/figma".to_string();
 
@@ -756,6 +809,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/fusionauth".to_string();
 
@@ -781,6 +835,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/github".to_string();
 
@@ -810,6 +865,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/gitlab".to_string();
 
@@ -839,6 +895,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/google".to_string();
 
@@ -872,6 +929,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/keycloak".to_string();
 
@@ -897,6 +955,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/kick".to_string();
 
@@ -922,6 +981,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/linkedin".to_string();
 
@@ -951,6 +1011,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/microsoft".to_string();
 
@@ -976,6 +1037,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/notion".to_string();
 
@@ -1018,6 +1080,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/oidc".to_string();
 
@@ -1051,6 +1114,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/okta".to_string();
 
@@ -1076,6 +1140,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/paypal".to_string();
 
@@ -1101,6 +1166,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/paypalSandbox".to_string();
 
@@ -1126,6 +1192,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/podio".to_string();
 
@@ -1151,6 +1218,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/salesforce".to_string();
 
@@ -1176,6 +1244,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/slack".to_string();
 
@@ -1201,6 +1270,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/spotify".to_string();
 
@@ -1226,6 +1296,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/stripe".to_string();
 
@@ -1251,6 +1322,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/tradeshift".to_string();
 
@@ -1276,6 +1348,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/tradeshiftBox".to_string();
 
@@ -1301,6 +1374,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/twitch".to_string();
 
@@ -1326,6 +1400,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/wordpress".to_string();
 
@@ -1351,6 +1426,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/x".to_string();
 
@@ -1376,6 +1452,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/yahoo".to_string();
 
@@ -1401,6 +1478,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/yandex".to_string();
 
@@ -1426,6 +1504,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/zoho".to_string();
 
@@ -1451,6 +1530,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/zoom".to_string();
 
@@ -1464,10 +1544,12 @@ impl Project {
         provider_id: crate::enums::ProjectOAuthProviderId,
     ) -> crate::error::Result<serde_json::Value> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/{providerId}".to_string().replace("{providerId}", &provider_id.to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get a list of all platforms in the project. This endpoint returns an array
@@ -1484,10 +1566,12 @@ impl Project {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new Android platform for your project. Use this endpoint to
@@ -1505,6 +1589,7 @@ impl Project {
         params.insert("applicationId".to_string(), json!(application_id.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms/android".to_string();
 
@@ -1524,6 +1609,7 @@ impl Project {
         params.insert("applicationId".to_string(), json!(application_id.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms/android/{platformId}".to_string().replace("{platformId}", &platform_id.into().to_string());
 
@@ -1545,6 +1631,7 @@ impl Project {
         params.insert("bundleIdentifier".to_string(), json!(bundle_identifier.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms/apple".to_string();
 
@@ -1564,6 +1651,7 @@ impl Project {
         params.insert("bundleIdentifier".to_string(), json!(bundle_identifier.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms/apple/{platformId}".to_string().replace("{platformId}", &platform_id.into().to_string());
 
@@ -1585,6 +1673,7 @@ impl Project {
         params.insert("packageName".to_string(), json!(package_name.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms/linux".to_string();
 
@@ -1604,6 +1693,7 @@ impl Project {
         params.insert("packageName".to_string(), json!(package_name.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms/linux/{platformId}".to_string().replace("{platformId}", &platform_id.into().to_string());
 
@@ -1625,6 +1715,7 @@ impl Project {
         params.insert("hostname".to_string(), json!(hostname.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms/web".to_string();
 
@@ -1644,6 +1735,7 @@ impl Project {
         params.insert("hostname".to_string(), json!(hostname.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms/web/{platformId}".to_string().replace("{platformId}", &platform_id.into().to_string());
 
@@ -1665,6 +1757,7 @@ impl Project {
         params.insert("packageIdentifierName".to_string(), json!(package_identifier_name.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms/windows".to_string();
 
@@ -1684,6 +1777,7 @@ impl Project {
         params.insert("packageIdentifierName".to_string(), json!(package_identifier_name.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms/windows/{platformId}".to_string().replace("{platformId}", &platform_id.into().to_string());
 
@@ -1697,10 +1791,12 @@ impl Project {
         platform_id: impl Into<String>,
     ) -> crate::error::Result<serde_json::Value> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms/{platformId}".to_string().replace("{platformId}", &platform_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete a platform by its unique ID. This endpoint removes the platform and
@@ -1731,10 +1827,12 @@ impl Project {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Configures if aliased emails such as subaddresses and emails with suffixes
@@ -1747,8 +1845,26 @@ impl Project {
         params.insert("enabled".to_string(), json!(enabled));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/deny-aliased-email".to_string();
+
+        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Configures if only corporate email addresses (non-free and non-disposable
+    /// domains) are allowed during new user sign-ups and email updates.
+    pub async fn update_deny_corporate_email_policy(
+        &self,
+        enabled: bool,
+    ) -> crate::error::Result<crate::models::Project> {
+        let mut params = HashMap::new();
+        params.insert("enabled".to_string(), json!(enabled));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/policies/deny-corporate-email".to_string();
 
         self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
     }
@@ -1763,6 +1879,7 @@ impl Project {
         params.insert("enabled".to_string(), json!(enabled));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/deny-disposable-email".to_string();
 
@@ -1779,6 +1896,7 @@ impl Project {
         params.insert("enabled".to_string(), json!(enabled));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/deny-free-email".to_string();
 
@@ -1795,6 +1913,7 @@ impl Project {
         user_phone: Option<bool>,
         user_name: Option<bool>,
         user_mfa: Option<bool>,
+        user_accessed_at: Option<bool>,
     ) -> crate::error::Result<crate::models::Project> {
         let mut params = HashMap::new();
         if let Some(value) = user_id {
@@ -1812,8 +1931,12 @@ impl Project {
         if let Some(value) = user_mfa {
             params.insert("userMFA".to_string(), json!(value));
         }
+        if let Some(value) = user_accessed_at {
+            params.insert("userAccessedAt".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/membership-privacy".to_string();
 
@@ -1831,6 +1954,7 @@ impl Project {
         params.insert("enabled".to_string(), json!(enabled));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/password-dictionary".to_string();
 
@@ -1856,6 +1980,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/password-history".to_string();
 
@@ -1874,6 +1999,7 @@ impl Project {
         params.insert("enabled".to_string(), json!(enabled));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/password-personal-data".to_string();
 
@@ -1907,6 +2033,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/password-strength".to_string();
 
@@ -1926,6 +2053,7 @@ impl Project {
         params.insert("enabled".to_string(), json!(enabled));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/session-alert".to_string();
 
@@ -1942,6 +2070,7 @@ impl Project {
         params.insert("duration".to_string(), json!(duration));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/session-duration".to_string();
 
@@ -1959,6 +2088,7 @@ impl Project {
         params.insert("enabled".to_string(), json!(enabled));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/session-invalidation".to_string();
 
@@ -1977,6 +2107,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/session-limit".to_string();
 
@@ -1996,6 +2127,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/user-limit".to_string();
 
@@ -2009,10 +2141,12 @@ impl Project {
         policy_id: crate::enums::ProjectPolicyId,
     ) -> crate::error::Result<serde_json::Value> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/{policyId}".to_string().replace("{policyId}", &policy_id.to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update properties of a specific protocol. Use this endpoint to enable or
@@ -2026,6 +2160,7 @@ impl Project {
         params.insert("enabled".to_string(), json!(enabled));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/protocols/{protocolId}".to_string().replace("{protocolId}", &protocol_id.to_string());
 
@@ -2043,6 +2178,7 @@ impl Project {
         params.insert("enabled".to_string(), json!(enabled));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/services/{serviceId}".to_string().replace("{serviceId}", &service_id.to_string());
 
@@ -2099,6 +2235,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/smtp".to_string();
 
@@ -2135,10 +2272,12 @@ impl Project {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/templates/email".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a custom email template for the specified locale and type. Use this
@@ -2180,6 +2319,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/templates/email".to_string();
 
@@ -2198,10 +2338,12 @@ impl Project {
         if let Some(value) = locale {
             params.insert("locale".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/templates/email/{templateId}".to_string().replace("{templateId}", &template_id.to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get a list of all project environment variables.
@@ -2217,10 +2359,12 @@ impl Project {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/variables".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new project environment variable. These variables can be accessed
@@ -2241,6 +2385,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/variables".to_string();
 
@@ -2253,10 +2398,12 @@ impl Project {
         variable_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Variable> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/variables/{variableId}".to_string().replace("{variableId}", &variable_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update variable by its unique ID.
@@ -2279,6 +2426,7 @@ impl Project {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/variables/{variableId}".to_string().replace("{variableId}", &variable_id.into().to_string());
 

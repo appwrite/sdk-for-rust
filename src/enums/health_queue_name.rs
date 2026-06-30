@@ -29,6 +29,8 @@ pub enum HealthQueueName {
     V1Messaging,
     #[serde(rename = "v1-migrations")]
     V1Migrations,
+    #[serde(rename = "v1-notifications")]
+    V1Notifications,
 }
 
 impl HealthQueueName {
@@ -48,6 +50,7 @@ impl HealthQueueName {
             HealthQueueName::V1Screenshots => "v1-screenshots",
             HealthQueueName::V1Messaging => "v1-messaging",
             HealthQueueName::V1Migrations => "v1-migrations",
+            HealthQueueName::V1Notifications => "v1-notifications",
         }
     }
 }

@@ -11,7 +11,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let functions = Functions::new(&client);
 
-    let result = functions.list_specifications().await?;
+    let result = functions.list_specifications(
+        Some("runtimes") // optional
+    ).await?;
 
     let _ = result;
 

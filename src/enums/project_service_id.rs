@@ -39,6 +39,8 @@ pub enum ProjectServiceId {
     Messaging,
     #[serde(rename = "advisor")]
     Advisor,
+    #[serde(rename = "oauth2")]
+    Oauth2,
 }
 
 impl ProjectServiceId {
@@ -63,6 +65,7 @@ impl ProjectServiceId {
             ProjectServiceId::Migrations => "migrations",
             ProjectServiceId::Messaging => "messaging",
             ProjectServiceId::Advisor => "advisor",
+            ProjectServiceId::Oauth2 => "oauth2",
         }
     }
 }

@@ -39,10 +39,12 @@ impl Sites {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new site.
@@ -137,6 +139,7 @@ impl Sites {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites".to_string();
 
@@ -149,21 +152,29 @@ impl Sites {
         &self,
     ) -> crate::error::Result<crate::models::FrameworkList> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/frameworks".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// List allowed site specifications for this instance.
     pub async fn list_specifications(
         &self,
+        r#type: Option<&str>,
     ) -> crate::error::Result<crate::models::SpecificationList> {
-        let params = HashMap::new();
+        let mut params = HashMap::new();
+        if let Some(value) = r#type {
+            params.insert("type".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/specifications".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get a site by its unique ID.
@@ -172,10 +183,12 @@ impl Sites {
         site_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Site> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}".to_string().replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update site by its unique ID.
@@ -271,6 +284,7 @@ impl Sites {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}".to_string().replace("{siteId}", &site_id.into().to_string());
 
@@ -302,6 +316,7 @@ impl Sites {
         params.insert("deploymentId".to_string(), json!(deployment_id.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/deployment".to_string().replace("{siteId}", &site_id.into().to_string());
 
@@ -327,10 +342,12 @@ impl Sites {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/deployments".to_string().replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new site code deployment. Use this endpoint to upload a new
@@ -360,6 +377,7 @@ impl Sites {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "multipart/form-data".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/deployments".to_string().replace("{siteId}", &site_id.into().to_string());
 
@@ -380,6 +398,7 @@ impl Sites {
         params.insert("deploymentId".to_string(), json!(deployment_id.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/deployments/duplicate".to_string().replace("{siteId}", &site_id.into().to_string());
 
@@ -413,6 +432,7 @@ impl Sites {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/deployments/template".to_string().replace("{siteId}", &site_id.into().to_string());
 
@@ -437,6 +457,7 @@ impl Sites {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/deployments/vcs".to_string().replace("{siteId}", &site_id.into().to_string());
 
@@ -450,10 +471,12 @@ impl Sites {
         deployment_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Deployment> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/deployments/{deploymentId}".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{deploymentId}", &deployment_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete a site deployment by its unique ID.
@@ -484,10 +507,12 @@ impl Sites {
         if let Some(value) = r#type {
             params.insert("type".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "*/*".to_string());
 
         let path = "/sites/{siteId}/deployments/{deploymentId}/download".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{deploymentId}", &deployment_id.into().to_string());
 
-        self.client.call_bytes(Method::GET, &path, None, Some(params)).await
+        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Cancel an ongoing site deployment build. If the build is already in
@@ -503,6 +528,7 @@ impl Sites {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/deployments/{deploymentId}/status".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{deploymentId}", &deployment_id.into().to_string());
 
@@ -524,10 +550,12 @@ impl Sites {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/logs".to_string().replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get a site request log by its unique ID.
@@ -537,10 +565,12 @@ impl Sites {
         log_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Execution> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/logs/{logId}".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{logId}", &log_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete a site log by its unique ID.
@@ -548,10 +578,11 @@ impl Sites {
         &self,
         site_id: impl Into<String>,
         log_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    ) -> crate::error::Result<serde_json::Value> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/logs/{logId}".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{logId}", &log_id.into().to_string());
 
@@ -572,10 +603,12 @@ impl Sites {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/variables".to_string().replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new site variable. These variables can be accessed during build
@@ -597,6 +630,7 @@ impl Sites {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/variables".to_string().replace("{siteId}", &site_id.into().to_string());
 
@@ -610,10 +644,12 @@ impl Sites {
         variable_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Variable> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/variables/{variableId}".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{variableId}", &variable_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update variable by its unique ID.
@@ -637,6 +673,7 @@ impl Sites {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/{siteId}/variables/{variableId}".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{variableId}", &variable_id.into().to_string());
 

@@ -11,10 +11,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let sites = Sites::new(&client);
 
-    sites.delete_log(
+    let result = sites.delete_log(
         "<SITE_ID>",
         "<LOG_ID>"
     ).await?;
+
+    let _ = result;
 
     Ok(())
 }

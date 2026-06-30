@@ -27,10 +27,12 @@ impl Health {
         &self,
     ) -> crate::error::Result<crate::models::HealthStatus> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Check the Appwrite Antivirus server is up and connection is successful.
@@ -38,10 +40,12 @@ impl Health {
         &self,
     ) -> crate::error::Result<crate::models::HealthAntivirus> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/anti-virus".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Check the database that backs the audit and activity store. When the
@@ -51,10 +55,12 @@ impl Health {
         &self,
     ) -> crate::error::Result<crate::models::HealthStatusList> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/audits-db".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Check the Appwrite in-memory cache servers are up and connection is
@@ -63,10 +69,12 @@ impl Health {
         &self,
     ) -> crate::error::Result<crate::models::HealthStatusList> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/cache".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the SSL certificate for a domain
@@ -78,10 +86,12 @@ impl Health {
         if let Some(value) = domain {
             params.insert("domain".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/certificate".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get console pausing health status. Monitors projects approaching the pause
@@ -98,10 +108,12 @@ impl Health {
         if let Some(value) = inactivity_days {
             params.insert("inactivityDays".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/console-pausing".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Check the Appwrite database servers are up and connection is successful.
@@ -109,10 +121,12 @@ impl Health {
         &self,
     ) -> crate::error::Result<crate::models::HealthStatusList> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/db".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Check the Appwrite pub-sub servers are up and connection is successful.
@@ -120,10 +134,12 @@ impl Health {
         &self,
     ) -> crate::error::Result<crate::models::HealthStatusList> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/pubsub".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the number of audit logs that are waiting to be processed in the
@@ -136,10 +152,12 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/audits".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the number of builds that are waiting to be processed in the Appwrite
@@ -152,10 +170,12 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/builds".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the number of certificates that are waiting to be issued against
@@ -169,10 +189,12 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/certificates".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the number of database changes that are waiting to be processed in the
@@ -189,10 +211,12 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/databases".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the number of background destructive changes that are waiting to be
@@ -205,10 +229,12 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/deletes".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Returns the amount of failed jobs in a given queue.
@@ -221,10 +247,12 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/failed/{name}".to_string().replace("{name}", &name.to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the number of function executions that are waiting to be processed in
@@ -237,10 +265,12 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/functions".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the number of logs that are waiting to be processed in the Appwrite
@@ -253,10 +283,12 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/logs".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the number of mails that are waiting to be processed in the Appwrite
@@ -269,10 +301,12 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/mails".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the number of messages that are waiting to be processed in the Appwrite
@@ -285,10 +319,12 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/messaging".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the number of migrations that are waiting to be processed in the
@@ -301,10 +337,29 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/migrations".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Get the number of jobs in the notifications queue.
+    pub async fn get_queue_notifications(
+        &self,
+        threshold: Option<i64>,
+    ) -> crate::error::Result<crate::models::HealthQueue> {
+        let mut params = HashMap::new();
+        if let Some(value) = threshold {
+            params.insert("threshold".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/health/queue/notifications".to_string();
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the number of metrics that are waiting to be processed in the Appwrite
@@ -317,10 +372,12 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/stats-resources".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the number of metrics that are waiting to be processed in the Appwrite
@@ -333,10 +390,12 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/stats-usage".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the number of webhooks that are waiting to be processed in the Appwrite
@@ -349,10 +408,12 @@ impl Health {
         if let Some(value) = threshold {
             params.insert("threshold".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/queue/webhooks".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Check the Appwrite storage device is up and connection is successful.
@@ -360,10 +421,12 @@ impl Health {
         &self,
     ) -> crate::error::Result<crate::models::HealthStatus> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/storage".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Check the Appwrite local storage device is up and connection is successful.
@@ -371,10 +434,12 @@ impl Health {
         &self,
     ) -> crate::error::Result<crate::models::HealthStatus> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/storage/local".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Check the Appwrite server time is synced with Google remote NTP server. We
@@ -388,10 +453,12 @@ impl Health {
         &self,
     ) -> crate::error::Result<crate::models::HealthTime> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/health/time".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
 }

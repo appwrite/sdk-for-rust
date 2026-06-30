@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = account.create(
         "<USER_ID>",
         "email@example.com",
-        "",
+        "password",
         Some("<NAME>") // optional
     ).await?;
 

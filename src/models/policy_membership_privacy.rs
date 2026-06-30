@@ -24,6 +24,9 @@ pub struct PolicyMembershipPrivacy {
     /// Whether user MFA status is visible in memberships.
     #[serde(rename = "userMFA")]
     pub user_mfa: bool,
+    /// Whether user last access time is visible in memberships.
+    #[serde(rename = "userAccessedAt")]
+    pub user_accessed_at: bool,
 }
 
 impl PolicyMembershipPrivacy {
@@ -57,6 +60,11 @@ impl PolicyMembershipPrivacy {
         &self.user_mfa
     }
 
+    /// Get user_accessed_at
+    pub fn user_accessed_at(&self) -> &bool {
+        &self.user_accessed_at
+    }
+
 }
 
 #[cfg(test)]
@@ -72,6 +80,7 @@ mod tests {
         let _ = _model.user_phone();
         let _ = _model.user_name();
         let _ = _model.user_mfa();
+        let _ = _model.user_accessed_at();
     }
 
     #[test]

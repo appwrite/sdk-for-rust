@@ -13,7 +13,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = users.update_password(
         "<USER_ID>",
-        ""
+        "password"
     ).await?;
 
     let _ = result;

@@ -51,6 +51,26 @@ pub struct User {
     /// Email verification status.
     #[serde(rename = "emailVerification")]
     pub email_verification: bool,
+    /// Canonical form of the user email address.
+    #[serde(rename = "emailCanonical")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub email_canonical: Option<String>,
+    /// Whether the user email is from a free email provider.
+    #[serde(rename = "emailIsFree")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub email_is_free: Option<bool>,
+    /// Whether the user email is from a disposable email provider.
+    #[serde(rename = "emailIsDisposable")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub email_is_disposable: Option<bool>,
+    /// Whether the user email is from a corporate domain.
+    #[serde(rename = "emailIsCorporate")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub email_is_corporate: Option<bool>,
+    /// Whether the user email is in its canonical form.
+    #[serde(rename = "emailIsCanonical")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub email_is_canonical: Option<bool>,
     /// Phone verification status.
     #[serde(rename = "phoneVerification")]
     pub phone_verification: bool,
@@ -168,6 +188,61 @@ impl User {
     /// Get email_verification
     pub fn email_verification(&self) -> &bool {
         &self.email_verification
+    }
+
+    /// Set email_canonical
+    pub fn set_email_canonical(mut self, email_canonical: String) -> Self {
+        self.email_canonical = Some(email_canonical);
+        self
+    }
+
+    /// Get email_canonical
+    pub fn email_canonical(&self) -> Option<&String> {
+        self.email_canonical.as_ref()
+    }
+
+    /// Set email_is_free
+    pub fn set_email_is_free(mut self, email_is_free: bool) -> Self {
+        self.email_is_free = Some(email_is_free);
+        self
+    }
+
+    /// Get email_is_free
+    pub fn email_is_free(&self) -> Option<&bool> {
+        self.email_is_free.as_ref()
+    }
+
+    /// Set email_is_disposable
+    pub fn set_email_is_disposable(mut self, email_is_disposable: bool) -> Self {
+        self.email_is_disposable = Some(email_is_disposable);
+        self
+    }
+
+    /// Get email_is_disposable
+    pub fn email_is_disposable(&self) -> Option<&bool> {
+        self.email_is_disposable.as_ref()
+    }
+
+    /// Set email_is_corporate
+    pub fn set_email_is_corporate(mut self, email_is_corporate: bool) -> Self {
+        self.email_is_corporate = Some(email_is_corporate);
+        self
+    }
+
+    /// Get email_is_corporate
+    pub fn email_is_corporate(&self) -> Option<&bool> {
+        self.email_is_corporate.as_ref()
+    }
+
+    /// Set email_is_canonical
+    pub fn set_email_is_canonical(mut self, email_is_canonical: bool) -> Self {
+        self.email_is_canonical = Some(email_is_canonical);
+        self
+    }
+
+    /// Get email_is_canonical
+    pub fn email_is_canonical(&self) -> Option<&bool> {
+        self.email_is_canonical.as_ref()
     }
 
     /// Get phone_verification

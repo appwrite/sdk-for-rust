@@ -11,7 +11,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let sites = Sites::new(&client);
 
-    let result = sites.list_specifications().await?;
+    let result = sites.list_specifications(
+        Some("runtimes") // optional
+    ).await?;
 
     let _ = result;
 

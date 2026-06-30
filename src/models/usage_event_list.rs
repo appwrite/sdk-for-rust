@@ -2,27 +2,29 @@
 
 use serde::{Deserialize, Serialize};
 
-/// Usage events list
+/// usageEventList
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(test, derive(Default))]
 pub struct UsageEventList {
-    /// Total number of events that matched your query.
-    #[serde(rename = "total")]
-    pub total: i64,
-    /// List of events.
-    #[serde(rename = "events")]
-    pub events: Vec<crate::models::UsageEvent>,
+    /// Time interval size (1h or 1d). Empty when the request omits `interval` —
+    /// points then carry the request end time as their as-of marker.
+    #[serde(rename = "interval")]
+    pub interval: String,
+    /// One entry per requested metric, each carrying its own points[] time series
+    /// (sums per bucket / dimension over time).
+    #[serde(rename = "metrics")]
+    pub metrics: Vec<crate::models::UsageMetric>,
 }
 
 impl UsageEventList {
-    /// Get total
-    pub fn total(&self) -> &i64 {
-        &self.total
+    /// Get interval
+    pub fn interval(&self) -> &String {
+        &self.interval
     }
 
-    /// Get events
-    pub fn events(&self) -> &Vec<crate::models::UsageEvent> {
-        &self.events
+    /// Get metrics
+    pub fn metrics(&self) -> &Vec<crate::models::UsageMetric> {
+        &self.metrics
     }
 
 }
@@ -34,8 +36,8 @@ mod tests {
     #[test]
     fn test_usage_event_list_creation() {
         let _model = <UsageEventList as Default>::default();
-        let _ = _model.total();
-        let _ = _model.events();
+        let _ = _model.interval();
+        let _ = _model.metrics();
     }
 
     #[test]
