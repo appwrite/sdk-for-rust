@@ -29,10 +29,12 @@ impl Activities {
         if let Some(value) = queries {
             params.insert("queries".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/activities/events".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get event by ID.
@@ -41,10 +43,12 @@ impl Activities {
         event_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::ActivityEvent> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/activities/events/{eventId}".to_string().replace("{eventId}", &event_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
 }

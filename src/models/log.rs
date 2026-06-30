@@ -25,7 +25,7 @@ pub struct Log {
     #[serde(rename = "mode")]
     pub mode: String,
     /// User type who triggered the audit log. Possible values: user, admin, guest,
-    /// keyProject, keyAccount, keyOrganization.
+    /// hidden, keyProject, keyAccount, keyOrganization.
     #[serde(rename = "userType")]
     pub user_type: String,
     /// IP session in use when the session was created.

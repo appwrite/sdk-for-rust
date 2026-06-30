@@ -36,10 +36,12 @@ impl Proxy {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/proxy/rules".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new proxy rule for serving Appwrite's API on custom domain.
@@ -54,6 +56,7 @@ impl Proxy {
         params.insert("domain".to_string(), json!(domain.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/proxy/rules/api".to_string();
 
@@ -78,6 +81,7 @@ impl Proxy {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/proxy/rules/function".to_string();
 
@@ -105,6 +109,7 @@ impl Proxy {
         params.insert("resourceType".to_string(), json!(resource_type));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/proxy/rules/redirect".to_string();
 
@@ -129,6 +134,7 @@ impl Proxy {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/proxy/rules/site".to_string();
 
@@ -141,10 +147,12 @@ impl Proxy {
         rule_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::ProxyRule> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/proxy/rules/{ruleId}".to_string().replace("{ruleId}", &rule_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete a proxy rule by its unique ID.
@@ -172,6 +180,7 @@ impl Proxy {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/proxy/rules/{ruleId}/status".to_string().replace("{ruleId}", &rule_id.into().to_string());
 

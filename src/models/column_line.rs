@@ -37,7 +37,7 @@ pub struct ColumnLine {
     /// required.
     #[serde(rename = "default")]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub default: Option<Vec<String>>,
+    pub default: Option<Vec<Vec<f64>>>,
 }
 
 impl ColumnLine {
@@ -88,13 +88,13 @@ impl ColumnLine {
     }
 
     /// Set default
-    pub fn set_default(mut self, default: Vec<String>) -> Self {
+    pub fn set_default(mut self, default: Vec<Vec<f64>>) -> Self {
         self.default = Some(default);
         self
     }
 
     /// Get default
-    pub fn default(&self) -> Option<&Vec<String>> {
+    pub fn default(&self) -> Option<&Vec<Vec<f64>>> {
         self.default.as_ref()
     }
 

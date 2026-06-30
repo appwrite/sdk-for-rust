@@ -1,6 +1,6 @@
 ```rust
 use appwrite::Client;
-use appwrite::services::Backups;
+use appwrite::services::Health;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -9,10 +9,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     client.set_project("<YOUR_PROJECT_ID>"); // Your project ID
     client.set_key("<YOUR_API_KEY>"); // Your secret API key
 
-    let backups = Backups::new(&client);
+    let health = Health::new(&client);
 
-    let result = backups.delete_policy(
-        "<POLICY_ID>"
+    let result = health.get_queue_notifications(
+        Some(0) // optional
     ).await?;
 
     let _ = result;

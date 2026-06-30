@@ -40,10 +40,12 @@ impl Databases {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new Database.
@@ -61,6 +63,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases".to_string();
 
@@ -76,10 +79,12 @@ impl Databases {
         if let Some(value) = queries {
             params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/transactions".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new transaction.
@@ -93,6 +98,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/transactions".to_string();
 
@@ -105,10 +111,12 @@ impl Databases {
         transaction_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Transaction> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/transactions/{transactionId}".to_string().replace("{transactionId}", &transaction_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a transaction, to either commit or roll back its operations.
@@ -127,6 +135,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/transactions/{transactionId}".to_string().replace("{transactionId}", &transaction_id.into().to_string());
 
@@ -159,6 +168,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/transactions/{transactionId}/operations".to_string().replace("{transactionId}", &transaction_id.into().to_string());
 
@@ -172,10 +182,12 @@ impl Databases {
         database_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Database> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}".to_string().replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a database by its unique ID.
@@ -194,6 +206,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}".to_string().replace("{databaseId}", &database_id.into().to_string());
 
@@ -234,10 +247,12 @@ impl Databases {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections".to_string().replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new Collection. Before using this route, you should create a new
@@ -276,6 +291,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections".to_string().replace("{databaseId}", &database_id.into().to_string());
 
@@ -290,10 +306,12 @@ impl Databases {
         collection_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Collection> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a collection by its unique ID.
@@ -326,6 +344,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -363,10 +382,12 @@ impl Databases {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a bigint attribute. Optionally, minimum and maximum values can be
@@ -400,6 +421,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/bigint".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -436,6 +458,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/bigint/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -463,6 +486,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/boolean".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -490,6 +514,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/boolean/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -517,6 +542,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/datetime".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -544,6 +570,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/datetime/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -571,6 +598,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/email".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -598,6 +626,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/email/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -629,6 +658,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/enum".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -659,6 +689,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/enum/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -696,6 +727,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/float".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -732,6 +764,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/float/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -769,6 +802,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/integer".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -805,6 +839,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/integer/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -832,6 +867,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/ip".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -859,6 +895,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/ip/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -872,16 +909,17 @@ impl Databases {
         collection_id: impl Into<String>,
         key: impl Into<String>,
         required: bool,
-        default: Option<Vec<String>>,
+        default: Option<Vec<Vec<String>>>,
     ) -> crate::error::Result<crate::models::AttributeLine> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
-            params.insert("default".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert("default".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/line".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -896,19 +934,20 @@ impl Databases {
         collection_id: impl Into<String>,
         key: impl Into<String>,
         required: bool,
-        default: Option<Vec<String>>,
+        default: Option<Vec<Vec<String>>>,
         new_key: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeLine> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
-            params.insert("default".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert("default".to_string(), json!(value));
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/line/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -941,6 +980,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/longtext".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -968,6 +1008,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/longtext/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1000,6 +1041,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1027,6 +1069,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1040,16 +1083,17 @@ impl Databases {
         collection_id: impl Into<String>,
         key: impl Into<String>,
         required: bool,
-        default: Option<Vec<String>>,
+        default: Option<Vec<f64>>,
     ) -> crate::error::Result<crate::models::AttributePoint> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
-            params.insert("default".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert("default".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/point".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1064,19 +1108,20 @@ impl Databases {
         collection_id: impl Into<String>,
         key: impl Into<String>,
         required: bool,
-        default: Option<Vec<String>>,
+        default: Option<Vec<f64>>,
         new_key: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributePoint> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
-            params.insert("default".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert("default".to_string(), json!(value));
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/point/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1090,16 +1135,17 @@ impl Databases {
         collection_id: impl Into<String>,
         key: impl Into<String>,
         required: bool,
-        default: Option<Vec<String>>,
+        default: Option<Vec<Vec<String>>>,
     ) -> crate::error::Result<crate::models::AttributePolygon> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
-            params.insert("default".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert("default".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/polygon".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1114,19 +1160,20 @@ impl Databases {
         collection_id: impl Into<String>,
         key: impl Into<String>,
         required: bool,
-        default: Option<Vec<String>>,
+        default: Option<Vec<Vec<String>>>,
         new_key: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributePolygon> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
-            params.insert("default".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert("default".to_string(), json!(value));
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/polygon/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1164,6 +1211,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/relationship".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1189,6 +1237,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/relationship/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1223,6 +1272,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/string".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1255,6 +1305,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/string/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1287,6 +1338,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/text".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1314,6 +1366,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/text/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1341,6 +1394,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/url".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1368,6 +1422,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/url/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1402,6 +1457,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/varchar".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1434,6 +1490,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/varchar/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
@@ -1448,10 +1505,12 @@ impl Databases {
         key: impl Into<String>,
     ) -> crate::error::Result<serde_json::Value> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Deletes an attribute.
@@ -1494,10 +1553,12 @@ impl Databases {
         if let Some(value) = ttl {
             params.insert("ttl".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new Document. Before using this route, you should create a new
@@ -1524,6 +1585,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1548,6 +1610,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1572,6 +1635,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1601,6 +1665,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1625,6 +1690,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1648,10 +1714,12 @@ impl Databases {
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{documentId}", &document_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create or update a Document. Before using this route, you should create a
@@ -1679,6 +1747,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{documentId}", &document_id.into().to_string());
 
@@ -1708,6 +1777,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{documentId}", &document_id.into().to_string());
 
@@ -1758,6 +1828,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/decrement".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{documentId}", &document_id.into().to_string()).replace("{attribute}", &attribute.into().to_string());
 
@@ -1788,6 +1859,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/increment".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{documentId}", &document_id.into().to_string()).replace("{attribute}", &attribute.into().to_string());
 
@@ -1809,10 +1881,12 @@ impl Databases {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/indexes".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Creates an index on the attributes listed. Your index should include all
@@ -1841,6 +1915,7 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/indexes".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
 
@@ -1855,10 +1930,12 @@ impl Databases {
         key: impl Into<String>,
     ) -> crate::error::Result<crate::models::Index> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/{databaseId}/collections/{collectionId}/indexes/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete an index.

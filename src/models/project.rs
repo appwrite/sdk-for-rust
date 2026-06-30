@@ -70,6 +70,10 @@ pub struct Project {
     /// Project status
     #[serde(rename = "status")]
     pub status: String,
+    /// Stage progress (completed or skipped) with timestamps and actor types,
+    /// keyed by stage id.
+    #[serde(rename = "onboarding")]
+    pub onboarding: serde_json::Value,
     /// List of auth methods.
     #[serde(rename = "authMethods")]
     pub auth_methods: Vec<crate::models::ProjectAuthMethod>,
@@ -92,35 +96,67 @@ pub struct Project {
     pub billing_limits: Option<crate::models::BillingLimits>,
     /// OAuth2 server status
     #[serde(rename = "oAuth2ServerEnabled")]
-    pub o_auth2_server_enabled: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_enabled: Option<bool>,
     /// OAuth2 server authorization URL
     #[serde(rename = "oAuth2ServerAuthorizationUrl")]
-    pub o_auth2_server_authorization_url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_authorization_url: Option<String>,
     /// OAuth2 server allowed scopes
     #[serde(rename = "oAuth2ServerScopes")]
-    pub o_auth2_server_scopes: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_scopes: Option<Vec<String>>,
+    /// OAuth2 server accepted RFC 9396 authorization_details types
+    #[serde(rename = "oAuth2ServerAuthorizationDetailsTypes")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_authorization_details_types: Option<Vec<String>>,
     /// OAuth2 server access token duration in seconds for confidential clients
     #[serde(rename = "oAuth2ServerAccessTokenDuration")]
-    pub o_auth2_server_access_token_duration: i64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_access_token_duration: Option<i64>,
     /// OAuth2 server refresh token duration in seconds for confidential clients
     #[serde(rename = "oAuth2ServerRefreshTokenDuration")]
-    pub o_auth2_server_refresh_token_duration: i64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_refresh_token_duration: Option<i64>,
     /// OAuth2 server access token duration in seconds for public clients (SPAs,
     /// mobile, native)
     #[serde(rename = "oAuth2ServerPublicAccessTokenDuration")]
-    pub o_auth2_server_public_access_token_duration: i64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_public_access_token_duration: Option<i64>,
     /// OAuth2 server refresh token duration in seconds for public clients (SPAs,
     /// mobile, native)
     #[serde(rename = "oAuth2ServerPublicRefreshTokenDuration")]
-    pub o_auth2_server_public_refresh_token_duration: i64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_public_refresh_token_duration: Option<i64>,
     /// When enabled, PKCE is required for confidential clients (server-side flows
     /// using client_secret). PKCE is always required for public clients regardless
     /// of this setting.
     #[serde(rename = "oAuth2ServerConfidentialPkce")]
-    pub o_auth2_server_confidential_pkce: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_confidential_pkce: Option<bool>,
+    /// URL to your application page where users enter the device flow user code.
+    /// Empty when the Device Authorization Grant is not configured.
+    #[serde(rename = "oAuth2ServerVerificationUrl")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_verification_url: Option<String>,
+    /// Number of characters in the device flow user code, excluding the formatting
+    /// separator.
+    #[serde(rename = "oAuth2ServerUserCodeLength")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_user_code_length: Option<i64>,
+    /// Character set for device flow user codes: `numeric`, `alphabetic`, or
+    /// `alphanumeric`.
+    #[serde(rename = "oAuth2ServerUserCodeFormat")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_user_code_format: Option<String>,
+    /// Lifetime in seconds of device flow device codes and user codes.
+    #[serde(rename = "oAuth2ServerDeviceCodeDuration")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_device_code_duration: Option<i64>,
     /// OAuth2 server discovery URL
     #[serde(rename = "oAuth2ServerDiscoveryUrl")]
-    pub o_auth2_server_discovery_url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_discovery_url: Option<String>,
 }
 
 impl Project {
@@ -229,6 +265,11 @@ impl Project {
         &self.status
     }
 
+    /// Get onboarding
+    pub fn onboarding(&self) -> &serde_json::Value {
+        &self.onboarding
+    }
+
     /// Get auth_methods
     pub fn auth_methods(&self) -> &Vec<crate::models::ProjectAuthMethod> {
         &self.auth_methods
@@ -265,49 +306,158 @@ impl Project {
         self.billing_limits.as_ref()
     }
 
+    /// Set o_auth2_server_enabled
+    pub fn set_o_auth2_server_enabled(mut self, o_auth2_server_enabled: bool) -> Self {
+        self.o_auth2_server_enabled = Some(o_auth2_server_enabled);
+        self
+    }
+
     /// Get o_auth2_server_enabled
-    pub fn o_auth2_server_enabled(&self) -> &bool {
-        &self.o_auth2_server_enabled
+    pub fn o_auth2_server_enabled(&self) -> Option<&bool> {
+        self.o_auth2_server_enabled.as_ref()
+    }
+
+    /// Set o_auth2_server_authorization_url
+    pub fn set_o_auth2_server_authorization_url(mut self, o_auth2_server_authorization_url: String) -> Self {
+        self.o_auth2_server_authorization_url = Some(o_auth2_server_authorization_url);
+        self
     }
 
     /// Get o_auth2_server_authorization_url
-    pub fn o_auth2_server_authorization_url(&self) -> &String {
-        &self.o_auth2_server_authorization_url
+    pub fn o_auth2_server_authorization_url(&self) -> Option<&String> {
+        self.o_auth2_server_authorization_url.as_ref()
+    }
+
+    /// Set o_auth2_server_scopes
+    pub fn set_o_auth2_server_scopes(mut self, o_auth2_server_scopes: Vec<String>) -> Self {
+        self.o_auth2_server_scopes = Some(o_auth2_server_scopes);
+        self
     }
 
     /// Get o_auth2_server_scopes
-    pub fn o_auth2_server_scopes(&self) -> &Vec<String> {
-        &self.o_auth2_server_scopes
+    pub fn o_auth2_server_scopes(&self) -> Option<&Vec<String>> {
+        self.o_auth2_server_scopes.as_ref()
+    }
+
+    /// Set o_auth2_server_authorization_details_types
+    pub fn set_o_auth2_server_authorization_details_types(mut self, o_auth2_server_authorization_details_types: Vec<String>) -> Self {
+        self.o_auth2_server_authorization_details_types = Some(o_auth2_server_authorization_details_types);
+        self
+    }
+
+    /// Get o_auth2_server_authorization_details_types
+    pub fn o_auth2_server_authorization_details_types(&self) -> Option<&Vec<String>> {
+        self.o_auth2_server_authorization_details_types.as_ref()
+    }
+
+    /// Set o_auth2_server_access_token_duration
+    pub fn set_o_auth2_server_access_token_duration(mut self, o_auth2_server_access_token_duration: i64) -> Self {
+        self.o_auth2_server_access_token_duration = Some(o_auth2_server_access_token_duration);
+        self
     }
 
     /// Get o_auth2_server_access_token_duration
-    pub fn o_auth2_server_access_token_duration(&self) -> &i64 {
-        &self.o_auth2_server_access_token_duration
+    pub fn o_auth2_server_access_token_duration(&self) -> Option<&i64> {
+        self.o_auth2_server_access_token_duration.as_ref()
+    }
+
+    /// Set o_auth2_server_refresh_token_duration
+    pub fn set_o_auth2_server_refresh_token_duration(mut self, o_auth2_server_refresh_token_duration: i64) -> Self {
+        self.o_auth2_server_refresh_token_duration = Some(o_auth2_server_refresh_token_duration);
+        self
     }
 
     /// Get o_auth2_server_refresh_token_duration
-    pub fn o_auth2_server_refresh_token_duration(&self) -> &i64 {
-        &self.o_auth2_server_refresh_token_duration
+    pub fn o_auth2_server_refresh_token_duration(&self) -> Option<&i64> {
+        self.o_auth2_server_refresh_token_duration.as_ref()
+    }
+
+    /// Set o_auth2_server_public_access_token_duration
+    pub fn set_o_auth2_server_public_access_token_duration(mut self, o_auth2_server_public_access_token_duration: i64) -> Self {
+        self.o_auth2_server_public_access_token_duration = Some(o_auth2_server_public_access_token_duration);
+        self
     }
 
     /// Get o_auth2_server_public_access_token_duration
-    pub fn o_auth2_server_public_access_token_duration(&self) -> &i64 {
-        &self.o_auth2_server_public_access_token_duration
+    pub fn o_auth2_server_public_access_token_duration(&self) -> Option<&i64> {
+        self.o_auth2_server_public_access_token_duration.as_ref()
+    }
+
+    /// Set o_auth2_server_public_refresh_token_duration
+    pub fn set_o_auth2_server_public_refresh_token_duration(mut self, o_auth2_server_public_refresh_token_duration: i64) -> Self {
+        self.o_auth2_server_public_refresh_token_duration = Some(o_auth2_server_public_refresh_token_duration);
+        self
     }
 
     /// Get o_auth2_server_public_refresh_token_duration
-    pub fn o_auth2_server_public_refresh_token_duration(&self) -> &i64 {
-        &self.o_auth2_server_public_refresh_token_duration
+    pub fn o_auth2_server_public_refresh_token_duration(&self) -> Option<&i64> {
+        self.o_auth2_server_public_refresh_token_duration.as_ref()
+    }
+
+    /// Set o_auth2_server_confidential_pkce
+    pub fn set_o_auth2_server_confidential_pkce(mut self, o_auth2_server_confidential_pkce: bool) -> Self {
+        self.o_auth2_server_confidential_pkce = Some(o_auth2_server_confidential_pkce);
+        self
     }
 
     /// Get o_auth2_server_confidential_pkce
-    pub fn o_auth2_server_confidential_pkce(&self) -> &bool {
-        &self.o_auth2_server_confidential_pkce
+    pub fn o_auth2_server_confidential_pkce(&self) -> Option<&bool> {
+        self.o_auth2_server_confidential_pkce.as_ref()
+    }
+
+    /// Set o_auth2_server_verification_url
+    pub fn set_o_auth2_server_verification_url(mut self, o_auth2_server_verification_url: String) -> Self {
+        self.o_auth2_server_verification_url = Some(o_auth2_server_verification_url);
+        self
+    }
+
+    /// Get o_auth2_server_verification_url
+    pub fn o_auth2_server_verification_url(&self) -> Option<&String> {
+        self.o_auth2_server_verification_url.as_ref()
+    }
+
+    /// Set o_auth2_server_user_code_length
+    pub fn set_o_auth2_server_user_code_length(mut self, o_auth2_server_user_code_length: i64) -> Self {
+        self.o_auth2_server_user_code_length = Some(o_auth2_server_user_code_length);
+        self
+    }
+
+    /// Get o_auth2_server_user_code_length
+    pub fn o_auth2_server_user_code_length(&self) -> Option<&i64> {
+        self.o_auth2_server_user_code_length.as_ref()
+    }
+
+    /// Set o_auth2_server_user_code_format
+    pub fn set_o_auth2_server_user_code_format(mut self, o_auth2_server_user_code_format: String) -> Self {
+        self.o_auth2_server_user_code_format = Some(o_auth2_server_user_code_format);
+        self
+    }
+
+    /// Get o_auth2_server_user_code_format
+    pub fn o_auth2_server_user_code_format(&self) -> Option<&String> {
+        self.o_auth2_server_user_code_format.as_ref()
+    }
+
+    /// Set o_auth2_server_device_code_duration
+    pub fn set_o_auth2_server_device_code_duration(mut self, o_auth2_server_device_code_duration: i64) -> Self {
+        self.o_auth2_server_device_code_duration = Some(o_auth2_server_device_code_duration);
+        self
+    }
+
+    /// Get o_auth2_server_device_code_duration
+    pub fn o_auth2_server_device_code_duration(&self) -> Option<&i64> {
+        self.o_auth2_server_device_code_duration.as_ref()
+    }
+
+    /// Set o_auth2_server_discovery_url
+    pub fn set_o_auth2_server_discovery_url(mut self, o_auth2_server_discovery_url: String) -> Self {
+        self.o_auth2_server_discovery_url = Some(o_auth2_server_discovery_url);
+        self
     }
 
     /// Get o_auth2_server_discovery_url
-    pub fn o_auth2_server_discovery_url(&self) -> &String {
-        &self.o_auth2_server_discovery_url
+    pub fn o_auth2_server_discovery_url(&self) -> Option<&String> {
+        self.o_auth2_server_discovery_url.as_ref()
     }
 
 }
@@ -340,20 +490,12 @@ mod tests {
         let _ = _model.pinged_at();
         let _ = _model.labels();
         let _ = _model.status();
+        let _ = _model.onboarding();
         let _ = _model.auth_methods();
         let _ = _model.services();
         let _ = _model.protocols();
         let _ = _model.blocks();
         let _ = _model.console_accessed_at();
-        let _ = _model.o_auth2_server_enabled();
-        let _ = _model.o_auth2_server_authorization_url();
-        let _ = _model.o_auth2_server_scopes();
-        let _ = _model.o_auth2_server_access_token_duration();
-        let _ = _model.o_auth2_server_refresh_token_duration();
-        let _ = _model.o_auth2_server_public_access_token_duration();
-        let _ = _model.o_auth2_server_public_refresh_token_duration();
-        let _ = _model.o_auth2_server_confidential_pkce();
-        let _ = _model.o_auth2_server_discovery_url();
     }
 
     #[test]

@@ -15,7 +15,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(""), // optional
         Some(0), // optional
         Some("<USERNAME>"), // optional
-        Some("<PASSWORD>"), // optional
+        Some("password"), // optional
         Some("email@example.com"), // optional
         Some("<SENDER_NAME>"), // optional
         Some("email@example.com"), // optional

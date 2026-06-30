@@ -36,10 +36,12 @@ impl Advisor {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/reports".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get an analyzer report by its unique ID. The response includes the report's
@@ -49,10 +51,12 @@ impl Advisor {
         report_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Report> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/reports/{reportId}".to_string().replace("{reportId}", &report_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete an analyzer report by its unique ID. Nested insights and CTA
@@ -85,10 +89,12 @@ impl Advisor {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/reports/{reportId}/insights".to_string().replace("{reportId}", &report_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get an insight by its unique ID, scoped to its parent report.
@@ -98,10 +104,12 @@ impl Advisor {
         insight_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Insight> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/reports/{reportId}/insights/{insightId}".to_string().replace("{reportId}", &report_id.into().to_string()).replace("{insightId}", &insight_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
 }

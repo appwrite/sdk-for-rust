@@ -39,10 +39,12 @@ impl Storage {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/storage/buckets".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new storage bucket.
@@ -93,6 +95,7 @@ impl Storage {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/storage/buckets".to_string();
 
@@ -106,10 +109,12 @@ impl Storage {
         bucket_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Bucket> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/storage/buckets/{bucketId}".to_string().replace("{bucketId}", &bucket_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a storage bucket by its unique ID.
@@ -159,6 +164,7 @@ impl Storage {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/storage/buckets/{bucketId}".to_string().replace("{bucketId}", &bucket_id.into().to_string());
 
@@ -198,10 +204,12 @@ impl Storage {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/storage/buckets/{bucketId}/files".to_string().replace("{bucketId}", &bucket_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new file. Before using this route, you should create a new bucket
@@ -236,6 +244,7 @@ impl Storage {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "multipart/form-data".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/storage/buckets/{bucketId}/files".to_string().replace("{bucketId}", &bucket_id.into().to_string());
 
@@ -250,10 +259,12 @@ impl Storage {
         file_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::File> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/storage/buckets/{bucketId}/files/{fileId}".to_string().replace("{bucketId}", &bucket_id.into().to_string()).replace("{fileId}", &file_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a file by its unique ID. Only users with write permissions have
@@ -274,6 +285,7 @@ impl Storage {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/storage/buckets/{bucketId}/files/{fileId}".to_string().replace("{bucketId}", &bucket_id.into().to_string()).replace("{fileId}", &file_id.into().to_string());
 
@@ -309,10 +321,12 @@ impl Storage {
         if let Some(value) = token {
             params.insert("token".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "*/*".to_string());
 
         let path = "/storage/buckets/{bucketId}/files/{fileId}/download".to_string().replace("{bucketId}", &bucket_id.into().to_string()).replace("{fileId}", &file_id.into().to_string());
 
-        self.client.call_bytes(Method::GET, &path, None, Some(params)).await
+        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get a file preview image. Currently, this method supports preview for image
@@ -375,10 +389,12 @@ impl Storage {
         if let Some(value) = token {
             params.insert("token".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "image/*".to_string());
 
         let path = "/storage/buckets/{bucketId}/files/{fileId}/preview".to_string().replace("{bucketId}", &bucket_id.into().to_string()).replace("{fileId}", &file_id.into().to_string());
 
-        self.client.call_bytes(Method::GET, &path, None, Some(params)).await
+        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get a file content by its unique ID. This endpoint is similar to the
@@ -394,10 +410,12 @@ impl Storage {
         if let Some(value) = token {
             params.insert("token".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "*/*".to_string());
 
         let path = "/storage/buckets/{bucketId}/files/{fileId}/view".to_string().replace("{bucketId}", &bucket_id.into().to_string()).replace("{fileId}", &file_id.into().to_string());
 
-        self.client.call_bytes(Method::GET, &path, None, Some(params)).await
+        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
 }

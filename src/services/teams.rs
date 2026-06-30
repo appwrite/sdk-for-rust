@@ -40,10 +40,12 @@ impl Teams {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/teams".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new team. The user who creates the team will automatically be
@@ -63,6 +65,7 @@ impl Teams {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/teams".to_string();
 
@@ -75,10 +78,12 @@ impl Teams {
         team_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Team> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/teams/{teamId}".to_string().replace("{teamId}", &team_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update the team's name by its unique ID.
@@ -91,6 +96,7 @@ impl Teams {
         params.insert("name".to_string(), json!(name.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/teams/{teamId}".to_string().replace("{teamId}", &team_id.into().to_string());
 
@@ -132,10 +138,12 @@ impl Teams {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/teams/{teamId}/memberships".to_string().replace("{teamId}", &team_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Invite a new member to join your team. Provide an ID for existing users, or
@@ -188,6 +196,7 @@ impl Teams {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/teams/{teamId}/memberships".to_string().replace("{teamId}", &team_id.into().to_string());
 
@@ -203,10 +212,12 @@ impl Teams {
         membership_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Membership> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/teams/{teamId}/memberships/{membershipId}".to_string().replace("{teamId}", &team_id.into().to_string()).replace("{membershipId}", &membership_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Modify the roles of a team member. Only team members with the owner role
@@ -222,6 +233,7 @@ impl Teams {
         params.insert("roles".to_string(), json!(roles.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/teams/{teamId}/memberships/{membershipId}".to_string().replace("{teamId}", &team_id.into().to_string()).replace("{membershipId}", &membership_id.into().to_string());
 
@@ -263,6 +275,7 @@ impl Teams {
         params.insert("secret".to_string(), json!(secret.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/teams/{teamId}/memberships/{membershipId}/status".to_string().replace("{teamId}", &team_id.into().to_string()).replace("{membershipId}", &membership_id.into().to_string());
 
@@ -277,10 +290,12 @@ impl Teams {
         team_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Preferences> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/teams/{teamId}/prefs".to_string().replace("{teamId}", &team_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update the team's preferences by its unique ID. The object you pass is
@@ -295,6 +310,7 @@ impl Teams {
         params.insert("prefs".to_string(), json!(prefs));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/teams/{teamId}/prefs".to_string().replace("{teamId}", &team_id.into().to_string());
 

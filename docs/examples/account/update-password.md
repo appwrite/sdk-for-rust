@@ -12,8 +12,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let account = Account::new(&client);
 
     let result = account.update_password(
-        "",
-        Some("<OLD_PASSWORD>") // optional
+        "password",
+        Some("password") // optional
     ).await?;
 
     let _ = result;

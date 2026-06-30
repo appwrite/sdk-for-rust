@@ -29,10 +29,12 @@ impl Backups {
         if let Some(value) = queries {
             params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/backups/archives".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new archive asynchronously for a project.
@@ -48,6 +50,7 @@ impl Backups {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/backups/archives".to_string();
 
@@ -60,20 +63,23 @@ impl Backups {
         archive_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::BackupArchive> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/backups/archives/{archiveId}".to_string().replace("{archiveId}", &archive_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Delete an existing archive for a project.
     pub async fn delete_archive(
         &self,
         archive_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    ) -> crate::error::Result<serde_json::Value> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/backups/archives/{archiveId}".to_string().replace("{archiveId}", &archive_id.into().to_string());
 
@@ -89,10 +95,12 @@ impl Backups {
         if let Some(value) = queries {
             params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/backups/policies".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new backup policy.
@@ -123,6 +131,7 @@ impl Backups {
         params.insert("schedule".to_string(), json!(schedule.into()));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/backups/policies".to_string();
 
@@ -135,10 +144,12 @@ impl Backups {
         policy_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::BackupPolicy> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/backups/policies/{policyId}".to_string().replace("{policyId}", &policy_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update an existing policy using it's ID.
@@ -165,6 +176,7 @@ impl Backups {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/backups/policies/{policyId}".to_string().replace("{policyId}", &policy_id.into().to_string());
 
@@ -175,10 +187,11 @@ impl Backups {
     pub async fn delete_policy(
         &self,
         policy_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    ) -> crate::error::Result<serde_json::Value> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/backups/policies/{policyId}".to_string().replace("{policyId}", &policy_id.into().to_string());
 
@@ -204,6 +217,7 @@ impl Backups {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/backups/restoration".to_string();
 
@@ -219,10 +233,12 @@ impl Backups {
         if let Some(value) = queries {
             params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/backups/restorations".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get the current status of a backup restoration.
@@ -231,10 +247,12 @@ impl Backups {
         restoration_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::BackupRestoration> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/backups/restorations/{restorationId}".to_string().replace("{restorationId}", &restoration_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
 }

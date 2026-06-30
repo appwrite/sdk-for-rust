@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = account.update_recovery(
         "<USER_ID>",
         "<SECRET>",
-        ""
+        "password"
     ).await?;
 
     let _ = result;

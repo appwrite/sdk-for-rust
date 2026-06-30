@@ -36,10 +36,12 @@ impl Tokens {
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
         }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tokens/buckets/{bucketId}/files/{fileId}".to_string().replace("{bucketId}", &bucket_id.into().to_string()).replace("{fileId}", &file_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Create a new token. A token is linked to a file. Token can be passed as a
@@ -56,6 +58,7 @@ impl Tokens {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tokens/buckets/{bucketId}/files/{fileId}".to_string().replace("{bucketId}", &bucket_id.into().to_string()).replace("{fileId}", &file_id.into().to_string());
 
@@ -68,10 +71,12 @@ impl Tokens {
         token_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::ResourceToken> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tokens/{tokenId}".to_string().replace("{tokenId}", &token_id.into().to_string());
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Update a token by its unique ID. Use this endpoint to update a token's
@@ -87,6 +92,7 @@ impl Tokens {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tokens/{tokenId}".to_string().replace("{tokenId}", &token_id.into().to_string());
 

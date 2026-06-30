@@ -52,6 +52,10 @@ pub struct Membership {
     /// Console.
     #[serde(rename = "mfa")]
     pub mfa: bool,
+    /// Most recent access date in ISO 8601 format. Show this attribute by toggling
+    /// membership privacy in the Console.
+    #[serde(rename = "userAccessedAt")]
+    pub user_accessed_at: String,
     /// User list of roles
     #[serde(rename = "roles")]
     pub roles: Vec<String>,
@@ -123,6 +127,11 @@ impl Membership {
         &self.mfa
     }
 
+    /// Get user_accessed_at
+    pub fn user_accessed_at(&self) -> &String {
+        &self.user_accessed_at
+    }
+
     /// Get roles
     pub fn roles(&self) -> &Vec<String> {
         &self.roles
@@ -150,6 +159,7 @@ mod tests {
         let _ = _model.joined();
         let _ = _model.confirm();
         let _ = _model.mfa();
+        let _ = _model.user_accessed_at();
         let _ = _model.roles();
     }
 

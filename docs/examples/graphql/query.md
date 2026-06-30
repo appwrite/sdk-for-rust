@@ -11,9 +11,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let graphql = Graphql::new(&client);
 
-    graphql.query(
+    let result = graphql.query(
         serde_json::json!({})
     ).await?;
+
+    let _ = result;
 
     Ok(())
 }

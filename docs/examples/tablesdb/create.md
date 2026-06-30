@@ -14,7 +14,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.create(
         "<DATABASE_ID>",
         "<NAME>",
-        Some(false) // optional
+        Some(false), // optional
+        Some("<DEDICATED_DATABASE_ID>") // optional
     ).await?;
 
     let _ = result;

@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.9.0] - TBD
+## [0.10.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
@@ -29,12 +29,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Databases service with 71 methods
 - Functions service with 26 methods
 - Graphql service with 2 methods
-- Health service with 25 methods
+- Health service with 26 methods
 - Locale service with 8 methods
 - Messaging service with 58 methods
+- Notifications service with 2 methods
 - Organization service with 10 methods
 - Presences service with 5 methods
-- Project service with 100 methods
+- Project service with 101 methods
 - Proxy service with 8 methods
 - Advisor service with 5 methods
 - Sites service with 25 methods
@@ -355,6 +356,8 @@ The Health service allows you to both validate and monitor your Appwrite server&
 - `get_queue_mails()` - Get the number of mails that are waiting to be processed in the Appwrite internal queue server.
 - `get_queue_messaging()` - Get the number of messages that are waiting to be processed in the Appwrite internal queue server.
 - `get_queue_migrations()` - Get the number of migrations that are waiting to be processed in the Appwrite internal queue server.
+- `get_queue_notifications()` - Get the number of jobs in the notifications queue.
+
 - `get_queue_stats_resources()` - Get the number of metrics that are waiting to be processed in the Appwrite stats resources queue.
 - `get_queue_usage()` - Get the number of metrics that are waiting to be processed in the Appwrite internal queue server.
 - `get_queue_webhooks()` - Get the number of webhooks that are waiting to be processed in the Appwrite internal queue server.
@@ -445,8 +448,15 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 
 - `delete_subscriber()` - Delete a subscriber by its unique ID.
 
-#### Organization
+#### Notifications
 
+- `list()` - Get the list of notifications for the currently logged in console user. Use queries to filter the results by attributes such as read status, view timestamps, or creation date.
+
+- `update()` - Update a notification by its unique ID. Use the `read` parameter to mark the notification as read or unread.
+
+
+#### Organization
+The Organization service allows you to manage organization-level projects.
 - `list_keys()` - Get a list of all API keys from the current organization.
 - `create_key()` - Create a new organization API key.
 - `get_key()` - Get a key by its unique ID. This endpoint returns details about a specific API key in your organization including its scopes.
@@ -552,6 +562,7 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `delete_platform()` - Delete a platform by its unique ID. This endpoint removes the platform and all its configurations from the project.
 - `list_policies()` - Get a list of all project policies and their current configuration.
 - `update_deny_aliased_email_policy()` - Configures if aliased emails such as subaddresses and emails with suffixes are denied during new users sign-ups and email updates.
+- `update_deny_corporate_email_policy()` - Configures if only corporate email addresses (non-free and non-disposable domains) are allowed during new user sign-ups and email updates.
 - `update_deny_disposable_email_policy()` - Configures if disposable emails from known temporary domains are denied during new users sign-ups and email updates.
 - `update_deny_free_email_policy()` - Configures if emails from free providers such as Gmail or Yahoo are denied during new users sign-ups and email updates.
 - `update_membership_privacy_policy()` - Updating this policy allows you to control if team members can see other members information. When enabled, all team members can see ID, name, email, phone number, and MFA status of other members..
@@ -807,8 +818,20 @@ If the request is successful, a session for the user is automatically created.
 
 #### Usage
 
-- `list_events()` - Query usage event metrics from the usage database. Returns individual event rows with full metadata. Pass Query objects as JSON strings to filter, paginate, and order results. Supported query methods: equal, greaterThanEqual, lessThanEqual, orderAsc, orderDesc, limit, offset. Supported filter attributes: metric, path, method, status, resource, resourceId, country, userAgent, time (these match the underlying column names — note that the response surfaces `resource` as `resourceType` and `country` as `countryCode`). When no time filter is supplied the endpoint defaults to the last 7 days. Default `limit(100)` is applied if none is given; user-supplied limits are capped at 500. The `total` field is capped at 5000 to keep counts predictable — pass `total=false` to skip the count entirely.
-- `list_gauges()` - Query usage gauge metrics (point-in-time resource snapshots) from the usage database. Returns individual gauge snapshots with metric, value, timestamp, resourceType, and resourceId. Pass Query objects as JSON strings to filter, paginate, and order results. Supported query methods: equal, greaterThanEqual, lessThanEqual, orderAsc, orderDesc, limit, offset. Supported filter attributes: metric, time. Use `orderDesc(&quot;time&quot;), limit(1)` to fetch the most recent snapshot. When no time filter is supplied the endpoint defaults to the last 7 days. Default `limit(100)` is applied if none is given; user-supplied limits are capped at 500. The `total` field is capped at 5000 to keep counts predictable — pass `total=false` to skip the count entirely.
+- `list_events()` - Aggregate usage event metrics. `metrics[]` (1-10) is required; the response always contains one entry per requested metric, each with its own `points[]` time series.
+
+**Two response shapes**:
+- Omit `interval` for a flat top-N table — one point per dimension combination, no time axis. Useful for &quot;top 10 paths by bandwidth in the last 7 days&quot;.
+- Pass `interval` (`1m`, `15m`, `30m`, `1h`, `1d`) for a time series — one point per (time bucket × dimension combination).
+
+`dimensions[]` breaks each point down by one or more attributes (service, path, status, country, …). `queries[]` filters the underlying events using the standard Utopia query syntax — `equal(&quot;path&quot;, [&quot;/v1/storage/files&quot;])`, `equal(&quot;resource&quot;, [&quot;bucket&quot;])`, `equal(&quot;resourceId&quot;, [&quot;abc123&quot;])`, `startsWith(&quot;path&quot;, [&quot;/v1/storage&quot;])`, `equal(&quot;status&quot;, [&quot;200&quot;, &quot;201&quot;])`, `isNotNull(&quot;resourceId&quot;)`. Supported attributes: see `queries[]` param. Supported methods: `equal`, `notEqual`, `contains`, `startsWith`, `endsWith`, `isNull`, `isNotNull`. Pass multiple metrics to render stacked charts in one round-trip. `orderBy=value`+`orderDir=desc`+`limit=N` returns the top-N by aggregated value. When `startAt` is omitted, the default window adapts to `interval` (or 7d when interval is omitted).
+- `list_gauges()` - Aggregate usage gauge snapshots. Gauges are point-in-time values (storage totals, resource counts, …); each point carries the latest snapshot in its interval via `argMax(value, time)`. `metrics[]` (1-10) is required; the response always contains one entry per requested metric, each with its own `points[]` time series.
+
+**Two response shapes**:
+- Omit `interval` for a flat top-N table — `argMax(value, time)` per dimension combination over the whole window, no time axis. Useful for &quot;top 10 resources by current storage&quot;.
+- Pass `interval` (`1m`, `15m`, `30m`, `1h`, `1d`) for a time series — one snapshot per (time bucket × dimension combination).
+
+`dimensions[]` breaks each point down further. Supported on gauges: `resourceId`, `teamId`, `service`, `resource`. `service` and `resource` enable per-service / per-resource-type panels (e.g. storage-by-service: group `files.storage`, `deployments.storage`, `builds.storage`, `databases.storage` by `service`). `queries[]` filters the underlying rows using the standard Utopia query syntax — `equal(&quot;resource&quot;, [&quot;bucket&quot;])`, `equal(&quot;resourceId&quot;, [&quot;abc123&quot;])`, `equal(&quot;teamId&quot;, [&quot;team_x&quot;])`, `isNotNull(&quot;teamId&quot;)`. Supported attributes: see `queries[]` param. Supported methods: `equal`, `notEqual`, `isNull`, `isNotNull`. Pass multiple metrics to render stacked charts in one round-trip. `orderBy=value`+`orderDir=desc`+`limit=N` returns the top-N. When `startAt` is omitted, the default window adapts to interval (or 7d when interval is omitted).
 
 #### Users
 The Users service allows you to manage your project users.
@@ -890,6 +913,7 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `UserList` - Users List
 - `SessionList` - Sessions List
 - `IdentityList` - Identities List
+- `NotificationList` - Notifications List
 - `LogList` - Logs List
 - `FileList` - Files List
 - `BucketList` - Buckets List
@@ -984,6 +1008,7 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `Preferences` - Preferences
 - `Session` - Session
 - `Identity` - Identity
+- `Notification` - Notification
 - `Token` - Token
 - `Jwt` - JWT
 - `Locale` - Locale
@@ -1102,15 +1127,16 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `PolicyDenyAliasedEmail` - Policy Deny Aliased Email
 - `PolicyDenyDisposableEmail` - Policy Deny Disposable Email
 - `PolicyDenyFreeEmail` - Policy Deny Free Email
+- `PolicyDenyCorporateEmail` - Policy Deny Corporate Email
 - `BackupRestoration` - Restoration
-- `UsageEvent` - usageEvent
-- `UsageGauge` - usageGauge
+- `UsageDataPoint` - usageDataPoint
+- `UsageEventList` - usageEventList
+- `UsageGaugeList` - usageGaugeList
+- `UsageMetric` - usageMetric
 - `ActivityEventList` - Activity event list
 - `BackupArchiveList` - Backup archive list
 - `BackupPolicyList` - Backup policy list
 - `BackupRestorationList` - Backup restoration list
-- `UsageEventList` - Usage events list
-- `UsageGaugeList` - Usage gauges list
 
 ### Dependencies
 - reqwest 0.12+ for HTTP client
@@ -1126,4 +1152,4 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - File upload examples
 - Query builder documentation
 
-[0.9.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.9.0
+[0.10.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.10.0
