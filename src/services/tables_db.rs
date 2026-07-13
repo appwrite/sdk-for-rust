@@ -52,7 +52,7 @@ impl TablesDB {
         database_id: impl Into<String>,
         name: impl Into<String>,
         enabled: Option<bool>,
-        dedicated_database_id: Option<&str>,
+        specification: Option<&str>,
     ) -> crate::error::Result<crate::models::Database> {
         let mut params = HashMap::new();
         params.insert("databaseId".to_string(), json!(database_id.into()));
@@ -60,8 +60,8 @@ impl TablesDB {
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
         }
-        if let Some(value) = dedicated_database_id {
-            params.insert("dedicatedDatabaseId".to_string(), json!(value));
+        if let Some(value) = specification {
+            params.insert("specification".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

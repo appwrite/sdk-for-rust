@@ -7,6 +7,8 @@ pub enum ProjectOAuthProviderId {
     Amazon,
     #[serde(rename = "apple")]
     Apple,
+    #[serde(rename = "appwrite")]
+    Appwrite,
     #[serde(rename = "auth0")]
     Auth0,
     #[serde(rename = "authentik")]
@@ -97,6 +99,7 @@ impl ProjectOAuthProviderId {
         match self {
             ProjectOAuthProviderId::Amazon => "amazon",
             ProjectOAuthProviderId::Apple => "apple",
+            ProjectOAuthProviderId::Appwrite => "appwrite",
             ProjectOAuthProviderId::Auth0 => "auth0",
             ProjectOAuthProviderId::Authentik => "authentik",
             ProjectOAuthProviderId::Autodesk => "autodesk",

@@ -455,28 +455,6 @@ impl Messaging {
         self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
     }
 
-    /// Get the message activity logs listed by its unique ID.
-    pub async fn list_message_logs(
-        &self,
-        message_id: impl Into<String>,
-        queries: Option<Vec<String>>,
-        total: Option<bool>,
-    ) -> crate::error::Result<crate::models::LogList> {
-        let mut params = HashMap::new();
-        if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
-        }
-        if let Some(value) = total {
-            params.insert("total".to_string(), json!(value));
-        }
-        let mut api_headers = HashMap::new();
-        api_headers.insert("accept".to_string(), "application/json".to_string());
-
-        let path = "/messaging/messages/{messageId}/logs".to_string().replace("{messageId}", &message_id.into().to_string());
-
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
-    }
-
     /// Get a list of the targets associated with a message.
     pub async fn list_targets(
         &self,
@@ -1550,50 +1528,6 @@ impl Messaging {
         self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
     }
 
-    /// Get the provider activity logs listed by its unique ID.
-    pub async fn list_provider_logs(
-        &self,
-        provider_id: impl Into<String>,
-        queries: Option<Vec<String>>,
-        total: Option<bool>,
-    ) -> crate::error::Result<crate::models::LogList> {
-        let mut params = HashMap::new();
-        if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
-        }
-        if let Some(value) = total {
-            params.insert("total".to_string(), json!(value));
-        }
-        let mut api_headers = HashMap::new();
-        api_headers.insert("accept".to_string(), "application/json".to_string());
-
-        let path = "/messaging/providers/{providerId}/logs".to_string().replace("{providerId}", &provider_id.into().to_string());
-
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
-    }
-
-    /// Get the subscriber activity logs listed by its unique ID.
-    pub async fn list_subscriber_logs(
-        &self,
-        subscriber_id: impl Into<String>,
-        queries: Option<Vec<String>>,
-        total: Option<bool>,
-    ) -> crate::error::Result<crate::models::LogList> {
-        let mut params = HashMap::new();
-        if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
-        }
-        if let Some(value) = total {
-            params.insert("total".to_string(), json!(value));
-        }
-        let mut api_headers = HashMap::new();
-        api_headers.insert("accept".to_string(), "application/json".to_string());
-
-        let path = "/messaging/subscribers/{subscriberId}/logs".to_string().replace("{subscriberId}", &subscriber_id.into().to_string());
-
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
-    }
-
     /// Get a list of all topics from the current Appwrite project.
     pub async fn list_topics(
         &self,
@@ -1690,28 +1624,6 @@ impl Messaging {
         let path = "/messaging/topics/{topicId}".to_string().replace("{topicId}", &topic_id.into().to_string());
 
         self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
-    }
-
-    /// Get the topic activity logs listed by its unique ID.
-    pub async fn list_topic_logs(
-        &self,
-        topic_id: impl Into<String>,
-        queries: Option<Vec<String>>,
-        total: Option<bool>,
-    ) -> crate::error::Result<crate::models::LogList> {
-        let mut params = HashMap::new();
-        if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
-        }
-        if let Some(value) = total {
-            params.insert("total".to_string(), json!(value));
-        }
-        let mut api_headers = HashMap::new();
-        api_headers.insert("accept".to_string(), "application/json".to_string());
-
-        let path = "/messaging/topics/{topicId}/logs".to_string().replace("{topicId}", &topic_id.into().to_string());
-
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get a list of all subscribers from the current Appwrite project.

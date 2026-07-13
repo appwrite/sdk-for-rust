@@ -31,6 +31,15 @@ pub struct OAuth2Oidc {
     /// OpenID Connect user info endpoint URL.
     #[serde(rename = "userInfoURL")]
     pub user_info_url: String,
+    /// OpenID Connect prompt values controlling the authentication and consent
+    /// screens.
+    #[serde(rename = "prompt")]
+    pub prompt: Vec<crate::enums::OAuth2OidcPrompt>,
+    /// Maximum authentication age in seconds. When set, the user must have
+    /// authenticated within this many seconds.
+    #[serde(rename = "maxAge")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub max_age: Option<i64>,
 }
 
 impl OAuth2Oidc {
@@ -74,6 +83,22 @@ impl OAuth2Oidc {
         &self.user_info_url
     }
 
+    /// Get prompt
+    pub fn prompt(&self) -> &Vec<crate::enums::OAuth2OidcPrompt> {
+        &self.prompt
+    }
+
+    /// Set max_age
+    pub fn set_max_age(mut self, max_age: i64) -> Self {
+        self.max_age = Some(max_age);
+        self
+    }
+
+    /// Get max_age
+    pub fn max_age(&self) -> Option<&i64> {
+        self.max_age.as_ref()
+    }
+
 }
 
 #[cfg(test)]
@@ -91,6 +116,7 @@ mod tests {
         let _ = _model.authorization_url();
         let _ = _model.token_url();
         let _ = _model.user_info_url();
+        let _ = _model.prompt();
     }
 
     #[test]

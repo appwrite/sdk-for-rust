@@ -27,6 +27,10 @@ pub enum ProjectKeyScopes {
     ProjectPoliciesRead,
     #[serde(rename = "project.policies.write")]
     ProjectPoliciesWrite,
+    #[serde(rename = "project.oauth2.read")]
+    ProjectOauth2Read,
+    #[serde(rename = "project.oauth2.write")]
+    ProjectOauth2Write,
     #[serde(rename = "templates.read")]
     TemplatesRead,
     #[serde(rename = "templates.write")]
@@ -35,10 +39,6 @@ pub enum ProjectKeyScopes {
     StagesRead,
     #[serde(rename = "stages.write")]
     StagesWrite,
-    #[serde(rename = "oauth2.read")]
-    Oauth2Read,
-    #[serde(rename = "oauth2.write")]
-    Oauth2Write,
     #[serde(rename = "users.read")]
     UsersRead,
     #[serde(rename = "users.write")]
@@ -199,6 +199,10 @@ pub enum ProjectKeyScopes {
     AppsRead,
     #[serde(rename = "apps.write")]
     AppsWrite,
+    #[serde(rename = "oauth2.read")]
+    Oauth2Read,
+    #[serde(rename = "oauth2.write")]
+    Oauth2Write,
     #[serde(rename = "usage.read")]
     UsageRead,
 }
@@ -219,12 +223,12 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::PoliciesWrite => "policies.write",
             ProjectKeyScopes::ProjectPoliciesRead => "project.policies.read",
             ProjectKeyScopes::ProjectPoliciesWrite => "project.policies.write",
+            ProjectKeyScopes::ProjectOauth2Read => "project.oauth2.read",
+            ProjectKeyScopes::ProjectOauth2Write => "project.oauth2.write",
             ProjectKeyScopes::TemplatesRead => "templates.read",
             ProjectKeyScopes::TemplatesWrite => "templates.write",
             ProjectKeyScopes::StagesRead => "stages.read",
             ProjectKeyScopes::StagesWrite => "stages.write",
-            ProjectKeyScopes::Oauth2Read => "oauth2.read",
-            ProjectKeyScopes::Oauth2Write => "oauth2.write",
             ProjectKeyScopes::UsersRead => "users.read",
             ProjectKeyScopes::UsersWrite => "users.write",
             ProjectKeyScopes::SessionsRead => "sessions.read",
@@ -305,6 +309,8 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::EventsRead => "events.read",
             ProjectKeyScopes::AppsRead => "apps.read",
             ProjectKeyScopes::AppsWrite => "apps.write",
+            ProjectKeyScopes::Oauth2Read => "oauth2.read",
+            ProjectKeyScopes::Oauth2Write => "oauth2.write",
             ProjectKeyScopes::UsageRead => "usage.read",
         }
     }

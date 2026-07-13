@@ -15,7 +15,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<ARCHIVE_ID>",
         vec![appwrite::enums::BackupServices::Databases],
         Some("<NEW_RESOURCE_ID>"), // optional
-        Some("<NEW_RESOURCE_NAME>") // optional
+        Some("<NEW_RESOURCE_NAME>"), // optional
+        Some("serverless") // optional
     ).await?;
 
     let _ = result;

@@ -92,11 +92,11 @@ impl Client {
     pub fn new() -> Self {
         let mut headers = HeaderMap::new();
         headers.insert("X-Appwrite-Response-Format", "1.9.5".parse().unwrap());
-        headers.insert("user-agent", format!("AppwriteRustSDK/0.10.0 ({}; {})", std::env::consts::OS, std::env::consts::ARCH).parse().unwrap());
+        headers.insert("user-agent", format!("AppwriteRustSDK/0.11.0 ({}; {})", std::env::consts::OS, std::env::consts::ARCH).parse().unwrap());
         headers.insert("x-sdk-name", "Rust".parse().unwrap());
         headers.insert("x-sdk-platform", "server".parse().unwrap());
         headers.insert("x-sdk-language", "rust".parse().unwrap());
-        headers.insert("x-sdk-version", "0.10.0".parse().unwrap());
+        headers.insert("x-sdk-version", "0.11.0".parse().unwrap());
 
         let config = Config {
             endpoint: "https://cloud.appwrite.io/v1".to_string(),
@@ -152,56 +152,156 @@ impl Client {
         self.clone()
     }
 
-    /// Set the project ID
-    pub fn set_project<S: Into<String>>(&self, project: S) -> Self {
-        let project = project.into();
+
+    /// Set Project
+    ///
+    /// Your project ID
+    pub fn set_project<S: Into<String>>(&self, value: S) -> Self {
+        let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-project", project.clone().parse().unwrap());
+            next.config.headers.insert("x-appwrite-project", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()
     }
 
-    /// Set the API key
-    pub fn set_key<S: Into<String>>(&self, key: S) -> Self {
-        let key = key.into();
+    /// Set Key
+    ///
+    /// Your secret API key
+    pub fn set_key<S: Into<String>>(&self, value: S) -> Self {
+        let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-key", key.clone().parse().unwrap());
+            next.config.headers.insert("x-appwrite-key", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()
     }
 
-    /// Set the JWT token
-    pub fn set_jwt<S: Into<String>>(&self, jwt: S) -> Self {
-        let jwt = jwt.into();
+    /// Set JWT
+    ///
+    /// Your secret JSON Web Token
+    pub fn set_jwt<S: Into<String>>(&self, value: S) -> Self {
+        let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-jwt", jwt.clone().parse().unwrap());
+            next.config.headers.insert("x-appwrite-jwt", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()
     }
 
-    /// Set the locale
-    pub fn set_locale<S: Into<String>>(&self, locale: S) -> Self {
-        let locale = locale.into();
+    /// Set Bearer
+    ///
+    /// The OAuth access token to authenticate with
+    pub fn set_bearer<S: Into<String>>(&self, value: S) -> Self {
+        let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-locale", locale.clone().parse().unwrap());
+            next.config.headers.insert("authorization", format!("Bearer {}", value).parse().unwrap());
             Arc::new(next)
         });
         self.clone()
     }
 
-    /// Set the session
-    pub fn set_session<S: Into<String>>(&self, session: S) -> Self {
-        let session = session.into();
+    /// Set Locale
+    pub fn set_locale<S: Into<String>>(&self, value: S) -> Self {
+        let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-session", session.clone().parse().unwrap());
+            next.config.headers.insert("x-appwrite-locale", value.clone().parse().unwrap());
+            Arc::new(next)
+        });
+        self.clone()
+    }
+
+    /// Set Session
+    ///
+    /// The user session to authenticate with
+    pub fn set_session<S: Into<String>>(&self, value: S) -> Self {
+        let value = value.into();
+        self.state.rcu(|state| {
+            let mut next = (**state).clone();
+            next.config.headers.insert("x-appwrite-session", value.clone().parse().unwrap());
+            Arc::new(next)
+        });
+        self.clone()
+    }
+
+    /// Set ForwardedUserAgent
+    ///
+    /// The user agent string of the client that made the request
+    pub fn set_forwarded_user_agent<S: Into<String>>(&self, value: S) -> Self {
+        let value = value.into();
+        self.state.rcu(|state| {
+            let mut next = (**state).clone();
+            next.config.headers.insert("x-forwarded-user-agent", value.clone().parse().unwrap());
+            Arc::new(next)
+        });
+        self.clone()
+    }
+
+    /// Set DevKey
+    ///
+    /// Your secret dev API key
+    pub fn set_dev_key<S: Into<String>>(&self, value: S) -> Self {
+        let value = value.into();
+        self.state.rcu(|state| {
+            let mut next = (**state).clone();
+            next.config.headers.insert("x-appwrite-dev-key", value.clone().parse().unwrap());
+            Arc::new(next)
+        });
+        self.clone()
+    }
+
+    /// Set Cookie
+    ///
+    /// The user cookie to authenticate with. Used by SDKs that forward an incoming Cookie header in server-side runtimes.
+    pub fn set_cookie<S: Into<String>>(&self, value: S) -> Self {
+        let value = value.into();
+        self.state.rcu(|state| {
+            let mut next = (**state).clone();
+            next.config.headers.insert("cookie", value.clone().parse().unwrap());
+            Arc::new(next)
+        });
+        self.clone()
+    }
+
+    /// Set ImpersonateUserId
+    ///
+    /// Impersonate a user by ID
+    pub fn set_impersonate_user_id<S: Into<String>>(&self, value: S) -> Self {
+        let value = value.into();
+        self.state.rcu(|state| {
+            let mut next = (**state).clone();
+            next.config.headers.insert("x-appwrite-impersonate-user-id", value.clone().parse().unwrap());
+            Arc::new(next)
+        });
+        self.clone()
+    }
+
+    /// Set ImpersonateUserEmail
+    ///
+    /// Impersonate a user by email
+    pub fn set_impersonate_user_email<S: Into<String>>(&self, value: S) -> Self {
+        let value = value.into();
+        self.state.rcu(|state| {
+            let mut next = (**state).clone();
+            next.config.headers.insert("x-appwrite-impersonate-user-email", value.clone().parse().unwrap());
+            Arc::new(next)
+        });
+        self.clone()
+    }
+
+    /// Set ImpersonateUserPhone
+    ///
+    /// Impersonate a user by phone
+    pub fn set_impersonate_user_phone<S: Into<String>>(&self, value: S) -> Self {
+        let value = value.into();
+        self.state.rcu(|state| {
+            let mut next = (**state).clone();
+            next.config.headers.insert("x-appwrite-impersonate-user-phone", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()

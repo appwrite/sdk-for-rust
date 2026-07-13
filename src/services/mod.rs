@@ -14,14 +14,10 @@ pub mod functions;
 pub use functions::Functions;
 pub mod graphql;
 pub use graphql::Graphql;
-pub mod health;
-pub use health::Health;
 pub mod locale;
 pub use locale::Locale;
 pub mod messaging;
 pub use messaging::Messaging;
-pub mod notifications;
-pub use notifications::Notifications;
 pub mod organization;
 pub use organization::Organization;
 pub mod presences;
@@ -42,8 +38,6 @@ pub mod teams;
 pub use teams::Teams;
 pub mod tokens;
 pub use tokens::Tokens;
-pub mod usage;
-pub use usage::Usage;
 pub mod users;
 pub use users::Users;
 pub mod webhooks;
@@ -67,10 +61,8 @@ pub struct Services {
     databases: Databases,
     functions: Functions,
     graphql: Graphql,
-    health: Health,
     locale: Locale,
     messaging: Messaging,
-    notifications: Notifications,
     organization: Organization,
     presences: Presences,
     project: Project,
@@ -81,7 +73,6 @@ pub struct Services {
     tables_db: TablesDB,
     teams: Teams,
     tokens: Tokens,
-    usage: Usage,
     users: Users,
     webhooks: Webhooks,
 }
@@ -97,10 +88,8 @@ impl Services {
             databases: Databases::new(&client),
             functions: Functions::new(&client),
             graphql: Graphql::new(&client),
-            health: Health::new(&client),
             locale: Locale::new(&client),
             messaging: Messaging::new(&client),
-            notifications: Notifications::new(&client),
             organization: Organization::new(&client),
             presences: Presences::new(&client),
             project: Project::new(&client),
@@ -111,7 +100,6 @@ impl Services {
             tables_db: TablesDB::new(&client),
             teams: Teams::new(&client),
             tokens: Tokens::new(&client),
-            usage: Usage::new(&client),
             users: Users::new(&client),
             webhooks: Webhooks::new(&client),
             client,
@@ -151,10 +139,6 @@ impl Services {
     pub fn graphql(&self) -> &Graphql {
         &self.graphql
     }
-    /// Get Health service
-    pub fn health(&self) -> &Health {
-        &self.health
-    }
     /// Get Locale service
     pub fn locale(&self) -> &Locale {
         &self.locale
@@ -162,10 +146,6 @@ impl Services {
     /// Get Messaging service
     pub fn messaging(&self) -> &Messaging {
         &self.messaging
-    }
-    /// Get Notifications service
-    pub fn notifications(&self) -> &Notifications {
-        &self.notifications
     }
     /// Get Organization service
     pub fn organization(&self) -> &Organization {
@@ -206,10 +186,6 @@ impl Services {
     /// Get Tokens service
     pub fn tokens(&self) -> &Tokens {
         &self.tokens
-    }
-    /// Get Usage service
-    pub fn usage(&self) -> &Usage {
-        &self.usage
     }
     /// Get Users service
     pub fn users(&self) -> &Users {

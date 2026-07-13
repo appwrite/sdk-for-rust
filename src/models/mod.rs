@@ -22,8 +22,6 @@ pub mod session_list;
 pub use session_list::SessionList;
 pub mod identity_list;
 pub use identity_list::IdentityList;
-pub mod notification_list;
-pub use notification_list::NotificationList;
 pub mod log_list;
 pub use log_list::LogList;
 pub mod file_list;
@@ -72,8 +70,6 @@ pub mod policy_list;
 pub use policy_list::PolicyList;
 pub mod email_template_list;
 pub use email_template_list::EmailTemplateList;
-pub mod health_status_list;
-pub use health_status_list::HealthStatusList;
 pub mod proxy_rule_list;
 pub use proxy_rule_list::ProxyRuleList;
 pub mod locale_code_list;
@@ -212,8 +208,6 @@ pub mod session;
 pub use session::Session;
 pub mod identity;
 pub use identity::Identity;
-pub mod notification;
-pub use notification::Notification;
 pub mod token;
 pub use token::Token;
 pub mod jwt;
@@ -326,6 +320,8 @@ pub mod o_auth2_paypal;
 pub use o_auth2_paypal::OAuth2Paypal;
 pub mod o_auth2_gitlab;
 pub use o_auth2_gitlab::OAuth2Gitlab;
+pub mod o_auth2_appwrite;
+pub use o_auth2_appwrite::OAuth2Appwrite;
 pub mod o_auth2_authentik;
 pub use o_auth2_authentik::OAuth2Authentik;
 pub mod o_auth2_auth0;
@@ -390,16 +386,6 @@ pub mod currency;
 pub use currency::Currency;
 pub mod phone;
 pub use phone::Phone;
-pub mod health_antivirus;
-pub use health_antivirus::HealthAntivirus;
-pub mod health_queue;
-pub use health_queue::HealthQueue;
-pub mod health_status;
-pub use health_status::HealthStatus;
-pub mod health_certificate;
-pub use health_certificate::HealthCertificate;
-pub mod health_time;
-pub use health_time::HealthTime;
 pub mod headers;
 pub use headers::Headers;
 pub mod specification;
@@ -436,12 +422,28 @@ pub mod report;
 pub use report::Report;
 pub mod activity_event;
 pub use activity_event::ActivityEvent;
+pub mod additional_resource;
+pub use additional_resource::AdditionalResource;
 pub mod backup_archive;
 pub use backup_archive::BackupArchive;
 pub mod billing_limits;
 pub use billing_limits::BillingLimits;
+pub mod billing_plan;
+pub use billing_plan::BillingPlan;
+pub mod billing_plan_addon;
+pub use billing_plan_addon::BillingPlanAddon;
+pub mod billing_plan_addon_details;
+pub use billing_plan_addon_details::BillingPlanAddonDetails;
+pub mod billing_plan_limits;
+pub use billing_plan_limits::BillingPlanLimits;
+pub mod billing_plan_dedicated_database_limits;
+pub use billing_plan_dedicated_database_limits::BillingPlanDedicatedDatabaseLimits;
+pub mod billing_plan_supported_addons;
+pub use billing_plan_supported_addons::BillingPlanSupportedAddons;
 pub mod block;
 pub use block::Block;
+pub mod organization;
+pub use organization::Organization;
 pub mod backup_policy;
 pub use backup_policy::BackupPolicy;
 pub mod policy_deny_aliased_email;
@@ -452,16 +454,12 @@ pub mod policy_deny_free_email;
 pub use policy_deny_free_email::PolicyDenyFreeEmail;
 pub mod policy_deny_corporate_email;
 pub use policy_deny_corporate_email::PolicyDenyCorporateEmail;
+pub mod program;
+pub use program::Program;
 pub mod backup_restoration;
 pub use backup_restoration::BackupRestoration;
-pub mod usage_data_point;
-pub use usage_data_point::UsageDataPoint;
-pub mod usage_event_list;
-pub use usage_event_list::UsageEventList;
-pub mod usage_gauge_list;
-pub use usage_gauge_list::UsageGaugeList;
-pub mod usage_metric;
-pub use usage_metric::UsageMetric;
+pub mod usage_billing_plan;
+pub use usage_billing_plan::UsageBillingPlan;
 pub mod activity_event_list;
 pub use activity_event_list::ActivityEventList;
 pub mod backup_archive_list;
@@ -489,7 +487,6 @@ impl Model for ColumnIndexList {}
 impl Model for UserList {}
 impl Model for SessionList {}
 impl Model for IdentityList {}
-impl Model for NotificationList {}
 impl Model for LogList {}
 impl Model for FileList {}
 impl Model for BucketList {}
@@ -514,7 +511,6 @@ impl Model for VariableList {}
 impl Model for MockNumberList {}
 impl Model for PolicyList {}
 impl Model for EmailTemplateList {}
-impl Model for HealthStatusList {}
 impl Model for ProxyRuleList {}
 impl Model for LocaleCodeList {}
 impl Model for ProviderList {}
@@ -584,7 +580,6 @@ impl Model for AlgoArgon2 {}
 impl Model for Preferences {}
 impl Model for Session {}
 impl Model for Identity {}
-impl Model for Notification {}
 impl Model for Token {}
 impl Model for Jwt {}
 impl Model for Locale {}
@@ -641,6 +636,7 @@ impl Model for OAuth2Facebook {}
 impl Model for OAuth2Tradeshift {}
 impl Model for OAuth2Paypal {}
 impl Model for OAuth2Gitlab {}
+impl Model for OAuth2Appwrite {}
 impl Model for OAuth2Authentik {}
 impl Model for OAuth2Auth0 {}
 impl Model for OAuth2FusionAuth {}
@@ -673,11 +669,6 @@ impl Model for Continent {}
 impl Model for Language {}
 impl Model for Currency {}
 impl Model for Phone {}
-impl Model for HealthAntivirus {}
-impl Model for HealthQueue {}
-impl Model for HealthStatus {}
-impl Model for HealthCertificate {}
-impl Model for HealthTime {}
 impl Model for Headers {}
 impl Model for Specification {}
 impl Model for ProxyRule {}
@@ -696,19 +687,25 @@ impl Model for Insight {}
 impl Model for InsightCTA {}
 impl Model for Report {}
 impl Model for ActivityEvent {}
+impl Model for AdditionalResource {}
 impl Model for BackupArchive {}
 impl Model for BillingLimits {}
+impl Model for BillingPlan {}
+impl Model for BillingPlanAddon {}
+impl Model for BillingPlanAddonDetails {}
+impl Model for BillingPlanLimits {}
+impl Model for BillingPlanDedicatedDatabaseLimits {}
+impl Model for BillingPlanSupportedAddons {}
 impl Model for Block {}
+impl Model for Organization {}
 impl Model for BackupPolicy {}
 impl Model for PolicyDenyAliasedEmail {}
 impl Model for PolicyDenyDisposableEmail {}
 impl Model for PolicyDenyFreeEmail {}
 impl Model for PolicyDenyCorporateEmail {}
+impl Model for Program {}
 impl Model for BackupRestoration {}
-impl Model for UsageDataPoint {}
-impl Model for UsageEventList {}
-impl Model for UsageGaugeList {}
-impl Model for UsageMetric {}
+impl Model for UsageBillingPlan {}
 impl Model for ActivityEventList {}
 impl Model for BackupArchiveList {}
 impl Model for BackupPolicyList {}

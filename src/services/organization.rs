@@ -21,6 +21,49 @@ impl Organization {
         &self.client
     }
 
+    /// Get the current organization.
+    pub async fn get(
+        &self,
+    ) -> crate::error::Result<crate::models::Organization> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/organization".to_string();
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Update the current organization's name.
+    pub async fn update(
+        &self,
+        name: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Organization> {
+        let mut params = HashMap::new();
+        params.insert("name".to_string(), json!(name.into()));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/organization".to_string();
+
+        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Delete the current organization. All projects that belong to the
+    /// organization are deleted as well.
+    pub async fn delete(
+        &self,
+    ) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+
+        let path = "/organization".to_string();
+
+        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+    }
+
     /// Get a list of all API keys from the current organization.
     pub async fn list_keys(
         &self,
@@ -116,6 +159,116 @@ impl Organization {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
         let path = "/organization/keys/{keyId}".to_string().replace("{keyId}", &key_id.into().to_string());
+
+        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Get a list of all memberships from the current organization.
+    pub async fn list_memberships(
+        &self,
+        queries: Option<Vec<String>>,
+        search: Option<&str>,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::MembershipList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        }
+        if let Some(value) = search {
+            params.insert("search".to_string(), json!(value));
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/organization/memberships".to_string();
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Invite a new member to join the current organization. An email with a link
+    /// to join the organization will be sent to the new member's email address. If
+    /// member doesn't exist in the project it will be automatically created.
+    pub async fn create_membership(
+        &self,
+        roles: impl IntoIterator<Item = impl Into<String>>,
+        email: Option<&str>,
+        user_id: Option<&str>,
+        phone: Option<&str>,
+        url: Option<&str>,
+        name: Option<&str>,
+    ) -> crate::error::Result<crate::models::Membership> {
+        let mut params = HashMap::new();
+        if let Some(value) = email {
+            params.insert("email".to_string(), json!(value));
+        }
+        if let Some(value) = user_id {
+            params.insert("userId".to_string(), json!(value));
+        }
+        if let Some(value) = phone {
+            params.insert("phone".to_string(), json!(value));
+        }
+        params.insert("roles".to_string(), json!(roles.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        if let Some(value) = url {
+            params.insert("url".to_string(), json!(value));
+        }
+        if let Some(value) = name {
+            params.insert("name".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/organization/memberships".to_string();
+
+        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Get a membership from the current organization by its unique ID.
+    pub async fn get_membership(
+        &self,
+        membership_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Membership> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/organization/memberships/{membershipId}".to_string().replace("{membershipId}", &membership_id.into().to_string());
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Modify the roles of a member in the current organization.
+    pub async fn update_membership(
+        &self,
+        membership_id: impl Into<String>,
+        roles: impl IntoIterator<Item = impl Into<String>>,
+    ) -> crate::error::Result<crate::models::Membership> {
+        let mut params = HashMap::new();
+        params.insert("roles".to_string(), json!(roles.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/organization/memberships/{membershipId}".to_string().replace("{membershipId}", &membership_id.into().to_string());
+
+        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Remove a member from the current organization. The member is removed
+    /// whether they accepted the invitation or not; a pending invitation is
+    /// revoked.
+    pub async fn delete_membership(
+        &self,
+        membership_id: impl Into<String>,
+    ) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+
+        let path = "/organization/memberships/{membershipId}".to_string().replace("{membershipId}", &membership_id.into().to_string());
 
         self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
     }

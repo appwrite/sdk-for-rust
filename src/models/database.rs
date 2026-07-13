@@ -26,6 +26,10 @@ pub struct Database {
     /// Database type.
     #[serde(rename = "type")]
     pub r#type: crate::enums::DatabaseType,
+    /// Database status. Possible values: `provisioning`, `ready` or `failed`
+    #[serde(rename = "status")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub status: Option<crate::enums::DatabaseStatus>,
     /// Database backup policies.
     #[serde(rename = "policies")]
     pub policies: Vec<crate::models::BackupPolicy>,
@@ -63,6 +67,17 @@ impl Database {
     /// Get r#type
     pub fn r#type(&self) -> &crate::enums::DatabaseType {
         &self.r#type
+    }
+
+    /// Set status
+    pub fn set_status(mut self, status: crate::enums::DatabaseStatus) -> Self {
+        self.status = Some(status);
+        self
+    }
+
+    /// Get status
+    pub fn status(&self) -> Option<&crate::enums::DatabaseStatus> {
+        self.status.as_ref()
     }
 
     /// Get policies

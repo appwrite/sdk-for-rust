@@ -7,6 +7,8 @@ pub enum OAuthProvider {
     Amazon,
     #[serde(rename = "apple")]
     Apple,
+    #[serde(rename = "appwrite")]
+    Appwrite,
     #[serde(rename = "auth0")]
     Auth0,
     #[serde(rename = "authentik")]
@@ -97,6 +99,7 @@ impl OAuthProvider {
         match self {
             OAuthProvider::Amazon => "amazon",
             OAuthProvider::Apple => "apple",
+            OAuthProvider::Appwrite => "appwrite",
             OAuthProvider::Auth0 => "auth0",
             OAuthProvider::Authentik => "authentik",
             OAuthProvider::Autodesk => "autodesk",
