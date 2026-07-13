@@ -15,6 +15,9 @@ pub struct Block {
     /// Resource identifier that is blocked
     #[serde(rename = "resourceId")]
     pub resource_id: String,
+    /// Block mode. full blocks reads and writes; readOnly blocks writes only.
+    #[serde(rename = "mode")]
+    pub mode: String,
     /// Reason for the block. Can be null if no reason was provided.
     #[serde(rename = "reason")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -55,6 +58,11 @@ impl Block {
     /// Get resource_id
     pub fn resource_id(&self) -> &String {
         &self.resource_id
+    }
+
+    /// Get mode
+    pub fn mode(&self) -> &String {
+        &self.mode
     }
 
     /// Set reason
@@ -116,6 +124,7 @@ mod tests {
         let _ = _model.created_at();
         let _ = _model.resource_type();
         let _ = _model.resource_id();
+        let _ = _model.mode();
         let _ = _model.project_name();
         let _ = _model.region();
         let _ = _model.organization_name();

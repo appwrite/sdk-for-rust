@@ -15,6 +15,14 @@ pub enum OrganizationKeyScopes {
     OrganizationKeysRead,
     #[serde(rename = "organization.keys.write")]
     OrganizationKeysWrite,
+    #[serde(rename = "organization.memberships.read")]
+    OrganizationMembershipsRead,
+    #[serde(rename = "organization.memberships.write")]
+    OrganizationMembershipsWrite,
+    #[serde(rename = "organization.read")]
+    OrganizationRead,
+    #[serde(rename = "organization.write")]
+    OrganizationWrite,
     #[serde(rename = "domains.read")]
     DomainsRead,
     #[serde(rename = "domains.write")]
@@ -35,6 +43,10 @@ impl OrganizationKeyScopes {
             OrganizationKeyScopes::DevKeysWrite => "devKeys.write",
             OrganizationKeyScopes::OrganizationKeysRead => "organization.keys.read",
             OrganizationKeyScopes::OrganizationKeysWrite => "organization.keys.write",
+            OrganizationKeyScopes::OrganizationMembershipsRead => "organization.memberships.read",
+            OrganizationKeyScopes::OrganizationMembershipsWrite => "organization.memberships.write",
+            OrganizationKeyScopes::OrganizationRead => "organization.read",
+            OrganizationKeyScopes::OrganizationWrite => "organization.write",
             OrganizationKeyScopes::DomainsRead => "domains.read",
             OrganizationKeyScopes::DomainsWrite => "domains.write",
             OrganizationKeyScopes::KeysRead => "keys.read",

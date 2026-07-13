@@ -334,6 +334,7 @@ impl Project {
         user_code_length: Option<i64>,
         user_code_format: Option<&str>,
         device_code_duration: Option<i64>,
+        default_scopes: Option<Vec<String>>,
     ) -> crate::error::Result<crate::models::Project> {
         let mut params = HashMap::new();
         params.insert("enabled".to_string(), json!(enabled));
@@ -370,6 +371,9 @@ impl Project {
         }
         if let Some(value) = device_code_duration {
             params.insert("deviceCodeDuration".to_string(), json!(value));
+        }
+        if let Some(value) = default_scopes {
+            params.insert("defaultScopes".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -436,6 +440,32 @@ impl Project {
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/apple".to_string();
+
+        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Update the project OAuth2 Appwrite configuration.
+    pub async fn update_o_auth2_appwrite(
+        &self,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::OAuth2Appwrite> {
+        let mut params = HashMap::new();
+        if let Some(value) = client_id {
+            params.insert("clientId".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/oauth2/appwrite".to_string();
 
         self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
     }
@@ -1054,6 +1084,8 @@ impl Project {
         authorization_url: Option<&str>,
         token_url: Option<&str>,
         user_info_url: Option<&str>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2OidcPrompt>>,
+        max_age: Option<i64>,
         enabled: Option<bool>,
     ) -> crate::error::Result<crate::models::OAuth2Oidc> {
         let mut params = HashMap::new();
@@ -1074,6 +1106,12 @@ impl Project {
         }
         if let Some(value) = user_info_url {
             params.insert("userInfoURL".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
+        }
+        if let Some(value) = max_age {
+            params.insert("maxAge".to_string(), json!(value));
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));

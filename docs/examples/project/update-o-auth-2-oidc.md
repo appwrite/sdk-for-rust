@@ -18,6 +18,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("https://example.com"), // optional
         Some("https://example.com"), // optional
         Some("https://example.com"), // optional
+        Some(vec![appwrite::enums::ProjectOAuth2OidcPrompt::None]), // optional
+        Some(0), // optional
         Some(false) // optional
     ).await?;
 

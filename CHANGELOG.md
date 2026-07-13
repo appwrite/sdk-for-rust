@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.10.0] - TBD
+## [0.11.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
@@ -29,13 +29,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Databases service with 71 methods
 - Functions service with 26 methods
 - Graphql service with 2 methods
-- Health service with 26 methods
 - Locale service with 8 methods
-- Messaging service with 58 methods
-- Notifications service with 2 methods
-- Organization service with 10 methods
+- Messaging service with 54 methods
+- Organization service with 18 methods
 - Presences service with 5 methods
-- Project service with 101 methods
+- Project service with 102 methods
 - Proxy service with 8 methods
 - Advisor service with 5 methods
 - Sites service with 25 methods
@@ -43,7 +41,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TablesDB service with 71 methods
 - Teams service with 13 methods
 - Tokens service with 5 methods
-- Usage service with 2 methods
 - Users service with 49 methods
 - Webhooks service with 6 methods
 
@@ -182,6 +179,9 @@ When width and height are specified, the image is resized accordingly. If both d
 - `update_policy()` - Update an existing policy using it&#039;s ID.
 - `delete_policy()` - Delete a policy using it&#039;s ID.
 - `create_restoration()` - Create and trigger a new restoration for a backup on a project.
+
+When restoring a DocumentsDB or VectorsDB database to a new resource, pass `newSpecification` to provision the restored database on a different specification than the archived one (for example, restoring onto a larger or smaller dedicated database). Use `serverless` to restore onto the shared pool, or a dedicated specification slug to restore onto a dedicated database of that size. The specification must be permitted by the organization&#039;s plan. `newSpecification` is not supported for legacy/TablesDB databases or for bucket restores.
+
 - `list_restorations()` - List all backup restorations for a project.
 - `get_restoration()` - Get the current status of a backup restoration.
 
@@ -331,40 +331,6 @@ The GraphQL API allows you to query and mutate your Appwrite server using GraphQ
 - `query()` - Execute a GraphQL mutation.
 - `mutation()` - Execute a GraphQL mutation.
 
-#### Health
-The Health service allows you to both validate and monitor your Appwrite server&#039;s health.
-- `get()` - Check the Appwrite HTTP server is up and responsive.
-- `get_antivirus()` - Check the Appwrite Antivirus server is up and connection is successful.
-- `get_audits_db()` - Check the database that backs the audit and activity store. When the connection is reachable the endpoint returns a passing status with its response time.
-
-- `get_cache()` - Check the Appwrite in-memory cache servers are up and connection is successful.
-- `get_certificate()` - Get the SSL certificate for a domain
-- `get_console_pausing()` - Get console pausing health status. Monitors projects approaching the pause threshold to detect potential issues with console access tracking.
-
-- `get_db()` - Check the Appwrite database servers are up and connection is successful.
-- `get_pub_sub()` - Check the Appwrite pub-sub servers are up and connection is successful.
-- `get_queue_audits()` - Get the number of audit logs that are waiting to be processed in the Appwrite internal queue server.
-
-- `get_queue_builds()` - Get the number of builds that are waiting to be processed in the Appwrite internal queue server.
-- `get_queue_certificates()` - Get the number of certificates that are waiting to be issued against [Letsencrypt](https://letsencrypt.org/) in the Appwrite internal queue server.
-- `get_queue_databases()` - Get the number of database changes that are waiting to be processed in the Appwrite internal queue server.
-- `get_queue_deletes()` - Get the number of background destructive changes that are waiting to be processed in the Appwrite internal queue server.
-- `get_failed_jobs()` - Returns the amount of failed jobs in a given queue.
-
-- `get_queue_functions()` - Get the number of function executions that are waiting to be processed in the Appwrite internal queue server.
-- `get_queue_logs()` - Get the number of logs that are waiting to be processed in the Appwrite internal queue server.
-- `get_queue_mails()` - Get the number of mails that are waiting to be processed in the Appwrite internal queue server.
-- `get_queue_messaging()` - Get the number of messages that are waiting to be processed in the Appwrite internal queue server.
-- `get_queue_migrations()` - Get the number of migrations that are waiting to be processed in the Appwrite internal queue server.
-- `get_queue_notifications()` - Get the number of jobs in the notifications queue.
-
-- `get_queue_stats_resources()` - Get the number of metrics that are waiting to be processed in the Appwrite stats resources queue.
-- `get_queue_usage()` - Get the number of metrics that are waiting to be processed in the Appwrite internal queue server.
-- `get_queue_webhooks()` - Get the number of webhooks that are waiting to be processed in the Appwrite internal queue server.
-- `get_storage()` - Check the Appwrite storage device is up and connection is successful.
-- `get_storage_local()` - Check the Appwrite local storage device is up and connection is successful.
-- `get_time()` - Check the Appwrite server time is synced with Google remote NTP server. We use this technology to smoothly handle leap seconds with no disruptive events. The [Network Time Protocol](https://en.wikipedia.org/wiki/Network_Time_Protocol) (NTP) is used by hundreds of millions of computers and devices to synchronize their clocks over the Internet. If your computer sets its own clock, it likely uses NTP.
-
 #### Locale
 The Locale service allows you to customize your app based on your users&#039; location.
 - `get()` - Get the current user location based on IP. Returns an object with user country code, country name, continent name, continent code, ip address and suggested currency. You can use the locale header to get the data in a supported language.
@@ -396,7 +362,6 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 - `get_message()` - Get a message by its unique ID.
 
 - `delete()` - Delete a message. If the message is not a draft or scheduled, but has been sent, this will not recall the message.
-- `list_message_logs()` - Get the message activity logs listed by its unique ID.
 - `list_targets()` - Get a list of the targets associated with a message.
 - `list_providers()` - Get a list of all providers from the current Appwrite project.
 - `create_apns_provider()` - Create a new Apple Push Notification service provider.
@@ -432,8 +397,6 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 - `get_provider()` - Get a provider by its unique ID.
 
 - `delete_provider()` - Delete a provider by its unique ID.
-- `list_provider_logs()` - Get the provider activity logs listed by its unique ID.
-- `list_subscriber_logs()` - Get the subscriber activity logs listed by its unique ID.
 - `list_topics()` - Get a list of all topics from the current Appwrite project.
 - `create_topic()` - Create a new topic.
 - `get_topic()` - Get a topic by its unique ID.
@@ -441,27 +404,27 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 - `update_topic()` - Update a topic by its unique ID.
 
 - `delete_topic()` - Delete a topic by its unique ID.
-- `list_topic_logs()` - Get the topic activity logs listed by its unique ID.
 - `list_subscribers()` - Get a list of all subscribers from the current Appwrite project.
 - `create_subscriber()` - Create a new subscriber.
 - `get_subscriber()` - Get a subscriber by its unique ID.
 
 - `delete_subscriber()` - Delete a subscriber by its unique ID.
 
-#### Notifications
-
-- `list()` - Get the list of notifications for the currently logged in console user. Use queries to filter the results by attributes such as read status, view timestamps, or creation date.
-
-- `update()` - Update a notification by its unique ID. Use the `read` parameter to mark the notification as read or unread.
-
-
 #### Organization
 The Organization service allows you to manage organization-level projects.
+- `get()` - Get the current organization.
+- `update()` - Update the current organization&#039;s name.
+- `delete()` - Delete the current organization. All projects that belong to the organization are deleted as well.
 - `list_keys()` - Get a list of all API keys from the current organization.
 - `create_key()` - Create a new organization API key.
 - `get_key()` - Get a key by its unique ID. This endpoint returns details about a specific API key in your organization including its scopes.
 - `update_key()` - Update a key by its unique ID. Use this endpoint to update the name, scopes, or expiration time of an API key.
 - `delete_key()` - Delete a key by its unique ID. Once deleted, the key can no longer be used to authenticate API calls.
+- `list_memberships()` - Get a list of all memberships from the current organization.
+- `create_membership()` - Invite a new member to join the current organization. An email with a link to join the organization will be sent to the new member&#039;s email address. If member doesn&#039;t exist in the project it will be automatically created.
+- `get_membership()` - Get a membership from the current organization by its unique ID.
+- `update_membership()` - Modify the roles of a member in the current organization.
+- `delete_membership()` - Remove a member from the current organization. The member is removed whether they accepted the invitation or not; a pending invitation is revoked.
 - `list_projects()` - Get a list of all projects. You can use the query params to filter your results.
 - `create_project()` - Create a new project.
 - `get_project()` - Get a project.
@@ -506,6 +469,7 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_o_auth2_server()` - Update the OAuth2 server (OIDC provider) configuration.
 - `update_o_auth2_amazon()` - Update the project OAuth2 Amazon configuration.
 - `update_o_auth2_apple()` - Update the project OAuth2 Apple configuration.
+- `update_o_auth2_appwrite()` - Update the project OAuth2 Appwrite configuration.
 - `update_o_auth2_auth0()` - Update the project OAuth2 Auth0 configuration.
 - `update_o_auth2_authentik()` - Update the project OAuth2 Authentik configuration.
 - `update_o_auth2_autodesk()` - Update the project OAuth2 Autodesk configuration.
@@ -816,23 +780,6 @@ If the request is successful, a session for the user is automatically created.
 - `update()` - Update a token by its unique ID. Use this endpoint to update a token&#039;s expiry date.
 - `delete()` - Delete a token by its unique ID.
 
-#### Usage
-
-- `list_events()` - Aggregate usage event metrics. `metrics[]` (1-10) is required; the response always contains one entry per requested metric, each with its own `points[]` time series.
-
-**Two response shapes**:
-- Omit `interval` for a flat top-N table — one point per dimension combination, no time axis. Useful for &quot;top 10 paths by bandwidth in the last 7 days&quot;.
-- Pass `interval` (`1m`, `15m`, `30m`, `1h`, `1d`) for a time series — one point per (time bucket × dimension combination).
-
-`dimensions[]` breaks each point down by one or more attributes (service, path, status, country, …). `queries[]` filters the underlying events using the standard Utopia query syntax — `equal(&quot;path&quot;, [&quot;/v1/storage/files&quot;])`, `equal(&quot;resource&quot;, [&quot;bucket&quot;])`, `equal(&quot;resourceId&quot;, [&quot;abc123&quot;])`, `startsWith(&quot;path&quot;, [&quot;/v1/storage&quot;])`, `equal(&quot;status&quot;, [&quot;200&quot;, &quot;201&quot;])`, `isNotNull(&quot;resourceId&quot;)`. Supported attributes: see `queries[]` param. Supported methods: `equal`, `notEqual`, `contains`, `startsWith`, `endsWith`, `isNull`, `isNotNull`. Pass multiple metrics to render stacked charts in one round-trip. `orderBy=value`+`orderDir=desc`+`limit=N` returns the top-N by aggregated value. When `startAt` is omitted, the default window adapts to `interval` (or 7d when interval is omitted).
-- `list_gauges()` - Aggregate usage gauge snapshots. Gauges are point-in-time values (storage totals, resource counts, …); each point carries the latest snapshot in its interval via `argMax(value, time)`. `metrics[]` (1-10) is required; the response always contains one entry per requested metric, each with its own `points[]` time series.
-
-**Two response shapes**:
-- Omit `interval` for a flat top-N table — `argMax(value, time)` per dimension combination over the whole window, no time axis. Useful for &quot;top 10 resources by current storage&quot;.
-- Pass `interval` (`1m`, `15m`, `30m`, `1h`, `1d`) for a time series — one snapshot per (time bucket × dimension combination).
-
-`dimensions[]` breaks each point down further. Supported on gauges: `resourceId`, `teamId`, `service`, `resource`. `service` and `resource` enable per-service / per-resource-type panels (e.g. storage-by-service: group `files.storage`, `deployments.storage`, `builds.storage`, `databases.storage` by `service`). `queries[]` filters the underlying rows using the standard Utopia query syntax — `equal(&quot;resource&quot;, [&quot;bucket&quot;])`, `equal(&quot;resourceId&quot;, [&quot;abc123&quot;])`, `equal(&quot;teamId&quot;, [&quot;team_x&quot;])`, `isNotNull(&quot;teamId&quot;)`. Supported attributes: see `queries[]` param. Supported methods: `equal`, `notEqual`, `isNull`, `isNotNull`. Pass multiple metrics to render stacked charts in one round-trip. `orderBy=value`+`orderDir=desc`+`limit=N` returns the top-N. When `startAt` is omitted, the default window adapts to interval (or 7d when interval is omitted).
-
 #### Users
 The Users service allows you to manage your project users.
 - `list()` - Get a list of all the project&#039;s users. You can use the query params to filter your results.
@@ -913,7 +860,6 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `UserList` - Users List
 - `SessionList` - Sessions List
 - `IdentityList` - Identities List
-- `NotificationList` - Notifications List
 - `LogList` - Logs List
 - `FileList` - Files List
 - `BucketList` - Buckets List
@@ -938,7 +884,6 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `MockNumberList` - Mock Numbers List
 - `PolicyList` - Policies List
 - `EmailTemplateList` - Email Templates List
-- `HealthStatusList` - Status List
 - `ProxyRuleList` - Rule List
 - `LocaleCodeList` - Locale codes list
 - `ProviderList` - Provider list
@@ -1008,7 +953,6 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `Preferences` - Preferences
 - `Session` - Session
 - `Identity` - Identity
-- `Notification` - Notification
 - `Token` - Token
 - `Jwt` - JWT
 - `Locale` - Locale
@@ -1065,6 +1009,7 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `OAuth2Tradeshift` - OAuth2Tradeshift
 - `OAuth2Paypal` - OAuth2Paypal
 - `OAuth2Gitlab` - OAuth2Gitlab
+- `OAuth2Appwrite` - OAuth2Appwrite
 - `OAuth2Authentik` - OAuth2Authentik
 - `OAuth2Auth0` - OAuth2Auth0
 - `OAuth2FusionAuth` - OAuth2FusionAuth
@@ -1097,11 +1042,6 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `Language` - Language
 - `Currency` - Currency
 - `Phone` - Phone
-- `HealthAntivirus` - Health Antivirus
-- `HealthQueue` - Health Queue
-- `HealthStatus` - Health Status
-- `HealthCertificate` - Health Certificate
-- `HealthTime` - Health Time
 - `Headers` - Headers
 - `Specification` - Specification
 - `ProxyRule` - Rule
@@ -1120,19 +1060,25 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `InsightCTA` - InsightCTA
 - `Report` - Report
 - `ActivityEvent` - ActivityEvent
+- `AdditionalResource` - AdditionalResource
 - `BackupArchive` - Archive
 - `BillingLimits` - Limits
+- `BillingPlan` - billingPlan
+- `BillingPlanAddon` - Addon
+- `BillingPlanAddonDetails` - Details
+- `BillingPlanLimits` - PlanLimits
+- `BillingPlanDedicatedDatabaseLimits` - dedicatedDatabaseLimits
+- `BillingPlanSupportedAddons` - BillingPlanSupportedAddons
 - `Block` - Block
+- `Organization` - Organization
 - `BackupPolicy` - backup
 - `PolicyDenyAliasedEmail` - Policy Deny Aliased Email
 - `PolicyDenyDisposableEmail` - Policy Deny Disposable Email
 - `PolicyDenyFreeEmail` - Policy Deny Free Email
 - `PolicyDenyCorporateEmail` - Policy Deny Corporate Email
+- `Program` - Program
 - `BackupRestoration` - Restoration
-- `UsageDataPoint` - usageDataPoint
-- `UsageEventList` - usageEventList
-- `UsageGaugeList` - usageGaugeList
-- `UsageMetric` - usageMetric
+- `UsageBillingPlan` - usageBillingPlan
 - `ActivityEventList` - Activity event list
 - `BackupArchiveList` - Backup archive list
 - `BackupPolicyList` - Backup policy list
@@ -1152,4 +1098,4 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - File upload examples
 - Query builder documentation
 
-[0.10.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.10.0
+[0.11.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.11.0

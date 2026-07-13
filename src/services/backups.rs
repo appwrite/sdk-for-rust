@@ -199,12 +199,22 @@ impl Backups {
     }
 
     /// Create and trigger a new restoration for a backup on a project.
+    /// 
+    /// When restoring a DocumentsDB or VectorsDB database to a new resource, pass
+    /// `newSpecification` to provision the restored database on a different
+    /// specification than the archived one (for example, restoring onto a larger
+    /// or smaller dedicated database). Use `serverless` to restore onto the shared
+    /// pool, or a dedicated specification slug to restore onto a dedicated
+    /// database of that size. The specification must be permitted by the
+    /// organization's plan. `newSpecification` is not supported for
+    /// legacy/TablesDB databases or for bucket restores.
     pub async fn create_restoration(
         &self,
         archive_id: impl Into<String>,
         services: Vec<crate::enums::BackupServices>,
         new_resource_id: Option<&str>,
         new_resource_name: Option<&str>,
+        new_specification: Option<&str>,
     ) -> crate::error::Result<crate::models::BackupRestoration> {
         let mut params = HashMap::new();
         params.insert("archiveId".to_string(), json!(archive_id.into()));
@@ -214,6 +224,9 @@ impl Backups {
         }
         if let Some(value) = new_resource_name {
             params.insert("newResourceName".to_string(), json!(value));
+        }
+        if let Some(value) = new_specification {
+            params.insert("newSpecification".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

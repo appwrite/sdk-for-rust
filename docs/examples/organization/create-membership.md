@@ -1,6 +1,6 @@
 ```rust
 use appwrite::Client;
-use appwrite::services::TablesDB;
+use appwrite::services::Organization;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -9,13 +9,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     client.set_project("<YOUR_PROJECT_ID>"); // Your project ID
     client.set_key("<YOUR_API_KEY>"); // Your secret API key
 
-    let tables_db = TablesDB::new(&client);
+    let organization = Organization::new(&client);
 
-    let result = tables_db.create(
-        "<DATABASE_ID>",
-        "<NAME>",
-        Some(false), // optional
-        Some("serverless") // optional
+    let result = organization.create_membership(
+        vec![],
+        Some("email@example.com"), // optional
+        Some("<USER_ID>"), // optional
+        Some("+12065550100"), // optional
+        Some("https://example.com"), // optional
+        Some("<NAME>") // optional
     ).await?;
 
     let _ = result;

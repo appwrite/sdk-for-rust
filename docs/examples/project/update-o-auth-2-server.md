@@ -24,7 +24,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("https://example.com"), // optional
         Some(6), // optional
         Some("numeric"), // optional
-        Some(60) // optional
+        Some(60), // optional
+        Some(vec![]) // optional
     ).await?;
 
     let _ = result;
