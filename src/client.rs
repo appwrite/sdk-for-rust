@@ -199,7 +199,7 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("authorization", value.clone().parse().unwrap());
+            next.config.headers.insert("authorization", format!("Bearer {}", value).parse().unwrap());
             Arc::new(next)
         });
         self.clone()
