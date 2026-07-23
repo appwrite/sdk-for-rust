@@ -42,6 +42,9 @@ pub struct BillingPlan {
     /// Webhooks
     #[serde(rename = "webhooks")]
     pub webhooks: i64,
+    /// Maximum WAF rules per project
+    #[serde(rename = "wafRules")]
+    pub waf_rules: i64,
     /// Projects
     #[serde(rename = "projects")]
     pub projects: i64,
@@ -276,6 +279,11 @@ impl BillingPlan {
     /// Get webhooks
     pub fn webhooks(&self) -> &i64 {
         &self.webhooks
+    }
+
+    /// Get waf_rules
+    pub fn waf_rules(&self) -> &i64 {
+        &self.waf_rules
     }
 
     /// Get projects
@@ -603,6 +611,7 @@ mod tests {
         let _ = _model.screenshots_generated();
         let _ = _model.members();
         let _ = _model.webhooks();
+        let _ = _model.waf_rules();
         let _ = _model.projects();
         let _ = _model.platforms();
         let _ = _model.users();

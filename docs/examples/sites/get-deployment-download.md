@@ -14,7 +14,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = sites.get_deployment_download(
         "<SITE_ID>",
         "<DEPLOYMENT_ID>",
-        Some(appwrite::enums::DeploymentDownloadType::Source) // optional
+        Some(appwrite::enums::DeploymentDownloadType::Source), // optional
+        Some("<TOKEN>") // optional
     ).await?;
 
     let _ = result;

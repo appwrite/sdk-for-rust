@@ -6,6 +6,8 @@ use reqwest::Method;
 use serde_json::json;
 use std::collections::HashMap;
 
+/// The Activities service allows you to list and inspect project activity
+/// events.
 #[derive(Debug, Clone)]
 pub struct Activities {
     client: Client,

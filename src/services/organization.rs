@@ -64,6 +64,104 @@ impl Organization {
         self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
     }
 
+    /// List app installations on the organization. Any organization member can
+    /// read installations.
+    pub async fn list_installations(
+        &self,
+        queries: Option<Vec<String>>,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::AppInstallationList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/organization/installations".to_string();
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Install an app on the organization. Only organization members with the
+    /// owner role can install apps. The installation is granted the scopes the app
+    /// currently requests.
+    pub async fn create_installation(
+        &self,
+        app_id: impl Into<String>,
+        authorization_details: Option<&str>,
+    ) -> crate::error::Result<crate::models::AppInstallation> {
+        let mut params = HashMap::new();
+        params.insert("appId".to_string(), json!(app_id.into()));
+        if let Some(value) = authorization_details {
+            params.insert("authorizationDetails".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/organization/installations".to_string();
+
+        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Get an app installation on the organization by its unique ID. Any
+    /// organization member can read installations.
+    pub async fn get_installation(
+        &self,
+        installation_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::AppInstallation> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/organization/installations/{installationId}".to_string().replace("{installationId}", &installation_id.into().to_string());
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Update an app installation on the organization. Only organization members
+    /// with the owner role can update installations. The installation's granted
+    /// scopes are refreshed to the scopes the app currently requests; previously
+    /// issued installation access tokens are revoked.
+    pub async fn update_installation(
+        &self,
+        installation_id: impl Into<String>,
+        authorization_details: Option<&str>,
+    ) -> crate::error::Result<crate::models::AppInstallation> {
+        let mut params = HashMap::new();
+        if let Some(value) = authorization_details {
+            params.insert("authorizationDetails".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/organization/installations/{installationId}".to_string().replace("{installationId}", &installation_id.into().to_string());
+
+        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Uninstall an app from the organization by its installation ID. Only
+    /// organization members with the owner role can remove installations.
+    /// Previously issued installation access tokens are revoked.
+    pub async fn delete_installation(
+        &self,
+        installation_id: impl Into<String>,
+    ) -> crate::error::Result<serde_json::Value> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/organization/installations/{installationId}".to_string().replace("{installationId}", &installation_id.into().to_string());
+
+        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+    }
+
     /// Get a list of all API keys from the current organization.
     pub async fn list_keys(
         &self,

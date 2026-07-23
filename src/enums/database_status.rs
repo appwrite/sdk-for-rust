@@ -7,8 +7,30 @@ pub enum DatabaseStatus {
     Provisioning,
     #[serde(rename = "ready")]
     Ready,
+    #[serde(rename = "inactive")]
+    Inactive,
+    #[serde(rename = "paused")]
+    Paused,
     #[serde(rename = "failed")]
     Failed,
+    #[serde(rename = "deleting")]
+    Deleting,
+    #[serde(rename = "deleted")]
+    Deleted,
+    #[serde(rename = "restoring")]
+    Restoring,
+    #[serde(rename = "scaling")]
+    Scaling,
+    #[serde(rename = "upgrading")]
+    Upgrading,
+    #[serde(rename = "migrating")]
+    Migrating,
+    #[serde(rename = "pausing")]
+    Pausing,
+    #[serde(rename = "resuming")]
+    Resuming,
+    #[serde(rename = "failing-over")]
+    FailingOver,
 }
 
 impl DatabaseStatus {
@@ -17,7 +39,18 @@ impl DatabaseStatus {
         match self {
             DatabaseStatus::Provisioning => "provisioning",
             DatabaseStatus::Ready => "ready",
+            DatabaseStatus::Inactive => "inactive",
+            DatabaseStatus::Paused => "paused",
             DatabaseStatus::Failed => "failed",
+            DatabaseStatus::Deleting => "deleting",
+            DatabaseStatus::Deleted => "deleted",
+            DatabaseStatus::Restoring => "restoring",
+            DatabaseStatus::Scaling => "scaling",
+            DatabaseStatus::Upgrading => "upgrading",
+            DatabaseStatus::Migrating => "migrating",
+            DatabaseStatus::Pausing => "pausing",
+            DatabaseStatus::Resuming => "resuming",
+            DatabaseStatus::FailingOver => "failing-over",
         }
     }
 }

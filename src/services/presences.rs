@@ -6,6 +6,8 @@ use reqwest::Method;
 use serde_json::json;
 use std::collections::HashMap;
 
+/// The Presences service allows you to track and manage real-time user
+/// presence in your project.
 #[derive(Debug, Clone)]
 pub struct Presences {
     client: Client,

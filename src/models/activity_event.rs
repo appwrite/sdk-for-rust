@@ -48,6 +48,33 @@ pub struct ActivityEvent {
     /// Location.
     #[serde(rename = "country")]
     pub country: String,
+    /// Continent code.
+    #[serde(rename = "continentCode")]
+    pub continent_code: String,
+    /// City name.
+    #[serde(rename = "city")]
+    pub city: String,
+    /// Region/state chain.
+    #[serde(rename = "subdivisions")]
+    pub subdivisions: String,
+    /// Internet service provider.
+    #[serde(rename = "isp")]
+    pub isp: String,
+    /// Autonomous System Number (ASN).
+    #[serde(rename = "autonomousSystemNumber")]
+    pub autonomous_system_number: String,
+    /// Organization that owns the ASN.
+    #[serde(rename = "autonomousSystemOrganization")]
+    pub autonomous_system_organization: String,
+    /// Connection type (e.g. cable, cellular, corporate).
+    #[serde(rename = "connectionType")]
+    pub connection_type: String,
+    /// User type (e.g. residential, business, hosting).
+    #[serde(rename = "connectionUsageType")]
+    pub connection_usage_type: String,
+    /// Registered organization of the IP.
+    #[serde(rename = "connectionOrganization")]
+    pub connection_organization: String,
     /// Log creation date in ISO 8601 format.
     #[serde(rename = "time")]
     pub time: String,
@@ -60,6 +87,12 @@ pub struct ActivityEvent {
     /// Hostname.
     #[serde(rename = "hostname")]
     pub hostname: String,
+    /// Name of the SDK that triggered the event.
+    #[serde(rename = "sdk")]
+    pub sdk: String,
+    /// Version of the SDK that triggered the event.
+    #[serde(rename = "sdkVersion")]
+    pub sdk_version: String,
 }
 
 impl ActivityEvent {
@@ -133,6 +166,51 @@ impl ActivityEvent {
         &self.country
     }
 
+    /// Get continent_code
+    pub fn continent_code(&self) -> &String {
+        &self.continent_code
+    }
+
+    /// Get city
+    pub fn city(&self) -> &String {
+        &self.city
+    }
+
+    /// Get subdivisions
+    pub fn subdivisions(&self) -> &String {
+        &self.subdivisions
+    }
+
+    /// Get isp
+    pub fn isp(&self) -> &String {
+        &self.isp
+    }
+
+    /// Get autonomous_system_number
+    pub fn autonomous_system_number(&self) -> &String {
+        &self.autonomous_system_number
+    }
+
+    /// Get autonomous_system_organization
+    pub fn autonomous_system_organization(&self) -> &String {
+        &self.autonomous_system_organization
+    }
+
+    /// Get connection_type
+    pub fn connection_type(&self) -> &String {
+        &self.connection_type
+    }
+
+    /// Get connection_usage_type
+    pub fn connection_usage_type(&self) -> &String {
+        &self.connection_usage_type
+    }
+
+    /// Get connection_organization
+    pub fn connection_organization(&self) -> &String {
+        &self.connection_organization
+    }
+
     /// Get time
     pub fn time(&self) -> &String {
         &self.time
@@ -151,6 +229,16 @@ impl ActivityEvent {
     /// Get hostname
     pub fn hostname(&self) -> &String {
         &self.hostname
+    }
+
+    /// Get sdk
+    pub fn sdk(&self) -> &String {
+        &self.sdk
+    }
+
+    /// Get sdk_version
+    pub fn sdk_version(&self) -> &String {
+        &self.sdk_version
     }
 
 }
@@ -176,10 +264,21 @@ mod tests {
         let _ = _model.ip();
         let _ = _model.mode();
         let _ = _model.country();
+        let _ = _model.continent_code();
+        let _ = _model.city();
+        let _ = _model.subdivisions();
+        let _ = _model.isp();
+        let _ = _model.autonomous_system_number();
+        let _ = _model.autonomous_system_organization();
+        let _ = _model.connection_type();
+        let _ = _model.connection_usage_type();
+        let _ = _model.connection_organization();
         let _ = _model.time();
         let _ = _model.project_id();
         let _ = _model.team_id();
         let _ = _model.hostname();
+        let _ = _model.sdk();
+        let _ = _model.sdk_version();
     }
 
     #[test]

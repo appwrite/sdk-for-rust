@@ -329,6 +329,7 @@ impl Project {
         refresh_token_duration: Option<i64>,
         public_access_token_duration: Option<i64>,
         public_refresh_token_duration: Option<i64>,
+        installation_access_token_duration: Option<i64>,
         confidential_pkce: Option<bool>,
         verification_url: Option<&str>,
         user_code_length: Option<i64>,
@@ -356,6 +357,9 @@ impl Project {
         }
         if let Some(value) = public_refresh_token_duration {
             params.insert("publicRefreshTokenDuration".to_string(), json!(value));
+        }
+        if let Some(value) = installation_access_token_duration {
+            params.insert("installationAccessTokenDuration".to_string(), json!(value));
         }
         if let Some(value) = confidential_pkce {
             params.insert("confidentialPkce".to_string(), json!(value));
