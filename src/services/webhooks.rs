@@ -6,6 +6,7 @@ use reqwest::Method;
 use serde_json::json;
 use std::collections::HashMap;
 
+/// The Webhooks service allows you to manage your project webhooks.
 #[derive(Debug, Clone)]
 pub struct Webhooks {
     client: Client,

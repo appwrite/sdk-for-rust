@@ -193,6 +193,10 @@ pub enum ProjectKeyScopes {
     DomainsRead,
     #[serde(rename = "domains.write")]
     DomainsWrite,
+    #[serde(rename = "wafRules.read")]
+    WafRulesRead,
+    #[serde(rename = "wafRules.write")]
+    WafRulesWrite,
     #[serde(rename = "events.read")]
     EventsRead,
     #[serde(rename = "apps.read")]
@@ -203,6 +207,8 @@ pub enum ProjectKeyScopes {
     Oauth2Read,
     #[serde(rename = "oauth2.write")]
     Oauth2Write,
+    #[serde(rename = "oauth2.introspect")]
+    Oauth2Introspect,
     #[serde(rename = "usage.read")]
     UsageRead,
 }
@@ -306,11 +312,14 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::DedicatedDatabasesExecute => "dedicatedDatabases.execute",
             ProjectKeyScopes::DomainsRead => "domains.read",
             ProjectKeyScopes::DomainsWrite => "domains.write",
+            ProjectKeyScopes::WafRulesRead => "wafRules.read",
+            ProjectKeyScopes::WafRulesWrite => "wafRules.write",
             ProjectKeyScopes::EventsRead => "events.read",
             ProjectKeyScopes::AppsRead => "apps.read",
             ProjectKeyScopes::AppsWrite => "apps.write",
             ProjectKeyScopes::Oauth2Read => "oauth2.read",
             ProjectKeyScopes::Oauth2Write => "oauth2.write",
+            ProjectKeyScopes::Oauth2Introspect => "oauth2.introspect",
             ProjectKeyScopes::UsageRead => "usage.read",
         }
     }

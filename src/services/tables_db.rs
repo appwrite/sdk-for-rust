@@ -6,6 +6,8 @@ use reqwest::Method;
 use serde_json::json;
 use std::collections::HashMap;
 
+/// The TablesDB service allows you to create structured tables of columns,
+/// query and filter lists of rows
 #[derive(Debug, Clone)]
 pub struct TablesDB {
     client: Client,
@@ -53,6 +55,7 @@ impl TablesDB {
         name: impl Into<String>,
         enabled: Option<bool>,
         specification: Option<&str>,
+        replicas: Option<i64>,
     ) -> crate::error::Result<crate::models::Database> {
         let mut params = HashMap::new();
         params.insert("databaseId".to_string(), json!(database_id.into()));
@@ -63,6 +66,9 @@ impl TablesDB {
         if let Some(value) = specification {
             params.insert("specification".to_string(), json!(value));
         }
+        if let Some(value) = replicas {
+            params.insert("replicas".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -70,6 +76,21 @@ impl TablesDB {
         let path = "/tablesdb".to_string();
 
         self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// List the dedicated database specifications available on the current plan.
+    /// Each specification reports its resource limits, pricing, and whether it is
+    /// enabled for the organization.
+    pub async fn list_specifications(
+        &self,
+    ) -> crate::error::Result<crate::models::DedicatedDatabaseSpecificationList> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/tablesdb/specifications".to_string();
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// List transactions across all databases.
@@ -198,6 +219,7 @@ impl TablesDB {
         database_id: impl Into<String>,
         name: Option<&str>,
         enabled: Option<bool>,
+        replicas: Option<i64>,
     ) -> crate::error::Result<crate::models::Database> {
         let mut params = HashMap::new();
         if let Some(value) = name {
@@ -205,6 +227,9 @@ impl TablesDB {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = replicas {
+            params.insert("replicas".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -228,6 +253,58 @@ impl TablesDB {
         let path = "/tablesdb/{databaseId}".to_string().replace("{databaseId}", &database_id.into().to_string());
 
         self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Trigger a manual failover for a dedicated database with high availability
+    /// enabled. Promotes a replica to primary. The failover runs asynchronously;
+    /// poll the database document for status updates.
+    pub async fn create_failover(
+        &self,
+        database_id: impl Into<String>,
+        target_replica_id: Option<&str>,
+    ) -> crate::error::Result<crate::models::DedicatedDatabase> {
+        let mut params = HashMap::new();
+        if let Some(value) = target_replica_id {
+            params.insert("targetReplicaId".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/tablesdb/{databaseId}/failovers".to_string().replace("{databaseId}", &database_id.into().to_string());
+
+        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Get high availability status for a dedicated database. Returns replica
+    /// statuses, replication lag, and sync mode.
+    pub async fn get_replicas(
+        &self,
+        database_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::DedicatedDatabaseReplicas> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/tablesdb/{databaseId}/replicas".to_string().replace("{databaseId}", &database_id.into().to_string());
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Get real-time health and status information for a dedicated database.
+    /// Returns health status, readiness, uptime, connection info, replica status,
+    /// and volume information.
+    pub async fn get_status(
+        &self,
+        database_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::DatabaseStatus> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/tablesdb/{databaseId}/status".to_string().replace("{databaseId}", &database_id.into().to_string());
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get a list of all tables that belong to the provided databaseId. You can

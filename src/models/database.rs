@@ -26,16 +26,36 @@ pub struct Database {
     /// Database type.
     #[serde(rename = "type")]
     pub r#type: crate::enums::DatabaseType,
-    /// Database status. Possible values: `provisioning`, `ready` or `failed`
+    /// Dedicated database lifecycle status. Null when the database has no valid
+    /// dedicated backing.
     #[serde(rename = "status")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<crate::enums::DatabaseStatus>,
+    /// Underlying engine of the dedicated backing: postgresql, mysql, mariadb, or
+    /// mongodb. A managed product (tablesdb, documentsdb, vectorsdb) reports the
+    /// engine it runs on, so its type and engine can differ. Null when the
+    /// database has no dedicated backing.
+    #[serde(rename = "engine")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub engine: Option<String>,
+    /// Compute specification identifier of the dedicated backing, e.g.
+    /// s-2vcpu-2gb. Null when the database has no dedicated backing.
+    #[serde(rename = "specification")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub specification: Option<String>,
+    /// Number of secondary high availability replicas, excluding the primary. Null
+    /// when backing configuration is unavailable.
+    #[serde(rename = "replicas")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub replicas: Option<i64>,
     /// Database backup policies.
     #[serde(rename = "policies")]
-    pub policies: Vec<crate::models::BackupPolicy>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub policies: Option<Vec<crate::models::BackupPolicy>>,
     /// Database backup archives.
     #[serde(rename = "archives")]
-    pub archives: Vec<crate::models::BackupArchive>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub archives: Option<Vec<crate::models::BackupArchive>>,
 }
 
 impl Database {
@@ -80,14 +100,59 @@ impl Database {
         self.status.as_ref()
     }
 
+    /// Set engine
+    pub fn set_engine(mut self, engine: String) -> Self {
+        self.engine = Some(engine);
+        self
+    }
+
+    /// Get engine
+    pub fn engine(&self) -> Option<&String> {
+        self.engine.as_ref()
+    }
+
+    /// Set specification
+    pub fn set_specification(mut self, specification: String) -> Self {
+        self.specification = Some(specification);
+        self
+    }
+
+    /// Get specification
+    pub fn specification(&self) -> Option<&String> {
+        self.specification.as_ref()
+    }
+
+    /// Set replicas
+    pub fn set_replicas(mut self, replicas: i64) -> Self {
+        self.replicas = Some(replicas);
+        self
+    }
+
+    /// Get replicas
+    pub fn replicas(&self) -> Option<&i64> {
+        self.replicas.as_ref()
+    }
+
+    /// Set policies
+    pub fn set_policies(mut self, policies: Vec<crate::models::BackupPolicy>) -> Self {
+        self.policies = Some(policies);
+        self
+    }
+
     /// Get policies
-    pub fn policies(&self) -> &Vec<crate::models::BackupPolicy> {
-        &self.policies
+    pub fn policies(&self) -> Option<&Vec<crate::models::BackupPolicy>> {
+        self.policies.as_ref()
+    }
+
+    /// Set archives
+    pub fn set_archives(mut self, archives: Vec<crate::models::BackupArchive>) -> Self {
+        self.archives = Some(archives);
+        self
     }
 
     /// Get archives
-    pub fn archives(&self) -> &Vec<crate::models::BackupArchive> {
-        &self.archives
+    pub fn archives(&self) -> Option<&Vec<crate::models::BackupArchive>> {
+        self.archives.as_ref()
     }
 
 }
@@ -105,8 +170,6 @@ mod tests {
         let _ = _model.updated_at();
         let _ = _model.enabled();
         let _ = _model.r#type();
-        let _ = _model.policies();
-        let _ = _model.archives();
     }
 
     #[test]

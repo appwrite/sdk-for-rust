@@ -11,6 +11,12 @@ pub enum DatabaseType {
     Documentsdb,
     #[serde(rename = "vectorsdb")]
     Vectorsdb,
+    #[serde(rename = "mysql")]
+    Mysql,
+    #[serde(rename = "postgresql")]
+    Postgresql,
+    #[serde(rename = "mongodb")]
+    Mongodb,
 }
 
 impl DatabaseType {
@@ -21,6 +27,9 @@ impl DatabaseType {
             DatabaseType::Tablesdb => "tablesdb",
             DatabaseType::Documentsdb => "documentsdb",
             DatabaseType::Vectorsdb => "vectorsdb",
+            DatabaseType::Mysql => "mysql",
+            DatabaseType::Postgresql => "postgresql",
+            DatabaseType::Mongodb => "mongodb",
         }
     }
 }

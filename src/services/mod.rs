@@ -4,6 +4,8 @@ pub mod account;
 pub use account::Account;
 pub mod activities;
 pub use activities::Activities;
+pub mod apps;
+pub use apps::Apps;
 pub mod avatars;
 pub use avatars::Avatars;
 pub mod backups;
@@ -18,6 +20,8 @@ pub mod locale;
 pub use locale::Locale;
 pub mod messaging;
 pub use messaging::Messaging;
+pub mod oauth2;
+pub use oauth2::Oauth2;
 pub mod organization;
 pub use organization::Organization;
 pub mod presences;
@@ -56,6 +60,7 @@ pub struct Services {
     client: Client,
     account: Account,
     activities: Activities,
+    apps: Apps,
     avatars: Avatars,
     backups: Backups,
     databases: Databases,
@@ -63,6 +68,7 @@ pub struct Services {
     graphql: Graphql,
     locale: Locale,
     messaging: Messaging,
+    oauth2: Oauth2,
     organization: Organization,
     presences: Presences,
     project: Project,
@@ -83,6 +89,7 @@ impl Services {
         Self {
             account: Account::new(&client),
             activities: Activities::new(&client),
+            apps: Apps::new(&client),
             avatars: Avatars::new(&client),
             backups: Backups::new(&client),
             databases: Databases::new(&client),
@@ -90,6 +97,7 @@ impl Services {
             graphql: Graphql::new(&client),
             locale: Locale::new(&client),
             messaging: Messaging::new(&client),
+            oauth2: Oauth2::new(&client),
             organization: Organization::new(&client),
             presences: Presences::new(&client),
             project: Project::new(&client),
@@ -119,6 +127,10 @@ impl Services {
     pub fn activities(&self) -> &Activities {
         &self.activities
     }
+    /// Get Apps service
+    pub fn apps(&self) -> &Apps {
+        &self.apps
+    }
     /// Get Avatars service
     pub fn avatars(&self) -> &Avatars {
         &self.avatars
@@ -146,6 +158,10 @@ impl Services {
     /// Get Messaging service
     pub fn messaging(&self) -> &Messaging {
         &self.messaging
+    }
+    /// Get Oauth2 service
+    pub fn oauth2(&self) -> &Oauth2 {
+        &self.oauth2
     }
     /// Get Organization service
     pub fn organization(&self) -> &Organization {

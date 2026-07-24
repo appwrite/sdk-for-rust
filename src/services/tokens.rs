@@ -6,6 +6,8 @@ use reqwest::Method;
 use serde_json::json;
 use std::collections::HashMap;
 
+/// The Tokens service allows you to create and manage resource tokens for
+/// secure file access.
 #[derive(Debug, Clone)]
 pub struct Tokens {
     client: Client,

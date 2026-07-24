@@ -64,6 +64,118 @@ impl Account {
         self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
     }
 
+    /// Get a list of the OAuth2 consents the current user has given to third-party
+    /// apps.
+    pub async fn list_consents(
+        &self,
+        queries: Option<Vec<String>>,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::Oauth2ConsentList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/account/consents".to_string();
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Get an OAuth2 consent the current user has given to a third-party app by
+    /// its unique ID.
+    pub async fn get_consent(
+        &self,
+        consent_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Oauth2Consent> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/account/consents/{consentId}".to_string().replace("{consentId}", &consent_id.into().to_string());
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Delete an OAuth2 consent by its unique ID. All token families issued under
+    /// the consent are revoked, and the app must ask for consent again to regain
+    /// access.
+    pub async fn delete_consent(
+        &self,
+        consent_id: impl Into<String>,
+    ) -> crate::error::Result<serde_json::Value> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/account/consents/{consentId}".to_string().replace("{consentId}", &consent_id.into().to_string());
+
+        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Get a list of the token families issued under an OAuth2 consent. Each entry
+    /// represents one authorized device or session; the token secrets themselves
+    /// are never returned.
+    pub async fn list_consent_tokens(
+        &self,
+        consent_id: impl Into<String>,
+        queries: Option<Vec<String>>,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::Oauth2ConsentTokenList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/account/consents/{consentId}/tokens".to_string().replace("{consentId}", &consent_id.into().to_string());
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Get a token family issued under an OAuth2 consent by its unique ID. The
+    /// token secrets themselves are never returned.
+    pub async fn get_consent_token(
+        &self,
+        consent_id: impl Into<String>,
+        token_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Oauth2ConsentToken> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/account/consents/{consentId}/tokens/{tokenId}".to_string().replace("{consentId}", &consent_id.into().to_string()).replace("{tokenId}", &token_id.into().to_string());
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Delete a token family issued under an OAuth2 consent by its unique ID. The
+    /// access and refresh tokens of the family stop working immediately; other
+    /// token families and the consent itself are unaffected.
+    pub async fn delete_consent_token(
+        &self,
+        consent_id: impl Into<String>,
+        token_id: impl Into<String>,
+    ) -> crate::error::Result<serde_json::Value> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/account/consents/{consentId}/tokens/{tokenId}".to_string().replace("{consentId}", &consent_id.into().to_string()).replace("{tokenId}", &token_id.into().to_string());
+
+        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+    }
+
     /// Update currently logged in user account email address. After changing user
     /// address, the user confirmation status will get reset. A new confirmation
     /// email is not sent automatically however you can use the send confirmation

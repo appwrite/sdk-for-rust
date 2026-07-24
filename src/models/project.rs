@@ -90,6 +90,9 @@ pub struct Project {
     /// projectInactivityDays to determine if project is paused.
     #[serde(rename = "consoleAccessedAt")]
     pub console_accessed_at: String,
+    /// Whether WAF enforcement is enabled for the project.
+    #[serde(rename = "wafEnabled")]
+    pub waf_enabled: bool,
     /// Billing limits reached
     #[serde(rename = "billingLimits")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -133,6 +136,11 @@ pub struct Project {
     #[serde(rename = "oAuth2ServerPublicRefreshTokenDuration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub o_auth2_server_public_refresh_token_duration: Option<i64>,
+    /// OAuth2 server access token duration in seconds for app installation access
+    /// tokens
+    #[serde(rename = "oAuth2ServerInstallationAccessTokenDuration")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_installation_access_token_duration: Option<i64>,
     /// When enabled, PKCE is required for confidential clients (server-side flows
     /// using client_secret). PKCE is always required for public clients regardless
     /// of this setting.
@@ -300,6 +308,11 @@ impl Project {
         &self.console_accessed_at
     }
 
+    /// Get waf_enabled
+    pub fn waf_enabled(&self) -> &bool {
+        &self.waf_enabled
+    }
+
     /// Set billing_limits
     pub fn set_billing_limits(mut self, billing_limits: crate::models::BillingLimits) -> Self {
         self.billing_limits = Some(billing_limits);
@@ -410,6 +423,17 @@ impl Project {
         self.o_auth2_server_public_refresh_token_duration.as_ref()
     }
 
+    /// Set o_auth2_server_installation_access_token_duration
+    pub fn set_o_auth2_server_installation_access_token_duration(mut self, o_auth2_server_installation_access_token_duration: i64) -> Self {
+        self.o_auth2_server_installation_access_token_duration = Some(o_auth2_server_installation_access_token_duration);
+        self
+    }
+
+    /// Get o_auth2_server_installation_access_token_duration
+    pub fn o_auth2_server_installation_access_token_duration(&self) -> Option<&i64> {
+        self.o_auth2_server_installation_access_token_duration.as_ref()
+    }
+
     /// Set o_auth2_server_confidential_pkce
     pub fn set_o_auth2_server_confidential_pkce(mut self, o_auth2_server_confidential_pkce: bool) -> Self {
         self.o_auth2_server_confidential_pkce = Some(o_auth2_server_confidential_pkce);
@@ -512,6 +536,7 @@ mod tests {
         let _ = _model.protocols();
         let _ = _model.blocks();
         let _ = _model.console_accessed_at();
+        let _ = _model.waf_enabled();
     }
 
     #[test]

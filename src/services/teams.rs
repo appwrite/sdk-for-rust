@@ -118,6 +118,109 @@ impl Teams {
         self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
     }
 
+    /// List app installations on a team. Any team member can read installations.
+    pub async fn list_installations(
+        &self,
+        team_id: impl Into<String>,
+        queries: Option<Vec<String>>,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::AppInstallationList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/teams/{teamId}/installations".to_string().replace("{teamId}", &team_id.into().to_string());
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Install an app on a team. When authenticated as a user, only team members
+    /// with the owner role can install apps. Requests using an API key or in admin
+    /// mode can install apps on any team. The installation is granted the scopes
+    /// the app currently requests.
+    pub async fn create_installation(
+        &self,
+        team_id: impl Into<String>,
+        app_id: impl Into<String>,
+        authorization_details: Option<&str>,
+    ) -> crate::error::Result<crate::models::AppInstallation> {
+        let mut params = HashMap::new();
+        params.insert("appId".to_string(), json!(app_id.into()));
+        if let Some(value) = authorization_details {
+            params.insert("authorizationDetails".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/teams/{teamId}/installations".to_string().replace("{teamId}", &team_id.into().to_string());
+
+        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Get an app installation on a team by its unique ID. Any team member can
+    /// read installations.
+    pub async fn get_installation(
+        &self,
+        team_id: impl Into<String>,
+        installation_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::AppInstallation> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/teams/{teamId}/installations/{installationId}".to_string().replace("{teamId}", &team_id.into().to_string()).replace("{installationId}", &installation_id.into().to_string());
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Update an app installation on a team. Only team members with the owner role
+    /// can update installations. The installation's granted scopes are refreshed
+    /// to the scopes the app currently requests; previously issued installation
+    /// access tokens are revoked.
+    pub async fn update_installation(
+        &self,
+        team_id: impl Into<String>,
+        installation_id: impl Into<String>,
+        authorization_details: Option<&str>,
+    ) -> crate::error::Result<crate::models::AppInstallation> {
+        let mut params = HashMap::new();
+        if let Some(value) = authorization_details {
+            params.insert("authorizationDetails".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/teams/{teamId}/installations/{installationId}".to_string().replace("{teamId}", &team_id.into().to_string()).replace("{installationId}", &installation_id.into().to_string());
+
+        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Uninstall an app from a team by its installation ID. Only team members with
+    /// the owner role can remove installations. Previously issued installation
+    /// access tokens are revoked.
+    pub async fn delete_installation(
+        &self,
+        team_id: impl Into<String>,
+        installation_id: impl Into<String>,
+    ) -> crate::error::Result<serde_json::Value> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/teams/{teamId}/installations/{installationId}".to_string().replace("{teamId}", &team_id.into().to_string()).replace("{installationId}", &installation_id.into().to_string());
+
+        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+    }
+
     /// Use this endpoint to list a team's members using the team's ID. All team
     /// members have read access to this endpoint. Hide sensitive attributes from
     /// the response by toggling membership privacy in the Console.

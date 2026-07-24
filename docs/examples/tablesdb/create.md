@@ -15,7 +15,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<DATABASE_ID>",
         "<NAME>",
         Some(false), // optional
-        Some("serverless") // optional
+        Some("serverless"), // optional
+        Some(0) // optional
     ).await?;
 
     let _ = result;

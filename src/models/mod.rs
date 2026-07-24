@@ -442,6 +442,14 @@ pub mod billing_plan_supported_addons;
 pub use billing_plan_supported_addons::BillingPlanSupportedAddons;
 pub mod block;
 pub use block::Block;
+pub mod dedicated_database;
+pub use dedicated_database::DedicatedDatabase;
+pub mod database_status;
+pub use database_status::DatabaseStatus;
+pub mod dedicated_database_member;
+pub use dedicated_database_member::DedicatedDatabaseMember;
+pub mod dedicated_database_replicas;
+pub use dedicated_database_replicas::DedicatedDatabaseReplicas;
 pub mod organization;
 pub use organization::Organization;
 pub mod backup_policy;
@@ -458,8 +466,62 @@ pub mod program;
 pub use program::Program;
 pub mod backup_restoration;
 pub use backup_restoration::BackupRestoration;
+pub mod dedicated_database_specification;
+pub use dedicated_database_specification::DedicatedDatabaseSpecification;
+pub mod dedicated_database_specification_list;
+pub use dedicated_database_specification_list::DedicatedDatabaseSpecificationList;
+pub mod dedicated_database_specification_pricing;
+pub use dedicated_database_specification_pricing::DedicatedDatabaseSpecificationPricing;
+pub mod database_status_connections;
+pub use database_status_connections::DatabaseStatusConnections;
+pub mod database_status_replica;
+pub use database_status_replica::DatabaseStatusReplica;
+pub mod database_status_volume;
+pub use database_status_volume::DatabaseStatusVolume;
 pub mod usage_billing_plan;
 pub use usage_billing_plan::UsageBillingPlan;
+pub mod app;
+pub use app::App;
+pub mod app_secret;
+pub use app_secret::AppSecret;
+pub mod app_secret_plaintext;
+pub use app_secret_plaintext::AppSecretPlaintext;
+pub mod app_scope;
+pub use app_scope::AppScope;
+pub mod app_installation;
+pub use app_installation::AppInstallation;
+pub mod app_key;
+pub use app_key::AppKey;
+pub mod oauth2_authorize;
+pub use oauth2_authorize::Oauth2Authorize;
+pub mod oauth2_approve;
+pub use oauth2_approve::Oauth2Approve;
+pub mod oauth2_reject;
+pub use oauth2_reject::Oauth2Reject;
+pub mod oauth2_grant;
+pub use oauth2_grant::Oauth2Grant;
+pub mod oauth2_device_authorization;
+pub use oauth2_device_authorization::Oauth2DeviceAuthorization;
+pub mod oauth2_par;
+pub use oauth2_par::Oauth2PAR;
+pub mod oauth2_token;
+pub use oauth2_token::Oauth2Token;
+pub mod oauth2_consent;
+pub use oauth2_consent::Oauth2Consent;
+pub mod oauth2_consent_token;
+pub use oauth2_consent_token::Oauth2ConsentToken;
+pub mod oauth2_project;
+pub use oauth2_project::Oauth2Project;
+pub mod oauth2_organization;
+pub use oauth2_organization::Oauth2Organization;
+pub mod oauth2_project_list;
+pub use oauth2_project_list::Oauth2ProjectList;
+pub mod oauth2_organization_list;
+pub use oauth2_organization_list::Oauth2OrganizationList;
+pub mod oauth2_consent_list;
+pub use oauth2_consent_list::Oauth2ConsentList;
+pub mod oauth2_consent_token_list;
+pub use oauth2_consent_token_list::Oauth2ConsentTokenList;
 pub mod activity_event_list;
 pub use activity_event_list::ActivityEventList;
 pub mod backup_archive_list;
@@ -468,6 +530,16 @@ pub mod backup_policy_list;
 pub use backup_policy_list::BackupPolicyList;
 pub mod backup_restoration_list;
 pub use backup_restoration_list::BackupRestorationList;
+pub mod apps_list;
+pub use apps_list::AppsList;
+pub mod app_secret_list;
+pub use app_secret_list::AppSecretList;
+pub mod app_scope_list;
+pub use app_scope_list::AppScopeList;
+pub mod app_installation_list;
+pub use app_installation_list::AppInstallationList;
+pub mod app_key_list;
+pub use app_key_list::AppKeyList;
 
 // Re-export commonly used types
 use serde::{Deserialize, Serialize};
@@ -697,6 +769,10 @@ impl Model for BillingPlanLimits {}
 impl Model for BillingPlanDedicatedDatabaseLimits {}
 impl Model for BillingPlanSupportedAddons {}
 impl Model for Block {}
+impl Model for DedicatedDatabase {}
+impl Model for DatabaseStatus {}
+impl Model for DedicatedDatabaseMember {}
+impl Model for DedicatedDatabaseReplicas {}
 impl Model for Organization {}
 impl Model for BackupPolicy {}
 impl Model for PolicyDenyAliasedEmail {}
@@ -705,8 +781,40 @@ impl Model for PolicyDenyFreeEmail {}
 impl Model for PolicyDenyCorporateEmail {}
 impl Model for Program {}
 impl Model for BackupRestoration {}
+impl Model for DedicatedDatabaseSpecification {}
+impl Model for DedicatedDatabaseSpecificationList {}
+impl Model for DedicatedDatabaseSpecificationPricing {}
+impl Model for DatabaseStatusConnections {}
+impl Model for DatabaseStatusReplica {}
+impl Model for DatabaseStatusVolume {}
 impl Model for UsageBillingPlan {}
+impl Model for App {}
+impl Model for AppSecret {}
+impl Model for AppSecretPlaintext {}
+impl Model for AppScope {}
+impl Model for AppInstallation {}
+impl Model for AppKey {}
+impl Model for Oauth2Authorize {}
+impl Model for Oauth2Approve {}
+impl Model for Oauth2Reject {}
+impl Model for Oauth2Grant {}
+impl Model for Oauth2DeviceAuthorization {}
+impl Model for Oauth2PAR {}
+impl Model for Oauth2Token {}
+impl Model for Oauth2Consent {}
+impl Model for Oauth2ConsentToken {}
+impl Model for Oauth2Project {}
+impl Model for Oauth2Organization {}
+impl Model for Oauth2ProjectList {}
+impl Model for Oauth2OrganizationList {}
+impl Model for Oauth2ConsentList {}
+impl Model for Oauth2ConsentTokenList {}
 impl Model for ActivityEventList {}
 impl Model for BackupArchiveList {}
 impl Model for BackupPolicyList {}
 impl Model for BackupRestorationList {}
+impl Model for AppsList {}
+impl Model for AppSecretList {}
+impl Model for AppScopeList {}
+impl Model for AppInstallationList {}
+impl Model for AppKeyList {}

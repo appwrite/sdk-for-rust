@@ -502,10 +502,14 @@ impl Sites {
         site_id: impl Into<String>,
         deployment_id: impl Into<String>,
         r#type: Option<crate::enums::DeploymentDownloadType>,
+        token: Option<&str>,
     ) -> crate::error::Result<Vec<u8>> {
         let mut params = HashMap::new();
         if let Some(value) = r#type {
             params.insert("type".to_string(), json!(value));
+        }
+        if let Some(value) = token {
+            params.insert("token".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "*/*".to_string());

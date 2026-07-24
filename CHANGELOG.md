@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.11.0] - TBD
+## [0.12.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
@@ -22,8 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automatic JSON serialization/deserialization
 
 ### Features
-- Account service with 54 methods
+- Account service with 60 methods
 - Activities service with 2 methods
+- Apps service with 21 methods
 - Avatars service with 8 methods
 - Backups service with 12 methods
 - Databases service with 71 methods
@@ -31,15 +32,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Graphql service with 2 methods
 - Locale service with 8 methods
 - Messaging service with 54 methods
-- Organization service with 18 methods
+- Oauth2 service with 12 methods
+- Organization service with 23 methods
 - Presences service with 5 methods
 - Project service with 102 methods
 - Proxy service with 8 methods
 - Advisor service with 5 methods
 - Sites service with 25 methods
 - Storage service with 13 methods
-- TablesDB service with 71 methods
-- Teams service with 13 methods
+- TablesDB service with 75 methods
+- Teams service with 18 methods
 - Tokens service with 5 methods
 - Users service with 49 methods
 - Webhooks service with 6 methods
@@ -49,6 +51,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The Account service allows you to authenticate and manage a user account.
 - `get()` - Get the currently logged in user.
 - `create()` - Use this endpoint to allow a new user to register a new account in your project. After the user registration completes successfully, you can use the [/account/verfication](https://appwrite.io/docs/references/cloud/client-web/account#createVerification) route to start verifying the user email address. To allow the new user to login to their new account, you need to create a new [account session](https://appwrite.io/docs/references/cloud/client-web/account#createEmailSession).
+- `list_consents()` - Get a list of the OAuth2 consents the current user has given to third-party apps.
+- `get_consent()` - Get an OAuth2 consent the current user has given to a third-party app by its unique ID.
+- `delete_consent()` - Delete an OAuth2 consent by its unique ID. All token families issued under the consent are revoked, and the app must ask for consent again to regain access.
+- `list_consent_tokens()` - Get a list of the token families issued under an OAuth2 consent. Each entry represents one authorized device or session; the token secrets themselves are never returned.
+- `get_consent_token()` - Get a token family issued under an OAuth2 consent by its unique ID. The token secrets themselves are never returned.
+- `delete_consent_token()` - Delete a token family issued under an OAuth2 consent by its unique ID. The access and refresh tokens of the family stop working immediately; other token families and the consent itself are unaffected.
 - `update_email()` - Update currently logged in user account email address. After changing user address, the user confirmation status will get reset. A new confirmation email is not sent automatically however you can use the send confirmation email endpoint again to send the confirmation email. For security measures, user password is required to complete this request.
 This endpoint can also be used to convert an anonymous account to a normal one, by passing an email address and a new password.
 
@@ -127,10 +135,34 @@ Please note that in order to avoid a [Redirect Attack](https://github.com/OWASP/
 - `update_phone_verification()` - Use this endpoint to complete the user phone verification process. Use the **userId** and **secret** that were sent to your user&#039;s phone number to verify the user email ownership. If confirmed this route will return a 200 status code.
 
 #### Activities
-
+The Activities service allows you to list and inspect project activity events.
 - `list_events()` - List all events for selected filters.
 - `get_event()` - Get event by ID.
 
+
+#### Apps
+
+- `list()` - List applications.
+- `create()` - Create a new application.
+- `list_installation_scopes()` - List scopes an application can request when installed on a team.
+- `list_o_auth2_scopes()` - List scopes an application can request during the OAuth2 flow.
+- `get()` - Get an application by its unique ID.
+- `update()` - Update an application by its unique ID.
+- `delete()` - Delete an application by its unique ID.
+- `list_installations()` - List installations of an application. Requires an app key sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header.
+- `get_installation()` - Get an installation of an application by its unique ID. Requires an app key sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header.
+- `create_installation_token()` - Create a token for an installation of an application. Requires an app key sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header. The returned token carries the scopes and authorization details granted to the installation, and can be used as an `Authorization: Bearer` header everywhere OAuth2 access tokens are accepted. Multiple tokens can be active for the same installation at once; each token stays valid until it expires or the installation is updated or deleted.
+- `list_keys()` - List app keys for an application.
+- `create_key()` - Create a new app key for an application. App keys carry no scopes; send one in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header to list the application&#039;s installations and create installation access tokens.
+- `get_key()` - Get an app key by its unique ID.
+- `delete_key()` - Delete an app key by its unique ID.
+- `update_labels()` - Update the labels of an application. Labels are read-only for clients; only a server SDK using a project API key can set them. Replaces the previous labels.
+- `list_secrets()` - List client secrets for an application.
+- `create_secret()` - Create a new client secret for an application.
+- `get_secret()` - Get an application client secret by its unique ID.
+- `delete_secret()` - Delete an application client secret by its unique ID.
+- `update_team()` - Transfer an application to another team by its unique ID.
+- `delete_tokens()` - Revoke all tokens for an application by its unique ID.
 
 #### Avatars
 The Avatars service aims to help you complete everyday tasks related to your app image, icons, and avatars.
@@ -168,7 +200,7 @@ You can configure the browser viewport size, theme, user agent, geolocation, per
 When width and height are specified, the image is resized accordingly. If both dimensions are 0, the API provides an image at original size. If dimensions are not specified, the default viewport size is 1280x720px.
 
 #### Backups
-
+The Backups service allows you to manage backup policies, archives, and restorations for your project.
 - `list_archives()` - List all archives for a project.
 - `create_archive()` - Create a new archive asynchronously for a project.
 - `get_archive()` - Get a backup archive using it&#039;s ID.
@@ -180,7 +212,13 @@ When width and height are specified, the image is resized accordingly. If both d
 - `delete_policy()` - Delete a policy using it&#039;s ID.
 - `create_restoration()` - Create and trigger a new restoration for a backup on a project.
 
-When restoring a DocumentsDB or VectorsDB database to a new resource, pass `newSpecification` to provision the restored database on a different specification than the archived one (for example, restoring onto a larger or smaller dedicated database). Use `serverless` to restore onto the shared pool, or a dedicated specification slug to restore onto a dedicated database of that size. The specification must be permitted by the organization&#039;s plan. `newSpecification` is not supported for legacy/TablesDB databases or for bucket restores.
+For a backup of one database, the restoration resolves its destination before it is queued. Pass `newResourceId` to restore into that database ID, including the archived database ID to overwrite it. When `newResourceId` is omitted, a new database ID is generated and returned in `options`.
+
+The restoration migration records the archived database in `resourceId` and `resourceType`, and the resolved database in `destinationResourceId` and `destinationResourceType`. Database types are stored canonically as `database`, `documentsdb`, or `vectorsdb`. Project-wide restorations leave these fields empty because they do not have a single source or destination database.
+
+To list every migration related to one database, use its canonical type in a nested `OR(AND(...), AND(...), AND(...))` across the root, parent, and destination relation pairs: `(resourceType, resourceId)`, `(parentResourceType, parentResourceId)`, and `(destinationResourceType, destinationResourceId)`. Legacy and TablesDB databases use `database`; the operational `resourceType` of a table migration is not rewritten to `tablesdb`.
+
+When restoring a DocumentsDB or VectorsDB database to a new resource from a dedicated source, the restore provisions a fresh dedicated backing database at the source database&#039;s own specification.
 
 - `list_restorations()` - List all backup restorations for a project.
 - `get_restoration()` - Get the current status of a backup restoration.
@@ -410,11 +448,31 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 
 - `delete_subscriber()` - Delete a subscriber by its unique ID.
 
+#### Oauth2
+The OAuth2 service allows you to authorize apps and issue standards-based OAuth2 and OpenID Connect tokens.
+- `approve()` - Approve an OAuth2 grant after the user gives consent. Returns the `redirectUrl` the end user should be sent to. The consent screen may optionally pass enriched `authorization_details` to record the concrete resources the user selected. You can pass Accept header of `application/json` to receive a JSON response instead of a redirect.
+- `authorize()` - Begin the OAuth2 authorization flow. When called without a session, the user is redirected to the consent screen without grant ID. When called with a session, the redirect URL includes param for grant ID. You can pass Accept header of `application/json` to receive a JSON response instead of a redirect.
+- `authorize_post()` - Begin the OAuth2 authorization flow. When called without a session, the user is redirected to the consent screen without grant ID. When called with a session, the redirect URL includes param for grant ID. You can pass Accept header of `application/json` to receive a JSON response instead of a redirect.
+- `create_device_authorization()` - Start the OAuth2 Device Authorization Grant. Returns the device code, user code, verification URL, expiration, and polling interval.
+- `create_grant()` - Exchange a device flow user code for an OAuth2 grant. The authenticated user is bound to the pending grant. Pass the returned grant ID to the get grant endpoint to render the consent screen, then to the approve or reject endpoint to complete the flow.
+- `get_grant()` - Get an OAuth2 grant by its ID. Used by the consent screen to display the details of the authorization the user is being asked to approve. A grant can only be read by the user it belongs to, or by server SDK.
+- `list_organizations()` - List the organizations the OAuth2 access token can access. Resolves the token&#039;s `organization` authorization details, expanding the `*` wildcard into the concrete set of organizations the user can see.
+- `create_par()` - Store an OAuth2 authorization request server-side and receive a short-lived request_uri handle for the authorize endpoint.
+- `list_projects()` - List the projects the OAuth2 access token can access. Resolves the token&#039;s `project` authorization details, expanding the `*` wildcard into the concrete set of projects the user can see.
+- `reject()` - Reject an OAuth2 grant when the user denies consent. Returns the `redirectUrl` the end user should be sent to with an `access_denied` error. You can pass Accept header of `application/json` to receive a JSON response instead of a redirect.
+- `revoke()` - Revoke an OAuth2 access token or refresh token.
+- `create_token()` - Exchange an OAuth2 authorization code, refresh token, or device code for access and refresh tokens.
+
 #### Organization
 The Organization service allows you to manage organization-level projects.
 - `get()` - Get the current organization.
 - `update()` - Update the current organization&#039;s name.
 - `delete()` - Delete the current organization. All projects that belong to the organization are deleted as well.
+- `list_installations()` - List app installations on the organization. Any organization member can read installations.
+- `create_installation()` - Install an app on the organization. Only organization members with the owner role can install apps. The installation is granted the scopes the app currently requests.
+- `get_installation()` - Get an app installation on the organization by its unique ID. Any organization member can read installations.
+- `update_installation()` - Update an app installation on the organization. Only organization members with the owner role can update installations. The installation&#039;s granted scopes are refreshed to the scopes the app currently requests; previously issued installation access tokens are revoked.
+- `delete_installation()` - Uninstall an app from the organization by its installation ID. Only organization members with the owner role can remove installations. Previously issued installation access tokens are revoked.
 - `list_keys()` - Get a list of all API keys from the current organization.
 - `create_key()` - Create a new organization API key.
 - `get_key()` - Get a key by its unique ID. This endpoint returns details about a specific API key in your organization including its scopes.
@@ -432,7 +490,7 @@ The Organization service allows you to manage organization-level projects.
 - `delete_project()` - Delete a project by its unique ID.
 
 #### Presences
-
+The Presences service allows you to track and manage real-time user presence in your project.
 - `list()` - List presence logs. Expired entries are filtered out automatically.
 
 - `get()` - Get a presence log by its unique ID. Entries whose `expiresAt` is in the past are treated as not found.
@@ -643,10 +701,11 @@ If you&#039;re creating a new file using one of the Appwrite SDKs, all the chunk
 - `get_file_view()` - Get a file content by its unique ID. This endpoint is similar to the download method but returns with no  &#039;Content-Disposition: attachment&#039; header.
 
 #### TablesDB
-
+The TablesDB service allows you to create structured tables of columns, query and filter lists of rows
 - `list()` - Get a list of all databases from the current Appwrite project. You can use the search parameter to filter your results.
 - `create()` - Create a new Database.
 
+- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, pricing, and whether it is enabled for the organization.
 - `list_transactions()` - List transactions across all databases.
 - `create_transaction()` - Create a new transaction.
 - `get_transaction()` - Get a transaction by its unique ID.
@@ -656,6 +715,9 @@ If you&#039;re creating a new file using one of the Appwrite SDKs, all the chunk
 - `get()` - Get a database by its unique ID. This endpoint response returns a JSON object with the database metadata.
 - `update()` - Update a database by its unique ID.
 - `delete()` - Delete a database by its unique ID. Only API keys with with databases.write scope can delete a database.
+- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates.
+- `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
+- `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
 - `list_tables()` - Get a list of all tables that belong to the provided databaseId. You can use the search parameter to filter your results.
 - `create_table()` - Create a new Table. Before using this route, you should create a new database resource using either a [server integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable) API or directly from your database console.
 - `get_table()` - Get a table by its unique ID. This endpoint response returns a JSON object with the table metadata.
@@ -752,6 +814,11 @@ The Teams service allows you to group users of your project and to enable them t
 - `get()` - Get a team by its ID. All team members have read access for this resource.
 - `update_name()` - Update the team&#039;s name by its unique ID.
 - `delete()` - Delete a team using its ID. Only team members with the owner role can delete the team.
+- `list_installations()` - List app installations on a team. Any team member can read installations.
+- `create_installation()` - Install an app on a team. When authenticated as a user, only team members with the owner role can install apps. Requests using an API key or in admin mode can install apps on any team. The installation is granted the scopes the app currently requests.
+- `get_installation()` - Get an app installation on a team by its unique ID. Any team member can read installations.
+- `update_installation()` - Update an app installation on a team. Only team members with the owner role can update installations. The installation&#039;s granted scopes are refreshed to the scopes the app currently requests; previously issued installation access tokens are revoked.
+- `delete_installation()` - Uninstall an app from a team by its installation ID. Only team members with the owner role can remove installations. Previously issued installation access tokens are revoked.
 - `list_memberships()` - Use this endpoint to list a team&#039;s members using the team&#039;s ID. All team members have read access to this endpoint. Hide sensitive attributes from the response by toggling membership privacy in the Console.
 - `create_membership()` - Invite a new member to join your team. Provide an ID for existing users, or invite unregistered users using an email or phone number. If initiated from a Client SDK, Appwrite will send an email or sms with a link to join the team to the invited user, and an account will be created for them if one doesn&#039;t exist. If initiated from a Server SDK, the new member will be added automatically to the team.
 
@@ -773,7 +840,7 @@ If the request is successful, a session for the user is automatically created.
 - `update_prefs()` - Update the team&#039;s preferences by its unique ID. The object you pass is stored as is and replaces any previous value. The maximum allowed prefs size is 64kB and throws an error if exceeded.
 
 #### Tokens
-
+The Tokens service allows you to create and manage resource tokens for secure file access.
 - `list()` - List all the tokens created for a specific file or bucket. You can use the query params to filter your results.
 - `create_file_token()` - Create a new token. A token is linked to a file. Token can be passed as a request URL search parameter.
 - `get()` - Get a token by its unique ID.
@@ -839,7 +906,7 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `update_phone_verification()` - Update the user phone verification status by its unique ID.
 
 #### Webhooks
-
+The Webhooks service allows you to manage your project webhooks.
 - `list()` - Get a list of all webhooks belonging to the project. You can use the query params to filter your results.
 - `create()` - Create a new webhook. Use this endpoint to configure a URL that will receive events from Appwrite when specific events occur.
 - `get()` - Get a webhook by its unique ID. This endpoint returns details about a specific webhook configured for a project. 
@@ -1070,6 +1137,10 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `BillingPlanDedicatedDatabaseLimits` - dedicatedDatabaseLimits
 - `BillingPlanSupportedAddons` - BillingPlanSupportedAddons
 - `Block` - Block
+- `DedicatedDatabase` - DedicatedDatabase
+- `DatabaseStatus` - Status
+- `DedicatedDatabaseMember` - Member
+- `DedicatedDatabaseReplicas` - Replicas
 - `Organization` - Organization
 - `BackupPolicy` - backup
 - `PolicyDenyAliasedEmail` - Policy Deny Aliased Email
@@ -1078,11 +1149,43 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `PolicyDenyCorporateEmail` - Policy Deny Corporate Email
 - `Program` - Program
 - `BackupRestoration` - Restoration
+- `DedicatedDatabaseSpecification` - Specification
+- `DedicatedDatabaseSpecificationList` - SpecificationList
+- `DedicatedDatabaseSpecificationPricing` - SpecificationPricing
+- `DatabaseStatusConnections` - Connections
+- `DatabaseStatusReplica` - Replica
+- `DatabaseStatusVolume` - Volume
 - `UsageBillingPlan` - usageBillingPlan
+- `App` - App
+- `AppSecret` - AppSecret
+- `AppSecretPlaintext` - AppSecretPlaintext
+- `AppScope` - AppScope
+- `AppInstallation` - AppInstallation
+- `AppKey` - AppKey
+- `Oauth2Authorize` - OAuth2 Authorize
+- `Oauth2Approve` - OAuth2 Approve
+- `Oauth2Reject` - OAuth2 Reject
+- `Oauth2Grant` - OAuth2 Grant
+- `Oauth2DeviceAuthorization` - OAuth2 Device Authorization
+- `Oauth2PAR` - OAuth2 PAR
+- `Oauth2Token` - OAuth2 Token
+- `Oauth2Consent` - OAuth2 Consent
+- `Oauth2ConsentToken` - OAuth2 Consent Token
+- `Oauth2Project` - OAuth2 Project
+- `Oauth2Organization` - OAuth2 Organization
+- `Oauth2ProjectList` - OAuth2 accessible projects list
+- `Oauth2OrganizationList` - OAuth2 accessible organizations list
+- `Oauth2ConsentList` - OAuth2 consents list
+- `Oauth2ConsentTokenList` - OAuth2 consent tokens list
 - `ActivityEventList` - Activity event list
 - `BackupArchiveList` - Backup archive list
 - `BackupPolicyList` - Backup policy list
 - `BackupRestorationList` - Backup restoration list
+- `AppsList` - Apps list
+- `AppSecretList` - App secrets list
+- `AppScopeList` - App scopes list
+- `AppInstallationList` - App installations list
+- `AppKeyList` - App keys list
 
 ### Dependencies
 - reqwest 0.12+ for HTTP client
@@ -1098,4 +1201,4 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - File upload examples
 - Query builder documentation
 
-[0.11.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.11.0
+[0.12.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.12.0
