@@ -23,6 +23,8 @@ pub enum BuildRuntime {
     Node24,
     #[serde(rename = "node-25")]
     Node25,
+    #[serde(rename = "node-26")]
+    Node26,
     #[serde(rename = "php-8.0")]
     Php80,
     #[serde(rename = "php-8.1")]
@@ -201,6 +203,7 @@ impl BuildRuntime {
             BuildRuntime::Node23 => "node-23",
             BuildRuntime::Node24 => "node-24",
             BuildRuntime::Node25 => "node-25",
+            BuildRuntime::Node26 => "node-26",
             BuildRuntime::Php80 => "php-8.0",
             BuildRuntime::Php81 => "php-8.1",
             BuildRuntime::Php82 => "php-8.2",

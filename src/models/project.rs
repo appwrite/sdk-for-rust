@@ -114,6 +114,10 @@ pub struct Project {
     #[serde(rename = "oAuth2ServerDefaultScopes")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub o_auth2_server_default_scopes: Option<Vec<String>>,
+    /// Scopes an application may request when installed on a team
+    #[serde(rename = "oAuth2ServerInstallationScopes")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub o_auth2_server_installation_scopes: Option<Vec<String>>,
     /// OAuth2 server accepted RFC 9396 authorization_details types
     #[serde(rename = "oAuth2ServerAuthorizationDetailsTypes")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -366,6 +370,17 @@ impl Project {
     /// Get o_auth2_server_default_scopes
     pub fn o_auth2_server_default_scopes(&self) -> Option<&Vec<String>> {
         self.o_auth2_server_default_scopes.as_ref()
+    }
+
+    /// Set o_auth2_server_installation_scopes
+    pub fn set_o_auth2_server_installation_scopes(mut self, o_auth2_server_installation_scopes: Vec<String>) -> Self {
+        self.o_auth2_server_installation_scopes = Some(o_auth2_server_installation_scopes);
+        self
+    }
+
+    /// Get o_auth2_server_installation_scopes
+    pub fn o_auth2_server_installation_scopes(&self) -> Option<&Vec<String>> {
+        self.o_auth2_server_installation_scopes.as_ref()
     }
 
     /// Set o_auth2_server_authorization_details_types

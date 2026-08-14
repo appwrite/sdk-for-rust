@@ -12,7 +12,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let activities = Activities::new(&client);
 
     let result = activities.list_events(
-        Some("") // optional
+        Some(vec![]) // optional
     ).await?;
 
     let _ = result;

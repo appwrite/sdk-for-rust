@@ -6,10 +6,14 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(test, derive(Default))]
 pub struct DatabaseStatusReplica {
-    /// StatefulSet pod index (0 = primary, 1+ = replicas).
+    /// Member index within the database. Read `role` for which member accepts
+    /// writes: a failover moves the primary without renumbering the indexes.
     #[serde(rename = "index")]
     pub index: i64,
-    /// Replica role: primary or replica.
+    /// Member role. Possible values: primary (accepts reads and writes), replica
+    /// (read-only follower), unknown (placement not established; reported while a
+    /// transition is moving or restarting the topology, so no member can be named
+    /// the write target).
     #[serde(rename = "role")]
     pub role: String,
     /// Whether the replica is healthy.

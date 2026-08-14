@@ -25,6 +25,13 @@ pub struct File {
     /// File name.
     #[serde(rename = "name")]
     pub name: String,
+    /// Virtual folder containing the file, with a trailing slash. Empty for the
+    /// bucket root.
+    #[serde(rename = "folder")]
+    pub folder: String,
+    /// Full virtual path of the file: the folder followed by the file name.
+    #[serde(rename = "key")]
+    pub key: String,
     /// File MD5 signature.
     #[serde(rename = "signature")]
     pub signature: String,
@@ -84,6 +91,16 @@ impl File {
         &self.name
     }
 
+    /// Get folder
+    pub fn folder(&self) -> &String {
+        &self.folder
+    }
+
+    /// Get key
+    pub fn key(&self) -> &String {
+        &self.key
+    }
+
     /// Get signature
     pub fn signature(&self) -> &String {
         &self.signature
@@ -139,6 +156,8 @@ mod tests {
         let _ = _model.updated_at();
         let _ = _model.permissions();
         let _ = _model.name();
+        let _ = _model.folder();
+        let _ = _model.key();
         let _ = _model.signature();
         let _ = _model.mime_type();
         let _ = _model.size_original();

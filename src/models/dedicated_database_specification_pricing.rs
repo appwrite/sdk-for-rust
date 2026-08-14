@@ -15,9 +15,6 @@ pub struct DedicatedDatabaseSpecificationPricing {
     /// High availability replica price as a fraction of the specification cost.
     #[serde(rename = "replicaRate")]
     pub replica_rate: f64,
-    /// Cross-region replica price as a fraction of the specification cost.
-    #[serde(rename = "crossRegionReplicaRate")]
-    pub cross_region_replica_rate: f64,
     /// Point-in-time recovery price as a fraction of the specification cost.
     #[serde(rename = "pitrRate")]
     pub pitr_rate: f64,
@@ -39,11 +36,6 @@ impl DedicatedDatabaseSpecificationPricing {
         &self.replica_rate
     }
 
-    /// Get cross_region_replica_rate
-    pub fn cross_region_replica_rate(&self) -> &f64 {
-        &self.cross_region_replica_rate
-    }
-
     /// Get pitr_rate
     pub fn pitr_rate(&self) -> &f64 {
         &self.pitr_rate
@@ -61,7 +53,6 @@ mod tests {
         let _ = _model.storage_overage_rate();
         let _ = _model.bandwidth_overage_rate();
         let _ = _model.replica_rate();
-        let _ = _model.cross_region_replica_rate();
         let _ = _model.pitr_rate();
     }
 

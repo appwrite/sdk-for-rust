@@ -26,6 +26,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(6), // optional
         Some("numeric"), // optional
         Some(60), // optional
+        Some(vec![]), // optional
         Some(vec![]) // optional
     ).await?;
 

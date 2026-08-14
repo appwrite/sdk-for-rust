@@ -24,9 +24,10 @@ pub struct Organization {
     /// Team preferences as a key-value object
     #[serde(rename = "prefs")]
     pub prefs: crate::models::Preferences,
-    /// Project budget limit
+    /// Project budget limit. Null when no budget is set.
     #[serde(rename = "billingBudget")]
-    pub billing_budget: i64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub billing_budget: Option<i64>,
     /// Project budget limit
     #[serde(rename = "budgetAlerts")]
     pub budget_alerts: Vec<i64>,
@@ -53,7 +54,8 @@ pub struct Organization {
     pub billing_next_invoice_date: String,
     /// Start date of trial.
     #[serde(rename = "billingTrialStartDate")]
-    pub billing_trial_start_date: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub billing_trial_start_date: Option<String>,
     /// Number of trial days.
     #[serde(rename = "billingTrialDays")]
     pub billing_trial_days: i64,
@@ -68,41 +70,51 @@ pub struct Organization {
     pub payment_method_id: String,
     /// Default payment method.
     #[serde(rename = "billingAddressId")]
-    pub billing_address_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub billing_address_id: Option<String>,
     /// Backup payment method.
     #[serde(rename = "backupPaymentMethodId")]
-    pub backup_payment_method_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub backup_payment_method_id: Option<String>,
     /// Team status.
     #[serde(rename = "status")]
     pub status: String,
     /// Remarks on team status.
     #[serde(rename = "remarks")]
-    pub remarks: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub remarks: Option<String>,
     /// Organization agreements
     #[serde(rename = "agreementBAA")]
-    pub agreement_baa: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub agreement_baa: Option<String>,
     /// Program manager's name.
     #[serde(rename = "programManagerName")]
-    pub program_manager_name: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub program_manager_name: Option<String>,
     /// Program manager's calendar link.
     #[serde(rename = "programManagerCalendar")]
-    pub program_manager_calendar: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub program_manager_calendar: Option<String>,
     /// Program's discord channel name.
     #[serde(rename = "programDiscordChannelName")]
-    pub program_discord_channel_name: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub program_discord_channel_name: Option<String>,
     /// Program's discord channel URL.
     #[serde(rename = "programDiscordChannelUrl")]
-    pub program_discord_channel_url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub program_discord_channel_url: Option<String>,
     /// Billing limits reached
     #[serde(rename = "billingLimits")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub billing_limits: Option<crate::models::BillingLimits>,
     /// Billing plan selected for downgrade.
     #[serde(rename = "billingPlanDowngrade")]
-    pub billing_plan_downgrade: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub billing_plan_downgrade: Option<String>,
     /// Tax Id
     #[serde(rename = "billingTaxId")]
-    pub billing_tax_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub billing_tax_id: Option<String>,
     /// Marked for deletion
     #[serde(rename = "markedForDeletion")]
     pub marked_for_deletion: bool,
@@ -145,9 +157,15 @@ impl Organization {
         &self.prefs
     }
 
+    /// Set billing_budget
+    pub fn set_billing_budget(mut self, billing_budget: i64) -> Self {
+        self.billing_budget = Some(billing_budget);
+        self
+    }
+
     /// Get billing_budget
-    pub fn billing_budget(&self) -> &i64 {
-        &self.billing_budget
+    pub fn billing_budget(&self) -> Option<&i64> {
+        self.billing_budget.as_ref()
     }
 
     /// Get budget_alerts
@@ -190,9 +208,15 @@ impl Organization {
         &self.billing_next_invoice_date
     }
 
+    /// Set billing_trial_start_date
+    pub fn set_billing_trial_start_date(mut self, billing_trial_start_date: String) -> Self {
+        self.billing_trial_start_date = Some(billing_trial_start_date);
+        self
+    }
+
     /// Get billing_trial_start_date
-    pub fn billing_trial_start_date(&self) -> &String {
-        &self.billing_trial_start_date
+    pub fn billing_trial_start_date(&self) -> Option<&String> {
+        self.billing_trial_start_date.as_ref()
     }
 
     /// Get billing_trial_days
@@ -215,14 +239,26 @@ impl Organization {
         &self.payment_method_id
     }
 
+    /// Set billing_address_id
+    pub fn set_billing_address_id(mut self, billing_address_id: String) -> Self {
+        self.billing_address_id = Some(billing_address_id);
+        self
+    }
+
     /// Get billing_address_id
-    pub fn billing_address_id(&self) -> &String {
-        &self.billing_address_id
+    pub fn billing_address_id(&self) -> Option<&String> {
+        self.billing_address_id.as_ref()
+    }
+
+    /// Set backup_payment_method_id
+    pub fn set_backup_payment_method_id(mut self, backup_payment_method_id: String) -> Self {
+        self.backup_payment_method_id = Some(backup_payment_method_id);
+        self
     }
 
     /// Get backup_payment_method_id
-    pub fn backup_payment_method_id(&self) -> &String {
-        &self.backup_payment_method_id
+    pub fn backup_payment_method_id(&self) -> Option<&String> {
+        self.backup_payment_method_id.as_ref()
     }
 
     /// Get status
@@ -230,34 +266,70 @@ impl Organization {
         &self.status
     }
 
+    /// Set remarks
+    pub fn set_remarks(mut self, remarks: String) -> Self {
+        self.remarks = Some(remarks);
+        self
+    }
+
     /// Get remarks
-    pub fn remarks(&self) -> &String {
-        &self.remarks
+    pub fn remarks(&self) -> Option<&String> {
+        self.remarks.as_ref()
+    }
+
+    /// Set agreement_baa
+    pub fn set_agreement_baa(mut self, agreement_baa: String) -> Self {
+        self.agreement_baa = Some(agreement_baa);
+        self
     }
 
     /// Get agreement_baa
-    pub fn agreement_baa(&self) -> &String {
-        &self.agreement_baa
+    pub fn agreement_baa(&self) -> Option<&String> {
+        self.agreement_baa.as_ref()
+    }
+
+    /// Set program_manager_name
+    pub fn set_program_manager_name(mut self, program_manager_name: String) -> Self {
+        self.program_manager_name = Some(program_manager_name);
+        self
     }
 
     /// Get program_manager_name
-    pub fn program_manager_name(&self) -> &String {
-        &self.program_manager_name
+    pub fn program_manager_name(&self) -> Option<&String> {
+        self.program_manager_name.as_ref()
+    }
+
+    /// Set program_manager_calendar
+    pub fn set_program_manager_calendar(mut self, program_manager_calendar: String) -> Self {
+        self.program_manager_calendar = Some(program_manager_calendar);
+        self
     }
 
     /// Get program_manager_calendar
-    pub fn program_manager_calendar(&self) -> &String {
-        &self.program_manager_calendar
+    pub fn program_manager_calendar(&self) -> Option<&String> {
+        self.program_manager_calendar.as_ref()
+    }
+
+    /// Set program_discord_channel_name
+    pub fn set_program_discord_channel_name(mut self, program_discord_channel_name: String) -> Self {
+        self.program_discord_channel_name = Some(program_discord_channel_name);
+        self
     }
 
     /// Get program_discord_channel_name
-    pub fn program_discord_channel_name(&self) -> &String {
-        &self.program_discord_channel_name
+    pub fn program_discord_channel_name(&self) -> Option<&String> {
+        self.program_discord_channel_name.as_ref()
+    }
+
+    /// Set program_discord_channel_url
+    pub fn set_program_discord_channel_url(mut self, program_discord_channel_url: String) -> Self {
+        self.program_discord_channel_url = Some(program_discord_channel_url);
+        self
     }
 
     /// Get program_discord_channel_url
-    pub fn program_discord_channel_url(&self) -> &String {
-        &self.program_discord_channel_url
+    pub fn program_discord_channel_url(&self) -> Option<&String> {
+        self.program_discord_channel_url.as_ref()
     }
 
     /// Set billing_limits
@@ -271,14 +343,26 @@ impl Organization {
         self.billing_limits.as_ref()
     }
 
+    /// Set billing_plan_downgrade
+    pub fn set_billing_plan_downgrade(mut self, billing_plan_downgrade: String) -> Self {
+        self.billing_plan_downgrade = Some(billing_plan_downgrade);
+        self
+    }
+
     /// Get billing_plan_downgrade
-    pub fn billing_plan_downgrade(&self) -> &String {
-        &self.billing_plan_downgrade
+    pub fn billing_plan_downgrade(&self) -> Option<&String> {
+        self.billing_plan_downgrade.as_ref()
+    }
+
+    /// Set billing_tax_id
+    pub fn set_billing_tax_id(mut self, billing_tax_id: String) -> Self {
+        self.billing_tax_id = Some(billing_tax_id);
+        self
     }
 
     /// Get billing_tax_id
-    pub fn billing_tax_id(&self) -> &String {
-        &self.billing_tax_id
+    pub fn billing_tax_id(&self) -> Option<&String> {
+        self.billing_tax_id.as_ref()
     }
 
     /// Get marked_for_deletion
@@ -311,7 +395,6 @@ mod tests {
         let _ = _model.name();
         let _ = _model.total();
         let _ = _model.prefs();
-        let _ = _model.billing_budget();
         let _ = _model.budget_alerts();
         let _ = _model.billing_plan();
         let _ = _model.billing_plan_id();
@@ -320,22 +403,11 @@ mod tests {
         let _ = _model.billing_start_date();
         let _ = _model.billing_current_invoice_date();
         let _ = _model.billing_next_invoice_date();
-        let _ = _model.billing_trial_start_date();
         let _ = _model.billing_trial_days();
         let _ = _model.billing_aggregation_id();
         let _ = _model.billing_invoice_id();
         let _ = _model.payment_method_id();
-        let _ = _model.billing_address_id();
-        let _ = _model.backup_payment_method_id();
         let _ = _model.status();
-        let _ = _model.remarks();
-        let _ = _model.agreement_baa();
-        let _ = _model.program_manager_name();
-        let _ = _model.program_manager_calendar();
-        let _ = _model.program_discord_channel_name();
-        let _ = _model.program_discord_channel_url();
-        let _ = _model.billing_plan_downgrade();
-        let _ = _model.billing_tax_id();
         let _ = _model.marked_for_deletion();
         let _ = _model.platform();
         let _ = _model.projects();

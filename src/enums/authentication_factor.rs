@@ -11,6 +11,8 @@ pub enum AuthenticationFactor {
     Totp,
     #[serde(rename = "recoverycode")]
     Recoverycode,
+    #[serde(rename = "custom")]
+    Custom,
 }
 
 impl AuthenticationFactor {
@@ -21,6 +23,7 @@ impl AuthenticationFactor {
             AuthenticationFactor::Phone => "phone",
             AuthenticationFactor::Totp => "totp",
             AuthenticationFactor::Recoverycode => "recoverycode",
+            AuthenticationFactor::Custom => "custom",
         }
     }
 }

@@ -56,6 +56,7 @@ impl TablesDB {
         enabled: Option<bool>,
         specification: Option<&str>,
         replicas: Option<i64>,
+        sync_mode: Option<&str>,
     ) -> crate::error::Result<crate::models::Database> {
         let mut params = HashMap::new();
         params.insert("databaseId".to_string(), json!(database_id.into()));
@@ -68,6 +69,9 @@ impl TablesDB {
         }
         if let Some(value) = replicas {
             params.insert("replicas".to_string(), json!(value));
+        }
+        if let Some(value) = sync_mode {
+            params.insert("syncMode".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -219,7 +223,9 @@ impl TablesDB {
         database_id: impl Into<String>,
         name: Option<&str>,
         enabled: Option<bool>,
+        specification: Option<&str>,
         replicas: Option<i64>,
+        sync_mode: Option<&str>,
     ) -> crate::error::Result<crate::models::Database> {
         let mut params = HashMap::new();
         if let Some(value) = name {
@@ -228,8 +234,14 @@ impl TablesDB {
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
         }
+        if let Some(value) = specification {
+            params.insert("specification".to_string(), json!(value));
+        }
         if let Some(value) = replicas {
             params.insert("replicas".to_string(), json!(value));
+        }
+        if let Some(value) = sync_mode {
+            params.insert("syncMode".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -257,7 +269,9 @@ impl TablesDB {
 
     /// Trigger a manual failover for a dedicated database with high availability
     /// enabled. Promotes a replica to primary. The failover runs asynchronously;
-    /// poll the database document for status updates.
+    /// poll the database document for status updates. A database left
+    /// mid-operation by a failover that did not finish also accepts this call as a
+    /// repair, provided `targetReplicaId` names the member to promote.
     pub async fn create_failover(
         &self,
         database_id: impl Into<String>,
@@ -274,6 +288,126 @@ impl TablesDB {
         let path = "/tablesdb/{databaseId}/failovers".to_string().replace("{databaseId}", &database_id.into().to_string());
 
         self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// List the dedicated migrations for a TablesDB database. A database has at
+    /// most one in-flight migration.
+    pub async fn list_migrations(
+        &self,
+        database_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::DatabaseMigrationList> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/tablesdb/{databaseId}/migrations".to_string().replace("{databaseId}", &database_id.into().to_string());
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Start migrating a serverless TablesDB database onto a dedicated MySQL
+    /// compute. Data is copied to the target while the source stays live, with a
+    /// brief read-only window during cutover.
+    pub async fn create_migration(
+        &self,
+        database_id: impl Into<String>,
+        specification: impl Into<String>,
+        auto_cutover: Option<bool>,
+    ) -> crate::error::Result<crate::models::DatabaseMigration> {
+        let mut params = HashMap::new();
+        params.insert("specification".to_string(), json!(specification.into()));
+        if let Some(value) = auto_cutover {
+            params.insert("autoCutover".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/tablesdb/{databaseId}/migrations".to_string().replace("{databaseId}", &database_id.into().to_string());
+
+        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Get a single dedicated migration for a TablesDB database by its ID.
+    pub async fn get_migration(
+        &self,
+        database_id: impl Into<String>,
+        migration_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::DatabaseMigration> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/tablesdb/{databaseId}/migrations/{migrationId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{migrationId}", &migration_id.into().to_string());
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Abort an in-flight TablesDB dedicated migration. Only allowed before
+    /// cutover; once the migration has cut over it cannot be aborted.
+    pub async fn delete_migration(
+        &self,
+        database_id: impl Into<String>,
+        migration_id: impl Into<String>,
+    ) -> crate::error::Result<serde_json::Value> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/tablesdb/{databaseId}/migrations/{migrationId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{migrationId}", &migration_id.into().to_string());
+
+        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// Cut a verified TablesDB migration over to its dedicated compute. Only
+    /// applies to a migration created with `autoCutover` disabled, which waits at
+    /// `ready_to_cutover` until this is called. The routing flip happens shortly
+    /// after this returns, with a brief read-only window. One call buys one
+    /// attempt: a cutover that fails a check returns the migration to `verifying`
+    /// and parks it again, so call this once more to retry.
+    pub async fn cutover_migration(
+        &self,
+        database_id: impl Into<String>,
+        migration_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::DatabaseMigration> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/tablesdb/{databaseId}/migrations/{migrationId}/cutover".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{migrationId}", &migration_id.into().to_string());
+
+        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+    }
+
+    /// List the lifecycle operations recorded for a dedicated database, newest
+    /// first. Every provision, update, restore, backup and replication action is
+    /// recorded here with its outcome, including an attempt that was abandoned
+    /// because another worker took over the database.
+    pub async fn list_operations(
+        &self,
+        database_id: impl Into<String>,
+        status: Option<&str>,
+        limit: Option<i64>,
+        offset: Option<i64>,
+    ) -> crate::error::Result<crate::models::DedicatedDatabaseOperationList> {
+        let mut params = HashMap::new();
+        if let Some(value) = status {
+            params.insert("status".to_string(), json!(value));
+        }
+        if let Some(value) = limit {
+            params.insert("limit".to_string(), json!(value));
+        }
+        if let Some(value) = offset {
+            params.insert("offset".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/tablesdb/{databaseId}/operations".to_string().replace("{databaseId}", &database_id.into().to_string());
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
     /// Get high availability status for a dedicated database. Returns replica

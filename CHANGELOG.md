@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.12.0] - TBD
+## [0.13.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
-- Full support for Appwrite API 1.9.5
+- Full support for Appwrite API 1.9.6
 - Async/await support with tokio runtime
 - Built-in error handling with custom error types
 - File upload support with automatic chunking
@@ -22,12 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automatic JSON serialization/deserialization
 
 ### Features
-- Account service with 60 methods
+- Account service with 59 methods
 - Activities service with 2 methods
-- Apps service with 21 methods
+- Apps service with 22 methods
 - Avatars service with 8 methods
 - Backups service with 12 methods
 - Databases service with 71 methods
+- Embeddings service with 1 methods
 - Functions service with 26 methods
 - Graphql service with 2 methods
 - Locale service with 8 methods
@@ -36,14 +37,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Organization service with 23 methods
 - Presences service with 5 methods
 - Project service with 102 methods
-- Proxy service with 8 methods
+- Proxy service with 9 methods
 - Advisor service with 5 methods
 - Sites service with 25 methods
 - Storage service with 13 methods
-- TablesDB service with 75 methods
+- TablesDB service with 81 methods
 - Teams service with 18 methods
 - Tokens service with 5 methods
-- Users service with 49 methods
+- Users service with 50 methods
 - Webhooks service with 6 methods
 
 ### Services
@@ -62,7 +63,6 @@ This endpoint can also be used to convert an anonymous account to a normal one, 
 
 - `list_identities()` - Get the list of identities for the currently logged in user.
 - `delete_identity()` - Delete an identity by its unique ID.
-- `create_jwt()` - Use this endpoint to create a JSON Web Token. You can use the resulting JWT to authenticate on behalf of the current user when working with the Appwrite server-side API and SDKs. The JWT secret is valid for 15 minutes from its creation and will be invalid if the user will logout in that time frame.
 - `list_logs()` - Get the list of latest security activity logs for the currently logged in user. Each log returns user IP address, location and date and time of log.
 - `update_mfa()` - Enable or disable MFA on an account.
 - `create_mfa_authenticator()` - Add an authenticator app to be used as an MFA factor. Verify the authenticator using the [verify authenticator](/docs/references/cloud/client-web/account#updateMfaAuthenticator) method.
@@ -141,7 +141,7 @@ The Activities service allows you to list and inspect project activity events.
 
 
 #### Apps
-
+The Apps service allows you to manage OAuth2 applications, their keys, secrets, scopes, and installations.
 - `list()` - List applications.
 - `create()` - Create a new application.
 - `list_installation_scopes()` - List scopes an application can request when installed on a team.
@@ -149,9 +149,10 @@ The Activities service allows you to list and inspect project activity events.
 - `get()` - Get an application by its unique ID.
 - `update()` - Update an application by its unique ID.
 - `delete()` - Delete an application by its unique ID.
-- `list_installations()` - List installations of an application. Requires an app key sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header.
-- `get_installation()` - Get an installation of an application by its unique ID. Requires an app key sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header.
-- `create_installation_token()` - Create a token for an installation of an application. Requires an app key sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header. The returned token carries the scopes and authorization details granted to the installation, and can be used as an `Authorization: Bearer` header everywhere OAuth2 access tokens are accepted. Multiple tokens can be active for the same installation at once; each token stays valid until it expires or the installation is updated or deleted.
+- `list_installations()` - List installations of an application. Requires an app key sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header, or a caller with update access to the app.
+- `get_installation()` - Get an installation of an application by its unique ID. Requires an app key sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header, or a caller with update access to the app.
+- `delete_installation()` - Delete an installation of an application by its unique ID. Requires a caller with update access to the app. Previously issued installation access tokens are revoked.
+- `create_installation_token()` - Create a token for an installation of an application. Requires an app key sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header, or a caller with update access to the app. The returned token carries the scopes and authorization details granted to the installation, and can be used as an `Authorization: Bearer` header everywhere OAuth2 access tokens are accepted. Multiple tokens can be active for the same installation at once; each token stays valid until it expires or the installation is updated or deleted.
 - `list_keys()` - List app keys for an application.
 - `create_key()` - Create a new app key for an application. App keys carry no scopes; send one in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header to list the application&#039;s installations and create installation access tokens.
 - `get_key()` - Get an app key by its unique ID.
@@ -212,13 +213,13 @@ The Backups service allows you to manage backup policies, archives, and restorat
 - `delete_policy()` - Delete a policy using it&#039;s ID.
 - `create_restoration()` - Create and trigger a new restoration for a backup on a project.
 
-For a backup of one database, the restoration resolves its destination before it is queued. Pass `newResourceId` to restore into that database ID, including the archived database ID to overwrite it. When `newResourceId` is omitted, a new database ID is generated and returned in `options`.
+For a backup of one database, the restoration resolves its destination before it is queued. When `newResourceId` is omitted, the archived database is restored in place and its own ID is returned in `options`. Pass a different `newResourceId` to restore alongside it as a new database instead.
 
 The restoration migration records the archived database in `resourceId` and `resourceType`, and the resolved database in `destinationResourceId` and `destinationResourceType`. Database types are stored canonically as `database`, `documentsdb`, or `vectorsdb`. Project-wide restorations leave these fields empty because they do not have a single source or destination database.
 
 To list every migration related to one database, use its canonical type in a nested `OR(AND(...), AND(...), AND(...))` across the root, parent, and destination relation pairs: `(resourceType, resourceId)`, `(parentResourceType, parentResourceId)`, and `(destinationResourceType, destinationResourceId)`. Legacy and TablesDB databases use `database`; the operational `resourceType` of a table migration is not rewritten to `tablesdb`.
 
-When restoring a DocumentsDB or VectorsDB database to a new resource from a dedicated source, the restore provisions a fresh dedicated backing database at the source database&#039;s own specification.
+When restoring a DocumentsDB or VectorsDB database from a dedicated source, the restore provisions a fresh dedicated backing database at the source database&#039;s own specification and lands the data there. An in-place restore swaps the database onto that backing only once the restore has succeeded, and retires the backing it displaced only once that swap is confirmed, so the source keeps serving its own data until the restored data is in place and any failure leaves it untouched. A serverless source has no dedicated backing to clone and restores onto the archived database instead.
 
 - `list_restorations()` - List all backup restorations for a project.
 - `get_restoration()` - Get the current status of a backup restoration.
@@ -326,6 +327,11 @@ The Databases service allows you to create structured collections of documents, 
 Attributes can be `key`, `fulltext`, and `unique`.
 - `get_index()` - Get an index by its unique ID.
 - `delete_index()` - Delete an index.
+
+#### Embeddings
+
+- `create_text_embeddings()` - Generate vector embeddings for an array of text using the selected embedding model. Use the returned vectors to power semantic search and similarity queries against your vector collections.
+
 
 #### Functions
 The Functions Service allows you view, create and manage your Cloud Functions.
@@ -508,9 +514,6 @@ The Project service allows you to manage all the projects in your Appwrite serve
 - `delete()` - Delete a project.
 - `update_auth_method()` - Update properties of a specific auth method. Use this endpoint to enable or disable a method in your project. 
 - `list_keys()` - Get a list of all API keys from the current project.
-- `create_key()` - Create a new API key. It&#039;s recommended to have multiple API keys with strict scopes for separate functions within your project.
-
-You can also create an ephemeral API key if you need a short-lived key instead.
 - `create_ephemeral_key()` - Create a new ephemeral API key. It&#039;s recommended to have multiple API keys with strict scopes for separate functions within your project.
 
 You can also create a standard API key if you need a longer-lived key instead.
@@ -588,6 +591,7 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_deny_disposable_email_policy()` - Configures if disposable emails from known temporary domains are denied during new users sign-ups and email updates.
 - `update_deny_free_email_policy()` - Configures if emails from free providers such as Gmail or Yahoo are denied during new users sign-ups and email updates.
 - `update_membership_privacy_policy()` - Updating this policy allows you to control if team members can see other members information. When enabled, all team members can see ID, name, email, phone number, and MFA status of other members..
+- `update_mfa_factors_policy()` - Updating this policy allows you to control which factors users can use to complete an MFA challenge. Disabled factors cannot be used to create a challenge and are reported as unavailable when listing factors. The custom factor is disabled by default; enable it to deliver challenge codes through your own channel. Recovery codes always remain available as a fallback.
 - `update_password_dictionary_policy()` - Updating this policy allows you to control if new passwords are checked against most common passwords dictionary. When enabled, and user changes their password, password must not be contained in the dictionary.
 - `update_password_history_policy()` - Updates one of password strength policies. Based on total length configured, previous password hashes are stored, and users cannot choose a new password that is already stored in the passwird history list, when updating an user password, or setting new one through password recovery.
 
@@ -615,6 +619,9 @@ Keep in mind, while password history policy is disabled, the history is not bein
 
 #### Proxy
 The Proxy Service allows you to configure actions for your domains beyond DNS configuration.
+- `create_invalidation()` - Create a new CDN cache invalidation for a domain. Executes a hard purge of cached content.
+
+Depending on type, the invalidation purges a single cache tag, a single URL path, or all cached content for the domain.
 - `list_rules()` - Get a list of all the proxy rules. You can use the query params to filter your results.
 - `create_api_rule()` - Create a new proxy rule for serving Appwrite&#039;s API on custom domain.
 
@@ -715,7 +722,13 @@ The TablesDB service allows you to create structured tables of columns, query an
 - `get()` - Get a database by its unique ID. This endpoint response returns a JSON object with the database metadata.
 - `update()` - Update a database by its unique ID.
 - `delete()` - Delete a database by its unique ID. Only API keys with with databases.write scope can delete a database.
-- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates.
+- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation by a failover that did not finish also accepts this call as a repair, provided `targetReplicaId` names the member to promote.
+- `list_migrations()` - List the dedicated migrations for a TablesDB database. A database has at most one in-flight migration.
+- `create_migration()` - Start migrating a serverless TablesDB database onto a dedicated MySQL compute. Data is copied to the target while the source stays live, with a brief read-only window during cutover.
+- `get_migration()` - Get a single dedicated migration for a TablesDB database by its ID.
+- `delete_migration()` - Abort an in-flight TablesDB dedicated migration. Only allowed before cutover; once the migration has cut over it cannot be aborted.
+- `cutover_migration()` - Cut a verified TablesDB migration over to its dedicated compute. Only applies to a migration created with `autoCutover` disabled, which waits at `ready_to_cutover` until this is called. The routing flip happens shortly after this returns, with a brief read-only window. One call buys one attempt: a cutover that fails a check returns the migration to `verifying` and parks it again, so call this once more to retry.
+- `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
 - `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
 - `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
 - `list_tables()` - Get a list of all tables that belong to the provided databaseId. You can use the search parameter to filter your results.
@@ -875,6 +888,7 @@ Labels can be used to grant access to resources. While teams are a way for user&
 - `update_mfa()` - Enable or disable MFA on a user account.
 - `delete_mfa_authenticator()` - Delete an authenticator app.
 - `delete_mfa_authenticator()` - Delete an authenticator app.
+- `get_mfa_challenge()` - Get a custom MFA challenge for a user, including the code to be delivered through your own channel.
 - `list_mfa_factors()` - List the factors available on the account to be used as a MFA challange.
 - `list_mfa_factors()` - List the factors available on the account to be used as a MFA challange.
 - `get_mfa_recovery_codes()` - Get recovery codes that can be used as backup for MFA flow by User ID. Before getting codes, they must be generated using [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes) method.
@@ -960,9 +974,11 @@ The Webhooks service allows you to manage your project webhooks.
 - `TargetList` - Target list
 - `TransactionList` - Transaction List
 - `SpecificationList` - Specifications List
+- `EmbeddingList` - Embedding list
 - `InsightList` - Insights List
 - `ReportList` - Reports List
 - `Database` - Database
+- `Embedding` - Embedding
 - `Collection` - Collection
 - `AttributeList` - Attributes List
 - `AttributeString` - AttributeString
@@ -1097,6 +1113,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `PolicySessionLimit` - Policy Session Limit
 - `PolicyUserLimit` - Policy User Limit
 - `PolicyMembershipPrivacy` - Policy Membership Privacy
+- `PolicyMfaFactors` - Policy MFA Factors
 - `PlatformWeb` - Platform Web
 - `PlatformApple` - Platform Apple
 - `PlatformAndroid` - Platform Android
@@ -1114,6 +1131,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `ProxyRule` - Rule
 - `EmailTemplate` - EmailTemplate
 - `MfaChallenge` - MFA Challenge
+- `MfaChallengeSecret` - MFA Challenge Secret
 - `MfaRecoveryCodes` - MFA Recovery Codes
 - `MfaType` - MFAType
 - `MfaFactors` - MFAFactors
@@ -1137,10 +1155,14 @@ The Webhooks service allows you to manage your project webhooks.
 - `BillingPlanDedicatedDatabaseLimits` - dedicatedDatabaseLimits
 - `BillingPlanSupportedAddons` - BillingPlanSupportedAddons
 - `Block` - Block
+- `DatabaseMigration` - Database Migration
 - `DedicatedDatabase` - DedicatedDatabase
 - `DatabaseStatus` - Status
 - `DedicatedDatabaseMember` - Member
+- `DedicatedDatabaseOperation` - Operation
+- `DedicatedDatabaseOperationList` - OperationList
 - `DedicatedDatabaseReplicas` - Replicas
+- `ProxyInvalidation` - Invalidation
 - `Organization` - Organization
 - `BackupPolicy` - backup
 - `PolicyDenyAliasedEmail` - Policy Deny Aliased Email
@@ -1181,6 +1203,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `BackupArchiveList` - Backup archive list
 - `BackupPolicyList` - Backup policy list
 - `BackupRestorationList` - Backup restoration list
+- `DatabaseMigrationList` - Database Migrations List
 - `AppsList` - Apps list
 - `AppSecretList` - App secrets list
 - `AppScopeList` - App scopes list
@@ -1201,4 +1224,4 @@ The Webhooks service allows you to manage your project webhooks.
 - File upload examples
 - Query builder documentation
 
-[0.12.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.12.0
+[0.13.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.13.0
