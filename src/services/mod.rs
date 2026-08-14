@@ -12,8 +12,6 @@ pub mod backups;
 pub use backups::Backups;
 pub mod databases;
 pub use databases::Databases;
-pub mod embeddings;
-pub use embeddings::Embeddings;
 pub mod functions;
 pub use functions::Functions;
 pub mod graphql;
@@ -66,7 +64,6 @@ pub struct Services {
     avatars: Avatars,
     backups: Backups,
     databases: Databases,
-    embeddings: Embeddings,
     functions: Functions,
     graphql: Graphql,
     locale: Locale,
@@ -96,7 +93,6 @@ impl Services {
             avatars: Avatars::new(&client),
             backups: Backups::new(&client),
             databases: Databases::new(&client),
-            embeddings: Embeddings::new(&client),
             functions: Functions::new(&client),
             graphql: Graphql::new(&client),
             locale: Locale::new(&client),
@@ -146,10 +142,6 @@ impl Services {
     /// Get Databases service
     pub fn databases(&self) -> &Databases {
         &self.databases
-    }
-    /// Get Embeddings service
-    pub fn embeddings(&self) -> &Embeddings {
-        &self.embeddings
     }
     /// Get Functions service
     pub fn functions(&self) -> &Functions {

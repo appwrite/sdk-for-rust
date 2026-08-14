@@ -88,16 +88,12 @@ pub mod transaction_list;
 pub use transaction_list::TransactionList;
 pub mod specification_list;
 pub use specification_list::SpecificationList;
-pub mod embedding_list;
-pub use embedding_list::EmbeddingList;
 pub mod insight_list;
 pub use insight_list::InsightList;
 pub mod report_list;
 pub use report_list::ReportList;
 pub mod database;
 pub use database::Database;
-pub mod embedding;
-pub use embedding::Embedding;
 pub mod collection;
 pub use collection::Collection;
 pub mod attribute_list;
@@ -610,11 +606,9 @@ impl Model for SubscriberList {}
 impl Model for TargetList {}
 impl Model for TransactionList {}
 impl Model for SpecificationList {}
-impl Model for EmbeddingList {}
 impl Model for InsightList {}
 impl Model for ReportList {}
 impl Model for Database {}
-impl Model for Embedding {}
 impl Model for Collection {}
 impl Model for AttributeList {}
 impl Model for AttributeString {}

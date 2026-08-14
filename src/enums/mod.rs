@@ -30,8 +30,6 @@ pub mod databases_index_type;
 pub use databases_index_type::DatabasesIndexType;
 pub mod order_by;
 pub use order_by::OrderBy;
-pub mod embedding_model;
-pub use embedding_model::EmbeddingModel;
 pub mod runtime;
 pub use runtime::Runtime;
 pub mod project_key_scopes;

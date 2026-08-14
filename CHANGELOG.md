@@ -28,7 +28,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Avatars service with 8 methods
 - Backups service with 12 methods
 - Databases service with 71 methods
-- Embeddings service with 1 methods
 - Functions service with 26 methods
 - Graphql service with 2 methods
 - Locale service with 8 methods
@@ -327,11 +326,6 @@ The Databases service allows you to create structured collections of documents, 
 Attributes can be `key`, `fulltext`, and `unique`.
 - `get_index()` - Get an index by its unique ID.
 - `delete_index()` - Delete an index.
-
-#### Embeddings
-
-- `create_text_embeddings()` - Generate vector embeddings for an array of text using the selected embedding model. Use the returned vectors to power semantic search and similarity queries against your vector collections.
-
 
 #### Functions
 The Functions Service allows you view, create and manage your Cloud Functions.
@@ -974,11 +968,9 @@ The Webhooks service allows you to manage your project webhooks.
 - `TargetList` - Target list
 - `TransactionList` - Transaction List
 - `SpecificationList` - Specifications List
-- `EmbeddingList` - Embedding list
 - `InsightList` - Insights List
 - `ReportList` - Reports List
 - `Database` - Database
-- `Embedding` - Embedding
 - `Collection` - Collection
 - `AttributeList` - Attributes List
 - `AttributeString` - AttributeString
