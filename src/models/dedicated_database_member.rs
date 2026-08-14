@@ -10,18 +10,23 @@ pub struct DedicatedDatabaseMember {
     #[serde(rename = "$id")]
     pub id: String,
     /// Member role. Possible values: primary (accepts reads and writes), replica
-    /// (read-only follower).
+    /// (read-only follower), unknown (placement not established; reported while a
+    /// transition is moving or restarting the topology and this member has not
+    /// been probed, so no member can be named the write target).
     #[serde(rename = "role")]
     pub role: String,
-    /// Member pod status. Possible values: provisioning (pod missing or Pending),
-    /// starting (Running but not Ready), active (Running and Ready), failed
-    /// (Failed phase or CrashLoopBackOff container), or the lowercased pod phase
-    /// reported by the cluster.
+    /// Member pod status. Possible values: pending (configured but absent from the
+    /// backend topology, so nothing is bringing it up), provisioning (pod missing
+    /// or Pending), starting (Running but not Ready), active (Running and Ready),
+    /// failed (Failed phase or CrashLoopBackOff container), or the lowercased pod
+    /// phase reported by the cluster.
     #[serde(rename = "status")]
     pub status: String,
-    /// Replication lag in seconds.
+    /// Replication lag in seconds. Null when the lag is not known: a primary has
+    /// none to report, and a member the backend has not probed has none yet.
     #[serde(rename = "lagSeconds")]
-    pub lag_seconds: f64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub lag_seconds: Option<f64>,
 }
 
 impl DedicatedDatabaseMember {
@@ -40,9 +45,15 @@ impl DedicatedDatabaseMember {
         &self.status
     }
 
+    /// Set lag_seconds
+    pub fn set_lag_seconds(mut self, lag_seconds: f64) -> Self {
+        self.lag_seconds = Some(lag_seconds);
+        self
+    }
+
     /// Get lag_seconds
-    pub fn lag_seconds(&self) -> &f64 {
-        &self.lag_seconds
+    pub fn lag_seconds(&self) -> Option<&f64> {
+        self.lag_seconds.as_ref()
     }
 
 }
@@ -57,7 +68,6 @@ mod tests {
         let _ = _model.id();
         let _ = _model.role();
         let _ = _model.status();
-        let _ = _model.lag_seconds();
     }
 
     #[test]

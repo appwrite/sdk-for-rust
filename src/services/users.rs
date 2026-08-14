@@ -528,6 +528,22 @@ impl Users {
         self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
     }
 
+    /// Get a custom MFA challenge for a user, including the code to be delivered
+    /// through your own channel.
+    pub async fn get_mfa_challenge(
+        &self,
+        user_id: impl Into<String>,
+        challenge_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::MfaChallengeSecret> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/users/{userId}/mfa/challenges/{challengeId}".to_string().replace("{userId}", &user_id.into().to_string()).replace("{challengeId}", &challenge_id.into().to_string());
+
+        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+    }
+
     /// List the factors available on the account to be used as a MFA challange.
     pub async fn list_mfa_factors(
         &self,

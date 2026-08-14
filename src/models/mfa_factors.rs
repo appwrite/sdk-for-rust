@@ -18,6 +18,9 @@ pub struct MfaFactors {
     /// Can recovery code be used for MFA challenge for this account.
     #[serde(rename = "recoveryCode")]
     pub recovery_code: bool,
+    /// Can custom factor be used for MFA challenge for this account.
+    #[serde(rename = "custom")]
+    pub custom: bool,
 }
 
 impl MfaFactors {
@@ -41,6 +44,11 @@ impl MfaFactors {
         &self.recovery_code
     }
 
+    /// Get custom
+    pub fn custom(&self) -> &bool {
+        &self.custom
+    }
+
 }
 
 #[cfg(test)]
@@ -54,6 +62,7 @@ mod tests {
         let _ = _model.phone();
         let _ = _model.email();
         let _ = _model.recovery_code();
+        let _ = _model.custom();
     }
 
     #[test]

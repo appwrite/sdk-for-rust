@@ -25,11 +25,11 @@ impl Activities {
     /// List all events for selected filters.
     pub async fn list_events(
         &self,
-        queries: Option<&str>,
+        queries: Option<Vec<String>>,
     ) -> crate::error::Result<crate::models::ActivityEventList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value));
+            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());

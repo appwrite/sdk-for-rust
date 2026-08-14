@@ -1,6 +1,6 @@
 ```rust
 use appwrite::Client;
-use appwrite::services::Account;
+use appwrite::services::Apps;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -9,10 +9,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     client.set_project("<YOUR_PROJECT_ID>"); // Your project ID
     client.set_session(""); // The user session to authenticate with
 
-    let account = Account::new(&client);
+    let apps = Apps::new(&client);
 
-    let result = account.create_jwt(
-        Some(0) // optional
+    let result = apps.delete_installation(
+        "<APP_ID>",
+        "<INSTALLATION_ID>"
     ).await?;
 
     let _ = result;

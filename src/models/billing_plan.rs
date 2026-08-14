@@ -38,7 +38,8 @@ pub struct BillingPlan {
     pub screenshots_generated: i64,
     /// Members
     #[serde(rename = "members")]
-    pub members: i64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub members: Option<i64>,
     /// Webhooks
     #[serde(rename = "webhooks")]
     pub webhooks: i64,
@@ -110,7 +111,8 @@ pub struct BillingPlan {
     pub domains: i64,
     /// Activity log days
     #[serde(rename = "activityLogs")]
-    pub activity_logs: i64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub activity_logs: Option<i64>,
     /// Usage history days
     #[serde(rename = "usageLogs")]
     pub usage_logs: i64,
@@ -184,7 +186,8 @@ pub struct BillingPlan {
     pub supports_project_specific_roles: bool,
     /// Does plan support backup policies.
     #[serde(rename = "backupsEnabled")]
-    pub backups_enabled: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub backups_enabled: Option<bool>,
     /// Whether usage addons are calculated per project.
     #[serde(rename = "usagePerProject")]
     pub usage_per_project: bool,
@@ -193,7 +196,8 @@ pub struct BillingPlan {
     pub supported_addons: crate::models::BillingPlanSupportedAddons,
     /// How many policies does plan support
     #[serde(rename = "backupPolicies")]
-    pub backup_policies: i64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub backup_policies: Option<i64>,
     /// Maximum function and site deployment size in MB
     #[serde(rename = "deploymentSize")]
     pub deployment_size: i64,
@@ -271,9 +275,15 @@ impl BillingPlan {
         &self.screenshots_generated
     }
 
+    /// Set members
+    pub fn set_members(mut self, members: i64) -> Self {
+        self.members = Some(members);
+        self
+    }
+
     /// Get members
-    pub fn members(&self) -> &i64 {
-        &self.members
+    pub fn members(&self) -> Option<&i64> {
+        self.members.as_ref()
     }
 
     /// Get webhooks
@@ -391,9 +401,15 @@ impl BillingPlan {
         &self.domains
     }
 
+    /// Set activity_logs
+    pub fn set_activity_logs(mut self, activity_logs: i64) -> Self {
+        self.activity_logs = Some(activity_logs);
+        self
+    }
+
     /// Get activity_logs
-    pub fn activity_logs(&self) -> &i64 {
-        &self.activity_logs
+    pub fn activity_logs(&self) -> Option<&i64> {
+        self.activity_logs.as_ref()
     }
 
     /// Get usage_logs
@@ -517,9 +533,15 @@ impl BillingPlan {
         &self.supports_project_specific_roles
     }
 
+    /// Set backups_enabled
+    pub fn set_backups_enabled(mut self, backups_enabled: bool) -> Self {
+        self.backups_enabled = Some(backups_enabled);
+        self
+    }
+
     /// Get backups_enabled
-    pub fn backups_enabled(&self) -> &bool {
-        &self.backups_enabled
+    pub fn backups_enabled(&self) -> Option<&bool> {
+        self.backups_enabled.as_ref()
     }
 
     /// Get usage_per_project
@@ -532,9 +554,15 @@ impl BillingPlan {
         &self.supported_addons
     }
 
+    /// Set backup_policies
+    pub fn set_backup_policies(mut self, backup_policies: i64) -> Self {
+        self.backup_policies = Some(backup_policies);
+        self
+    }
+
     /// Get backup_policies
-    pub fn backup_policies(&self) -> &i64 {
-        &self.backup_policies
+    pub fn backup_policies(&self) -> Option<&i64> {
+        self.backup_policies.as_ref()
     }
 
     /// Get deployment_size
@@ -609,7 +637,6 @@ mod tests {
         let _ = _model.storage();
         let _ = _model.image_transformations();
         let _ = _model.screenshots_generated();
-        let _ = _model.members();
         let _ = _model.webhooks();
         let _ = _model.waf_rules();
         let _ = _model.projects();
@@ -633,7 +660,6 @@ mod tests {
         let _ = _model.topics();
         let _ = _model.auth_phone();
         let _ = _model.domains();
-        let _ = _model.activity_logs();
         let _ = _model.usage_logs();
         let _ = _model.project_inactivity_days();
         let _ = _model.alert_limit();
@@ -656,10 +682,8 @@ mod tests {
         let _ = _model.supports_free_email_validation();
         let _ = _model.supports_corporate_email_validation();
         let _ = _model.supports_project_specific_roles();
-        let _ = _model.backups_enabled();
         let _ = _model.usage_per_project();
         let _ = _model.supported_addons();
-        let _ = _model.backup_policies();
         let _ = _model.deployment_size();
         let _ = _model.build_size();
         let _ = _model.databases_allow_encrypt();

@@ -22,6 +22,32 @@ impl Proxy {
         &self.client
     }
 
+    /// Create a new CDN cache invalidation for a domain. Executes a hard purge of
+    /// cached content.
+    /// 
+    /// Depending on type, the invalidation purges a single cache tag, a single URL
+    /// path, or all cached content for the domain.
+    pub async fn create_invalidation(
+        &self,
+        domain: impl Into<String>,
+        r#type: crate::enums::InvalidationType,
+        reference: Option<&str>,
+    ) -> crate::error::Result<crate::models::ProxyInvalidation> {
+        let mut params = HashMap::new();
+        params.insert("domain".to_string(), json!(domain.into()));
+        params.insert("type".to_string(), json!(r#type));
+        if let Some(value) = reference {
+            params.insert("reference".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/proxy/invalidations".to_string();
+
+        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+    }
+
     /// Get a list of all the proxy rules. You can use the query params to filter
     /// your results.
     pub async fn list_rules(

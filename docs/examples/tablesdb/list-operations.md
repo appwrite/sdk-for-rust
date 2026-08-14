@@ -1,6 +1,6 @@
 ```rust
 use appwrite::Client;
-use appwrite::services::Project;
+use appwrite::services::TablesDB;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -9,13 +9,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     client.set_project("<YOUR_PROJECT_ID>"); // Your project ID
     client.set_key("<YOUR_API_KEY>"); // Your secret API key
 
-    let project = Project::new(&client);
+    let tables_db = TablesDB::new(&client);
 
-    let result = project.create_key(
-        "<KEY_ID>",
-        "<NAME>",
-        vec![appwrite::enums::ProjectKeyScopes::ProjectRead],
-        Some("2020-10-15T06:38:00.000+00:00") // optional
+    let result = tables_db.list_operations(
+        "<DATABASE_ID>",
+        Some("running"), // optional
+        Some(1), // optional
+        Some(0) // optional
     ).await?;
 
     let _ = result;

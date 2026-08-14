@@ -6,6 +6,8 @@ use reqwest::Method;
 use serde_json::json;
 use std::collections::HashMap;
 
+/// The Apps service allows you to manage OAuth2 applications, their keys,
+/// secrets, scopes, and installations.
 #[derive(Debug, Clone)]
 pub struct Apps {
     client: Client,
@@ -272,7 +274,8 @@ impl Apps {
     }
 
     /// List installations of an application. Requires an app key sent in the
-    /// `X-Appwrite-Key` header alongside the `X-Appwrite-App` header.
+    /// `X-Appwrite-Key` header alongside the `X-Appwrite-App` header, or a caller
+    /// with update access to the app.
     pub async fn list_installations(
         &self,
         app_id: impl Into<String>,
@@ -295,7 +298,8 @@ impl Apps {
     }
 
     /// Get an installation of an application by its unique ID. Requires an app key
-    /// sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header.
+    /// sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header,
+    /// or a caller with update access to the app.
     pub async fn get_installation(
         &self,
         app_id: impl Into<String>,
@@ -310,13 +314,32 @@ impl Apps {
         self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
+    /// Delete an installation of an application by its unique ID. Requires a
+    /// caller with update access to the app. Previously issued installation access
+    /// tokens are revoked.
+    pub async fn delete_installation(
+        &self,
+        app_id: impl Into<String>,
+        installation_id: impl Into<String>,
+    ) -> crate::error::Result<serde_json::Value> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/apps/{appId}/installations/{installationId}".to_string().replace("{appId}", &app_id.into().to_string()).replace("{installationId}", &installation_id.into().to_string());
+
+        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+    }
+
     /// Create a token for an installation of an application. Requires an app key
-    /// sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header.
-    /// The returned token carries the scopes and authorization details granted to
-    /// the installation, and can be used as an `Authorization: Bearer` header
-    /// everywhere OAuth2 access tokens are accepted. Multiple tokens can be active
-    /// for the same installation at once; each token stays valid until it expires
-    /// or the installation is updated or deleted.
+    /// sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header,
+    /// or a caller with update access to the app. The returned token carries the
+    /// scopes and authorization details granted to the installation, and can be
+    /// used as an `Authorization: Bearer` header everywhere OAuth2 access tokens
+    /// are accepted. Multiple tokens can be active for the same installation at
+    /// once; each token stays valid until it expires or the installation is
+    /// updated or deleted.
     pub async fn create_installation_token(
         &self,
         app_id: impl Into<String>,

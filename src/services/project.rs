@@ -85,34 +85,6 @@ impl Project {
         self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
     }
 
-    /// Create a new API key. It's recommended to have multiple API keys with
-    /// strict scopes for separate functions within your project.
-    /// 
-    /// You can also create an ephemeral API key if you need a short-lived key
-    /// instead.
-    pub async fn create_key(
-        &self,
-        key_id: impl Into<String>,
-        name: impl Into<String>,
-        scopes: Vec<crate::enums::ProjectKeyScopes>,
-        expire: Option<&str>,
-    ) -> crate::error::Result<crate::models::Key> {
-        let mut params = HashMap::new();
-        params.insert("keyId".to_string(), json!(key_id.into()));
-        params.insert("name".to_string(), json!(name.into()));
-        params.insert("scopes".to_string(), json!(scopes));
-        if let Some(value) = expire {
-            params.insert("expire".to_string(), json!(value));
-        }
-        let mut api_headers = HashMap::new();
-        api_headers.insert("content-type".to_string(), "application/json".to_string());
-        api_headers.insert("accept".to_string(), "application/json".to_string());
-
-        let path = "/project/keys".to_string();
-
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
-    }
-
     /// Create a new ephemeral API key. It's recommended to have multiple API keys
     /// with strict scopes for separate functions within your project.
     /// 
@@ -336,6 +308,7 @@ impl Project {
         user_code_format: Option<&str>,
         device_code_duration: Option<i64>,
         default_scopes: Option<Vec<String>>,
+        installation_scopes: Option<Vec<String>>,
     ) -> crate::error::Result<crate::models::Project> {
         let mut params = HashMap::new();
         params.insert("enabled".to_string(), json!(enabled));
@@ -378,6 +351,9 @@ impl Project {
         }
         if let Some(value) = default_scopes {
             params.insert("defaultScopes".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        }
+        if let Some(value) = installation_scopes {
+            params.insert("installationScopes".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1985,6 +1961,40 @@ impl Project {
         self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
     }
 
+    /// Updating this policy allows you to control which factors users can use to
+    /// complete an MFA challenge. Disabled factors cannot be used to create a
+    /// challenge and are reported as unavailable when listing factors. The custom
+    /// factor is disabled by default; enable it to deliver challenge codes through
+    /// your own channel. Recovery codes always remain available as a fallback.
+    pub async fn update_mfa_factors_policy(
+        &self,
+        totp: Option<bool>,
+        email: Option<bool>,
+        phone: Option<bool>,
+        custom: Option<bool>,
+    ) -> crate::error::Result<crate::models::Project> {
+        let mut params = HashMap::new();
+        if let Some(value) = totp {
+            params.insert("totp".to_string(), json!(value));
+        }
+        if let Some(value) = email {
+            params.insert("email".to_string(), json!(value));
+        }
+        if let Some(value) = phone {
+            params.insert("phone".to_string(), json!(value));
+        }
+        if let Some(value) = custom {
+            params.insert("custom".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/policies/mfa-factors".to_string();
+
+        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+    }
+
     /// Updating this policy allows you to control if new passwords are checked
     /// against most common passwords dictionary. When enabled, and user changes
     /// their password, password must not be contained in the dictionary.
@@ -2141,12 +2151,10 @@ impl Project {
     /// hit, the oldest session will be deleted to make room for new one.
     pub async fn update_session_limit_policy(
         &self,
-        total: Option<i64>,
+        total: i64,
     ) -> crate::error::Result<crate::models::Project> {
         let mut params = HashMap::new();
-        if let Some(value) = total {
-            params.insert("total".to_string(), json!(value));
-        }
+        params.insert("total".to_string(), json!(total));
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());

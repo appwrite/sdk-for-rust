@@ -88,12 +88,16 @@ pub mod transaction_list;
 pub use transaction_list::TransactionList;
 pub mod specification_list;
 pub use specification_list::SpecificationList;
+pub mod embedding_list;
+pub use embedding_list::EmbeddingList;
 pub mod insight_list;
 pub use insight_list::InsightList;
 pub mod report_list;
 pub use report_list::ReportList;
 pub mod database;
 pub use database::Database;
+pub mod embedding;
+pub use embedding::Embedding;
 pub mod collection;
 pub use collection::Collection;
 pub mod attribute_list;
@@ -362,6 +366,8 @@ pub mod policy_user_limit;
 pub use policy_user_limit::PolicyUserLimit;
 pub mod policy_membership_privacy;
 pub use policy_membership_privacy::PolicyMembershipPrivacy;
+pub mod policy_mfa_factors;
+pub use policy_mfa_factors::PolicyMfaFactors;
 pub mod platform_web;
 pub use platform_web::PlatformWeb;
 pub mod platform_apple;
@@ -396,6 +402,8 @@ pub mod email_template;
 pub use email_template::EmailTemplate;
 pub mod mfa_challenge;
 pub use mfa_challenge::MfaChallenge;
+pub mod mfa_challenge_secret;
+pub use mfa_challenge_secret::MfaChallengeSecret;
 pub mod mfa_recovery_codes;
 pub use mfa_recovery_codes::MfaRecoveryCodes;
 pub mod mfa_type;
@@ -442,14 +450,22 @@ pub mod billing_plan_supported_addons;
 pub use billing_plan_supported_addons::BillingPlanSupportedAddons;
 pub mod block;
 pub use block::Block;
+pub mod database_migration;
+pub use database_migration::DatabaseMigration;
 pub mod dedicated_database;
 pub use dedicated_database::DedicatedDatabase;
 pub mod database_status;
 pub use database_status::DatabaseStatus;
 pub mod dedicated_database_member;
 pub use dedicated_database_member::DedicatedDatabaseMember;
+pub mod dedicated_database_operation;
+pub use dedicated_database_operation::DedicatedDatabaseOperation;
+pub mod dedicated_database_operation_list;
+pub use dedicated_database_operation_list::DedicatedDatabaseOperationList;
 pub mod dedicated_database_replicas;
 pub use dedicated_database_replicas::DedicatedDatabaseReplicas;
+pub mod proxy_invalidation;
+pub use proxy_invalidation::ProxyInvalidation;
 pub mod organization;
 pub use organization::Organization;
 pub mod backup_policy;
@@ -530,6 +546,8 @@ pub mod backup_policy_list;
 pub use backup_policy_list::BackupPolicyList;
 pub mod backup_restoration_list;
 pub use backup_restoration_list::BackupRestorationList;
+pub mod database_migration_list;
+pub use database_migration_list::DatabaseMigrationList;
 pub mod apps_list;
 pub use apps_list::AppsList;
 pub mod app_secret_list;
@@ -592,9 +610,11 @@ impl Model for SubscriberList {}
 impl Model for TargetList {}
 impl Model for TransactionList {}
 impl Model for SpecificationList {}
+impl Model for EmbeddingList {}
 impl Model for InsightList {}
 impl Model for ReportList {}
 impl Model for Database {}
+impl Model for Embedding {}
 impl Model for Collection {}
 impl Model for AttributeList {}
 impl Model for AttributeString {}
@@ -729,6 +749,7 @@ impl Model for PolicySessionInvalidation {}
 impl Model for PolicySessionLimit {}
 impl Model for PolicyUserLimit {}
 impl Model for PolicyMembershipPrivacy {}
+impl Model for PolicyMfaFactors {}
 impl Model for PlatformWeb {}
 impl Model for PlatformApple {}
 impl Model for PlatformAndroid {}
@@ -746,6 +767,7 @@ impl Model for Specification {}
 impl Model for ProxyRule {}
 impl Model for EmailTemplate {}
 impl Model for MfaChallenge {}
+impl Model for MfaChallengeSecret {}
 impl Model for MfaRecoveryCodes {}
 impl Model for MfaType {}
 impl Model for MfaFactors {}
@@ -769,10 +791,14 @@ impl Model for BillingPlanLimits {}
 impl Model for BillingPlanDedicatedDatabaseLimits {}
 impl Model for BillingPlanSupportedAddons {}
 impl Model for Block {}
+impl Model for DatabaseMigration {}
 impl Model for DedicatedDatabase {}
 impl Model for DatabaseStatus {}
 impl Model for DedicatedDatabaseMember {}
+impl Model for DedicatedDatabaseOperation {}
+impl Model for DedicatedDatabaseOperationList {}
 impl Model for DedicatedDatabaseReplicas {}
+impl Model for ProxyInvalidation {}
 impl Model for Organization {}
 impl Model for BackupPolicy {}
 impl Model for PolicyDenyAliasedEmail {}
@@ -813,6 +839,7 @@ impl Model for ActivityEventList {}
 impl Model for BackupArchiveList {}
 impl Model for BackupPolicyList {}
 impl Model for BackupRestorationList {}
+impl Model for DatabaseMigrationList {}
 impl Model for AppsList {}
 impl Model for AppSecretList {}
 impl Model for AppScopeList {}

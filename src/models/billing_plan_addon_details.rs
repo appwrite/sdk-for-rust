@@ -20,7 +20,8 @@ pub struct BillingPlanAddonDetails {
     pub r#type: String,
     /// Price currency
     #[serde(rename = "currency")]
-    pub currency: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub currency: Option<String>,
     /// Price
     #[serde(rename = "price")]
     pub price: f64,
@@ -53,9 +54,15 @@ impl BillingPlanAddonDetails {
         &self.r#type
     }
 
+    /// Set currency
+    pub fn set_currency(mut self, currency: String) -> Self {
+        self.currency = Some(currency);
+        self
+    }
+
     /// Get currency
-    pub fn currency(&self) -> &String {
-        &self.currency
+    pub fn currency(&self) -> Option<&String> {
+        self.currency.as_ref()
     }
 
     /// Get price
@@ -86,7 +93,6 @@ mod tests {
         let _ = _model.plan_included();
         let _ = _model.limit();
         let _ = _model.r#type();
-        let _ = _model.currency();
         let _ = _model.price();
         let _ = _model.value();
         let _ = _model.invoice_desc();

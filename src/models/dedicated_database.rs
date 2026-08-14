@@ -25,7 +25,8 @@ pub struct DedicatedDatabase {
     /// mysql, postgresql, or mongodb.
     #[serde(rename = "api")]
     pub api: String,
-    /// Database engine: postgresql, mysql, mariadb, or mongodb.
+    /// Database engine: postgresql, mysql, or mongodb. Null until the backing
+    /// reports one.
     #[serde(rename = "engine")]
     pub engine: String,
     /// Database engine version.
@@ -40,7 +41,8 @@ pub struct DedicatedDatabase {
     /// Database hostname for connections.
     #[serde(rename = "hostname")]
     pub hostname: String,
-    /// Database port for connections.
+    /// Database port for connections. Derived from the engine when the backing has
+    /// not reported one yet.
     #[serde(rename = "connectionPort")]
     pub connection_port: i64,
     /// Database username for connections.
@@ -106,11 +108,10 @@ pub struct DedicatedDatabase {
     /// Replication sync mode: async, sync, or quorum.
     #[serde(rename = "syncMode")]
     pub sync_mode: String,
-    /// Number of cross-region replicas. Cross-region availability is enabled when
-    /// greater than 0.
-    #[serde(rename = "crossRegionReplicas")]
-    pub cross_region_replicas: i64,
-    /// Maximum concurrent connections.
+    /// Maximum concurrent client connections. This is the limit a client pool may
+    /// reach; the engine's own max_connections reported by the status endpoint is
+    /// a smaller backend limit the pooler multiplexes onto and does not constrain
+    /// a client pool.
     #[serde(rename = "networkMaxConnections")]
     pub network_max_connections: i64,
     /// Connection idle timeout in seconds.
@@ -336,11 +337,6 @@ impl DedicatedDatabase {
         &self.sync_mode
     }
 
-    /// Get cross_region_replicas
-    pub fn cross_region_replicas(&self) -> &i64 {
-        &self.cross_region_replicas
-    }
-
     /// Get network_max_connections
     pub fn network_max_connections(&self) -> &i64 {
         &self.network_max_connections
@@ -468,7 +464,6 @@ mod tests {
         let _ = _model.node_pool();
         let _ = _model.replicas();
         let _ = _model.sync_mode();
-        let _ = _model.cross_region_replicas();
         let _ = _model.network_max_connections();
         let _ = _model.network_idle_timeout_seconds();
         let _ = _model.network_ip_allowlist();

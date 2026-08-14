@@ -235,12 +235,16 @@ impl Storage {
         file_id: impl Into<String>,
         file: InputFile,
         permissions: Option<Vec<String>>,
+        folder: Option<&str>,
     ) -> crate::error::Result<crate::models::File> {
         let file_id_str = file_id.into();
         let mut params = HashMap::new();
         params.insert("fileId".to_string(), json!(file_id_str));
         if let Some(value) = permissions {
             params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        }
+        if let Some(value) = folder {
+            params.insert("folder".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "multipart/form-data".to_string());

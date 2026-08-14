@@ -12,7 +12,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let project = Project::new(&client);
 
     let result = project.update_user_limit_policy(
-        Some(1)
+        Some(0)
     ).await?;
 
     let _ = result;

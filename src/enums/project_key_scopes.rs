@@ -71,6 +71,8 @@ pub enum ProjectKeyScopes {
     RowsRead,
     #[serde(rename = "rows.write")]
     RowsWrite,
+    #[serde(rename = "embeddings.write")]
+    EmbeddingsWrite,
     #[serde(rename = "collections.read")]
     CollectionsRead,
     #[serde(rename = "collections.write")]
@@ -199,6 +201,8 @@ pub enum ProjectKeyScopes {
     WafRulesWrite,
     #[serde(rename = "events.read")]
     EventsRead,
+    #[serde(rename = "proxy.invalidations.write")]
+    ProxyInvalidationsWrite,
     #[serde(rename = "apps.read")]
     AppsRead,
     #[serde(rename = "apps.write")]
@@ -251,6 +255,7 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::IndexesWrite => "indexes.write",
             ProjectKeyScopes::RowsRead => "rows.read",
             ProjectKeyScopes::RowsWrite => "rows.write",
+            ProjectKeyScopes::EmbeddingsWrite => "embeddings.write",
             ProjectKeyScopes::CollectionsRead => "collections.read",
             ProjectKeyScopes::CollectionsWrite => "collections.write",
             ProjectKeyScopes::AttributesRead => "attributes.read",
@@ -315,6 +320,7 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::WafRulesRead => "wafRules.read",
             ProjectKeyScopes::WafRulesWrite => "wafRules.write",
             ProjectKeyScopes::EventsRead => "events.read",
+            ProjectKeyScopes::ProxyInvalidationsWrite => "proxy.invalidations.write",
             ProjectKeyScopes::AppsRead => "apps.read",
             ProjectKeyScopes::AppsWrite => "apps.write",
             ProjectKeyScopes::Oauth2Read => "oauth2.read",

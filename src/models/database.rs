@@ -31,10 +31,10 @@ pub struct Database {
     #[serde(rename = "status")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<crate::enums::DatabaseStatus>,
-    /// Underlying engine of the dedicated backing: postgresql, mysql, mariadb, or
-    /// mongodb. A managed product (tablesdb, documentsdb, vectorsdb) reports the
-    /// engine it runs on, so its type and engine can differ. Null when the
-    /// database has no dedicated backing.
+    /// Underlying engine of the dedicated backing: postgresql, mysql, or mongodb.
+    /// A managed product (tablesdb, documentsdb, vectorsdb) reports the engine it
+    /// runs on, so its type and engine can differ. Null when the database has no
+    /// dedicated backing.
     #[serde(rename = "engine")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub engine: Option<String>,

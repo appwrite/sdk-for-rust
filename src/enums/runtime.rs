@@ -23,6 +23,8 @@ pub enum Runtime {
     Node24,
     #[serde(rename = "node-25")]
     Node25,
+    #[serde(rename = "node-26")]
+    Node26,
     #[serde(rename = "php-8.0")]
     Php80,
     #[serde(rename = "php-8.1")]
@@ -201,6 +203,7 @@ impl Runtime {
             Runtime::Node23 => "node-23",
             Runtime::Node24 => "node-24",
             Runtime::Node25 => "node-25",
+            Runtime::Node26 => "node-26",
             Runtime::Php80 => "php-8.0",
             Runtime::Php81 => "php-8.1",
             Runtime::Php82 => "php-8.2",

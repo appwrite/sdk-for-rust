@@ -235,28 +235,6 @@ impl Account {
         self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
     }
 
-    /// Use this endpoint to create a JSON Web Token. You can use the resulting JWT
-    /// to authenticate on behalf of the current user when working with the
-    /// Appwrite server-side API and SDKs. The JWT secret is valid for 15 minutes
-    /// from its creation and will be invalid if the user will logout in that time
-    /// frame.
-    pub async fn create_jwt(
-        &self,
-        duration: Option<i64>,
-    ) -> crate::error::Result<crate::models::Jwt> {
-        let mut params = HashMap::new();
-        if let Some(value) = duration {
-            params.insert("duration".to_string(), json!(value));
-        }
-        let mut api_headers = HashMap::new();
-        api_headers.insert("content-type".to_string(), "application/json".to_string());
-        api_headers.insert("accept".to_string(), "application/json".to_string());
-
-        let path = "/account/jwts".to_string();
-
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
-    }
-
     /// Get the list of latest security activity logs for the currently logged in
     /// user. Each log returns user IP address, location and date and time of log.
     pub async fn list_logs(
