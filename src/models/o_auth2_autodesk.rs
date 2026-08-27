@@ -40,7 +40,6 @@ impl OAuth2Autodesk {
     pub fn client_secret(&self) -> &String {
         &self.client_secret
     }
-
 }
 
 #[cfg(test)]

@@ -140,7 +140,6 @@ impl File {
     pub fn compression(&self) -> &String {
         &self.compression
     }
-
 }
 
 #[cfg(test)]

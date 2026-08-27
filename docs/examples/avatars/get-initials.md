@@ -15,7 +15,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("<NAME>"), // optional
         Some(0), // optional
         Some(0), // optional
-        Some("") // optional
+        Some("FFFFFF") // optional
     ).await?;
 
     let _ = result;

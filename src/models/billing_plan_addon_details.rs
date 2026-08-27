@@ -79,7 +79,6 @@ impl BillingPlanAddonDetails {
     pub fn invoice_desc(&self) -> &String {
         &self.invoice_desc
     }
-
 }
 
 #[cfg(test)]

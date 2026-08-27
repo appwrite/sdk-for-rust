@@ -16,7 +16,6 @@ impl AlgoPhpass {
     pub fn r#type(&self) -> &String {
         &self.r#type
     }
-
 }
 
 #[cfg(test)]

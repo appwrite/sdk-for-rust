@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.get_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        ""
+        "<KEY>"
     ).await?;
 
     let _ = result;

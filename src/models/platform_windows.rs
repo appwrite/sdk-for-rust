@@ -56,7 +56,6 @@ impl PlatformWindows {
     pub fn package_identifier_name(&self) -> &String {
         &self.package_identifier_name
     }
-
 }
 
 #[cfg(test)]

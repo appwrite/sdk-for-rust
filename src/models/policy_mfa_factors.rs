@@ -48,7 +48,6 @@ impl PolicyMfaFactors {
     pub fn custom(&self) -> &bool {
         &self.custom
     }
-
 }
 
 #[cfg(test)]

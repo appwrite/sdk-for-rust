@@ -14,10 +14,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = databases.update_ip_attribute(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        "",
+        "<KEY>",
         false,
-        Some(""),
-        Some("") // optional
+        Some("192.0.2.0"),
+        Some("<NEW_KEY>") // optional
     ).await?;
 
     let _ = result;

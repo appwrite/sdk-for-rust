@@ -24,7 +24,6 @@ impl Oauth2ConsentList {
     pub fn consents(&self) -> &Vec<crate::models::Oauth2Consent> {
         &self.consents
     }
-
 }
 
 #[cfg(test)]

@@ -24,7 +24,6 @@ impl IndexList {
     pub fn indexes(&self) -> &Vec<crate::models::Index> {
         &self.indexes
     }
-
 }
 
 #[cfg(test)]

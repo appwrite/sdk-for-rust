@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = project.update_o_auth2_okta(
         Some("<CLIENT_ID>"), // optional
         Some("<CLIENT_SECRET>"), // optional
-        Some(""), // optional
+        Some("example.com"), // optional
         Some("<AUTHORIZATION_SERVER_ID>"), // optional
         Some(false) // optional
     ).await?;

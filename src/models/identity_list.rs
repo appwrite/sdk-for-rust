@@ -24,7 +24,6 @@ impl IdentityList {
     pub fn identities(&self) -> &Vec<crate::models::Identity> {
         &self.identities
     }
-
 }
 
 #[cfg(test)]

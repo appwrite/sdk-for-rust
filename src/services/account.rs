@@ -14,7 +14,9 @@ pub struct Account {
 
 impl Account {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -22,16 +24,16 @@ impl Account {
     }
 
     /// Get the currently logged in user.
-    pub async fn get(
-        &self,
-    ) -> crate::error::Result<crate::models::User> {
+    pub async fn get(&self) -> crate::error::Result<crate::models::User> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to allow a new user to register a new account in your
@@ -61,7 +63,9 @@ impl Account {
 
         let path = "/account".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of the OAuth2 consents the current user has given to third-party
@@ -73,7 +77,10 @@ impl Account {
     ) -> crate::error::Result<crate::models::Oauth2ConsentList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -83,7 +90,9 @@ impl Account {
 
         let path = "/account/consents".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get an OAuth2 consent the current user has given to a third-party app by
@@ -96,9 +105,13 @@ impl Account {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/account/consents/{consentId}".to_string().replace("{consentId}", &consent_id.into().to_string());
+        let path = "/account/consents/{consentId}"
+            .to_string()
+            .replace("{consentId}", &consent_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete an OAuth2 consent by its unique ID. All token families issued under
@@ -113,9 +126,13 @@ impl Account {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/account/consents/{consentId}".to_string().replace("{consentId}", &consent_id.into().to_string());
+        let path = "/account/consents/{consentId}"
+            .to_string()
+            .replace("{consentId}", &consent_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of the token families issued under an OAuth2 consent. Each entry
@@ -129,7 +146,10 @@ impl Account {
     ) -> crate::error::Result<crate::models::Oauth2ConsentTokenList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -137,9 +157,13 @@ impl Account {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/account/consents/{consentId}/tokens".to_string().replace("{consentId}", &consent_id.into().to_string());
+        let path = "/account/consents/{consentId}/tokens"
+            .to_string()
+            .replace("{consentId}", &consent_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a token family issued under an OAuth2 consent by its unique ID. The
@@ -153,9 +177,14 @@ impl Account {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/account/consents/{consentId}/tokens/{tokenId}".to_string().replace("{consentId}", &consent_id.into().to_string()).replace("{tokenId}", &token_id.into().to_string());
+        let path = "/account/consents/{consentId}/tokens/{tokenId}"
+            .to_string()
+            .replace("{consentId}", &consent_id.into().to_string())
+            .replace("{tokenId}", &token_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a token family issued under an OAuth2 consent by its unique ID. The
@@ -171,9 +200,14 @@ impl Account {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/account/consents/{consentId}/tokens/{tokenId}".to_string().replace("{consentId}", &consent_id.into().to_string()).replace("{tokenId}", &token_id.into().to_string());
+        let path = "/account/consents/{consentId}/tokens/{tokenId}"
+            .to_string()
+            .replace("{consentId}", &consent_id.into().to_string())
+            .replace("{tokenId}", &token_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update currently logged in user account email address. After changing user
@@ -197,7 +231,9 @@ impl Account {
 
         let path = "/account/email".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get the list of identities for the currently logged in user.
@@ -208,7 +244,10 @@ impl Account {
     ) -> crate::error::Result<crate::models::IdentityList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -218,7 +257,9 @@ impl Account {
 
         let path = "/account/identities".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete an identity by its unique ID.
@@ -230,9 +271,13 @@ impl Account {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/account/identities/{identityId}".to_string().replace("{identityId}", &identity_id.into().to_string());
+        let path = "/account/identities/{identityId}"
+            .to_string()
+            .replace("{identityId}", &identity_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get the list of latest security activity logs for the currently logged in
@@ -244,7 +289,10 @@ impl Account {
     ) -> crate::error::Result<crate::models::LogList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -254,14 +302,13 @@ impl Account {
 
         let path = "/account/logs".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Enable or disable MFA on an account.
-    pub async fn update_mfa(
-        &self,
-        mfa: bool,
-    ) -> crate::error::Result<crate::models::User> {
+    pub async fn update_mfa(&self, mfa: bool) -> crate::error::Result<crate::models::User> {
         let mut params = HashMap::new();
         params.insert("mfa".to_string(), json!(mfa));
         let mut api_headers = HashMap::new();
@@ -270,7 +317,9 @@ impl Account {
 
         let path = "/account/mfa".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Add an authenticator app to be used as an MFA factor. Verify the
@@ -286,9 +335,13 @@ impl Account {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/account/mfa/authenticators/{type}".to_string().replace("{type}", &r#type.to_string());
+        let path = "/account/mfa/authenticators/{type}"
+            .to_string()
+            .replace("{type}", &r#type.to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Verify an authenticator app after adding it using the [add
@@ -305,9 +358,13 @@ impl Account {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/account/mfa/authenticators/{type}".to_string().replace("{type}", &r#type.to_string());
+        let path = "/account/mfa/authenticators/{type}"
+            .to_string()
+            .replace("{type}", &r#type.to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete an authenticator for a user by ID.
@@ -319,9 +376,13 @@ impl Account {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/account/mfa/authenticators/{type}".to_string().replace("{type}", &r#type.to_string());
+        let path = "/account/mfa/authenticators/{type}"
+            .to_string()
+            .replace("{type}", &r#type.to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Begin the process of MFA verification after sign-in. Finish the flow with
@@ -339,7 +400,9 @@ impl Account {
 
         let path = "/account/mfa/challenges".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Complete the MFA challenge by providing the one-time password. Finish the
@@ -361,20 +424,22 @@ impl Account {
 
         let path = "/account/mfa/challenges".to_string();
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List the factors available on the account to be used as a MFA challange.
-    pub async fn list_mfa_factors(
-        &self,
-    ) -> crate::error::Result<crate::models::MfaFactors> {
+    pub async fn list_mfa_factors(&self) -> crate::error::Result<crate::models::MfaFactors> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/mfa/factors".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get recovery codes that can be used as backup for MFA flow. Before getting
@@ -390,7 +455,9 @@ impl Account {
 
         let path = "/account/mfa/recovery-codes".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Generate recovery codes as backup for MFA flow. It's recommended to
@@ -408,7 +475,9 @@ impl Account {
 
         let path = "/account/mfa/recovery-codes".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Regenerate recovery codes that can be used as backup for MFA flow. Before
@@ -425,7 +494,9 @@ impl Account {
 
         let path = "/account/mfa/recovery-codes".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update currently logged in user account name.
@@ -441,7 +512,9 @@ impl Account {
 
         let path = "/account/name".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update currently logged in user password. For validation, user is required
@@ -463,7 +536,9 @@ impl Account {
 
         let path = "/account/password".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the currently logged in user's phone number. After updating the
@@ -485,20 +560,22 @@ impl Account {
 
         let path = "/account/phone".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get the preferences as a key-value object for the currently logged in user.
-    pub async fn get_prefs(
-        &self,
-    ) -> crate::error::Result<crate::models::Preferences> {
+    pub async fn get_prefs(&self) -> crate::error::Result<crate::models::Preferences> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/prefs".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update currently logged in user account preferences. The object you pass is
@@ -516,7 +593,9 @@ impl Account {
 
         let path = "/account/prefs".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Sends the user an email with a temporary secret key for password reset.
@@ -541,7 +620,9 @@ impl Account {
 
         let path = "/account/recovery".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to complete the user account password reset. Both the
@@ -549,7 +630,7 @@ impl Account {
     /// the redirect URL you have provided when sending your request to the [POST
     /// /account/recovery](https://appwrite.io/docs/references/cloud/client-web/account#createRecovery)
     /// endpoint.
-    /// 
+    ///
     /// Please note that in order to avoid a [Redirect
     /// Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md)
     /// the only valid redirect URLs are the ones from domains you have set when
@@ -570,35 +651,37 @@ impl Account {
 
         let path = "/account/recovery".to_string();
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get the list of active sessions across different devices for the currently
     /// logged in user.
-    pub async fn list_sessions(
-        &self,
-    ) -> crate::error::Result<crate::models::SessionList> {
+    pub async fn list_sessions(&self) -> crate::error::Result<crate::models::SessionList> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/sessions".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete all sessions from the user account and remove any sessions cookies
     /// from the end client.
-    pub async fn delete_sessions(
-        &self,
-    ) -> crate::error::Result<()> {
+    pub async fn delete_sessions(&self) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
         let path = "/account/sessions".to_string();
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to allow a new user to register an anonymous account in
@@ -608,9 +691,7 @@ impl Account {
     /// password](https://appwrite.io/docs/references/cloud/client-web/account#updateEmail)
     /// or create an [OAuth2
     /// session](https://appwrite.io/docs/references/cloud/client-web/account#CreateOAuth2Session).
-    pub async fn create_anonymous_session(
-        &self,
-    ) -> crate::error::Result<crate::models::Session> {
+    pub async fn create_anonymous_session(&self) -> crate::error::Result<crate::models::Session> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -618,12 +699,14 @@ impl Account {
 
         let path = "/account/sessions/anonymous".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Allow the user to login into their account by providing a valid email and
     /// password combination. This route will create a new session for the user.
-    /// 
+    ///
     /// A user is limited to 10 active sessions at a time by default. [Learn more
     /// about session
     /// limits](https://appwrite.io/docs/authentication-security#limits).
@@ -641,7 +724,9 @@ impl Account {
 
         let path = "/account/sessions/email".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to create a session from token. Provide the **userId**
@@ -661,7 +746,9 @@ impl Account {
 
         let path = "/account/sessions/magic-url".to_string();
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to create a session from token. Provide the **userId**
@@ -681,7 +768,9 @@ impl Account {
 
         let path = "/account/sessions/phone".to_string();
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to create a session from token. Provide the **userId**
@@ -701,7 +790,9 @@ impl Account {
 
         let path = "/account/sessions/token".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to get a logged in user's session using a Session ID.
@@ -714,9 +805,13 @@ impl Account {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/account/sessions/{sessionId}".to_string().replace("{sessionId}", &session_id.into().to_string());
+        let path = "/account/sessions/{sessionId}"
+            .to_string()
+            .replace("{sessionId}", &session_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to extend a session's length. Extending a session is
@@ -731,9 +826,13 @@ impl Account {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/account/sessions/{sessionId}".to_string().replace("{sessionId}", &session_id.into().to_string());
+        let path = "/account/sessions/{sessionId}"
+            .to_string()
+            .replace("{sessionId}", &session_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Logout the user. Use 'current' as the session ID to logout on this device,
@@ -741,25 +840,24 @@ impl Account {
     /// the user on all devices, use [Delete
     /// Sessions](https://appwrite.io/docs/references/cloud/client-web/account#deleteSessions)
     /// instead.
-    pub async fn delete_session(
-        &self,
-        session_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    pub async fn delete_session(&self, session_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/account/sessions/{sessionId}".to_string().replace("{sessionId}", &session_id.into().to_string());
+        let path = "/account/sessions/{sessionId}"
+            .to_string()
+            .replace("{sessionId}", &session_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Block the currently logged in user account. Behind the scene, the user
     /// record is not deleted but permanently blocked from any access. To
     /// completely delete a user, use the Users API instead.
-    pub async fn update_status(
-        &self,
-    ) -> crate::error::Result<crate::models::User> {
+    pub async fn update_status(&self) -> crate::error::Result<crate::models::User> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -767,7 +865,9 @@ impl Account {
 
         let path = "/account/status".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Sends the user an email with a secret key for creating a session. If the
@@ -779,7 +879,7 @@ impl Account {
     /// /v1/account/sessions/token](https://appwrite.io/docs/references/cloud/client-web/account#createSession)
     /// endpoint to complete the login process. The secret sent to the user's email
     /// is valid for 15 minutes.
-    /// 
+    ///
     /// A user is limited to 10 active sessions at a time by default. [Learn more
     /// about session
     /// limits](https://appwrite.io/docs/authentication-security#limits).
@@ -801,7 +901,9 @@ impl Account {
 
         let path = "/account/tokens/email".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Sends the user an email with a secret key for creating a session. If the
@@ -813,7 +915,7 @@ impl Account {
     /// /v1/account/sessions/token](https://appwrite.io/docs/references/cloud/client-web/account#createSession)
     /// endpoint to complete the login process. The link sent to the user's email
     /// address is valid for 1 hour.
-    /// 
+    ///
     /// A user is limited to 10 active sessions at a time by default. [Learn more
     /// about session
     /// limits](https://appwrite.io/docs/authentication-security#limits).
@@ -839,20 +941,22 @@ impl Account {
 
         let path = "/account/tokens/magic-url".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Allow the user to login to their account using the OAuth2 provider of their
     /// choice. Each OAuth2 provider should be enabled from the Appwrite console
     /// first. Use the success and failure arguments to provide a redirect URL's
     /// back to your app when login is completed.
-    /// 
+    ///
     /// If authentication succeeds, `userId` and `secret` of a token will be
     /// appended to the success URL as query parameters. These can be used to
     /// create a new session using the [Create
     /// session](https://appwrite.io/docs/references/cloud/client-web/account#createSession)
     /// endpoint.
-    /// 
+    ///
     /// A user is limited to 10 active sessions at a time by default. [Learn more
     /// about session
     /// limits](https://appwrite.io/docs/authentication-security#limits).
@@ -871,14 +975,21 @@ impl Account {
             params.insert("failure".to_string(), json!(value));
         }
         if let Some(value) = scopes {
-            params.insert("scopes".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "scopes".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "text/html".to_string());
 
-        let path = "/account/tokens/oauth2/{provider}".to_string().replace("{provider}", &provider.to_string());
+        let path = "/account/tokens/oauth2/{provider}"
+            .to_string()
+            .replace("{provider}", &provider.to_string());
 
-        self.client.call_location(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_location(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Sends the user an SMS with a secret key for creating a session. If the
@@ -887,7 +998,7 @@ impl Account {
     /// /v1/account/sessions/token](https://appwrite.io/docs/references/cloud/client-web/account#createSession)
     /// endpoint to complete the login process. The secret sent to the user's phone
     /// is valid for 15 minutes.
-    /// 
+    ///
     /// A user is limited to 10 active sessions at a time by default. [Learn more
     /// about session
     /// limits](https://appwrite.io/docs/authentication-security#limits).
@@ -905,7 +1016,9 @@ impl Account {
 
         let path = "/account/tokens/phone".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to send a verification message to your user email address
@@ -917,7 +1030,7 @@ impl Account {
     /// parameters. Learn more about how to [complete the verification
     /// process](https://appwrite.io/docs/references/cloud/client-web/account#updateVerification).
     /// The verification link sent to the user's email address is valid for 7 days.
-    /// 
+    ///
     /// Please note that in order to avoid a [Redirect
     /// Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md),
     /// the only valid redirect URLs are the ones from domains you have set when
@@ -934,7 +1047,9 @@ impl Account {
 
         let path = "/account/verifications/email".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to send a verification message to your user email address
@@ -946,7 +1061,7 @@ impl Account {
     /// parameters. Learn more about how to [complete the verification
     /// process](https://appwrite.io/docs/references/cloud/client-web/account#updateVerification).
     /// The verification link sent to the user's email address is valid for 7 days.
-    /// 
+    ///
     /// Please note that in order to avoid a [Redirect
     /// Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md),
     /// the only valid redirect URLs are the ones from domains you have set when
@@ -963,7 +1078,9 @@ impl Account {
 
         let path = "/account/verifications/email".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to complete the user email verification process. Use both
@@ -984,7 +1101,9 @@ impl Account {
 
         let path = "/account/verifications/email".to_string();
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to complete the user email verification process. Use both
@@ -1005,7 +1124,9 @@ impl Account {
 
         let path = "/account/verifications/email".to_string();
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to send a verification SMS to the currently logged in
@@ -1016,9 +1137,7 @@ impl Account {
     /// process](https://appwrite.io/docs/references/cloud/client-web/account#updatePhoneVerification).
     /// The verification code sent to the user's phone number is valid for 15
     /// minutes.
-    pub async fn create_phone_verification(
-        &self,
-    ) -> crate::error::Result<crate::models::Token> {
+    pub async fn create_phone_verification(&self) -> crate::error::Result<crate::models::Token> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1026,7 +1145,9 @@ impl Account {
 
         let path = "/account/verifications/phone".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to complete the user phone verification process. Use the
@@ -1047,9 +1168,10 @@ impl Account {
 
         let path = "/account/verifications/phone".to_string();
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Account {

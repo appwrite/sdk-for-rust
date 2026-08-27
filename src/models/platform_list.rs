@@ -24,7 +24,6 @@ impl PlatformList {
     pub fn platforms(&self) -> &Vec<serde_json::Value> {
         &self.platforms
     }
-
 }
 
 #[cfg(test)]

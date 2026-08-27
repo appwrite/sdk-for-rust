@@ -14,11 +14,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = databases.create_integer_attribute(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        "",
+        "<KEY>",
         false,
         Some(0), // optional
-        Some(0), // optional
-        Some(0), // optional
+        Some(100), // optional
+        Some(10), // optional
         Some(false) // optional
     ).await?;
 

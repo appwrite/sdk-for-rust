@@ -15,7 +15,9 @@ pub struct Avatars {
 
 impl Avatars {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -27,7 +29,7 @@ impl Avatars {
     /// /account/sessions](https://appwrite.io/docs/references/cloud/client-web/account#getSessions)
     /// endpoint. Use width, height and quality arguments to change the output
     /// settings.
-    /// 
+    ///
     /// When one dimension is specified and the other is 0, the image is scaled
     /// with preserved aspect ratio. If both dimensions are 0, the API provides an
     /// image at source quality. If dimensions are not specified, the default size
@@ -52,15 +54,19 @@ impl Avatars {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "image/png".to_string());
 
-        let path = "/avatars/browsers/{code}".to_string().replace("{code}", &code.to_string());
+        let path = "/avatars/browsers/{code}"
+            .to_string()
+            .replace("{code}", &code.to_string());
 
-        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// The credit card endpoint will return you the icon of the credit card
     /// provider you need. Use width, height and quality arguments to change the
     /// output settings.
-    /// 
+    ///
     /// When one dimension is specified and the other is 0, the image is scaled
     /// with preserved aspect ratio. If both dimensions are 0, the API provides an
     /// image at source quality. If dimensions are not specified, the default size
@@ -85,19 +91,20 @@ impl Avatars {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "image/png".to_string());
 
-        let path = "/avatars/credit-cards/{code}".to_string().replace("{code}", &code.to_string());
+        let path = "/avatars/credit-cards/{code}"
+            .to_string()
+            .replace("{code}", &code.to_string());
 
-        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to fetch the favorite icon (AKA favicon) of any remote
     /// website URL.
-    /// 
+    ///
     /// This endpoint does not follow HTTP redirects.
-    pub async fn get_favicon(
-        &self,
-        url: impl Into<String>,
-    ) -> crate::error::Result<Vec<u8>> {
+    pub async fn get_favicon(&self, url: impl Into<String>) -> crate::error::Result<Vec<u8>> {
         let mut params = HashMap::new();
         params.insert("url".to_string(), json!(url.into()));
         let mut api_headers = HashMap::new();
@@ -105,14 +112,16 @@ impl Avatars {
 
         let path = "/avatars/favicon".to_string();
 
-        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// You can use this endpoint to show different country flags icons to your
     /// users. The code argument receives the 2 letter country code. Use width,
     /// height and quality arguments to change the output settings. Country codes
     /// follow the [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1) standard.
-    /// 
+    ///
     /// When one dimension is specified and the other is 0, the image is scaled
     /// with preserved aspect ratio. If both dimensions are 0, the API provides an
     /// image at source quality. If dimensions are not specified, the default size
@@ -137,21 +146,25 @@ impl Avatars {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "image/png".to_string());
 
-        let path = "/avatars/flags/{code}".to_string().replace("{code}", &code.to_string());
+        let path = "/avatars/flags/{code}"
+            .to_string()
+            .replace("{code}", &code.to_string());
 
-        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to fetch a remote image URL and crop it to any image size
     /// you want. This endpoint is very useful if you need to crop and display
     /// remote images in your app or in case you want to make sure a 3rd party
     /// image is properly served using a TLS protocol.
-    /// 
+    ///
     /// When one dimension is specified and the other is 0, the image is scaled
     /// with preserved aspect ratio. If both dimensions are 0, the API provides an
     /// image at source quality. If dimensions are not specified, the default size
     /// of image returned is 400x400px.
-    /// 
+    ///
     /// This endpoint does not follow HTTP redirects.
     pub async fn get_image(
         &self,
@@ -172,7 +185,9 @@ impl Avatars {
 
         let path = "/avatars/image".to_string();
 
-        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to show your user initials avatar icon on your website or
@@ -180,12 +195,12 @@ impl Avatars {
     /// email initials. You can also overwrite the user name if you pass the 'name'
     /// parameter. If no name is given and no user is logged, an empty avatar will
     /// be returned.
-    /// 
+    ///
     /// You can use the color and background params to change the avatar colors. By
     /// default, a random theme will be selected. The random theme will persist for
     /// the user's initials when reloading the same theme will always return for
     /// the same initials.
-    /// 
+    ///
     /// When one dimension is specified and the other is 0, the image is scaled
     /// with preserved aspect ratio. If both dimensions are 0, the API provides an
     /// image at source quality. If dimensions are not specified, the default size
@@ -215,7 +230,68 @@ impl Avatars {
 
         let path = "/avatars/initials".to_string();
 
-        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Returns the best available profile photo for a user. The endpoint tries
+    /// each source in priority order and returns the first successful result:
+    /// OAuth2 identity photo, Gravatar, Libravatar, Appwrite Initials, built-in
+    /// static fallback.
+    ///
+    /// The photo resolves for the currently authenticated user unless `userId`
+    /// points at another user. Passing `emailHash` and/or `name` resolves the
+    /// avatar from those values alone: the hash is looked up on Gravatar and
+    /// Libravatar, the name is rendered as initials, and the user's own identity
+    /// photos, email, and name leave the chain so they never shadow the avatar
+    /// being asked for. Emails are only ever accepted pre-hashed, so no address
+    /// ends up in a URL.
+    #[allow(clippy::too_many_arguments)]
+    pub async fn get_photo(
+        &self,
+        width: Option<i64>,
+        height: Option<i64>,
+        quality: Option<i64>,
+        output: Option<&str>,
+        rating: Option<&str>,
+        user_id: Option<&str>,
+        email_hash: Option<&str>,
+        name: Option<&str>,
+    ) -> crate::error::Result<Vec<u8>> {
+        let mut params = HashMap::new();
+        if let Some(value) = width {
+            params.insert("width".to_string(), json!(value));
+        }
+        if let Some(value) = height {
+            params.insert("height".to_string(), json!(value));
+        }
+        if let Some(value) = quality {
+            params.insert("quality".to_string(), json!(value));
+        }
+        if let Some(value) = output {
+            params.insert("output".to_string(), json!(value));
+        }
+        if let Some(value) = rating {
+            params.insert("rating".to_string(), json!(value));
+        }
+        if let Some(value) = user_id {
+            params.insert("userId".to_string(), json!(value));
+        }
+        if let Some(value) = email_hash {
+            params.insert("emailHash".to_string(), json!(value));
+        }
+        if let Some(value) = name {
+            params.insert("name".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "image/*".to_string());
+
+        let path = "/avatars/photo".to_string();
+
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Converts a given plain text to a QR code image. You can use the query
@@ -243,16 +319,18 @@ impl Avatars {
 
         let path = "/avatars/qr".to_string();
 
-        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to capture a screenshot of any website URL. This endpoint
     /// uses a headless browser to render the webpage and capture it as an image.
-    /// 
+    ///
     /// You can configure the browser viewport size, theme, user agent,
     /// geolocation, permissions, and more. Capture either just the viewport or the
     /// full page scroll.
-    /// 
+    ///
     /// When width and height are specified, the image is resized accordingly. If
     /// both dimensions are 0, the API provides an image at original size. If
     /// dimensions are not specified, the default viewport size is 1280x720px.
@@ -344,9 +422,10 @@ impl Avatars {
 
         let path = "/avatars/screenshots".to_string();
 
-        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Avatars {

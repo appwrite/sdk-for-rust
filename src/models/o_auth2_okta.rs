@@ -56,7 +56,6 @@ impl OAuth2Okta {
     pub fn authorization_server_id(&self) -> &String {
         &self.authorization_server_id
     }
-
 }
 
 #[cfg(test)]

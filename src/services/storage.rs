@@ -14,7 +14,9 @@ pub struct Storage {
 
 impl Storage {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -31,7 +33,10 @@ impl Storage {
     ) -> crate::error::Result<crate::models::BucketList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -44,7 +49,9 @@ impl Storage {
 
         let path = "/storage/buckets".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new storage bucket.
@@ -67,7 +74,10 @@ impl Storage {
         params.insert("bucketId".to_string(), json!(bucket_id.into()));
         params.insert("name".to_string(), json!(name.into()));
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = file_security {
             params.insert("fileSecurity".to_string(), json!(value));
@@ -79,7 +89,10 @@ impl Storage {
             params.insert("maximumFileSize".to_string(), json!(value));
         }
         if let Some(value) = allowed_file_extensions {
-            params.insert("allowedFileExtensions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "allowedFileExtensions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = compression {
             params.insert("compression".to_string(), json!(value));
@@ -99,7 +112,9 @@ impl Storage {
 
         let path = "/storage/buckets".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a storage bucket by its unique ID. This endpoint response returns a
@@ -112,9 +127,13 @@ impl Storage {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/storage/buckets/{bucketId}".to_string().replace("{bucketId}", &bucket_id.into().to_string());
+        let path = "/storage/buckets/{bucketId}"
+            .to_string()
+            .replace("{bucketId}", &bucket_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a storage bucket by its unique ID.
@@ -136,7 +155,10 @@ impl Storage {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = file_security {
             params.insert("fileSecurity".to_string(), json!(value));
@@ -148,7 +170,10 @@ impl Storage {
             params.insert("maximumFileSize".to_string(), json!(value));
         }
         if let Some(value) = allowed_file_extensions {
-            params.insert("allowedFileExtensions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "allowedFileExtensions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = compression {
             params.insert("compression".to_string(), json!(value));
@@ -166,23 +191,28 @@ impl Storage {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/storage/buckets/{bucketId}".to_string().replace("{bucketId}", &bucket_id.into().to_string());
+        let path = "/storage/buckets/{bucketId}"
+            .to_string()
+            .replace("{bucketId}", &bucket_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a storage bucket by its unique ID.
-    pub async fn delete_bucket(
-        &self,
-        bucket_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    pub async fn delete_bucket(&self, bucket_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/storage/buckets/{bucketId}".to_string().replace("{bucketId}", &bucket_id.into().to_string());
+        let path = "/storage/buckets/{bucketId}"
+            .to_string()
+            .replace("{bucketId}", &bucket_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all the user files. You can use the query params to filter
@@ -196,7 +226,10 @@ impl Storage {
     ) -> crate::error::Result<crate::models::FileList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -207,26 +240,30 @@ impl Storage {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/storage/buckets/{bucketId}/files".to_string().replace("{bucketId}", &bucket_id.into().to_string());
+        let path = "/storage/buckets/{bucketId}/files"
+            .to_string()
+            .replace("{bucketId}", &bucket_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new file. Before using this route, you should create a new bucket
     /// resource using either a [server
     /// integration](https://appwrite.io/docs/server/storage#storageCreateBucket)
     /// API or directly from your Appwrite console.
-    /// 
+    ///
     /// Larger files should be uploaded using multiple requests with the
     /// [content-range](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Range)
     /// header to send a partial request with a maximum supported chunk of `5MB`.
     /// The `content-range` header values should always be in bytes.
-    /// 
+    ///
     /// When the first request is sent, the server will return the **File** object,
     /// and the subsequent part request must include the file's **id** in
     /// `x-appwrite-id` header to allow the server to know that the partial upload
     /// is for the existing file and not for a new one.
-    /// 
+    ///
     /// If you're creating a new file using one of the Appwrite SDKs, all the
     /// chunking logic will be managed by the SDK internally.
     pub async fn create_file(
@@ -241,18 +278,35 @@ impl Storage {
         let mut params = HashMap::new();
         params.insert("fileId".to_string(), json!(file_id_str));
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = folder {
             params.insert("folder".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
-        api_headers.insert("content-type".to_string(), "multipart/form-data".to_string());
+        api_headers.insert(
+            "content-type".to_string(),
+            "multipart/form-data".to_string(),
+        );
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/storage/buckets/{bucketId}/files".to_string().replace("{bucketId}", &bucket_id.into().to_string());
+        let path = "/storage/buckets/{bucketId}/files"
+            .to_string()
+            .replace("{bucketId}", &bucket_id.into().to_string());
 
-        self.client.file_upload(&path, Some(api_headers), params, "file", file, Some(file_id_str)).await
+        self.client
+            .file_upload(
+                &path,
+                Some(api_headers),
+                params,
+                "file",
+                file,
+                Some(file_id_str),
+            )
+            .await
     }
 
     /// Get a file by its unique ID. This endpoint response returns a JSON object
@@ -266,9 +320,14 @@ impl Storage {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/storage/buckets/{bucketId}/files/{fileId}".to_string().replace("{bucketId}", &bucket_id.into().to_string()).replace("{fileId}", &file_id.into().to_string());
+        let path = "/storage/buckets/{bucketId}/files/{fileId}"
+            .to_string()
+            .replace("{bucketId}", &bucket_id.into().to_string())
+            .replace("{fileId}", &file_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a file by its unique ID. Only users with write permissions have
@@ -285,15 +344,23 @@ impl Storage {
             params.insert("name".to_string(), json!(value));
         }
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/storage/buckets/{bucketId}/files/{fileId}".to_string().replace("{bucketId}", &bucket_id.into().to_string()).replace("{fileId}", &file_id.into().to_string());
+        let path = "/storage/buckets/{bucketId}/files/{fileId}"
+            .to_string()
+            .replace("{bucketId}", &bucket_id.into().to_string())
+            .replace("{fileId}", &file_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a file by its unique ID. Only users with write permissions have
@@ -307,9 +374,14 @@ impl Storage {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/storage/buckets/{bucketId}/files/{fileId}".to_string().replace("{bucketId}", &bucket_id.into().to_string()).replace("{fileId}", &file_id.into().to_string());
+        let path = "/storage/buckets/{bucketId}/files/{fileId}"
+            .to_string()
+            .replace("{bucketId}", &bucket_id.into().to_string())
+            .replace("{fileId}", &file_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a file content by its unique ID. The endpoint response return with a
@@ -328,9 +400,14 @@ impl Storage {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "*/*".to_string());
 
-        let path = "/storage/buckets/{bucketId}/files/{fileId}/download".to_string().replace("{bucketId}", &bucket_id.into().to_string()).replace("{fileId}", &file_id.into().to_string());
+        let path = "/storage/buckets/{bucketId}/files/{fileId}/download"
+            .to_string()
+            .replace("{bucketId}", &bucket_id.into().to_string())
+            .replace("{fileId}", &file_id.into().to_string());
 
-        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a file preview image. Currently, this method supports preview for image
@@ -396,9 +473,14 @@ impl Storage {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "image/*".to_string());
 
-        let path = "/storage/buckets/{bucketId}/files/{fileId}/preview".to_string().replace("{bucketId}", &bucket_id.into().to_string()).replace("{fileId}", &file_id.into().to_string());
+        let path = "/storage/buckets/{bucketId}/files/{fileId}/preview"
+            .to_string()
+            .replace("{bucketId}", &bucket_id.into().to_string())
+            .replace("{fileId}", &file_id.into().to_string());
 
-        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a file content by its unique ID. This endpoint is similar to the
@@ -417,11 +499,15 @@ impl Storage {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "*/*".to_string());
 
-        let path = "/storage/buckets/{bucketId}/files/{fileId}/view".to_string().replace("{bucketId}", &bucket_id.into().to_string()).replace("{fileId}", &file_id.into().to_string());
+        let path = "/storage/buckets/{bucketId}/files/{fileId}/view"
+            .to_string()
+            .replace("{bucketId}", &bucket_id.into().to_string())
+            .replace("{fileId}", &file_id.into().to_string());
 
-        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Storage {

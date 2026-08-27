@@ -56,7 +56,6 @@ impl PlatformApple {
     pub fn bundle_identifier(&self) -> &String {
         &self.bundle_identifier
     }
-
 }
 
 #[cfg(test)]

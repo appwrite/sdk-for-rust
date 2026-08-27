@@ -24,7 +24,6 @@ impl PresenceList {
     pub fn presences(&self) -> &Vec<crate::models::Presence> {
         &self.presences
     }
-
 }
 
 #[cfg(test)]

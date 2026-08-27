@@ -14,10 +14,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = databases.update_polygon_attribute(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        "",
+        "<KEY>",
         false,
         Some(vec![serde_json::json!([[1,2],[3,4],[5,6],[1,2]])]), // optional
-        Some("") // optional
+        Some("<NEW_KEY>") // optional
     ).await?;
 
     let _ = result;

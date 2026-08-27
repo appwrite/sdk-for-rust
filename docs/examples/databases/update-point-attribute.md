@@ -14,10 +14,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = databases.update_point_attribute(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        "",
+        "<KEY>",
         false,
         Some(vec![1, 2]), // optional
-        Some("") // optional
+        Some("<NEW_KEY>") // optional
     ).await?;
 
     let _ = result;

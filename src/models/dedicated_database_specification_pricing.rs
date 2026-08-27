@@ -40,7 +40,6 @@ impl DedicatedDatabaseSpecificationPricing {
     pub fn pitr_rate(&self) -> &f64 {
         &self.pitr_rate
     }
-
 }
 
 #[cfg(test)]
@@ -62,7 +61,8 @@ mod tests {
         let json = serde_json::to_string(&model);
         assert!(json.is_ok());
 
-        let deserialized: Result<DedicatedDatabaseSpecificationPricing, _> = serde_json::from_str(&json.unwrap());
+        let deserialized: Result<DedicatedDatabaseSpecificationPricing, _> =
+            serde_json::from_str(&json.unwrap());
         assert!(deserialized.is_ok());
     }
 }

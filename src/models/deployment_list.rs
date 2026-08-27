@@ -24,7 +24,6 @@ impl DeploymentList {
     pub fn deployments(&self) -> &Vec<crate::models::Deployment> {
         &self.deployments
     }
-
 }
 
 #[cfg(test)]

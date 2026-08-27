@@ -18,17 +18,20 @@ pub struct Execution {
     /// Execution roles.
     #[serde(rename = "$permissions")]
     pub permissions: Vec<String>,
-    /// Function ID.
-    #[serde(rename = "functionId")]
-    pub function_id: String,
-    /// Function's deployment ID used to create the execution.
+    /// Function or site ID.
+    #[serde(rename = "resourceId")]
+    pub resource_id: String,
+    /// Execution resource type.
+    #[serde(rename = "resourceType")]
+    pub resource_type: crate::enums::ExecutionResourceType,
+    /// Deployment ID used to create the execution.
     #[serde(rename = "deploymentId")]
     pub deployment_id: String,
-    /// The trigger that caused the function to execute. Possible values can be:
+    /// The trigger that caused the resource to execute. Possible values can be:
     /// `http`, `schedule`, or `event`.
     #[serde(rename = "trigger")]
     pub trigger: crate::enums::ExecutionTrigger,
-    /// The status of the function execution. Possible values can be: `waiting`,
+    /// The status of the resource execution. Possible values can be: `waiting`,
     /// `processing`, `completed`, `failed`, or `scheduled`.
     #[serde(rename = "status")]
     pub status: crate::enums::ExecutionStatus,
@@ -55,12 +58,12 @@ pub struct Execution {
     /// synchronous.
     #[serde(rename = "responseHeaders")]
     pub response_headers: Vec<crate::models::Headers>,
-    /// Function logs. Includes the last 4,000 characters. This will return an
+    /// Resource logs. Includes the last 4,000 characters. This will return an
     /// empty string unless the response is returned using an API key or as part of
     /// a webhook payload.
     #[serde(rename = "logs")]
     pub logs: String,
-    /// Function errors. Includes the last 4,000 characters. This will return an
+    /// Resource errors. Includes the last 4,000 characters. This will return an
     /// empty string unless the response is returned using an API key or as part of
     /// a webhook payload.
     #[serde(rename = "errors")]
@@ -96,9 +99,14 @@ impl Execution {
         &self.permissions
     }
 
-    /// Get function_id
-    pub fn function_id(&self) -> &String {
-        &self.function_id
+    /// Get resource_id
+    pub fn resource_id(&self) -> &String {
+        &self.resource_id
+    }
+
+    /// Get resource_type
+    pub fn resource_type(&self) -> &crate::enums::ExecutionResourceType {
+        &self.resource_type
     }
 
     /// Get deployment_id
@@ -171,7 +179,6 @@ impl Execution {
     pub fn scheduled_at(&self) -> Option<&String> {
         self.scheduled_at.as_ref()
     }
-
 }
 
 #[cfg(test)]
@@ -185,7 +192,8 @@ mod tests {
         let _ = _model.created_at();
         let _ = _model.updated_at();
         let _ = _model.permissions();
-        let _ = _model.function_id();
+        let _ = _model.resource_id();
+        let _ = _model.resource_type();
         let _ = _model.deployment_id();
         let _ = _model.trigger();
         let _ = _model.status();

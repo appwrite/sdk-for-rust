@@ -56,7 +56,6 @@ impl PlatformWeb {
     pub fn hostname(&self) -> &String {
         &self.hostname
     }
-
 }
 
 #[cfg(test)]

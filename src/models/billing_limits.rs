@@ -128,7 +128,6 @@ impl BillingLimits {
     pub fn budget_limit(&self) -> Option<&i64> {
         self.budget_limit.as_ref()
     }
-
 }
 
 #[cfg(test)]

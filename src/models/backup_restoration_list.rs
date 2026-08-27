@@ -24,7 +24,6 @@ impl BackupRestorationList {
     pub fn restorations(&self) -> &Vec<crate::models::BackupRestoration> {
         &self.restorations
     }
-
 }
 
 #[cfg(test)]

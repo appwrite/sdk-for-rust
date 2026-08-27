@@ -159,6 +159,8 @@ pub enum BuildRuntime {
     Bun12,
     #[serde(rename = "bun-1.3")]
     Bun13,
+    #[serde(rename = "bun-1.4")]
+    Bun14,
     #[serde(rename = "go-1.23")]
     Go123,
     #[serde(rename = "go-1.24")]
@@ -271,6 +273,7 @@ impl BuildRuntime {
             BuildRuntime::Bun11 => "bun-1.1",
             BuildRuntime::Bun12 => "bun-1.2",
             BuildRuntime::Bun13 => "bun-1.3",
+            BuildRuntime::Bun14 => "bun-1.4",
             BuildRuntime::Go123 => "go-1.23",
             BuildRuntime::Go124 => "go-1.24",
             BuildRuntime::Go125 => "go-1.25",

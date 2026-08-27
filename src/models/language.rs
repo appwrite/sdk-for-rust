@@ -32,7 +32,6 @@ impl Language {
     pub fn native_name(&self) -> &String {
         &self.native_name
     }
-
 }
 
 #[cfg(test)]

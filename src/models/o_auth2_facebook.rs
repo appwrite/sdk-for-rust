@@ -40,7 +40,6 @@ impl OAuth2Facebook {
     pub fn app_secret(&self) -> &String {
         &self.app_secret
     }
-
 }
 
 #[cfg(test)]

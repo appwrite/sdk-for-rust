@@ -40,7 +40,6 @@ impl OAuth2Stripe {
     pub fn api_secret_key(&self) -> &String {
         &self.api_secret_key
     }
-
 }
 
 #[cfg(test)]

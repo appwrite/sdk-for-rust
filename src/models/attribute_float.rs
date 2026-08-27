@@ -127,7 +127,6 @@ impl AttributeFloat {
     pub fn default(&self) -> Option<&f64> {
         self.default.as_ref()
     }
-
 }
 
 #[cfg(test)]

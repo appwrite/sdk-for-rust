@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.create_index(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        "",
+        "<KEY>",
         appwrite::enums::TablesDBIndexType::Key,
         vec![],
         Some(vec![appwrite::enums::OrderBy::Asc]), // optional

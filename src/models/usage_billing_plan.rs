@@ -77,7 +77,10 @@ impl UsageBillingPlan {
     }
 
     /// Set realtime_bandwidth
-    pub fn set_realtime_bandwidth(mut self, realtime_bandwidth: crate::models::AdditionalResource) -> Self {
+    pub fn set_realtime_bandwidth(
+        mut self,
+        realtime_bandwidth: crate::models::AdditionalResource,
+    ) -> Self {
         self.realtime_bandwidth = Some(realtime_bandwidth);
         self
     }
@@ -117,7 +120,6 @@ impl UsageBillingPlan {
     pub fn credits(&self) -> Option<&crate::models::AdditionalResource> {
         self.credits.as_ref()
     }
-
 }
 
 #[cfg(test)]

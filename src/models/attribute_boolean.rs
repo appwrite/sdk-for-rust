@@ -97,7 +97,6 @@ impl AttributeBoolean {
     pub fn default(&self) -> Option<&bool> {
         self.default.as_ref()
     }
-
 }
 
 #[cfg(test)]

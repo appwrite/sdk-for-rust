@@ -87,7 +87,6 @@ impl Provider {
     pub fn options(&self) -> Option<&serde_json::Value> {
         self.options.as_ref()
     }
-
 }
 
 #[cfg(test)]

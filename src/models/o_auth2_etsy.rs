@@ -40,7 +40,6 @@ impl OAuth2Etsy {
     pub fn shared_secret(&self) -> &String {
         &self.shared_secret
     }
-
 }
 
 #[cfg(test)]

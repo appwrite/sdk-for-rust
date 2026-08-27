@@ -24,7 +24,6 @@ impl MockNumberList {
     pub fn mock_numbers(&self) -> &Vec<crate::models::MockNumber> {
         &self.mock_numbers
     }
-
 }
 
 #[cfg(test)]

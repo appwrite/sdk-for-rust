@@ -97,7 +97,6 @@ impl ColumnLine {
     pub fn default(&self) -> Option<&Vec<Vec<f64>>> {
         self.default.as_ref()
     }
-
 }
 
 #[cfg(test)]

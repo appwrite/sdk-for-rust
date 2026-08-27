@@ -12,6 +12,8 @@ pub mod backups;
 pub use backups::Backups;
 pub mod databases;
 pub use databases::Databases;
+pub mod documents_db;
+pub use documents_db::DocumentsDB;
 pub mod embeddings;
 pub use embeddings::Embeddings;
 pub mod functions;
@@ -22,10 +24,16 @@ pub mod locale;
 pub use locale::Locale;
 pub mod messaging;
 pub use messaging::Messaging;
+pub mod mongo;
+pub use mongo::Mongo;
+pub mod mysql;
+pub use mysql::Mysql;
 pub mod oauth2;
 pub use oauth2::Oauth2;
 pub mod organization;
 pub use organization::Organization;
+pub mod postgresql;
+pub use postgresql::Postgresql;
 pub mod presences;
 pub use presences::Presences;
 pub mod project;
@@ -46,6 +54,8 @@ pub mod tokens;
 pub use tokens::Tokens;
 pub mod users;
 pub use users::Users;
+pub mod vectors_db;
+pub use vectors_db::VectorsDB;
 pub mod webhooks;
 pub use webhooks::Webhooks;
 
@@ -66,13 +76,17 @@ pub struct Services {
     avatars: Avatars,
     backups: Backups,
     databases: Databases,
+    documents_db: DocumentsDB,
     embeddings: Embeddings,
     functions: Functions,
     graphql: Graphql,
     locale: Locale,
     messaging: Messaging,
+    mongo: Mongo,
+    mysql: Mysql,
     oauth2: Oauth2,
     organization: Organization,
+    postgresql: Postgresql,
     presences: Presences,
     project: Project,
     proxy: Proxy,
@@ -83,6 +97,7 @@ pub struct Services {
     teams: Teams,
     tokens: Tokens,
     users: Users,
+    vectors_db: VectorsDB,
     webhooks: Webhooks,
 }
 
@@ -96,13 +111,17 @@ impl Services {
             avatars: Avatars::new(&client),
             backups: Backups::new(&client),
             databases: Databases::new(&client),
+            documents_db: DocumentsDB::new(&client),
             embeddings: Embeddings::new(&client),
             functions: Functions::new(&client),
             graphql: Graphql::new(&client),
             locale: Locale::new(&client),
             messaging: Messaging::new(&client),
+            mongo: Mongo::new(&client),
+            mysql: Mysql::new(&client),
             oauth2: Oauth2::new(&client),
             organization: Organization::new(&client),
+            postgresql: Postgresql::new(&client),
             presences: Presences::new(&client),
             project: Project::new(&client),
             proxy: Proxy::new(&client),
@@ -113,6 +132,7 @@ impl Services {
             teams: Teams::new(&client),
             tokens: Tokens::new(&client),
             users: Users::new(&client),
+            vectors_db: VectorsDB::new(&client),
             webhooks: Webhooks::new(&client),
             client,
         }
@@ -147,6 +167,10 @@ impl Services {
     pub fn databases(&self) -> &Databases {
         &self.databases
     }
+    /// Get DocumentsDB service
+    pub fn documents_db(&self) -> &DocumentsDB {
+        &self.documents_db
+    }
     /// Get Embeddings service
     pub fn embeddings(&self) -> &Embeddings {
         &self.embeddings
@@ -167,6 +191,14 @@ impl Services {
     pub fn messaging(&self) -> &Messaging {
         &self.messaging
     }
+    /// Get Mongo service
+    pub fn mongo(&self) -> &Mongo {
+        &self.mongo
+    }
+    /// Get Mysql service
+    pub fn mysql(&self) -> &Mysql {
+        &self.mysql
+    }
     /// Get Oauth2 service
     pub fn oauth2(&self) -> &Oauth2 {
         &self.oauth2
@@ -174,6 +206,10 @@ impl Services {
     /// Get Organization service
     pub fn organization(&self) -> &Organization {
         &self.organization
+    }
+    /// Get Postgresql service
+    pub fn postgresql(&self) -> &Postgresql {
+        &self.postgresql
     }
     /// Get Presences service
     pub fn presences(&self) -> &Presences {
@@ -214,6 +250,10 @@ impl Services {
     /// Get Users service
     pub fn users(&self) -> &Users {
         &self.users
+    }
+    /// Get VectorsDB service
+    pub fn vectors_db(&self) -> &VectorsDB {
+        &self.vectors_db
     }
     /// Get Webhooks service
     pub fn webhooks(&self) -> &Webhooks {

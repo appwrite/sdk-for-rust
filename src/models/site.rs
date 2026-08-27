@@ -60,6 +60,9 @@ pub struct Site {
     /// "building", "ready", and "failed".
     #[serde(rename = "latestDeploymentStatus")]
     pub latest_deployment_status: String,
+    /// Allowed permission scopes.
+    #[serde(rename = "scopes")]
+    pub scopes: Vec<String>,
     /// Site variables.
     #[serde(rename = "vars")]
     pub vars: Vec<crate::models::Variable>,
@@ -202,6 +205,11 @@ impl Site {
         &self.latest_deployment_status
     }
 
+    /// Get scopes
+    pub fn scopes(&self) -> &Vec<String> {
+        &self.scopes
+    }
+
     /// Get vars
     pub fn vars(&self) -> &Vec<crate::models::Variable> {
         &self.vars
@@ -291,7 +299,6 @@ impl Site {
     pub fn fallback_file(&self) -> &String {
         &self.fallback_file
     }
-
 }
 
 #[cfg(test)]
@@ -317,6 +324,7 @@ mod tests {
         let _ = _model.latest_deployment_id();
         let _ = _model.latest_deployment_created_at();
         let _ = _model.latest_deployment_status();
+        let _ = _model.scopes();
         let _ = _model.vars();
         let _ = _model.timeout();
         let _ = _model.install_command();

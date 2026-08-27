@@ -14,10 +14,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.update_point_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        "",
+        "<KEY>",
         false,
         Some(vec![1, 2]), // optional
-        Some("") // optional
+        Some("<NEW_KEY>") // optional
     ).await?;
 
     let _ = result;

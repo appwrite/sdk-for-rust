@@ -111,7 +111,6 @@ impl Block {
     pub fn billing_plan(&self) -> &String {
         &self.billing_plan
     }
-
 }
 
 #[cfg(test)]

@@ -15,7 +15,9 @@ pub struct Teams {
 
 impl Teams {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -32,7 +34,10 @@ impl Teams {
     ) -> crate::error::Result<crate::models::TeamList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -45,7 +50,9 @@ impl Teams {
 
         let path = "/teams".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new team. The user who creates the team will automatically be
@@ -61,7 +68,10 @@ impl Teams {
         params.insert("teamId".to_string(), json!(team_id.into()));
         params.insert("name".to_string(), json!(name.into()));
         if let Some(value) = roles {
-            params.insert("roles".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "roles".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -69,7 +79,9 @@ impl Teams {
 
         let path = "/teams".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a team by its ID. All team members have read access for this resource.
@@ -81,9 +93,13 @@ impl Teams {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}".to_string().replace("{teamId}", &team_id.into().to_string());
+        let path = "/teams/{teamId}"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the team's name by its unique ID.
@@ -98,24 +114,29 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}".to_string().replace("{teamId}", &team_id.into().to_string());
+        let path = "/teams/{teamId}"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a team using its ID. Only team members with the owner role can
     /// delete the team.
-    pub async fn delete(
-        &self,
-        team_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    pub async fn delete(&self, team_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}".to_string().replace("{teamId}", &team_id.into().to_string());
+        let path = "/teams/{teamId}"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List app installations on a team. Any team member can read installations.
@@ -127,7 +148,10 @@ impl Teams {
     ) -> crate::error::Result<crate::models::AppInstallationList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -135,9 +159,13 @@ impl Teams {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}/installations".to_string().replace("{teamId}", &team_id.into().to_string());
+        let path = "/teams/{teamId}/installations"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Install an app on a team. When authenticated as a user, only team members
@@ -159,9 +187,13 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}/installations".to_string().replace("{teamId}", &team_id.into().to_string());
+        let path = "/teams/{teamId}/installations"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get an app installation on a team by its unique ID. Any team member can
@@ -175,9 +207,14 @@ impl Teams {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}/installations/{installationId}".to_string().replace("{teamId}", &team_id.into().to_string()).replace("{installationId}", &installation_id.into().to_string());
+        let path = "/teams/{teamId}/installations/{installationId}"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string())
+            .replace("{installationId}", &installation_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an app installation on a team. Only team members with the owner role
@@ -198,9 +235,14 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}/installations/{installationId}".to_string().replace("{teamId}", &team_id.into().to_string()).replace("{installationId}", &installation_id.into().to_string());
+        let path = "/teams/{teamId}/installations/{installationId}"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string())
+            .replace("{installationId}", &installation_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Uninstall an app from a team by its installation ID. Only team members with
@@ -216,9 +258,14 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}/installations/{installationId}".to_string().replace("{teamId}", &team_id.into().to_string()).replace("{installationId}", &installation_id.into().to_string());
+        let path = "/teams/{teamId}/installations/{installationId}"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string())
+            .replace("{installationId}", &installation_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to list a team's members using the team's ID. All team
@@ -233,7 +280,10 @@ impl Teams {
     ) -> crate::error::Result<crate::models::MembershipList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -244,9 +294,13 @@ impl Teams {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}/memberships".to_string().replace("{teamId}", &team_id.into().to_string());
+        let path = "/teams/{teamId}/memberships"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Invite a new member to join your team. Provide an ID for existing users, or
@@ -255,16 +309,16 @@ impl Teams {
     /// team to the invited user, and an account will be created for them if one
     /// doesn't exist. If initiated from a Server SDK, the new member will be added
     /// automatically to the team.
-    /// 
+    ///
     /// You only need to provide one of a user ID, email, or phone number. Appwrite
     /// will prioritize accepting the user ID > email > phone number if you provide
     /// more than one of these parameters.
-    /// 
+    ///
     /// Use the `url` parameter to redirect the user from the invitation email to
     /// your app. After the user is redirected, use the [Update Team Membership
     /// Status](https://appwrite.io/docs/references/cloud/client-web/teams#updateMembershipStatus)
     /// endpoint to allow the user to accept the invitation to the team.
-    /// 
+    ///
     /// Please note that to avoid a [Redirect
     /// Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md)
     /// Appwrite will accept the only redirect URLs under the domains you have
@@ -290,7 +344,10 @@ impl Teams {
         if let Some(value) = phone {
             params.insert("phone".to_string(), json!(value));
         }
-        params.insert("roles".to_string(), json!(roles.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "roles".to_string(),
+            json!(roles.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+        );
         if let Some(value) = url {
             params.insert("url".to_string(), json!(value));
         }
@@ -301,9 +358,13 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}/memberships".to_string().replace("{teamId}", &team_id.into().to_string());
+        let path = "/teams/{teamId}/memberships"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a team member by the membership unique id. All team members have read
@@ -318,9 +379,14 @@ impl Teams {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}/memberships/{membershipId}".to_string().replace("{teamId}", &team_id.into().to_string()).replace("{membershipId}", &membership_id.into().to_string());
+        let path = "/teams/{teamId}/memberships/{membershipId}"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string())
+            .replace("{membershipId}", &membership_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Modify the roles of a team member. Only team members with the owner role
@@ -333,14 +399,22 @@ impl Teams {
         roles: impl IntoIterator<Item = impl Into<String>>,
     ) -> crate::error::Result<crate::models::Membership> {
         let mut params = HashMap::new();
-        params.insert("roles".to_string(), json!(roles.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "roles".to_string(),
+            json!(roles.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+        );
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}/memberships/{membershipId}".to_string().replace("{teamId}", &team_id.into().to_string()).replace("{membershipId}", &membership_id.into().to_string());
+        let path = "/teams/{teamId}/memberships/{membershipId}"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string())
+            .replace("{membershipId}", &membership_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// This endpoint allows a user to leave a team or for a team owner to delete
@@ -355,15 +429,20 @@ impl Teams {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}/memberships/{membershipId}".to_string().replace("{teamId}", &team_id.into().to_string()).replace("{membershipId}", &membership_id.into().to_string());
+        let path = "/teams/{teamId}/memberships/{membershipId}"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string())
+            .replace("{membershipId}", &membership_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Use this endpoint to allow a user to accept an invitation to join a team
     /// after being redirected back to your app from the invitation email received
     /// by the user.
-    /// 
+    ///
     /// If the request is successful, a session for the user is automatically
     /// created.
     pub async fn update_membership_status(
@@ -380,9 +459,14 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}/memberships/{membershipId}/status".to_string().replace("{teamId}", &team_id.into().to_string()).replace("{membershipId}", &membership_id.into().to_string());
+        let path = "/teams/{teamId}/memberships/{membershipId}/status"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string())
+            .replace("{membershipId}", &membership_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get the team's shared preferences by its unique ID. If a preference doesn't
@@ -396,9 +480,13 @@ impl Teams {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}/prefs".to_string().replace("{teamId}", &team_id.into().to_string());
+        let path = "/teams/{teamId}/prefs"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the team's preferences by its unique ID. The object you pass is
@@ -415,11 +503,14 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}/prefs".to_string().replace("{teamId}", &team_id.into().to_string());
+        let path = "/teams/{teamId}/prefs"
+            .to_string()
+            .replace("{teamId}", &team_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Teams {

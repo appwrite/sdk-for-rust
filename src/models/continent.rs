@@ -24,7 +24,6 @@ impl Continent {
     pub fn code(&self) -> &String {
         &self.code
     }
-
 }
 
 #[cfg(test)]

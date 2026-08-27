@@ -24,7 +24,6 @@ impl ProjectProtocol {
     pub fn enabled(&self) -> &bool {
         &self.enabled
     }
-
 }
 
 #[cfg(test)]

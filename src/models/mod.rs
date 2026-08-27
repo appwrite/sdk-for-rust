@@ -88,6 +88,8 @@ pub mod transaction_list;
 pub use transaction_list::TransactionList;
 pub mod specification_list;
 pub use specification_list::SpecificationList;
+pub mod vectorsdb_collection_list;
+pub use vectorsdb_collection_list::VectorsdbCollectionList;
 pub mod embedding_list;
 pub use embedding_list::EmbeddingList;
 pub mod insight_list;
@@ -138,6 +140,12 @@ pub mod attribute_mediumtext;
 pub use attribute_mediumtext::AttributeMediumtext;
 pub mod attribute_longtext;
 pub use attribute_longtext::AttributeLongtext;
+pub mod vectorsdb_collection;
+pub use vectorsdb_collection::VectorsdbCollection;
+pub mod attribute_object;
+pub use attribute_object::AttributeObject;
+pub mod attribute_vector;
+pub use attribute_vector::AttributeVector;
 pub mod table;
 pub use table::Table;
 pub mod column_list;
@@ -308,6 +316,8 @@ pub mod o_auth2_salesforce;
 pub use o_auth2_salesforce::OAuth2Salesforce;
 pub mod o_auth2_yahoo;
 pub use o_auth2_yahoo::OAuth2Yahoo;
+pub mod o_auth2_hugging_face;
+pub use o_auth2_hugging_face::OAuth2HuggingFace;
 pub mod o_auth2_linkedin;
 pub use o_auth2_linkedin::OAuth2Linkedin;
 pub mod o_auth2_disqus;
@@ -434,6 +444,12 @@ pub mod additional_resource;
 pub use additional_resource::AdditionalResource;
 pub mod backup_archive;
 pub use backup_archive::BackupArchive;
+pub mod dedicated_database_backup;
+pub use dedicated_database_backup::DedicatedDatabaseBackup;
+pub mod dedicated_database_backup_list;
+pub use dedicated_database_backup_list::DedicatedDatabaseBackupList;
+pub mod dedicated_database_backup_storage;
+pub use dedicated_database_backup_storage::DedicatedDatabaseBackupStorage;
 pub mod billing_limits;
 pub use billing_limits::BillingLimits;
 pub mod billing_plan;
@@ -450,12 +466,24 @@ pub mod billing_plan_supported_addons;
 pub use billing_plan_supported_addons::BillingPlanSupportedAddons;
 pub mod block;
 pub use block::Block;
+pub mod dedicated_database_branch;
+pub use dedicated_database_branch::DedicatedDatabaseBranch;
+pub mod dedicated_database_branch_list;
+pub use dedicated_database_branch_list::DedicatedDatabaseBranchList;
 pub mod database_migration;
 pub use database_migration::DatabaseMigration;
 pub mod dedicated_database;
 pub use dedicated_database::DedicatedDatabase;
+pub mod dedicated_database_execution;
+pub use dedicated_database_execution::DedicatedDatabaseExecution;
+pub mod dedicated_database_execution_column;
+pub use dedicated_database_execution_column::DedicatedDatabaseExecutionColumn;
+pub mod dedicated_database_restoration;
+pub use dedicated_database_restoration::DedicatedDatabaseRestoration;
 pub mod database_status;
 pub use database_status::DatabaseStatus;
+pub mod dedicated_database_extensions;
+pub use dedicated_database_extensions::DedicatedDatabaseExtensions;
 pub mod dedicated_database_member;
 pub use dedicated_database_member::DedicatedDatabaseMember;
 pub mod dedicated_database_operation;
@@ -468,6 +496,8 @@ pub mod proxy_invalidation;
 pub use proxy_invalidation::ProxyInvalidation;
 pub mod organization;
 pub use organization::Organization;
+pub mod dedicated_database_pitr_windows;
+pub use dedicated_database_pitr_windows::DedicatedDatabasePITRWindows;
 pub mod backup_policy;
 pub use backup_policy::BackupPolicy;
 pub mod policy_deny_aliased_email;
@@ -478,10 +508,16 @@ pub mod policy_deny_free_email;
 pub use policy_deny_free_email::PolicyDenyFreeEmail;
 pub mod policy_deny_corporate_email;
 pub use policy_deny_corporate_email::PolicyDenyCorporateEmail;
+pub mod dedicated_database_pooler;
+pub use dedicated_database_pooler::DedicatedDatabasePooler;
+pub mod postgres_extension;
+pub use postgres_extension::PostgresExtension;
 pub mod program;
 pub use program::Program;
 pub mod backup_restoration;
 pub use backup_restoration::BackupRestoration;
+pub mod dedicated_database_restoration_list;
+pub use dedicated_database_restoration_list::DedicatedDatabaseRestorationList;
 pub mod dedicated_database_specification;
 pub use dedicated_database_specification::DedicatedDatabaseSpecification;
 pub mod dedicated_database_specification_list;
@@ -548,6 +584,8 @@ pub mod backup_restoration_list;
 pub use backup_restoration_list::BackupRestorationList;
 pub mod database_migration_list;
 pub use database_migration_list::DatabaseMigrationList;
+pub mod dedicated_database_list;
+pub use dedicated_database_list::DedicatedDatabaseList;
 pub mod apps_list;
 pub use apps_list::AppsList;
 pub mod app_secret_list;
@@ -610,6 +648,7 @@ impl Model for SubscriberList {}
 impl Model for TargetList {}
 impl Model for TransactionList {}
 impl Model for SpecificationList {}
+impl Model for VectorsdbCollectionList {}
 impl Model for EmbeddingList {}
 impl Model for InsightList {}
 impl Model for ReportList {}
@@ -635,6 +674,9 @@ impl Model for AttributeVarchar {}
 impl Model for AttributeText {}
 impl Model for AttributeMediumtext {}
 impl Model for AttributeLongtext {}
+impl Model for VectorsdbCollection {}
+impl Model for AttributeObject {}
+impl Model for AttributeVector {}
 impl Model for Table {}
 impl Model for ColumnList {}
 impl Model for ColumnString {}
@@ -720,6 +762,7 @@ impl Model for OAuth2Podio {}
 impl Model for OAuth2Notion {}
 impl Model for OAuth2Salesforce {}
 impl Model for OAuth2Yahoo {}
+impl Model for OAuth2HuggingFace {}
 impl Model for OAuth2Linkedin {}
 impl Model for OAuth2Disqus {}
 impl Model for OAuth2Amazon {}
@@ -783,6 +826,9 @@ impl Model for Report {}
 impl Model for ActivityEvent {}
 impl Model for AdditionalResource {}
 impl Model for BackupArchive {}
+impl Model for DedicatedDatabaseBackup {}
+impl Model for DedicatedDatabaseBackupList {}
+impl Model for DedicatedDatabaseBackupStorage {}
 impl Model for BillingLimits {}
 impl Model for BillingPlan {}
 impl Model for BillingPlanAddon {}
@@ -791,22 +837,32 @@ impl Model for BillingPlanLimits {}
 impl Model for BillingPlanDedicatedDatabaseLimits {}
 impl Model for BillingPlanSupportedAddons {}
 impl Model for Block {}
+impl Model for DedicatedDatabaseBranch {}
+impl Model for DedicatedDatabaseBranchList {}
 impl Model for DatabaseMigration {}
 impl Model for DedicatedDatabase {}
+impl Model for DedicatedDatabaseExecution {}
+impl Model for DedicatedDatabaseExecutionColumn {}
+impl Model for DedicatedDatabaseRestoration {}
 impl Model for DatabaseStatus {}
+impl Model for DedicatedDatabaseExtensions {}
 impl Model for DedicatedDatabaseMember {}
 impl Model for DedicatedDatabaseOperation {}
 impl Model for DedicatedDatabaseOperationList {}
 impl Model for DedicatedDatabaseReplicas {}
 impl Model for ProxyInvalidation {}
 impl Model for Organization {}
+impl Model for DedicatedDatabasePITRWindows {}
 impl Model for BackupPolicy {}
 impl Model for PolicyDenyAliasedEmail {}
 impl Model for PolicyDenyDisposableEmail {}
 impl Model for PolicyDenyFreeEmail {}
 impl Model for PolicyDenyCorporateEmail {}
+impl Model for DedicatedDatabasePooler {}
+impl Model for PostgresExtension {}
 impl Model for Program {}
 impl Model for BackupRestoration {}
+impl Model for DedicatedDatabaseRestorationList {}
 impl Model for DedicatedDatabaseSpecification {}
 impl Model for DedicatedDatabaseSpecificationList {}
 impl Model for DedicatedDatabaseSpecificationPricing {}
@@ -840,6 +896,7 @@ impl Model for BackupArchiveList {}
 impl Model for BackupPolicyList {}
 impl Model for BackupRestorationList {}
 impl Model for DatabaseMigrationList {}
+impl Model for DedicatedDatabaseList {}
 impl Model for AppsList {}
 impl Model for AppSecretList {}
 impl Model for AppScopeList {}

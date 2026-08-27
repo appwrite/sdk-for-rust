@@ -180,7 +180,10 @@ impl Locale {
     }
 
     /// Set autonomous_system_organization
-    pub fn set_autonomous_system_organization(mut self, autonomous_system_organization: String) -> Self {
+    pub fn set_autonomous_system_organization(
+        mut self,
+        autonomous_system_organization: String,
+    ) -> Self {
         self.autonomous_system_organization = Some(autonomous_system_organization);
         self
     }
@@ -233,7 +236,6 @@ impl Locale {
     pub fn connection_organization(&self) -> Option<&String> {
         self.connection_organization.as_ref()
     }
-
 }
 
 #[cfg(test)]

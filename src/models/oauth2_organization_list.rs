@@ -24,7 +24,6 @@ impl Oauth2OrganizationList {
     pub fn organizations(&self) -> &Vec<crate::models::Oauth2Organization> {
         &self.organizations
     }
-
 }
 
 #[cfg(test)]

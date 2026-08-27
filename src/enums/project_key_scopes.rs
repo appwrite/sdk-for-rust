@@ -7,6 +7,8 @@ pub enum ProjectKeyScopes {
     ProjectRead,
     #[serde(rename = "project.write")]
     ProjectWrite,
+    #[serde(rename = "usage.read")]
+    UsageRead,
     #[serde(rename = "keys.read")]
     KeysRead,
     #[serde(rename = "keys.write")]
@@ -85,6 +87,30 @@ pub enum ProjectKeyScopes {
     DocumentsRead,
     #[serde(rename = "documents.write")]
     DocumentsWrite,
+    #[serde(rename = "documentsdb.read")]
+    DocumentsdbRead,
+    #[serde(rename = "documentsdb.write")]
+    DocumentsdbWrite,
+    #[serde(rename = "documentsdb.collections.read")]
+    DocumentsdbCollectionsRead,
+    #[serde(rename = "documentsdb.collections.write")]
+    DocumentsdbCollectionsWrite,
+    #[serde(rename = "documentsdb.documents.read")]
+    DocumentsdbDocumentsRead,
+    #[serde(rename = "documentsdb.documents.write")]
+    DocumentsdbDocumentsWrite,
+    #[serde(rename = "vectorsdb.read")]
+    VectorsdbRead,
+    #[serde(rename = "vectorsdb.write")]
+    VectorsdbWrite,
+    #[serde(rename = "vectorsdb.collections.read")]
+    VectorsdbCollectionsRead,
+    #[serde(rename = "vectorsdb.collections.write")]
+    VectorsdbCollectionsWrite,
+    #[serde(rename = "vectorsdb.documents.read")]
+    VectorsdbDocumentsRead,
+    #[serde(rename = "vectorsdb.documents.write")]
+    VectorsdbDocumentsWrite,
     #[serde(rename = "buckets.read")]
     BucketsRead,
     #[serde(rename = "buckets.write")]
@@ -189,8 +215,6 @@ pub enum ProjectKeyScopes {
     RestorationsRead,
     #[serde(rename = "restorations.write")]
     RestorationsWrite,
-    #[serde(rename = "dedicatedDatabases.execute")]
-    DedicatedDatabasesExecute,
     #[serde(rename = "domains.read")]
     DomainsRead,
     #[serde(rename = "domains.write")]
@@ -213,8 +237,6 @@ pub enum ProjectKeyScopes {
     Oauth2Write,
     #[serde(rename = "oauth2.introspect")]
     Oauth2Introspect,
-    #[serde(rename = "usage.read")]
-    UsageRead,
 }
 
 impl ProjectKeyScopes {
@@ -223,6 +245,7 @@ impl ProjectKeyScopes {
         match self {
             ProjectKeyScopes::ProjectRead => "project.read",
             ProjectKeyScopes::ProjectWrite => "project.write",
+            ProjectKeyScopes::UsageRead => "usage.read",
             ProjectKeyScopes::KeysRead => "keys.read",
             ProjectKeyScopes::KeysWrite => "keys.write",
             ProjectKeyScopes::PlatformsRead => "platforms.read",
@@ -262,6 +285,18 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::AttributesWrite => "attributes.write",
             ProjectKeyScopes::DocumentsRead => "documents.read",
             ProjectKeyScopes::DocumentsWrite => "documents.write",
+            ProjectKeyScopes::DocumentsdbRead => "documentsdb.read",
+            ProjectKeyScopes::DocumentsdbWrite => "documentsdb.write",
+            ProjectKeyScopes::DocumentsdbCollectionsRead => "documentsdb.collections.read",
+            ProjectKeyScopes::DocumentsdbCollectionsWrite => "documentsdb.collections.write",
+            ProjectKeyScopes::DocumentsdbDocumentsRead => "documentsdb.documents.read",
+            ProjectKeyScopes::DocumentsdbDocumentsWrite => "documentsdb.documents.write",
+            ProjectKeyScopes::VectorsdbRead => "vectorsdb.read",
+            ProjectKeyScopes::VectorsdbWrite => "vectorsdb.write",
+            ProjectKeyScopes::VectorsdbCollectionsRead => "vectorsdb.collections.read",
+            ProjectKeyScopes::VectorsdbCollectionsWrite => "vectorsdb.collections.write",
+            ProjectKeyScopes::VectorsdbDocumentsRead => "vectorsdb.documents.read",
+            ProjectKeyScopes::VectorsdbDocumentsWrite => "vectorsdb.documents.write",
             ProjectKeyScopes::BucketsRead => "buckets.read",
             ProjectKeyScopes::BucketsWrite => "buckets.write",
             ProjectKeyScopes::FilesRead => "files.read",
@@ -314,7 +349,6 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::ArchivesWrite => "archives.write",
             ProjectKeyScopes::RestorationsRead => "restorations.read",
             ProjectKeyScopes::RestorationsWrite => "restorations.write",
-            ProjectKeyScopes::DedicatedDatabasesExecute => "dedicatedDatabases.execute",
             ProjectKeyScopes::DomainsRead => "domains.read",
             ProjectKeyScopes::DomainsWrite => "domains.write",
             ProjectKeyScopes::WafRulesRead => "wafRules.read",
@@ -326,7 +360,6 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::Oauth2Read => "oauth2.read",
             ProjectKeyScopes::Oauth2Write => "oauth2.write",
             ProjectKeyScopes::Oauth2Introspect => "oauth2.introspect",
-            ProjectKeyScopes::UsageRead => "usage.read",
         }
     }
 }

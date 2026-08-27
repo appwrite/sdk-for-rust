@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = webhooks.update(
         "<WEBHOOK_ID>",
         "<NAME>",
-        "",
+        "https://example.com/webhook",
         vec![],
         Some(false), // optional
         Some(false), // optional

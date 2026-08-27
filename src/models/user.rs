@@ -291,7 +291,6 @@ impl User {
     pub fn impersonator_user_id(&self) -> Option<&String> {
         self.impersonator_user_id.as_ref()
     }
-
 }
 
 #[cfg(test)]

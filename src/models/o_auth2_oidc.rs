@@ -98,7 +98,6 @@ impl OAuth2Oidc {
     pub fn max_age(&self) -> Option<&i64> {
         self.max_age.as_ref()
     }
-
 }
 
 #[cfg(test)]

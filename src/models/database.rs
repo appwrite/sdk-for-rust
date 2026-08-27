@@ -48,6 +48,22 @@ pub struct Database {
     #[serde(rename = "replicas")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub replicas: Option<i64>,
+    /// Error message when the dedicated backing failed. Null when the database has
+    /// no dedicated backing or has not failed.
+    #[serde(rename = "error")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub error: Option<String>,
+    /// Container status of the dedicated backing: active or inactive. Null when
+    /// the database has no dedicated backing or the runtime has not reported one.
+    #[serde(rename = "containerStatus")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub container_status: Option<String>,
+    /// Idle-lifecycle state of the dedicated backing: active, warm, cold, or
+    /// hibernated. Null when the database has no dedicated backing or the runtime
+    /// has not reported one.
+    #[serde(rename = "lifecycleState")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub lifecycle_state: Option<String>,
     /// Database backup policies.
     #[serde(rename = "policies")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -133,6 +149,39 @@ impl Database {
         self.replicas.as_ref()
     }
 
+    /// Set error
+    pub fn set_error(mut self, error: String) -> Self {
+        self.error = Some(error);
+        self
+    }
+
+    /// Get error
+    pub fn error(&self) -> Option<&String> {
+        self.error.as_ref()
+    }
+
+    /// Set container_status
+    pub fn set_container_status(mut self, container_status: String) -> Self {
+        self.container_status = Some(container_status);
+        self
+    }
+
+    /// Get container_status
+    pub fn container_status(&self) -> Option<&String> {
+        self.container_status.as_ref()
+    }
+
+    /// Set lifecycle_state
+    pub fn set_lifecycle_state(mut self, lifecycle_state: String) -> Self {
+        self.lifecycle_state = Some(lifecycle_state);
+        self
+    }
+
+    /// Get lifecycle_state
+    pub fn lifecycle_state(&self) -> Option<&String> {
+        self.lifecycle_state.as_ref()
+    }
+
     /// Set policies
     pub fn set_policies(mut self, policies: Vec<crate::models::BackupPolicy>) -> Self {
         self.policies = Some(policies);
@@ -154,7 +203,6 @@ impl Database {
     pub fn archives(&self) -> Option<&Vec<crate::models::BackupArchive>> {
         self.archives.as_ref()
     }
-
 }
 
 #[cfg(test)]

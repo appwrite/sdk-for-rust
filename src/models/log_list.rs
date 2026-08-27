@@ -24,7 +24,6 @@ impl LogList {
     pub fn logs(&self) -> &Vec<crate::models::Log> {
         &self.logs
     }
-
 }
 
 #[cfg(test)]

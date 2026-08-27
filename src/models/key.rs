@@ -81,7 +81,6 @@ impl Key {
     pub fn sdks(&self) -> &Vec<String> {
         &self.sdks
     }
-
 }
 
 #[cfg(test)]

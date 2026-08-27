@@ -24,7 +24,6 @@ impl ContinentList {
     pub fn continents(&self) -> &Vec<crate::models::Continent> {
         &self.continents
     }
-
 }
 
 #[cfg(test)]

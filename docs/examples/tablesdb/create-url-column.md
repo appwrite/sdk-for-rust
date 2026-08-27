@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.create_url_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        "",
+        "<KEY>",
         false,
         Some("https://example.com"), // optional
         Some(false) // optional

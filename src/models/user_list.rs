@@ -24,7 +24,6 @@ impl UserList {
     pub fn users(&self) -> &Vec<crate::models::User> {
         &self.users
     }
-
 }
 
 #[cfg(test)]

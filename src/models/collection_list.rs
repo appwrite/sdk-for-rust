@@ -24,7 +24,6 @@ impl CollectionList {
     pub fn collections(&self) -> &Vec<crate::models::Collection> {
         &self.collections
     }
-
 }
 
 #[cfg(test)]

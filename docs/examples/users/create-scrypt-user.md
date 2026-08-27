@@ -16,10 +16,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "email@example.com",
         "password",
         "<PASSWORD_SALT>",
-        0,
-        0,
-        0,
-        0,
+        8,
+        65536,
+        1,
+        64,
         Some("<NAME>") // optional
     ).await?;
 

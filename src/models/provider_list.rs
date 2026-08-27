@@ -24,7 +24,6 @@ impl ProviderList {
     pub fn providers(&self) -> &Vec<crate::models::Provider> {
         &self.providers
     }
-
 }
 
 #[cfg(test)]

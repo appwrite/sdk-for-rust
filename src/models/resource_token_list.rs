@@ -24,7 +24,6 @@ impl ResourceTokenList {
     pub fn tokens(&self) -> &Vec<crate::models::ResourceToken> {
         &self.tokens
     }
-
 }
 
 #[cfg(test)]

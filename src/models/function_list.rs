@@ -24,7 +24,6 @@ impl FunctionList {
     pub fn functions(&self) -> &Vec<crate::models::Function> {
         &self.functions
     }
-
 }
 
 #[cfg(test)]

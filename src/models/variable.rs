@@ -75,7 +75,6 @@ impl Variable {
     pub fn resource_id(&self) -> &String {
         &self.resource_id
     }
-
 }
 
 #[cfg(test)]

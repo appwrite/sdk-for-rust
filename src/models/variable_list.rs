@@ -24,7 +24,6 @@ impl VariableList {
     pub fn variables(&self) -> &Vec<crate::models::Variable> {
         &self.variables
     }
-
 }
 
 #[cfg(test)]

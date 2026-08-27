@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.create_line_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        "",
+        "<KEY>",
         false,
         Some(vec![serde_json::json!([1,2]), serde_json::json!([3,4]), serde_json::json!([5,6])]) // optional
     ).await?;

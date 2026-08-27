@@ -113,7 +113,6 @@ impl Webhook {
     pub fn attempts(&self) -> &i64 {
         &self.attempts
     }
-
 }
 
 #[cfg(test)]

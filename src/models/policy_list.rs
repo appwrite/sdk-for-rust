@@ -24,7 +24,6 @@ impl PolicyList {
     pub fn policies(&self) -> &Vec<serde_json::Value> {
         &self.policies
     }
-
 }
 
 #[cfg(test)]

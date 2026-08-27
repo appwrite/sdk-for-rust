@@ -14,9 +14,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = databases.create_mediumtext_attribute(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        "",
+        "<KEY>",
         false,
-        Some("<DEFAULT>"), // optional
+        Some("Hello World"), // optional
         Some(false), // optional
         Some(false) // optional
     ).await?;

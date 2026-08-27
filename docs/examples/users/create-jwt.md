@@ -13,7 +13,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = users.create_jwt(
         "<USER_ID>",
-        Some("<SESSION_ID>"), // optional
+        Some("recent()"), // optional
         Some(0) // optional
     ).await?;
 

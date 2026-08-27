@@ -24,7 +24,6 @@ impl TopicList {
     pub fn topics(&self) -> &Vec<crate::models::Topic> {
         &self.topics
     }
-
 }
 
 #[cfg(test)]

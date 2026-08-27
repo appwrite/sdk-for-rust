@@ -101,7 +101,6 @@ impl Oauth2ConsentToken {
     pub fn expire(&self) -> &String {
         &self.expire
     }
-
 }
 
 #[cfg(test)]

@@ -40,7 +40,6 @@ impl OAuth2Disqus {
     pub fn secret_key(&self) -> &String {
         &self.secret_key
     }
-
 }
 
 #[cfg(test)]

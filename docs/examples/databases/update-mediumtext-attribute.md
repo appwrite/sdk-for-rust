@@ -14,10 +14,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = databases.update_mediumtext_attribute(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        "",
+        "<KEY>",
         false,
-        Some("<DEFAULT>"),
-        Some("") // optional
+        Some("Hello World"),
+        Some("<NEW_KEY>") // optional
     ).await?;
 
     let _ = result;

@@ -24,7 +24,6 @@ impl ColumnList {
     pub fn columns(&self) -> &Vec<serde_json::Value> {
         &self.columns
     }
-
 }
 
 #[cfg(test)]

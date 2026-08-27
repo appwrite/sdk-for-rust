@@ -274,7 +274,6 @@ impl Function {
     pub fn runtime_specification(&self) -> &String {
         &self.runtime_specification
     }
-
 }
 
 #[cfg(test)]

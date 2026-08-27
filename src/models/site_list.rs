@@ -24,7 +24,6 @@ impl SiteList {
     pub fn sites(&self) -> &Vec<crate::models::Site> {
         &self.sites
     }
-
 }
 
 #[cfg(test)]

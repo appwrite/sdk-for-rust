@@ -15,7 +15,9 @@ pub struct Graphql {
 
 impl Graphql {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -23,10 +25,7 @@ impl Graphql {
     }
 
     /// Execute a GraphQL mutation.
-    pub async fn query(
-        &self,
-        query: serde_json::Value,
-    ) -> crate::error::Result<serde_json::Value> {
+    pub async fn query(&self, query: serde_json::Value) -> crate::error::Result<serde_json::Value> {
         let mut params = HashMap::new();
         params.insert("query".to_string(), json!(query));
         let mut api_headers = HashMap::new();
@@ -36,7 +35,9 @@ impl Graphql {
 
         let path = "/graphql".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Execute a GraphQL mutation.
@@ -53,9 +54,10 @@ impl Graphql {
 
         let path = "/graphql/mutation".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Graphql {

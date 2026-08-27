@@ -24,7 +24,6 @@ impl LocaleCodeList {
     pub fn locale_codes(&self) -> &Vec<crate::models::LocaleCode> {
         &self.locale_codes
     }
-
 }
 
 #[cfg(test)]

@@ -56,7 +56,6 @@ impl PolicyPasswordStrength {
     pub fn symbols(&self) -> &bool {
         &self.symbols
     }
-
 }
 
 #[cfg(test)]

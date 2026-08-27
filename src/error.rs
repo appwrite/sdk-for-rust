@@ -16,7 +16,12 @@ pub struct AppwriteError {
 }
 
 impl AppwriteError {
-    pub fn new(code: u16, message: impl Into<String>, error_type: Option<String>, response: impl Into<String>) -> Self {
+    pub fn new(
+        code: u16,
+        message: impl Into<String>,
+        error_type: Option<String>,
+        response: impl Into<String>,
+    ) -> Self {
         Self {
             code,
             message: message.into(),
@@ -59,7 +64,12 @@ impl From<reqwest::Error> for AppwriteError {
 
 impl From<serde_json::Error> for AppwriteError {
     fn from(err: serde_json::Error) -> Self {
-        Self::new(0, format!("Serialization error: {}", err), None, String::new())
+        Self::new(
+            0,
+            format!("Serialization error: {}", err),
+            None,
+            String::new(),
+        )
     }
 }
 
@@ -84,12 +94,7 @@ mod tests {
 
     #[test]
     fn test_client_error() {
-        let error = AppwriteError::new(
-            404,
-            "Not found",
-            None,
-            "{}",
-        );
+        let error = AppwriteError::new(404, "Not found", None, "{}");
 
         assert_eq!(error.status_code(), 404);
         assert_eq!(error.get_message(), "Not found");
@@ -99,12 +104,7 @@ mod tests {
 
     #[test]
     fn test_server_error() {
-        let error = AppwriteError::new(
-            500,
-            "Internal server error",
-            None,
-            "{}",
-        );
+        let error = AppwriteError::new(500, "Internal server error", None, "{}");
 
         assert!(error.is_server_error());
         assert!(!error.is_client_error());

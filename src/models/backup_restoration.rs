@@ -97,7 +97,6 @@ impl BackupRestoration {
     pub fn options(&self) -> &String {
         &self.options
     }
-
 }
 
 #[cfg(test)]

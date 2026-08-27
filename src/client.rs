@@ -92,11 +92,20 @@ impl Client {
     pub fn new() -> Self {
         let mut headers = HeaderMap::new();
         headers.insert("X-Appwrite-Response-Format", "1.9.6".parse().unwrap());
-        headers.insert("user-agent", format!("AppwriteRustSDK/0.13.0 ({}; {})", std::env::consts::OS, std::env::consts::ARCH).parse().unwrap());
+        headers.insert(
+            "user-agent",
+            format!(
+                "AppwriteRustSDK/0.14.0-rc.1 ({}; {})",
+                std::env::consts::OS,
+                std::env::consts::ARCH
+            )
+            .parse()
+            .unwrap(),
+        );
         headers.insert("x-sdk-name", "Rust".parse().unwrap());
         headers.insert("x-sdk-platform", "server".parse().unwrap());
         headers.insert("x-sdk-language", "rust".parse().unwrap());
-        headers.insert("x-sdk-version", "0.13.0".parse().unwrap());
+        headers.insert("x-sdk-version", "0.14.0-rc.1".parse().unwrap());
 
         let config = Config {
             endpoint: "https://cloud.appwrite.io/v1".to_string(),
@@ -109,7 +118,11 @@ impl Client {
         let http = Self::build_http_client(&config);
         let http_no_redirect = Self::build_http_client_no_redirect(&config);
 
-        let state = ClientState { config, http, http_no_redirect };
+        let state = ClientState {
+            config,
+            http,
+            http_no_redirect,
+        };
 
         Self {
             state: Arc::new(ArcSwap::from_pointee(state)),
@@ -135,14 +148,19 @@ impl Client {
             builder = builder.danger_accept_invalid_certs(true);
         }
 
-        builder.build().expect("Failed to create no-redirect HTTP client")
+        builder
+            .build()
+            .expect("Failed to create no-redirect HTTP client")
     }
 
     /// Set the API endpoint
     pub fn set_endpoint<S: Into<String>>(&self, endpoint: S) -> Self {
         let endpoint = endpoint.into();
         if !endpoint.starts_with("http://") && !endpoint.starts_with("https://") {
-            panic!("Invalid endpoint URL: {}. Endpoint must start with http:// or https://", endpoint);
+            panic!(
+                "Invalid endpoint URL: {}. Endpoint must start with http:// or https://",
+                endpoint
+            );
         }
         self.state.rcu(|state| {
             let mut next = (**state).clone();
@@ -152,7 +170,6 @@ impl Client {
         self.clone()
     }
 
-
     /// Set Project
     ///
     /// Your project ID
@@ -160,7 +177,9 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-project", value.clone().parse().unwrap());
+            next.config
+                .headers
+                .insert("x-appwrite-project", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()
@@ -173,7 +192,9 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-key", value.clone().parse().unwrap());
+            next.config
+                .headers
+                .insert("x-appwrite-key", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()
@@ -186,7 +207,9 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-organization", value.clone().parse().unwrap());
+            next.config
+                .headers
+                .insert("x-appwrite-organization", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()
@@ -199,7 +222,9 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-jwt", value.clone().parse().unwrap());
+            next.config
+                .headers
+                .insert("x-appwrite-jwt", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()
@@ -212,7 +237,10 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("authorization", format!("Bearer {}", value).parse().unwrap());
+            next.config.headers.insert(
+                "authorization",
+                format!("Bearer {}", value).parse().unwrap(),
+            );
             Arc::new(next)
         });
         self.clone()
@@ -223,7 +251,9 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-locale", value.clone().parse().unwrap());
+            next.config
+                .headers
+                .insert("x-appwrite-locale", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()
@@ -236,7 +266,9 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-session", value.clone().parse().unwrap());
+            next.config
+                .headers
+                .insert("x-appwrite-session", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()
@@ -249,7 +281,9 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-forwarded-user-agent", value.clone().parse().unwrap());
+            next.config
+                .headers
+                .insert("x-forwarded-user-agent", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()
@@ -262,7 +296,9 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-dev-key", value.clone().parse().unwrap());
+            next.config
+                .headers
+                .insert("x-appwrite-dev-key", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()
@@ -275,7 +311,9 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("cookie", value.clone().parse().unwrap());
+            next.config
+                .headers
+                .insert("cookie", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()
@@ -288,7 +326,10 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-impersonate-user-id", value.clone().parse().unwrap());
+            next.config.headers.insert(
+                "x-appwrite-impersonate-user-id",
+                value.clone().parse().unwrap(),
+            );
             Arc::new(next)
         });
         self.clone()
@@ -301,7 +342,10 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-impersonate-user-email", value.clone().parse().unwrap());
+            next.config.headers.insert(
+                "x-appwrite-impersonate-user-email",
+                value.clone().parse().unwrap(),
+            );
             Arc::new(next)
         });
         self.clone()
@@ -314,7 +358,10 @@ impl Client {
         let value = value.into();
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            next.config.headers.insert("x-appwrite-impersonate-user-phone", value.clone().parse().unwrap());
+            next.config.headers.insert(
+                "x-appwrite-impersonate-user-phone",
+                value.clone().parse().unwrap(),
+            );
             Arc::new(next)
         });
         self.clone()
@@ -367,10 +414,9 @@ impl Client {
 
         self.state.rcu(|state| {
             let mut next = (**state).clone();
-            if let (Ok(header_name), Ok(header_value)) = (
-                key.parse::<HeaderName>(),
-                value.parse::<HeaderValue>(),
-            ) {
+            if let (Ok(header_name), Ok(header_value)) =
+                (key.parse::<HeaderName>(), value.parse::<HeaderValue>())
+            {
                 next.config.headers.insert(header_name, header_value);
             }
             Arc::new(next)
@@ -432,13 +478,19 @@ impl Client {
                             Value::Bool(b) => result.push((format!("{}[]", key), b.to_string())),
                             Value::Null => result.push((format!("{}[]", key), String::new())),
                             _ => {
-                                result.push((format!("{}[]", key), serde_json::to_string(item).unwrap_or_default()));
+                                result.push((
+                                    format!("{}[]", key),
+                                    serde_json::to_string(item).unwrap_or_default(),
+                                ));
                             }
                         }
                     }
                 }
                 Value::Object(_) => {
-                    result.push((key.clone(), serde_json::to_string(value).unwrap_or_default()));
+                    result.push((
+                        key.clone(),
+                        serde_json::to_string(value).unwrap_or_default(),
+                    ));
                 }
                 _ => {
                     result.push((key.clone(), Self::serialize_param_value(value)));
@@ -451,7 +503,10 @@ impl Client {
 
     /// Flatten nested parameters for multipart form data
     /// Converts nested arrays/objects to bracket notation: key[0], key[subkey], etc.
-    fn flatten_multipart_params(params: &HashMap<String, Value>, prefix: &str) -> Vec<(String, String)> {
+    fn flatten_multipart_params(
+        params: &HashMap<String, Value>,
+        prefix: &str,
+    ) -> Vec<(String, String)> {
         let mut result = Vec::new();
 
         for (key, value) in params {
@@ -505,7 +560,9 @@ impl Client {
 
         if let Some(params) = params {
             if method == Method::GET {
-                let mut url_with_params = Url::parse(&url).map_err(|e| AppwriteError::new(0, format!("Invalid URL: {}", e), None, String::new()))?;
+                let mut url_with_params = Url::parse(&url).map_err(|e| {
+                    AppwriteError::new(0, format!("Invalid URL: {}", e), None, String::new())
+                })?;
                 {
                     let mut query_pairs = url_with_params.query_pairs_mut();
                     for (key, value) in Self::flatten_query_params(&params) {
@@ -556,7 +613,9 @@ impl Client {
 
         if let Some(params) = params {
             if method == Method::GET {
-                let mut url_with_params = Url::parse(&url).map_err(|e| AppwriteError::new(0, format!("Invalid URL: {}", e), None, String::new()))?;
+                let mut url_with_params = Url::parse(&url).map_err(|e| {
+                    AppwriteError::new(0, format!("Invalid URL: {}", e), None, String::new())
+                })?;
                 {
                     let mut query_pairs = url_with_params.query_pairs_mut();
                     for (key, value) in Self::flatten_query_params(&params) {
@@ -585,12 +644,14 @@ impl Client {
                 .get("location")
                 .and_then(|v| v.to_str().ok())
                 .map(|s| s.to_string())
-                .ok_or_else(|| AppwriteError::new(
-                    status.as_u16(),
-                    "Location header not found in redirect response",
-                    None,
-                    String::new(),
-                ))
+                .ok_or_else(|| {
+                    AppwriteError::new(
+                        status.as_u16(),
+                        "Location header not found in redirect response",
+                        None,
+                        String::new(),
+                    )
+                })
         } else {
             let content_type = response
                 .headers()
@@ -643,7 +704,9 @@ impl Client {
 
         if let Some(params) = params {
             if method == Method::GET {
-                let mut url_with_params = Url::parse(&url).map_err(|e| AppwriteError::new(0, format!("Invalid URL: {}", e), None, String::new()))?;
+                let mut url_with_params = Url::parse(&url).map_err(|e| {
+                    AppwriteError::new(0, format!("Invalid URL: {}", e), None, String::new())
+                })?;
                 {
                     let mut query_pairs = url_with_params.query_pairs_mut();
                     for (key, value) in Self::flatten_query_params(&params) {
@@ -759,7 +822,9 @@ impl Client {
             let state = self.state.load_full();
             let url = format!("{}{}", state.config.endpoint, path);
 
-            let result = self.single_file_upload(&url, headers, params, param_name, &input_file).await?;
+            let result = self
+                .single_file_upload(&url, headers, params, param_name, &input_file)
+                .await?;
 
             if let Some(callback) = &options.on_progress {
                 callback(UploadProgress {
@@ -773,7 +838,15 @@ impl Client {
             return Ok(result);
         }
 
-        self.chunked_file_upload_with_progress(path, headers, params, param_name, &input_file, options).await
+        self.chunked_file_upload_with_progress(
+            path,
+            headers,
+            params,
+            param_name,
+            &input_file,
+            options,
+        )
+        .await
     }
 
     async fn single_file_upload<T: DeserializeOwned>(
@@ -793,8 +866,9 @@ impl Client {
             .file_name(input_file.filename().to_string());
 
         if let Some(mime_type) = input_file.mime_type() {
-            file_part = file_part.mime_str(mime_type)
-                .map_err(|e| AppwriteError::new(0, format!("Invalid MIME type: {}", e), None, String::new()))?;
+            file_part = file_part.mime_str(mime_type).map_err(|e| {
+                AppwriteError::new(0, format!("Invalid MIME type: {}", e), None, String::new())
+            })?;
         }
 
         form = form.part(param_name.to_string(), file_part);
@@ -821,11 +895,7 @@ impl Client {
             }
         }
 
-        let response = request_builder
-            .multipart(form)
-            .send()
-            .await
-            ?;
+        let response = request_builder.multipart(form).send().await?;
 
         self.handle_response(response).await
     }
@@ -852,13 +922,13 @@ impl Client {
         let mut start_chunk = 0u64;
         let mut last_response = None;
         if let Some(ref id) = current_upload_id {
-            if let Ok(response) = self.call::<Value>(
-                Method::GET,
-                &format!("{}/{}", path, id),
-                None,
-                None,
-            ).await {
-                if let Some(chunks_uploaded) = response.get("chunksUploaded").and_then(|v| v.as_u64()) {
+            if let Ok(response) = self
+                .call::<Value>(Method::GET, &format!("{}/{}", path, id), None, None)
+                .await
+            {
+                if let Some(chunks_uploaded) =
+                    response.get("chunksUploaded").and_then(|v| v.as_u64())
+                {
                     start_chunk = chunks_uploaded;
                 }
                 last_response = Some(response.clone());
@@ -871,7 +941,8 @@ impl Client {
         let mut completed_response = None;
 
         let is_upload_complete = |response: &Value| -> bool {
-            let Some(chunks_uploaded) = response.get("chunksUploaded").and_then(|v| v.as_u64()) else {
+            let Some(chunks_uploaded) = response.get("chunksUploaded").and_then(|v| v.as_u64())
+            else {
                 return false;
             };
             let chunks_total = response
@@ -883,17 +954,19 @@ impl Client {
         };
 
         if next_chunk == 0 {
-            let result = self.upload_file_chunk(
-                path,
-                headers.clone(),
-                params.clone(),
-                param_name,
-                input_file,
-                current_upload_id.clone(),
-                0,
-                file_size,
-                chunk_size,
-            ).await?;
+            let result = self
+                .upload_file_chunk(
+                    path,
+                    headers.clone(),
+                    params.clone(),
+                    param_name,
+                    input_file,
+                    current_upload_id.clone(),
+                    0,
+                    file_size,
+                    chunk_size,
+                )
+                .await?;
 
             if let Some(id) = result.get("$id").and_then(|v| v.as_str()) {
                 current_upload_id = Some(id.to_string());
@@ -932,17 +1005,19 @@ impl Client {
             let chunk_index = next_chunk;
 
             tasks.spawn(async move {
-                let result = client.upload_file_chunk(
-                    &path,
-                    headers,
-                    params,
-                    &param_name,
-                    &input_file,
-                    upload_id,
-                    chunk_index,
-                    file_size,
-                    chunk_size,
-                ).await?;
+                let result = client
+                    .upload_file_chunk(
+                        &path,
+                        headers,
+                        params,
+                        &param_name,
+                        &input_file,
+                        upload_id,
+                        chunk_index,
+                        file_size,
+                        chunk_size,
+                    )
+                    .await?;
 
                 Ok::<_, AppwriteError>((chunk_index, result))
             });
@@ -950,8 +1025,14 @@ impl Client {
         }
 
         while let Some(joined) = tasks.join_next().await {
-            let (chunk_index, result) = joined
-                .map_err(|e| AppwriteError::new(0, format!("Chunk upload task failed: {}", e), None, String::new()))??;
+            let (chunk_index, result) = joined.map_err(|e| {
+                AppwriteError::new(
+                    0,
+                    format!("Chunk upload task failed: {}", e),
+                    None,
+                    String::new(),
+                )
+            })??;
 
             last_response = Some(result.clone());
             if is_upload_complete(&result) {
@@ -983,17 +1064,19 @@ impl Client {
                 let chunk_index = next_chunk;
 
                 tasks.spawn(async move {
-                    let result = client.upload_file_chunk(
-                        &path,
-                        headers,
-                        params,
-                        &param_name,
-                        &input_file,
-                        upload_id,
-                        chunk_index,
-                        file_size,
-                        chunk_size,
-                    ).await?;
+                    let result = client
+                        .upload_file_chunk(
+                            &path,
+                            headers,
+                            params,
+                            &param_name,
+                            &input_file,
+                            upload_id,
+                            chunk_index,
+                            file_size,
+                            chunk_size,
+                        )
+                        .await?;
 
                     Ok::<_, AppwriteError>((chunk_index, result))
                 });
@@ -1030,17 +1113,24 @@ impl Client {
         let actual_chunk_size = chunk_data.len();
 
         if actual_chunk_size == 0 {
-            return Err(AppwriteError::new(0, "Chunk data is empty", None, String::new()));
+            return Err(AppwriteError::new(
+                0,
+                "Chunk data is empty",
+                None,
+                String::new(),
+            ));
         }
 
         let state = self.state.load_full();
         let mut form = multipart::Form::new();
-        let mut file_part = multipart::Part::stream_with_length(chunk_data, actual_chunk_size as u64)
-            .file_name(input_file.filename().to_string());
+        let mut file_part =
+            multipart::Part::stream_with_length(chunk_data, actual_chunk_size as u64)
+                .file_name(input_file.filename().to_string());
 
         if let Some(mime_type) = input_file.mime_type() {
-            file_part = file_part.mime_str(mime_type)
-                .map_err(|e| AppwriteError::new(0, format!("Invalid MIME type: {}", e), None, String::new()))?;
+            file_part = file_part.mime_str(mime_type).map_err(|e| {
+                AppwriteError::new(0, format!("Invalid MIME type: {}", e), None, String::new())
+            })?;
         }
 
         form = form.part(param_name.to_string(), file_part);
@@ -1076,10 +1166,7 @@ impl Client {
         let content_range = format!("bytes {}-{}/{}", start, chunk_end, file_size);
         request_builder = request_builder.header("content-range", content_range);
 
-        let response = request_builder
-            .multipart(form)
-            .send()
-            .await?;
+        let response = request_builder.multipart(form).send().await?;
 
         self.handle_response(response).await
     }
@@ -1097,10 +1184,16 @@ impl Client {
         if status.is_success() {
             let bytes = response.bytes().await?;
 
-            if !content_type.is_empty() && !content_type.starts_with("application/json") && !bytes.is_empty() {
+            if !content_type.is_empty()
+                && !content_type.starts_with("application/json")
+                && !bytes.is_empty()
+            {
                 return Err(AppwriteError::new(
                     status.as_u16(),
-                    format!("Expected JSON response but received content-type: {}", content_type),
+                    format!(
+                        "Expected JSON response but received content-type: {}",
+                        content_type
+                    ),
                     None,
                     String::from_utf8_lossy(&bytes).to_string(),
                 ));

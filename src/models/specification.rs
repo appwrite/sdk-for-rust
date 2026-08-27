@@ -40,7 +40,6 @@ impl Specification {
     pub fn slug(&self) -> &String {
         &self.slug
     }
-
 }
 
 #[cfg(test)]

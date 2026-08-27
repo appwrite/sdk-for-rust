@@ -24,7 +24,6 @@ impl ProjectAuthMethod {
     pub fn enabled(&self) -> &bool {
         &self.enabled
     }
-
 }
 
 #[cfg(test)]

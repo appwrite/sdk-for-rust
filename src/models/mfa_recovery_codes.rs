@@ -16,7 +16,6 @@ impl MfaRecoveryCodes {
     pub fn recovery_codes(&self) -> &Vec<String> {
         &self.recovery_codes
     }
-
 }
 
 #[cfg(test)]

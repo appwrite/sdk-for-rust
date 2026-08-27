@@ -97,7 +97,6 @@ impl AttributePoint {
     pub fn default(&self) -> Option<&Vec<f64>> {
         self.default.as_ref()
     }
-
 }
 
 #[cfg(test)]

@@ -24,7 +24,6 @@ impl ProjectList {
     pub fn projects(&self) -> &Vec<crate::models::Project> {
         &self.projects
     }
-
 }
 
 #[cfg(test)]

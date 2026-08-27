@@ -70,9 +70,9 @@ impl Document {
         &self.permissions
     }
 
-
     pub fn get<T: serde::de::DeserializeOwned>(&self, key: &str) -> Option<T> {
-        self.data.get(key)
+        self.data
+            .get(key)
             .and_then(|v| serde_json::from_value(v.clone()).ok())
     }
 

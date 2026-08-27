@@ -227,7 +227,6 @@ impl App {
     pub fn secrets(&self) -> &Vec<crate::models::AppSecret> {
         &self.secrets
     }
-
 }
 
 #[cfg(test)]

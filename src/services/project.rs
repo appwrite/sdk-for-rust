@@ -15,7 +15,9 @@ pub struct Project {
 
 impl Project {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -23,27 +25,27 @@ impl Project {
     }
 
     /// Get a project.
-    pub async fn get(
-        &self,
-    ) -> crate::error::Result<crate::models::Project> {
+    pub async fn get(&self) -> crate::error::Result<crate::models::Project> {
         let params = HashMap::new();
 
         let path = "/project".to_string();
 
-        self.client.call(Method::GET, &path, None, Some(params)).await
+        self.client
+            .call(Method::GET, &path, None, Some(params))
+            .await
     }
 
     /// Delete a project.
-    pub async fn delete(
-        &self,
-    ) -> crate::error::Result<()> {
+    pub async fn delete(&self) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
         let path = "/project".to_string();
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update properties of a specific auth method. Use this endpoint to enable or
@@ -59,9 +61,13 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/auth-methods/{methodId}".to_string().replace("{methodId}", &method_id.to_string());
+        let path = "/project/auth-methods/{methodId}"
+            .to_string()
+            .replace("{methodId}", &method_id.to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all API keys from the current project.
@@ -72,7 +78,10 @@ impl Project {
     ) -> crate::error::Result<crate::models::KeyList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -82,12 +91,14 @@ impl Project {
 
         let path = "/project/keys".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new ephemeral API key. It's recommended to have multiple API keys
     /// with strict scopes for separate functions within your project.
-    /// 
+    ///
     /// You can also create a standard API key if you need a longer-lived key
     /// instead.
     pub async fn create_ephemeral_key(
@@ -104,7 +115,9 @@ impl Project {
 
         let path = "/project/keys/ephemeral".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a key by its unique ID.
@@ -116,9 +129,13 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/keys/{keyId}".to_string().replace("{keyId}", &key_id.into().to_string());
+        let path = "/project/keys/{keyId}"
+            .to_string()
+            .replace("{keyId}", &key_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a key by its unique ID. Use this endpoint to update the name,
@@ -140,24 +157,29 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/keys/{keyId}".to_string().replace("{keyId}", &key_id.into().to_string());
+        let path = "/project/keys/{keyId}"
+            .to_string()
+            .replace("{keyId}", &key_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a key by its unique ID. Once deleted, the key can no longer be used
     /// to authenticate API calls.
-    pub async fn delete_key(
-        &self,
-        key_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    pub async fn delete_key(&self, key_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/project/keys/{keyId}".to_string().replace("{keyId}", &key_id.into().to_string());
+        let path = "/project/keys/{keyId}"
+            .to_string()
+            .replace("{keyId}", &key_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project labels. Labels can be used to easily filter projects in
@@ -167,14 +189,22 @@ impl Project {
         labels: impl IntoIterator<Item = impl Into<String>>,
     ) -> crate::error::Result<crate::models::Project> {
         let mut params = HashMap::new();
-        params.insert("labels".to_string(), json!(labels.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "labels".to_string(),
+            json!(labels
+                .into_iter()
+                .map(|s| s.into())
+                .collect::<Vec<String>>()),
+        );
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/labels".to_string();
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all mock phones in the project. This endpoint returns an
@@ -186,7 +216,10 @@ impl Project {
     ) -> crate::error::Result<crate::models::MockNumberList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -196,7 +229,9 @@ impl Project {
 
         let path = "/project/mock-phones".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new mock phone for your project. Use this endpoint to register a
@@ -215,7 +250,9 @@ impl Project {
 
         let path = "/project/mock-phones".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a mock phone by its unique number. This endpoint returns the mock
@@ -228,9 +265,13 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/mock-phones/{number}".to_string().replace("{number}", &number.into().to_string());
+        let path = "/project/mock-phones/{number}"
+            .to_string()
+            .replace("{number}", &number.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a mock phone by its unique number. Use this endpoint to update the
@@ -246,24 +287,29 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/mock-phones/{number}".to_string().replace("{number}", &number.into().to_string());
+        let path = "/project/mock-phones/{number}"
+            .to_string()
+            .replace("{number}", &number.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a mock phone by its unique number. This endpoint removes the mock
     /// phone and its OTP configuration from the project.
-    pub async fn delete_mock_phone(
-        &self,
-        number: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    pub async fn delete_mock_phone(&self, number: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/project/mock-phones/{number}".to_string().replace("{number}", &number.into().to_string());
+        let path = "/project/mock-phones/{number}"
+            .to_string()
+            .replace("{number}", &number.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all OAuth2 providers supported by the server, along with the
@@ -276,7 +322,10 @@ impl Project {
     ) -> crate::error::Result<crate::models::OAuth2ProviderList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -286,7 +335,9 @@ impl Project {
 
         let path = "/project/oauth2".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the OAuth2 server (OIDC provider) configuration.
@@ -312,12 +363,21 @@ impl Project {
     ) -> crate::error::Result<crate::models::Project> {
         let mut params = HashMap::new();
         params.insert("enabled".to_string(), json!(enabled));
-        params.insert("authorizationUrl".to_string(), json!(authorization_url.into()));
+        params.insert(
+            "authorizationUrl".to_string(),
+            json!(authorization_url.into()),
+        );
         if let Some(value) = scopes {
-            params.insert("scopes".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "scopes".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = authorization_details_types {
-            params.insert("authorizationDetailsTypes".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "authorizationDetailsTypes".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = access_token_duration {
             params.insert("accessTokenDuration".to_string(), json!(value));
@@ -350,10 +410,16 @@ impl Project {
             params.insert("deviceCodeDuration".to_string(), json!(value));
         }
         if let Some(value) = default_scopes {
-            params.insert("defaultScopes".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "defaultScopes".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = installation_scopes {
-            params.insert("installationScopes".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "installationScopes".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -361,7 +427,9 @@ impl Project {
 
         let path = "/project/oauth2-server".to_string();
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Amazon configuration.
@@ -387,7 +455,9 @@ impl Project {
 
         let path = "/project/oauth2/amazon".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Apple configuration.
@@ -421,7 +491,9 @@ impl Project {
 
         let path = "/project/oauth2/apple".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Appwrite configuration.
@@ -447,7 +519,9 @@ impl Project {
 
         let path = "/project/oauth2/appwrite".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Auth0 configuration.
@@ -477,7 +551,9 @@ impl Project {
 
         let path = "/project/oauth2/auth0".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Authentik configuration.
@@ -507,7 +583,9 @@ impl Project {
 
         let path = "/project/oauth2/authentik".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Autodesk configuration.
@@ -533,7 +611,9 @@ impl Project {
 
         let path = "/project/oauth2/autodesk".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Bitbucket configuration.
@@ -559,7 +639,9 @@ impl Project {
 
         let path = "/project/oauth2/bitbucket".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Bitly configuration.
@@ -585,7 +667,9 @@ impl Project {
 
         let path = "/project/oauth2/bitly".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Box configuration.
@@ -611,7 +695,9 @@ impl Project {
 
         let path = "/project/oauth2/box".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Dailymotion configuration.
@@ -637,7 +723,9 @@ impl Project {
 
         let path = "/project/oauth2/dailymotion".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Discord configuration.
@@ -663,7 +751,9 @@ impl Project {
 
         let path = "/project/oauth2/discord".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Disqus configuration.
@@ -689,7 +779,9 @@ impl Project {
 
         let path = "/project/oauth2/disqus".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Dropbox configuration.
@@ -715,7 +807,9 @@ impl Project {
 
         let path = "/project/oauth2/dropbox".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Etsy configuration.
@@ -741,7 +835,9 @@ impl Project {
 
         let path = "/project/oauth2/etsy".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Facebook configuration.
@@ -767,7 +863,9 @@ impl Project {
 
         let path = "/project/oauth2/facebook".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Figma configuration.
@@ -793,7 +891,9 @@ impl Project {
 
         let path = "/project/oauth2/figma".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 FusionAuth configuration.
@@ -823,7 +923,9 @@ impl Project {
 
         let path = "/project/oauth2/fusionauth".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 GitHub configuration.
@@ -849,7 +951,9 @@ impl Project {
 
         let path = "/project/oauth2/github".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Gitlab configuration.
@@ -879,7 +983,9 @@ impl Project {
 
         let path = "/project/oauth2/gitlab".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Google configuration.
@@ -909,7 +1015,37 @@ impl Project {
 
         let path = "/project/oauth2/google".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update the project OAuth2 Hugging Face configuration.
+    pub async fn update_o_auth2_hugging_face(
+        &self,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::OAuth2HuggingFace> {
+        let mut params = HashMap::new();
+        if let Some(value) = client_id {
+            params.insert("clientId".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/oauth2/huggingface".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Keycloak configuration.
@@ -943,7 +1079,9 @@ impl Project {
 
         let path = "/project/oauth2/keycloak".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Kick configuration.
@@ -969,7 +1107,9 @@ impl Project {
 
         let path = "/project/oauth2/kick".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Linkedin configuration.
@@ -995,7 +1135,9 @@ impl Project {
 
         let path = "/project/oauth2/linkedin".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Microsoft configuration.
@@ -1025,7 +1167,9 @@ impl Project {
 
         let path = "/project/oauth2/microsoft".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Notion configuration.
@@ -1051,7 +1195,9 @@ impl Project {
 
         let path = "/project/oauth2/notion".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Oidc configuration.
@@ -1102,7 +1248,9 @@ impl Project {
 
         let path = "/project/oauth2/oidc".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Okta configuration.
@@ -1136,7 +1284,9 @@ impl Project {
 
         let path = "/project/oauth2/okta".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Paypal configuration.
@@ -1162,7 +1312,9 @@ impl Project {
 
         let path = "/project/oauth2/paypal".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 PaypalSandbox configuration.
@@ -1188,7 +1340,9 @@ impl Project {
 
         let path = "/project/oauth2/paypalSandbox".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Podio configuration.
@@ -1214,7 +1368,9 @@ impl Project {
 
         let path = "/project/oauth2/podio".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Salesforce configuration.
@@ -1240,7 +1396,9 @@ impl Project {
 
         let path = "/project/oauth2/salesforce".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Slack configuration.
@@ -1266,7 +1424,9 @@ impl Project {
 
         let path = "/project/oauth2/slack".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Spotify configuration.
@@ -1292,7 +1452,9 @@ impl Project {
 
         let path = "/project/oauth2/spotify".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Stripe configuration.
@@ -1318,7 +1480,9 @@ impl Project {
 
         let path = "/project/oauth2/stripe".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Tradeshift configuration.
@@ -1344,7 +1508,9 @@ impl Project {
 
         let path = "/project/oauth2/tradeshift".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Tradeshift Sandbox configuration.
@@ -1370,7 +1536,9 @@ impl Project {
 
         let path = "/project/oauth2/tradeshiftBox".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Twitch configuration.
@@ -1396,7 +1564,9 @@ impl Project {
 
         let path = "/project/oauth2/twitch".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 WordPress configuration.
@@ -1422,7 +1592,9 @@ impl Project {
 
         let path = "/project/oauth2/wordpress".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 X configuration.
@@ -1448,7 +1620,9 @@ impl Project {
 
         let path = "/project/oauth2/x".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Yahoo configuration.
@@ -1474,7 +1648,9 @@ impl Project {
 
         let path = "/project/oauth2/yahoo".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Yandex configuration.
@@ -1500,7 +1676,9 @@ impl Project {
 
         let path = "/project/oauth2/yandex".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Zoho configuration.
@@ -1526,7 +1704,9 @@ impl Project {
 
         let path = "/project/oauth2/zoho".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the project OAuth2 Zoom configuration.
@@ -1552,7 +1732,9 @@ impl Project {
 
         let path = "/project/oauth2/zoom".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a single OAuth2 provider configuration. Credential fields (client
@@ -1565,9 +1747,13 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/oauth2/{providerId}".to_string().replace("{providerId}", &provider_id.to_string());
+        let path = "/project/oauth2/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all platforms in the project. This endpoint returns an array
@@ -1579,7 +1765,10 @@ impl Project {
     ) -> crate::error::Result<crate::models::PlatformList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -1589,7 +1778,9 @@ impl Project {
 
         let path = "/project/platforms".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Android platform for your project. Use this endpoint to
@@ -1611,7 +1802,9 @@ impl Project {
 
         let path = "/project/platforms/android".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an Android platform by its unique ID. Use this endpoint to update
@@ -1629,9 +1822,13 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/platforms/android/{platformId}".to_string().replace("{platformId}", &platform_id.into().to_string());
+        let path = "/project/platforms/android/{platformId}"
+            .to_string()
+            .replace("{platformId}", &platform_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Apple platform for your project. Use this endpoint to register
@@ -1646,14 +1843,19 @@ impl Project {
         let mut params = HashMap::new();
         params.insert("platformId".to_string(), json!(platform_id.into()));
         params.insert("name".to_string(), json!(name.into()));
-        params.insert("bundleIdentifier".to_string(), json!(bundle_identifier.into()));
+        params.insert(
+            "bundleIdentifier".to_string(),
+            json!(bundle_identifier.into()),
+        );
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms/apple".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an Apple platform by its unique ID. Use this endpoint to update the
@@ -1666,14 +1868,21 @@ impl Project {
     ) -> crate::error::Result<crate::models::PlatformApple> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
-        params.insert("bundleIdentifier".to_string(), json!(bundle_identifier.into()));
+        params.insert(
+            "bundleIdentifier".to_string(),
+            json!(bundle_identifier.into()),
+        );
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/platforms/apple/{platformId}".to_string().replace("{platformId}", &platform_id.into().to_string());
+        let path = "/project/platforms/apple/{platformId}"
+            .to_string()
+            .replace("{platformId}", &platform_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Linux platform for your project. Use this endpoint to register
@@ -1695,7 +1904,9 @@ impl Project {
 
         let path = "/project/platforms/linux".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a Linux platform by its unique ID. Use this endpoint to update the
@@ -1713,9 +1924,13 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/platforms/linux/{platformId}".to_string().replace("{platformId}", &platform_id.into().to_string());
+        let path = "/project/platforms/linux/{platformId}"
+            .to_string()
+            .replace("{platformId}", &platform_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new web platform for your project. Use this endpoint to register a
@@ -1737,7 +1952,9 @@ impl Project {
 
         let path = "/project/platforms/web".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a web platform by its unique ID. Use this endpoint to update the
@@ -1755,9 +1972,13 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/platforms/web/{platformId}".to_string().replace("{platformId}", &platform_id.into().to_string());
+        let path = "/project/platforms/web/{platformId}"
+            .to_string()
+            .replace("{platformId}", &platform_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Windows platform for your project. Use this endpoint to
@@ -1772,14 +1993,19 @@ impl Project {
         let mut params = HashMap::new();
         params.insert("platformId".to_string(), json!(platform_id.into()));
         params.insert("name".to_string(), json!(name.into()));
-        params.insert("packageIdentifierName".to_string(), json!(package_identifier_name.into()));
+        params.insert(
+            "packageIdentifierName".to_string(),
+            json!(package_identifier_name.into()),
+        );
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/platforms/windows".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a Windows platform by its unique ID. Use this endpoint to update the
@@ -1792,14 +2018,21 @@ impl Project {
     ) -> crate::error::Result<crate::models::PlatformWindows> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
-        params.insert("packageIdentifierName".to_string(), json!(package_identifier_name.into()));
+        params.insert(
+            "packageIdentifierName".to_string(),
+            json!(package_identifier_name.into()),
+        );
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/platforms/windows/{platformId}".to_string().replace("{platformId}", &platform_id.into().to_string());
+        let path = "/project/platforms/windows/{platformId}"
+            .to_string()
+            .replace("{platformId}", &platform_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a platform by its unique ID. This endpoint returns the platform's
@@ -1812,9 +2045,13 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/platforms/{platformId}".to_string().replace("{platformId}", &platform_id.into().to_string());
+        let path = "/project/platforms/{platformId}"
+            .to_string()
+            .replace("{platformId}", &platform_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a platform by its unique ID. This endpoint removes the platform and
@@ -1827,9 +2064,13 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/project/platforms/{platformId}".to_string().replace("{platformId}", &platform_id.into().to_string());
+        let path = "/project/platforms/{platformId}"
+            .to_string()
+            .replace("{platformId}", &platform_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all project policies and their current configuration.
@@ -1840,7 +2081,10 @@ impl Project {
     ) -> crate::error::Result<crate::models::PolicyList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -1850,7 +2094,9 @@ impl Project {
 
         let path = "/project/policies".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Configures if aliased emails such as subaddresses and emails with suffixes
@@ -1867,7 +2113,9 @@ impl Project {
 
         let path = "/project/policies/deny-aliased-email".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Configures if only corporate email addresses (non-free and non-disposable
@@ -1884,7 +2132,9 @@ impl Project {
 
         let path = "/project/policies/deny-corporate-email".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Configures if disposable emails from known temporary domains are denied
@@ -1901,7 +2151,9 @@ impl Project {
 
         let path = "/project/policies/deny-disposable-email".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Configures if emails from free providers such as Gmail or Yahoo are denied
@@ -1918,7 +2170,9 @@ impl Project {
 
         let path = "/project/policies/deny-free-email".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Updating this policy allows you to control if team members can see other
@@ -1958,7 +2212,9 @@ impl Project {
 
         let path = "/project/policies/membership-privacy".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Updating this policy allows you to control which factors users can use to
@@ -1992,7 +2248,9 @@ impl Project {
 
         let path = "/project/policies/mfa-factors".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Updating this policy allows you to control if new passwords are checked
@@ -2010,14 +2268,16 @@ impl Project {
 
         let path = "/project/policies/password-dictionary".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Updates one of password strength policies. Based on total length
     /// configured, previous password hashes are stored, and users cannot choose a
     /// new password that is already stored in the passwird history list, when
     /// updating an user password, or setting new one through password recovery.
-    /// 
+    ///
     /// Keep in mind, while password history policy is disabled, the history is not
     /// being stored. Enabling the policy will not have any history on existing
     /// users, and it will only start to collect and enforce the policy on password
@@ -2036,7 +2296,9 @@ impl Project {
 
         let path = "/project/policies/password-history".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Updating this policy allows you to control if password strength is checked
@@ -2055,7 +2317,9 @@ impl Project {
 
         let path = "/project/policies/password-personal-data".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the password strength requirements for users in the project.
@@ -2089,7 +2353,9 @@ impl Project {
 
         let path = "/project/policies/password-strength".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Updating this policy allows you to control if email alert is sent upon
@@ -2109,7 +2375,9 @@ impl Project {
 
         let path = "/project/policies/session-alert".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update maximum duration how long sessions created within a project should
@@ -2126,7 +2394,9 @@ impl Project {
 
         let path = "/project/policies/session-duration".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Updating this policy allows you to control if existing sessions should be
@@ -2144,7 +2414,9 @@ impl Project {
 
         let path = "/project/policies/session-invalidation".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the maximum number of sessions allowed per user. When the limit is
@@ -2161,7 +2433,9 @@ impl Project {
 
         let path = "/project/policies/session-limit".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the maximum number of users in the project. When the limit is hit or
@@ -2181,7 +2455,9 @@ impl Project {
 
         let path = "/project/policies/user-limit".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a policy by its unique ID. This endpoint returns the current
@@ -2194,9 +2470,13 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/policies/{policyId}".to_string().replace("{policyId}", &policy_id.to_string());
+        let path = "/project/policies/{policyId}"
+            .to_string()
+            .replace("{policyId}", &policy_id.to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update properties of a specific protocol. Use this endpoint to enable or
@@ -2212,9 +2492,13 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/protocols/{protocolId}".to_string().replace("{protocolId}", &protocol_id.to_string());
+        let path = "/project/protocols/{protocolId}"
+            .to_string()
+            .replace("{protocolId}", &protocol_id.to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update properties of a specific service. Use this endpoint to enable or
@@ -2230,9 +2514,13 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/services/{serviceId}".to_string().replace("{serviceId}", &service_id.to_string());
+        let path = "/project/services/{serviceId}"
+            .to_string()
+            .replace("{serviceId}", &service_id.to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the SMTP configuration for your project. Use this endpoint to
@@ -2289,7 +2577,9 @@ impl Project {
 
         let path = "/project/smtp".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Send a test email to verify SMTP configuration.
@@ -2298,13 +2588,21 @@ impl Project {
         emails: impl IntoIterator<Item = impl Into<String>>,
     ) -> crate::error::Result<()> {
         let mut params = HashMap::new();
-        params.insert("emails".to_string(), json!(emails.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "emails".to_string(),
+            json!(emails
+                .into_iter()
+                .map(|s| s.into())
+                .collect::<Vec<String>>()),
+        );
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
         let path = "/project/smtp/tests".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all custom email templates configured for the project. This
@@ -2317,7 +2615,10 @@ impl Project {
     ) -> crate::error::Result<crate::models::EmailTemplateList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -2327,7 +2628,9 @@ impl Project {
 
         let path = "/project/templates/email".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a custom email template for the specified locale and type. Use this
@@ -2373,7 +2676,9 @@ impl Project {
 
         let path = "/project/templates/email".to_string();
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a custom email template for the specified locale and type. This
@@ -2391,9 +2696,13 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/templates/email/{templateId}".to_string().replace("{templateId}", &template_id.to_string());
+        let path = "/project/templates/email/{templateId}"
+            .to_string()
+            .replace("{templateId}", &template_id.to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all project environment variables.
@@ -2404,7 +2713,10 @@ impl Project {
     ) -> crate::error::Result<crate::models::VariableList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -2414,7 +2726,9 @@ impl Project {
 
         let path = "/project/variables".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new project environment variable. These variables can be accessed
@@ -2439,7 +2753,9 @@ impl Project {
 
         let path = "/project/variables".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a variable by its unique ID.
@@ -2451,9 +2767,13 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/variables/{variableId}".to_string().replace("{variableId}", &variable_id.into().to_string());
+        let path = "/project/variables/{variableId}"
+            .to_string()
+            .replace("{variableId}", &variable_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update variable by its unique ID.
@@ -2478,9 +2798,13 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/variables/{variableId}".to_string().replace("{variableId}", &variable_id.into().to_string());
+        let path = "/project/variables/{variableId}"
+            .to_string()
+            .replace("{variableId}", &variable_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a variable by its unique ID.
@@ -2492,11 +2816,14 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/project/variables/{variableId}".to_string().replace("{variableId}", &variable_id.into().to_string());
+        let path = "/project/variables/{variableId}"
+            .to_string()
+            .replace("{variableId}", &variable_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Project {

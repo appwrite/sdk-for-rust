@@ -24,7 +24,6 @@ impl BucketList {
     pub fn buckets(&self) -> &Vec<crate::models::Bucket> {
         &self.buckets
     }
-
 }
 
 #[cfg(test)]

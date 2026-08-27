@@ -14,10 +14,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.update_ip_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        "",
+        "<KEY>",
         false,
-        Some(""),
-        Some("") // optional
+        Some("192.0.2.0"),
+        Some("<NEW_KEY>") // optional
     ).await?;
 
     let _ = result;

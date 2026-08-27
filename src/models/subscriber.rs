@@ -81,7 +81,6 @@ impl Subscriber {
     pub fn provider_type(&self) -> &String {
         &self.provider_type
     }
-
 }
 
 #[cfg(test)]

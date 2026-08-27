@@ -25,7 +25,6 @@ impl LocaleCode {
     pub fn name(&self) -> &String {
         &self.name
     }
-
 }
 
 #[cfg(test)]

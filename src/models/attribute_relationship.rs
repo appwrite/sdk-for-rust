@@ -129,7 +129,6 @@ impl AttributeRelationship {
     pub fn side(&self) -> &String {
         &self.side
     }
-
 }
 
 #[cfg(test)]

@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = databases.get_index(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        ""
+        "<KEY>"
     ).await?;
 
     let _ = result;

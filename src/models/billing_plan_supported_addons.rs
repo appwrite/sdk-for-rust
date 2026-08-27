@@ -32,7 +32,6 @@ impl BillingPlanSupportedAddons {
     pub fn premium_geo_db_org(&self) -> &bool {
         &self.premium_geo_db_org
     }
-
 }
 
 #[cfg(test)]
@@ -53,7 +52,8 @@ mod tests {
         let json = serde_json::to_string(&model);
         assert!(json.is_ok());
 
-        let deserialized: Result<BillingPlanSupportedAddons, _> = serde_json::from_str(&json.unwrap());
+        let deserialized: Result<BillingPlanSupportedAddons, _> =
+            serde_json::from_str(&json.unwrap());
         assert!(deserialized.is_ok());
     }
 }

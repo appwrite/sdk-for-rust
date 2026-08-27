@@ -14,7 +14,9 @@ pub struct Sites {
 
 impl Sites {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -31,7 +33,10 @@ impl Sites {
     ) -> crate::error::Result<crate::models::SiteList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -44,7 +49,9 @@ impl Sites {
 
         let path = "/sites".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new site.
@@ -74,6 +81,7 @@ impl Sites {
         build_specification: Option<&str>,
         runtime_specification: Option<&str>,
         deployment_retention: Option<i64>,
+        scopes: Option<Vec<crate::enums::ProjectKeyScopes>>,
     ) -> crate::error::Result<crate::models::Site> {
         let mut params = HashMap::new();
         params.insert("siteId".to_string(), json!(site_id.into()));
@@ -123,10 +131,16 @@ impl Sites {
             params.insert("providerRootDirectory".to_string(), json!(value));
         }
         if let Some(value) = provider_branches {
-            params.insert("providerBranches".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "providerBranches".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = provider_paths {
-            params.insert("providerPaths".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "providerPaths".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = build_specification {
             params.insert("buildSpecification".to_string(), json!(value));
@@ -137,27 +151,32 @@ impl Sites {
         if let Some(value) = deployment_retention {
             params.insert("deploymentRetention".to_string(), json!(value));
         }
+        if let Some(value) = scopes {
+            params.insert("scopes".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all frameworks that are currently available on the server
     /// instance.
-    pub async fn list_frameworks(
-        &self,
-    ) -> crate::error::Result<crate::models::FrameworkList> {
+    pub async fn list_frameworks(&self) -> crate::error::Result<crate::models::FrameworkList> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/sites/frameworks".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List allowed site specifications for this instance.
@@ -174,7 +193,9 @@ impl Sites {
 
         let path = "/sites/specifications".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a site by its unique ID.
@@ -186,9 +207,13 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}".to_string().replace("{siteId}", &site_id.into().to_string());
+        let path = "/sites/{siteId}"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update site by its unique ID.
@@ -218,6 +243,7 @@ impl Sites {
         build_specification: Option<&str>,
         runtime_specification: Option<&str>,
         deployment_retention: Option<i64>,
+        scopes: Option<Vec<crate::enums::ProjectKeyScopes>>,
     ) -> crate::error::Result<crate::models::Site> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
@@ -268,10 +294,16 @@ impl Sites {
             params.insert("providerRootDirectory".to_string(), json!(value));
         }
         if let Some(value) = provider_branches {
-            params.insert("providerBranches".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "providerBranches".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = provider_paths {
-            params.insert("providerPaths".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "providerPaths".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = build_specification {
             params.insert("buildSpecification".to_string(), json!(value));
@@ -282,27 +314,35 @@ impl Sites {
         if let Some(value) = deployment_retention {
             params.insert("deploymentRetention".to_string(), json!(value));
         }
+        if let Some(value) = scopes {
+            params.insert("scopes".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}".to_string().replace("{siteId}", &site_id.into().to_string());
+        let path = "/sites/{siteId}"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a site by its unique ID.
-    pub async fn delete(
-        &self,
-        site_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    pub async fn delete(&self, site_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}".to_string().replace("{siteId}", &site_id.into().to_string());
+        let path = "/sites/{siteId}"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the site active deployment. Use this endpoint to switch the code
@@ -318,9 +358,13 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/deployment".to_string().replace("{siteId}", &site_id.into().to_string());
+        let path = "/sites/{siteId}/deployment"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all the site's code deployments. You can use the query params
@@ -334,7 +378,10 @@ impl Sites {
     ) -> crate::error::Result<crate::models::DeploymentList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -345,9 +392,13 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/deployments".to_string().replace("{siteId}", &site_id.into().to_string());
+        let path = "/sites/{siteId}/deployments"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new site code deployment. Use this endpoint to upload a new
@@ -376,12 +427,19 @@ impl Sites {
             params.insert("activate".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
-        api_headers.insert("content-type".to_string(), "multipart/form-data".to_string());
+        api_headers.insert(
+            "content-type".to_string(),
+            "multipart/form-data".to_string(),
+        );
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/deployments".to_string().replace("{siteId}", &site_id.into().to_string());
+        let path = "/sites/{siteId}/deployments"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string());
 
-        self.client.file_upload(&path, Some(api_headers), params, "code", code, None).await
+        self.client
+            .file_upload(&path, Some(api_headers), params, "code", code, None)
+            .await
     }
 
     /// Create a new build for an existing site deployment. This endpoint allows
@@ -400,13 +458,17 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/deployments/duplicate".to_string().replace("{siteId}", &site_id.into().to_string());
+        let path = "/sites/{siteId}/deployments/duplicate"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a deployment based on a template.
-    /// 
+    ///
     /// Use this endpoint with combination of
     /// [listTemplates](https://appwrite.io/docs/products/sites/templates) to find
     /// the template details.
@@ -434,13 +496,17 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/deployments/template".to_string().replace("{siteId}", &site_id.into().to_string());
+        let path = "/sites/{siteId}/deployments/template"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a deployment when a site is connected to VCS.
-    /// 
+    ///
     /// This endpoint lets you create deployment from a branch, commit, or a tag.
     pub async fn create_vcs_deployment(
         &self,
@@ -459,9 +525,13 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/deployments/vcs".to_string().replace("{siteId}", &site_id.into().to_string());
+        let path = "/sites/{siteId}/deployments/vcs"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a site deployment by its unique ID.
@@ -474,9 +544,14 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/deployments/{deploymentId}".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{deploymentId}", &deployment_id.into().to_string());
+        let path = "/sites/{siteId}/deployments/{deploymentId}"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string())
+            .replace("{deploymentId}", &deployment_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a site deployment by its unique ID.
@@ -489,9 +564,14 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/deployments/{deploymentId}".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{deploymentId}", &deployment_id.into().to_string());
+        let path = "/sites/{siteId}/deployments/{deploymentId}"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string())
+            .replace("{deploymentId}", &deployment_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a site deployment content by its unique ID. The endpoint response
@@ -514,9 +594,14 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "*/*".to_string());
 
-        let path = "/sites/{siteId}/deployments/{deploymentId}/download".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{deploymentId}", &deployment_id.into().to_string());
+        let path = "/sites/{siteId}/deployments/{deploymentId}/download"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string())
+            .replace("{deploymentId}", &deployment_id.into().to_string());
 
-        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Cancel an ongoing site deployment build. If the build is already in
@@ -534,9 +619,14 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/deployments/{deploymentId}/status".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{deploymentId}", &deployment_id.into().to_string());
+        let path = "/sites/{siteId}/deployments/{deploymentId}/status"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string())
+            .replace("{deploymentId}", &deployment_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all site logs. You can use the query params to filter your
@@ -549,7 +639,10 @@ impl Sites {
     ) -> crate::error::Result<crate::models::ExecutionList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -557,9 +650,13 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/logs".to_string().replace("{siteId}", &site_id.into().to_string());
+        let path = "/sites/{siteId}/logs"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a site request log by its unique ID.
@@ -572,9 +669,14 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/logs/{logId}".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{logId}", &log_id.into().to_string());
+        let path = "/sites/{siteId}/logs/{logId}"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string())
+            .replace("{logId}", &log_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a site log by its unique ID.
@@ -588,9 +690,14 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/logs/{logId}".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{logId}", &log_id.into().to_string());
+        let path = "/sites/{siteId}/logs/{logId}"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string())
+            .replace("{logId}", &log_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all variables of a specific site.
@@ -602,7 +709,10 @@ impl Sites {
     ) -> crate::error::Result<crate::models::VariableList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -610,9 +720,13 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/variables".to_string().replace("{siteId}", &site_id.into().to_string());
+        let path = "/sites/{siteId}/variables"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new site variable. These variables can be accessed during build
@@ -636,9 +750,13 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/variables".to_string().replace("{siteId}", &site_id.into().to_string());
+        let path = "/sites/{siteId}/variables"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a variable by its unique ID.
@@ -651,9 +769,14 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/variables/{variableId}".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{variableId}", &variable_id.into().to_string());
+        let path = "/sites/{siteId}/variables/{variableId}"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string())
+            .replace("{variableId}", &variable_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update variable by its unique ID.
@@ -679,9 +802,14 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/variables/{variableId}".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{variableId}", &variable_id.into().to_string());
+        let path = "/sites/{siteId}/variables/{variableId}"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string())
+            .replace("{variableId}", &variable_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a variable by its unique ID.
@@ -694,11 +822,15 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}/variables/{variableId}".to_string().replace("{siteId}", &site_id.into().to_string()).replace("{variableId}", &variable_id.into().to_string());
+        let path = "/sites/{siteId}/variables/{variableId}"
+            .to_string()
+            .replace("{siteId}", &site_id.into().to_string())
+            .replace("{variableId}", &variable_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Sites {

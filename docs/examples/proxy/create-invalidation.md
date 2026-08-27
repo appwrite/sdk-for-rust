@@ -12,7 +12,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let proxy = Proxy::new(&client);
 
     let result = proxy.create_invalidation(
-        "",
+        "example.com",
         appwrite::enums::InvalidationType::Tag,
         Some("<REFERENCE>") // optional
     ).await?;

@@ -13,7 +13,9 @@ pub struct Embeddings {
 
 impl Embeddings {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -29,7 +31,10 @@ impl Embeddings {
         model: Option<crate::enums::EmbeddingModel>,
     ) -> crate::error::Result<crate::models::EmbeddingList> {
         let mut params = HashMap::new();
-        params.insert("texts".to_string(), json!(texts.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "texts".to_string(),
+            json!(texts.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+        );
         if let Some(value) = model {
             params.insert("model".to_string(), json!(value));
         }
@@ -39,9 +44,10 @@ impl Embeddings {
 
         let path = "/embeddings/text".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Embeddings {

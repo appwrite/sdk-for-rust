@@ -48,7 +48,6 @@ impl Framework {
     pub fn adapters(&self) -> &Vec<crate::models::FrameworkAdapter> {
         &self.adapters
     }
-
 }
 
 #[cfg(test)]

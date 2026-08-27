@@ -97,7 +97,6 @@ impl AttributePolygon {
     pub fn default(&self) -> Option<&Vec<Vec<Vec<f64>>>> {
         self.default.as_ref()
     }
-
 }
 
 #[cfg(test)]

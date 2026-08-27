@@ -13,7 +13,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = tables_db.list_operations(
         "<DATABASE_ID>",
-        Some("running"), // optional
+        Some("queued"), // optional
         Some(1), // optional
         Some(0) // optional
     ).await?;

@@ -24,7 +24,6 @@ impl MfaType {
     pub fn uri(&self) -> &String {
         &self.uri
     }
-
 }
 
 #[cfg(test)]

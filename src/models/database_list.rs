@@ -24,7 +24,6 @@ impl DatabaseList {
     pub fn databases(&self) -> &Vec<crate::models::Database> {
         &self.databases
     }
-
 }
 
 #[cfg(test)]

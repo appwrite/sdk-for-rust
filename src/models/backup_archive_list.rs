@@ -24,7 +24,6 @@ impl BackupArchiveList {
     pub fn archives(&self) -> &Vec<crate::models::BackupArchive> {
         &self.archives
     }
-
 }
 
 #[cfg(test)]

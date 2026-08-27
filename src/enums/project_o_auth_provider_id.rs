@@ -43,6 +43,8 @@ pub enum ProjectOAuthProviderId {
     Gitlab,
     #[serde(rename = "google")]
     Google,
+    #[serde(rename = "huggingface")]
+    Huggingface,
     #[serde(rename = "keycloak")]
     Keycloak,
     #[serde(rename = "kick")]
@@ -117,6 +119,7 @@ impl ProjectOAuthProviderId {
             ProjectOAuthProviderId::Github => "github",
             ProjectOAuthProviderId::Gitlab => "gitlab",
             ProjectOAuthProviderId::Google => "google",
+            ProjectOAuthProviderId::Huggingface => "huggingface",
             ProjectOAuthProviderId::Keycloak => "keycloak",
             ProjectOAuthProviderId::Kick => "kick",
             ProjectOAuthProviderId::Linkedin => "linkedin",

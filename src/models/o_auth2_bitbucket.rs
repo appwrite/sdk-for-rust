@@ -40,7 +40,6 @@ impl OAuth2Bitbucket {
     pub fn secret(&self) -> &String {
         &self.secret
     }
-
 }
 
 #[cfg(test)]

@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = databases.create_polygon_attribute(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        "",
+        "<KEY>",
         false,
         Some(vec![serde_json::json!([[1,2],[3,4],[5,6],[1,2]])]) // optional
     ).await?;

@@ -57,7 +57,6 @@ impl Transaction {
     pub fn expires_at(&self) -> &String {
         &self.expires_at
     }
-
 }
 
 #[cfg(test)]

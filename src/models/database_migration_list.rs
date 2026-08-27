@@ -24,7 +24,6 @@ impl DatabaseMigrationList {
     pub fn migrations(&self) -> &Vec<crate::models::DatabaseMigration> {
         &self.migrations
     }
-
 }
 
 #[cfg(test)]

@@ -88,7 +88,6 @@ impl Target {
     pub fn expired(&self) -> &bool {
         &self.expired
     }
-
 }
 
 #[cfg(test)]

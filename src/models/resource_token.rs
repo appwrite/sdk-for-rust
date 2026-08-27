@@ -65,7 +65,6 @@ impl ResourceToken {
     pub fn accessed_at(&self) -> &String {
         &self.accessed_at
     }
-
 }
 
 #[cfg(test)]

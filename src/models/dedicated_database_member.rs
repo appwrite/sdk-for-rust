@@ -22,8 +22,20 @@ pub struct DedicatedDatabaseMember {
     /// phase reported by the cluster.
     #[serde(rename = "status")]
     pub status: String,
+    /// Whether the engine reports this member's replication stream as up. Null
+    /// when no reading was taken: a primary has no stream to report, and a member
+    /// that is not active, or whose probe did not answer, has none yet. False is a
+    /// reading and null is the absence of one, so the two are not interchangeable.
+    /// Read it beside lagSeconds before expecting a failover that names no target
+    /// to find a promotable standby: a member streaming at a known lag is one, and
+    /// a member reporting null is not evidence either way.
+    #[serde(rename = "replicating")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub replicating: Option<bool>,
     /// Replication lag in seconds. Null when the lag is not known: a primary has
-    /// none to report, and a member the backend has not probed has none yet.
+    /// none to report, and a member the backend has not probed has none yet. Also
+    /// null against `replicating: true`, for a member that is streaming but whose
+    /// engine printed no numeric lag.
     #[serde(rename = "lagSeconds")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub lag_seconds: Option<f64>,
@@ -45,6 +57,17 @@ impl DedicatedDatabaseMember {
         &self.status
     }
 
+    /// Set replicating
+    pub fn set_replicating(mut self, replicating: bool) -> Self {
+        self.replicating = Some(replicating);
+        self
+    }
+
+    /// Get replicating
+    pub fn replicating(&self) -> Option<&bool> {
+        self.replicating.as_ref()
+    }
+
     /// Set lag_seconds
     pub fn set_lag_seconds(mut self, lag_seconds: f64) -> Self {
         self.lag_seconds = Some(lag_seconds);
@@ -55,7 +78,6 @@ impl DedicatedDatabaseMember {
     pub fn lag_seconds(&self) -> Option<&f64> {
         self.lag_seconds.as_ref()
     }
-
 }
 
 #[cfg(test)]

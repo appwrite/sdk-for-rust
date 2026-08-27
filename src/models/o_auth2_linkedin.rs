@@ -40,7 +40,6 @@ impl OAuth2Linkedin {
     pub fn primary_client_secret(&self) -> &String {
         &self.primary_client_secret
     }
-
 }
 
 #[cfg(test)]

@@ -24,7 +24,6 @@ impl Headers {
     pub fn value(&self) -> &String {
         &self.value
     }
-
 }
 
 #[cfg(test)]

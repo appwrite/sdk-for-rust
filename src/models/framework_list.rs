@@ -24,7 +24,6 @@ impl FrameworkList {
     pub fn frameworks(&self) -> &Vec<crate::models::Framework> {
         &self.frameworks
     }
-
 }
 
 #[cfg(test)]

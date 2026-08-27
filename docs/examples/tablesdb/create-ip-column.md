@@ -14,9 +14,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.create_ip_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        "",
+        "<KEY>",
         false,
-        Some(""), // optional
+        Some("192.0.2.0"), // optional
         Some(false) // optional
     ).await?;
 

@@ -24,7 +24,6 @@ impl BackupPolicyList {
     pub fn policies(&self) -> &Vec<crate::models::BackupPolicy> {
         &self.policies
     }
-
 }
 
 #[cfg(test)]

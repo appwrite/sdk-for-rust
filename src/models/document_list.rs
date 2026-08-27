@@ -24,7 +24,6 @@ impl DocumentList {
     pub fn documents(&self) -> &Vec<crate::models::Document> {
         &self.documents
     }
-
 }
 
 #[cfg(test)]

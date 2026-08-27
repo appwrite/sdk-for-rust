@@ -24,7 +24,6 @@ impl EmailTemplateList {
     pub fn templates(&self) -> &Vec<crate::models::EmailTemplate> {
         &self.templates
     }
-
 }
 
 #[cfg(test)]

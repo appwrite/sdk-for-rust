@@ -48,7 +48,6 @@ impl AlgoScrypt {
     pub fn length(&self) -> &i64 {
         &self.length
     }
-
 }
 
 #[cfg(test)]

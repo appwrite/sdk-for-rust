@@ -13,7 +13,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = webhooks.create(
         "<WEBHOOK_ID>",
-        "",
+        "https://example.com/webhook",
         "<NAME>",
         vec![],
         Some(false), // optional

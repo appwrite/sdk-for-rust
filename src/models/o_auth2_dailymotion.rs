@@ -40,7 +40,6 @@ impl OAuth2Dailymotion {
     pub fn api_secret(&self) -> &String {
         &self.api_secret
     }
-
 }
 
 #[cfg(test)]

@@ -7,15 +7,14 @@ use std::collections::HashMap;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(test, derive(Default))]
 pub struct Preferences {
-
     #[serde(flatten)]
     pub data: HashMap<String, serde_json::Value>,
 }
 
 impl Preferences {
-
     pub fn get<T: serde::de::DeserializeOwned>(&self, key: &str) -> Option<T> {
-        self.data.get(key)
+        self.data
+            .get(key)
             .and_then(|v| serde_json::from_value(v.clone()).ok())
     }
 

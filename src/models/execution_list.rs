@@ -24,7 +24,6 @@ impl ExecutionList {
     pub fn executions(&self) -> &Vec<crate::models::Execution> {
         &self.executions
     }
-
 }
 
 #[cfg(test)]

@@ -24,7 +24,6 @@ impl ActivityEventList {
     pub fn events(&self) -> &Vec<crate::models::ActivityEvent> {
         &self.events
     }
-
 }
 
 #[cfg(test)]

@@ -124,7 +124,6 @@ impl Bucket {
     pub fn total_size(&self) -> &i64 {
         &self.total_size
     }
-
 }
 
 #[cfg(test)]

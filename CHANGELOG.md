@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.13.0] - TBD
+## [0.14.0-rc.1] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
@@ -25,18 +25,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Account service with 59 methods
 - Activities service with 2 methods
 - Apps service with 22 methods
-- Avatars service with 8 methods
+- Avatars service with 9 methods
 - Backups service with 12 methods
 - Databases service with 71 methods
+- DocumentsDB service with 37 methods
 - Embeddings service with 1 methods
 - Functions service with 26 methods
 - Graphql service with 2 methods
 - Locale service with 8 methods
 - Messaging service with 54 methods
+- Mongo service with 31 methods
+- Mysql service with 34 methods
 - Oauth2 service with 12 methods
 - Organization service with 23 methods
+- Postgresql service with 37 methods
 - Presences service with 5 methods
-- Project service with 102 methods
+- Project service with 103 methods
 - Proxy service with 9 methods
 - Advisor service with 5 methods
 - Sites service with 25 methods
@@ -45,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Teams service with 18 methods
 - Tokens service with 5 methods
 - Users service with 50 methods
+- VectorsDB service with 36 methods
 - Webhooks service with 6 methods
 
 ### Services
@@ -192,6 +197,9 @@ You can use the color and background params to change the avatar colors. By defa
 
 When one dimension is specified and the other is 0, the image is scaled with preserved aspect ratio. If both dimensions are 0, the API provides an image at source quality. If dimensions are not specified, the default size of image returned is 100x100px.
 
+- `get_photo()` - Returns the best available profile photo for a user. The endpoint tries each source in priority order and returns the first successful result: OAuth2 identity photo, Gravatar, Libravatar, Appwrite Initials, built-in static fallback.
+
+The photo resolves for the currently authenticated user unless `userId` points at another user. Passing `emailHash` and/or `name` resolves the avatar from those values alone: the hash is looked up on Gravatar and Libravatar, the name is rendered as initials, and the user&#039;s own identity photos, email, and name leave the chain so they never shadow the avatar being asked for. Emails are only ever accepted pre-hashed, so no address ends up in a URL.
 - `get_qr()` - Converts a given plain text to a QR code image. You can use the query parameters to change the size and style of the resulting image.
 
 - `get_screenshot()` - Use this endpoint to capture a screenshot of any website URL. This endpoint uses a headless browser to render the webpage and capture it as an image.
@@ -328,6 +336,49 @@ Attributes can be `key`, `fulltext`, and `unique`.
 - `get_index()` - Get an index by its unique ID.
 - `delete_index()` - Delete an index.
 
+#### DocumentsDB
+
+- `list()` - Get a list of all databases from the current Appwrite project. You can use the search parameter to filter your results.
+- `create()` - Create a new Database.
+
+- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, pricing, and whether it is enabled for the organization.
+- `list_transactions()` - List transactions across all databases.
+- `create_transaction()` - Create a new transaction.
+- `get_transaction()` - Get a transaction by its unique ID.
+- `update_transaction()` - Update a transaction, to either commit or roll back its operations.
+- `delete_transaction()` - Delete a transaction by its unique ID.
+- `create_operations()` - Create multiple operations in a single transaction.
+- `get()` - Get a database by its unique ID. This endpoint response returns a JSON object with the database metadata.
+- `update()` - Update a database by its unique ID.
+- `delete()` - Delete a database by its unique ID. Only API keys with with databases.write scope can delete a database.
+- `list_collections()` - Get a list of all collections that belong to the provided databaseId. You can use the search parameter to filter your results.
+- `create_collection()` - Create a new Collection. Before using this route, you should create a new database resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
+- `get_collection()` - Get a collection by its unique ID. This endpoint response returns a JSON object with the collection metadata.
+- `update_collection()` - Update a collection by its unique ID.
+- `delete_collection()` - Delete a collection by its unique ID. Only users with write permissions have access to delete this resource.
+- `list_documents()` - Get a list of all the user&#039;s documents in a given collection. You can use the query params to filter your results.
+- `create_document()` - Create a new Document. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
+- `create_documents()` - Create new Documents. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
+- `upsert_documents()` - Create or update Documents. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
+
+- `update_documents()` - Update all documents that match your queries, if no queries are submitted then all documents are updated. You can pass only specific fields to be updated.
+- `delete_documents()` - Bulk delete documents using queries, if no queries are passed then all documents are deleted.
+- `get_document()` - Get a document by its unique ID. This endpoint response returns a JSON object with the document data.
+- `upsert_document()` - Create or update a Document. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
+- `update_document()` - Update a document by its unique ID. Using the patch method you can pass only specific fields that will get updated.
+- `delete_document()` - Delete a document by its unique ID.
+- `decrement_document_attribute()` - Decrement a specific column of a row by a given value.
+- `increment_document_attribute()` - Increment a specific column of a row by a given value.
+- `list_indexes()` - List indexes in the collection.
+- `create_index()` - Creates an index on the attributes listed. Your index should include all the attributes you will query in a single request.
+Attributes can be `key`, `fulltext`, and `unique`.
+- `get_index()` - Get index by ID.
+- `delete_index()` - Delete an index.
+- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
+- `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
+- `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
+- `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
+
 #### Embeddings
 
 - `create_text_embeddings()` - Generate vector embeddings for an array of text using the selected embedding model. Use the returned vectors to power semantic search and similarity queries against your vector collections.
@@ -454,6 +505,77 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 
 - `delete_subscriber()` - Delete a subscriber by its unique ID.
 
+#### Mongo
+
+- `list()` - List all dedicated databases. Results support pagination.
+- `create()` - Create a new dedicated database with the chosen engine and configuration. Status will be &#039;provisioning&#039; until the database is ready.
+- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, pricing, and whether it is enabled for the organization.
+- `get()` - Get a dedicated database by its unique ID. Returns the database configuration and current status.
+- `update()` - Update a dedicated database configuration. All changes are applied with zero downtime. Specification changes (cpu, memory, storage) are handled via rolling cutover. Storage expansion is done online. All other settings are applied in-place.
+- `delete()` - Delete a dedicated database. This action is irreversible. The database status will be set to &#039;deleting&#039; and all resources will be cleaned up. Deletion is allowed from any state, and repeating the call re-dispatches the cleanup.
+- `list_backups()` - List all backups for a dedicated database. Results can be filtered by status and type.
+- `create_backup()` - Create a manual backup of a dedicated database. The backup will be created asynchronously and its status can be checked via the get backup endpoint.
+- `list_backup_policies()` - List scheduled backup policies for a dedicated database.
+- `create_backup_policy()` - Create a scheduled backup policy for a dedicated database.
+- `get_backup_policy()` - Get a scheduled backup policy for a dedicated database.
+- `update_backup_policy()` - Update a scheduled backup policy for a dedicated database.
+- `delete_backup_policy()` - Delete a scheduled backup policy for a dedicated database. Backups already taken by the policy are kept until their retention expires.
+- `update_backup_storage()` - Configure off-cluster backup storage for a dedicated database. Supports S3, GCS, and Azure Blob Storage destinations. Backups will be stored to the configured destination in addition to on-cluster storage.
+- `get_backup()` - Get details of a specific database backup including its status, size, and timestamps.
+- `delete_backup()` - Delete a database backup. This will permanently remove the backup from storage and cannot be undone.
+- `list_branches()` - List all ephemeral branches for a dedicated database. Returns branch metadata including ID, name, namespace, and expiration time.
+- `create_branch()` - Create an ephemeral database branch from the primary via PVC snapshot. The branch is a full copy of the database at the current point in time, useful for testing schema migrations or running experiments without affecting production data. Branches expire after the configured TTL (default 24 hours). The branch is created asynchronously.
+- `delete_branch()` - Delete an ephemeral database branch. This removes the branch namespace, its PVC, and the associated VolumeSnapshot. The deletion runs asynchronously and is irreversible.
+- `update_credentials()` - Rotate the primary connection credentials for a dedicated database. Generates a new password and updates the database atomically. Previous credentials stop working immediately. Returns the database with a refreshed connection string carrying the new password.
+- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
+- `update_maintenance()` - Update the maintenance window for a dedicated database. Maintenance operations like minor version upgrades will be performed during this window.
+- `create_migration()` - Migrate a database between shared and dedicated types. Shared to dedicated provisions an always-on dedicated instance; dedicated to shared converts to a serverless instance that scales to zero when idle. Data is copied to the target with a brief read-only window during cutover.
+- `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
+- `get_pitr()` - Get available point-in-time recovery windows for a dedicated database. Returns the earliest and latest recovery points.
+- `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
+- `list_restorations()` - List all restorations for a dedicated database. Results can be filtered by status and type.
+- `create_restoration()` - Restore a database from a backup or to a specific point in time (PITR). For backup restoration, provide a backupId. For PITR, provide a targetTime as an ISO 8601 datetime. PITR requires the database to have PITR enabled and is only available for enterprise databases.
+- `get_restoration()` - Get details of a specific database restoration including its status, type, and timestamps.
+- `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
+- `create_upgrade()` - Upgrade a dedicated database to a new engine version. Uses blue-green deployment for zero-downtime cutover.
+
+#### Mysql
+
+- `list()` - List all dedicated databases. Results support pagination.
+- `create()` - Create a new dedicated database with the chosen engine and configuration. Status will be &#039;provisioning&#039; until the database is ready.
+- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, pricing, and whether it is enabled for the organization.
+- `get()` - Get a dedicated database by its unique ID. Returns the database configuration and current status.
+- `update()` - Update a dedicated database configuration. All changes are applied with zero downtime. Specification changes (cpu, memory, storage) are handled via rolling cutover. Storage expansion is done online. All other settings are applied in-place.
+- `delete()` - Delete a dedicated database. This action is irreversible. The database status will be set to &#039;deleting&#039; and all resources will be cleaned up. Deletion is allowed from any state, and repeating the call re-dispatches the cleanup.
+- `list_backups()` - List all backups for a dedicated database. Results can be filtered by status and type.
+- `create_backup()` - Create a manual backup of a dedicated database. The backup will be created asynchronously and its status can be checked via the get backup endpoint.
+- `list_backup_policies()` - List scheduled backup policies for a dedicated database.
+- `create_backup_policy()` - Create a scheduled backup policy for a dedicated database.
+- `get_backup_policy()` - Get a scheduled backup policy for a dedicated database.
+- `update_backup_policy()` - Update a scheduled backup policy for a dedicated database.
+- `delete_backup_policy()` - Delete a scheduled backup policy for a dedicated database. Backups already taken by the policy are kept until their retention expires.
+- `update_backup_storage()` - Configure off-cluster backup storage for a dedicated database. Supports S3, GCS, and Azure Blob Storage destinations. Backups will be stored to the configured destination in addition to on-cluster storage.
+- `get_backup()` - Get details of a specific database backup including its status, size, and timestamps.
+- `delete_backup()` - Delete a database backup. This will permanently remove the backup from storage and cannot be undone.
+- `list_branches()` - List all ephemeral branches for a dedicated database. Returns branch metadata including ID, name, namespace, and expiration time.
+- `create_branch()` - Create an ephemeral database branch from the primary via PVC snapshot. The branch is a full copy of the database at the current point in time, useful for testing schema migrations or running experiments without affecting production data. Branches expire after the configured TTL (default 24 hours). The branch is created asynchronously.
+- `delete_branch()` - Delete an ephemeral database branch. This removes the branch namespace, its PVC, and the associated VolumeSnapshot. The deletion runs asynchronously and is irreversible.
+- `update_credentials()` - Rotate the primary connection credentials for a dedicated database. Generates a new password and updates the database atomically. Previous credentials stop working immediately. Returns the database with a refreshed connection string carrying the new password.
+- `create_execution()` - Execute SQL through the console-facing Cloud endpoint. Cloud proxies through the edge platform to the per-database SQL API sidecar. Application traffic should bypass cloud entirely and POST directly to the per-database hostname: `https://db-{project}-{db}.{region}.appwrite.center/v1/sql/executions` with an `X-Appwrite-Key` header — that path scales to the whole DB fleet without a per-query cloud round-trip. The statement type must be on the database&#039;s configured allow-list. Use bound parameters for any user-supplied values — the API does not interpolate raw strings.
+- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
+- `update_maintenance()` - Update the maintenance window for a dedicated database. Maintenance operations like minor version upgrades will be performed during this window.
+- `create_migration()` - Migrate a database between shared and dedicated types. Shared to dedicated provisions an always-on dedicated instance; dedicated to shared converts to a serverless instance that scales to zero when idle. Data is copied to the target with a brief read-only window during cutover.
+- `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
+- `get_pitr()` - Get available point-in-time recovery windows for a dedicated database. Returns the earliest and latest recovery points.
+- `get_pooler()` - Get the connection pooler configuration for a dedicated database. Returns pooler mode, max connections, and pool size settings.
+- `update_pooler()` - Update the connection pooler configuration for a dedicated database. Configure pool mode, max connections, and pool sizes.
+- `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
+- `list_restorations()` - List all restorations for a dedicated database. Results can be filtered by status and type.
+- `create_restoration()` - Restore a database from a backup or to a specific point in time (PITR). For backup restoration, provide a backupId. For PITR, provide a targetTime as an ISO 8601 datetime. PITR requires the database to have PITR enabled and is only available for enterprise databases.
+- `get_restoration()` - Get details of a specific database restoration including its status, type, and timestamps.
+- `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
+- `create_upgrade()` - Upgrade a dedicated database to a new engine version. Uses blue-green deployment for zero-downtime cutover.
+
 #### Oauth2
 The OAuth2 service allows you to authorize apps and issue standards-based OAuth2 and OpenID Connect tokens.
 - `approve()` - Approve an OAuth2 grant after the user gives consent. Returns the `redirectUrl` the end user should be sent to. The consent screen may optionally pass enriched `authorization_details` to record the concrete resources the user selected. You can pass Accept header of `application/json` to receive a JSON response instead of a redirect.
@@ -494,6 +616,46 @@ The Organization service allows you to manage organization-level projects.
 - `get_project()` - Get a project.
 - `update_project()` - Update a project by its unique ID.
 - `delete_project()` - Delete a project by its unique ID.
+
+#### Postgresql
+
+- `list()` - List all dedicated databases. Results support pagination.
+- `create()` - Create a new dedicated database with the chosen engine and configuration. Status will be &#039;provisioning&#039; until the database is ready.
+- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, pricing, and whether it is enabled for the organization.
+- `get()` - Get a dedicated database by its unique ID. Returns the database configuration and current status.
+- `update()` - Update a dedicated database configuration. All changes are applied with zero downtime. Specification changes (cpu, memory, storage) are handled via rolling cutover. Storage expansion is done online. All other settings are applied in-place.
+- `delete()` - Delete a dedicated database. This action is irreversible. The database status will be set to &#039;deleting&#039; and all resources will be cleaned up. Deletion is allowed from any state, and repeating the call re-dispatches the cleanup.
+- `list_backups()` - List all backups for a dedicated database. Results can be filtered by status and type.
+- `create_backup()` - Create a manual backup of a dedicated database. The backup will be created asynchronously and its status can be checked via the get backup endpoint.
+- `list_backup_policies()` - List scheduled backup policies for a dedicated database.
+- `create_backup_policy()` - Create a scheduled backup policy for a dedicated database.
+- `get_backup_policy()` - Get a scheduled backup policy for a dedicated database.
+- `update_backup_policy()` - Update a scheduled backup policy for a dedicated database.
+- `delete_backup_policy()` - Delete a scheduled backup policy for a dedicated database. Backups already taken by the policy are kept until their retention expires.
+- `update_backup_storage()` - Configure off-cluster backup storage for a dedicated database. Supports S3, GCS, and Azure Blob Storage destinations. Backups will be stored to the configured destination in addition to on-cluster storage.
+- `get_backup()` - Get details of a specific database backup including its status, size, and timestamps.
+- `delete_backup()` - Delete a database backup. This will permanently remove the backup from storage and cannot be undone.
+- `list_branches()` - List all ephemeral branches for a dedicated database. Returns branch metadata including ID, name, namespace, and expiration time.
+- `create_branch()` - Create an ephemeral database branch from the primary via PVC snapshot. The branch is a full copy of the database at the current point in time, useful for testing schema migrations or running experiments without affecting production data. Branches expire after the configured TTL (default 24 hours). The branch is created asynchronously.
+- `delete_branch()` - Delete an ephemeral database branch. This removes the branch namespace, its PVC, and the associated VolumeSnapshot. The deletion runs asynchronously and is irreversible.
+- `update_credentials()` - Rotate the primary connection credentials for a dedicated database. Generates a new password and updates the database atomically. Previous credentials stop working immediately. Returns the database with a refreshed connection string carrying the new password.
+- `create_execution()` - Execute SQL through the console-facing Cloud endpoint. Cloud proxies through the edge platform to the per-database SQL API sidecar. Application traffic should bypass cloud entirely and POST directly to the per-database hostname: `https://db-{project}-{db}.{region}.appwrite.center/v1/sql/executions` with an `X-Appwrite-Key` header — that path scales to the whole DB fleet without a per-query cloud round-trip. The statement type must be on the database&#039;s configured allow-list. Use bound parameters for any user-supplied values — the API does not interpolate raw strings.
+- `list_extensions()` - List installed and available extensions for a PostgreSQL database.
+- `create_extension()` - Install a database extension. Only available for PostgreSQL databases. The install runs asynchronously; poll the extensions list endpoint for status.
+- `delete_extension()` - Uninstall a database extension from a PostgreSQL database. The uninstall runs asynchronously; poll the extensions list endpoint for status.
+- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
+- `update_maintenance()` - Update the maintenance window for a dedicated database. Maintenance operations like minor version upgrades will be performed during this window.
+- `create_migration()` - Migrate a database between shared and dedicated types. Shared to dedicated provisions an always-on dedicated instance; dedicated to shared converts to a serverless instance that scales to zero when idle. Data is copied to the target with a brief read-only window during cutover.
+- `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
+- `get_pitr()` - Get available point-in-time recovery windows for a dedicated database. Returns the earliest and latest recovery points.
+- `get_pooler()` - Get the connection pooler configuration for a dedicated database. Returns pooler mode, max connections, and pool size settings.
+- `update_pooler()` - Update the connection pooler configuration for a dedicated database. Configure pool mode, max connections, and pool sizes.
+- `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
+- `list_restorations()` - List all restorations for a dedicated database. Results can be filtered by status and type.
+- `create_restoration()` - Restore a database from a backup or to a specific point in time (PITR). For backup restoration, provide a backupId. For PITR, provide a targetTime as an ISO 8601 datetime. PITR requires the database to have PITR enabled and is only available for enterprise databases.
+- `get_restoration()` - Get details of a specific database restoration including its status, type, and timestamps.
+- `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
+- `create_upgrade()` - Upgrade a dedicated database to a new engine version. Uses blue-green deployment for zero-downtime cutover.
 
 #### Presences
 The Presences service allows you to track and manage real-time user presence in your project.
@@ -548,6 +710,7 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_o_auth2_git_hub()` - Update the project OAuth2 GitHub configuration.
 - `update_o_auth2_gitlab()` - Update the project OAuth2 Gitlab configuration.
 - `update_o_auth2_google()` - Update the project OAuth2 Google configuration.
+- `update_o_auth2_hugging_face()` - Update the project OAuth2 Hugging Face configuration.
 - `update_o_auth2_keycloak()` - Update the project OAuth2 Keycloak configuration.
 - `update_o_auth2_kick()` - Update the project OAuth2 Kick configuration.
 - `update_o_auth2_linkedin()` - Update the project OAuth2 Linkedin configuration.
@@ -722,7 +885,7 @@ The TablesDB service allows you to create structured tables of columns, query an
 - `get()` - Get a database by its unique ID. This endpoint response returns a JSON object with the database metadata.
 - `update()` - Update a database by its unique ID.
 - `delete()` - Delete a database by its unique ID. Only API keys with with databases.write scope can delete a database.
-- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation by a failover that did not finish also accepts this call as a repair, provided `targetReplicaId` names the member to promote.
+- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
 - `list_migrations()` - List the dedicated migrations for a TablesDB database. A database has at most one in-flight migration.
 - `create_migration()` - Start migrating a serverless TablesDB database onto a dedicated MySQL compute. Data is copied to the target while the source stays live, with a brief read-only window during cutover.
 - `get_migration()` - Get a single dedicated migration for a TablesDB database by its ID.
@@ -919,6 +1082,49 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `update_email_verification()` - Update the user email verification status by its unique ID.
 - `update_phone_verification()` - Update the user phone verification status by its unique ID.
 
+#### VectorsDB
+
+- `list()` - Get a list of all databases from the current Appwrite project. You can use the search parameter to filter your results.
+- `create()` - Create a new Database.
+
+- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, pricing, and whether it is enabled for the organization.
+- `list_transactions()` - List transactions across all databases.
+- `create_transaction()` - Create a new transaction.
+- `get_transaction()` - Get a transaction by its unique ID.
+- `update_transaction()` - Update a transaction, to either commit or roll back its operations.
+- `delete_transaction()` - Delete a transaction by its unique ID.
+- `create_operations()` - Create multiple operations in a single transaction.
+- `get()` - Get a database by its unique ID. This endpoint response returns a JSON object with the database metadata.
+- `update()` - Update a database by its unique ID.
+- `delete()` - Delete a database by its unique ID. Only API keys with with databases.write scope can delete a database.
+- `list_collections()` - Get a list of all collections that belong to the provided databaseId. You can use the search parameter to filter your results.
+- `create_collection()` - Create a new Collection. Before using this route, you should create a new database resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
+- `get_collection()` - Get a collection by its unique ID. This endpoint response returns a JSON object with the collection metadata.
+- `update_collection()` - Update a collection by its unique ID.
+- `delete_collection()` - Delete a collection by its unique ID. Only users with write permissions have access to delete this resource.
+- `list_documents()` - Get a list of all the user&#039;s documents in a given collection. You can use the query params to filter your results.
+- `create_document()` - Create a new Document. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
+- `create_documents()` - Create new Documents. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
+- `upsert_documents()` - Create or update Documents. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
+
+- `update_documents()` - Update all documents that match your queries, if no queries are submitted then all documents are updated. You can pass only specific fields to be updated.
+- `delete_documents()` - Bulk delete documents using queries, if no queries are passed then all documents are deleted.
+- `create_query()` - Get a list of all the user&#039;s documents in a given collection using a POST request. This behaves identically to the list documents endpoint but accepts the queries in the request body, allowing much larger `queries` arrays than can fit in a URL query string.
+
+- `get_document()` - Get a document by its unique ID. This endpoint response returns a JSON object with the document data.
+- `upsert_document()` - Create or update a Document. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
+- `update_document()` - Update a document by its unique ID. Using the patch method you can pass only specific fields that will get updated.
+- `delete_document()` - Delete a document by its unique ID.
+- `list_indexes()` - List indexes in the collection.
+- `create_index()` - Creates an index on the attributes listed. Your index should include all the attributes you will query in a single request.
+Attributes can be `key`, `fulltext`, and `unique`.
+- `get_index()` - Get index by ID.
+- `delete_index()` - Delete an index.
+- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
+- `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
+- `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
+- `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
+
 #### Webhooks
 The Webhooks service allows you to manage your project webhooks.
 - `list()` - Get a list of all webhooks belonging to the project. You can use the query params to filter your results.
@@ -974,6 +1180,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `TargetList` - Target list
 - `TransactionList` - Transaction List
 - `SpecificationList` - Specifications List
+- `VectorsdbCollectionList` - VectorsDB Collections List
 - `EmbeddingList` - Embedding list
 - `InsightList` - Insights List
 - `ReportList` - Reports List
@@ -999,6 +1206,9 @@ The Webhooks service allows you to manage your project webhooks.
 - `AttributeText` - AttributeText
 - `AttributeMediumtext` - AttributeMediumtext
 - `AttributeLongtext` - AttributeLongtext
+- `VectorsdbCollection` - VectorsDB Collection
+- `AttributeObject` - AttributeObject
+- `AttributeVector` - AttributeVector
 - `Table` - Table
 - `ColumnList` - Columns List
 - `ColumnString` - ColumnString
@@ -1084,6 +1294,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `OAuth2Notion` - OAuth2Notion
 - `OAuth2Salesforce` - OAuth2Salesforce
 - `OAuth2Yahoo` - OAuth2Yahoo
+- `OAuth2HuggingFace` - OAuth2HuggingFace
 - `OAuth2Linkedin` - OAuth2Linkedin
 - `OAuth2Disqus` - OAuth2Disqus
 - `OAuth2Amazon` - OAuth2Amazon
@@ -1147,6 +1358,9 @@ The Webhooks service allows you to manage your project webhooks.
 - `ActivityEvent` - ActivityEvent
 - `AdditionalResource` - AdditionalResource
 - `BackupArchive` - Archive
+- `DedicatedDatabaseBackup` - Backup
+- `DedicatedDatabaseBackupList` - BackupList
+- `DedicatedDatabaseBackupStorage` - BackupStorageConfig
 - `BillingLimits` - Limits
 - `BillingPlan` - billingPlan
 - `BillingPlanAddon` - Addon
@@ -1155,22 +1369,32 @@ The Webhooks service allows you to manage your project webhooks.
 - `BillingPlanDedicatedDatabaseLimits` - dedicatedDatabaseLimits
 - `BillingPlanSupportedAddons` - BillingPlanSupportedAddons
 - `Block` - Block
+- `DedicatedDatabaseBranch` - Branch
+- `DedicatedDatabaseBranchList` - BranchList
 - `DatabaseMigration` - Database Migration
 - `DedicatedDatabase` - DedicatedDatabase
+- `DedicatedDatabaseExecution` - Execution
+- `DedicatedDatabaseExecutionColumn` - ExecutionColumn
+- `DedicatedDatabaseRestoration` - Restoration
 - `DatabaseStatus` - Status
+- `DedicatedDatabaseExtensions` - Extensions
 - `DedicatedDatabaseMember` - Member
 - `DedicatedDatabaseOperation` - Operation
 - `DedicatedDatabaseOperationList` - OperationList
 - `DedicatedDatabaseReplicas` - Replicas
 - `ProxyInvalidation` - Invalidation
 - `Organization` - Organization
+- `DedicatedDatabasePITRWindows` - PITRWindows
 - `BackupPolicy` - backup
 - `PolicyDenyAliasedEmail` - Policy Deny Aliased Email
 - `PolicyDenyDisposableEmail` - Policy Deny Disposable Email
 - `PolicyDenyFreeEmail` - Policy Deny Free Email
 - `PolicyDenyCorporateEmail` - Policy Deny Corporate Email
+- `DedicatedDatabasePooler` - PoolerConfig
+- `PostgresExtension` - Postgres extension
 - `Program` - Program
 - `BackupRestoration` - Restoration
+- `DedicatedDatabaseRestorationList` - Dedicated database restorations list
 - `DedicatedDatabaseSpecification` - Specification
 - `DedicatedDatabaseSpecificationList` - SpecificationList
 - `DedicatedDatabaseSpecificationPricing` - SpecificationPricing
@@ -1204,6 +1428,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `BackupPolicyList` - Backup policy list
 - `BackupRestorationList` - Backup restoration list
 - `DatabaseMigrationList` - Database Migrations List
+- `DedicatedDatabaseList` - Dedicated databases list
 - `AppsList` - Apps list
 - `AppSecretList` - App secrets list
 - `AppScopeList` - App scopes list
@@ -1224,4 +1449,4 @@ The Webhooks service allows you to manage your project webhooks.
 - File upload examples
 - Query builder documentation
 
-[0.13.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.13.0
+[0.14.0-rc.1]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.14.0-rc.1

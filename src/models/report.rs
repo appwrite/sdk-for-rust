@@ -113,7 +113,6 @@ impl Report {
     pub fn analyzed_at(&self) -> Option<&String> {
         self.analyzed_at.as_ref()
     }
-
 }
 
 #[cfg(test)]

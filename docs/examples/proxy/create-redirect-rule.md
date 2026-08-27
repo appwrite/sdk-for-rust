@@ -12,7 +12,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let proxy = Proxy::new(&client);
 
     let result = proxy.create_redirect_rule(
-        "",
+        "example.com",
         "https://example.com",
         appwrite::enums::StatusCode::MovedPermanently,
         "<RESOURCE_ID>",

@@ -136,7 +136,6 @@ impl Membership {
     pub fn roles(&self) -> &Vec<String> {
         &self.roles
     }
-
 }
 
 #[cfg(test)]

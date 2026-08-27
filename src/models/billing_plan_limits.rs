@@ -38,7 +38,6 @@ impl BillingPlanLimits {
     pub fn daily_credits(&self) -> Option<&i64> {
         self.daily_credits.as_ref()
     }
-
 }
 
 #[cfg(test)]

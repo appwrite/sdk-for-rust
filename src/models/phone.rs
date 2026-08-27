@@ -32,7 +32,6 @@ impl Phone {
     pub fn country_name(&self) -> &String {
         &self.country_name
     }
-
 }
 
 #[cfg(test)]

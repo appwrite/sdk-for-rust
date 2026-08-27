@@ -15,7 +15,9 @@ pub struct Messaging {
 
 impl Messaging {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -31,7 +33,10 @@ impl Messaging {
     ) -> crate::error::Result<crate::models::MessageList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -44,7 +49,9 @@ impl Messaging {
 
         let path = "/messaging/messages".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new email message.
@@ -69,22 +76,40 @@ impl Messaging {
         params.insert("subject".to_string(), json!(subject.into()));
         params.insert("content".to_string(), json!(content.into()));
         if let Some(value) = topics {
-            params.insert("topics".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "topics".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = users {
-            params.insert("users".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "users".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = targets {
-            params.insert("targets".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "targets".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = cc {
-            params.insert("cc".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "cc".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = bcc {
-            params.insert("bcc".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "bcc".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = attachments {
-            params.insert("attachments".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "attachments".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = draft {
             params.insert("draft".to_string(), json!(value));
@@ -101,7 +126,9 @@ impl Messaging {
 
         let path = "/messaging/messages/email".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an email message by its unique ID. This endpoint only works on
@@ -125,13 +152,22 @@ impl Messaging {
     ) -> crate::error::Result<crate::models::Message> {
         let mut params = HashMap::new();
         if let Some(value) = topics {
-            params.insert("topics".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "topics".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = users {
-            params.insert("users".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "users".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = targets {
-            params.insert("targets".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "targets".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = subject {
             params.insert("subject".to_string(), json!(value));
@@ -146,24 +182,37 @@ impl Messaging {
             params.insert("html".to_string(), json!(value));
         }
         if let Some(value) = cc {
-            params.insert("cc".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "cc".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = bcc {
-            params.insert("bcc".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "bcc".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = scheduled_at {
             params.insert("scheduledAt".to_string(), json!(value));
         }
         if let Some(value) = attachments {
-            params.insert("attachments".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "attachments".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/messages/email/{messageId}".to_string().replace("{messageId}", &message_id.into().to_string());
+        let path = "/messaging/messages/email/{messageId}"
+            .to_string()
+            .replace("{messageId}", &message_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new push notification.
@@ -199,13 +248,22 @@ impl Messaging {
             params.insert("body".to_string(), json!(value));
         }
         if let Some(value) = topics {
-            params.insert("topics".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "topics".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = users {
-            params.insert("users".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "users".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = targets {
-            params.insert("targets".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "targets".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = data {
             params.insert("data".to_string(), json!(value));
@@ -252,7 +310,9 @@ impl Messaging {
 
         let path = "/messaging/messages/push".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a push notification by its unique ID. This endpoint only works on
@@ -283,13 +343,22 @@ impl Messaging {
     ) -> crate::error::Result<crate::models::Message> {
         let mut params = HashMap::new();
         if let Some(value) = topics {
-            params.insert("topics".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "topics".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = users {
-            params.insert("users".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "users".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = targets {
-            params.insert("targets".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "targets".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = title {
             params.insert("title".to_string(), json!(value));
@@ -340,9 +409,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/messages/push/{messageId}".to_string().replace("{messageId}", &message_id.into().to_string());
+        let path = "/messaging/messages/push/{messageId}"
+            .to_string()
+            .replace("{messageId}", &message_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new SMS message.
@@ -361,13 +434,22 @@ impl Messaging {
         params.insert("messageId".to_string(), json!(message_id.into()));
         params.insert("content".to_string(), json!(content.into()));
         if let Some(value) = topics {
-            params.insert("topics".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "topics".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = users {
-            params.insert("users".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "users".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = targets {
-            params.insert("targets".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "targets".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = draft {
             params.insert("draft".to_string(), json!(value));
@@ -381,7 +463,9 @@ impl Messaging {
 
         let path = "/messaging/messages/sms".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an SMS message by its unique ID. This endpoint only works on
@@ -400,13 +484,22 @@ impl Messaging {
     ) -> crate::error::Result<crate::models::Message> {
         let mut params = HashMap::new();
         if let Some(value) = topics {
-            params.insert("topics".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "topics".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = users {
-            params.insert("users".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "users".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = targets {
-            params.insert("targets".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "targets".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = content {
             params.insert("content".to_string(), json!(value));
@@ -421,9 +514,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/messages/sms/{messageId}".to_string().replace("{messageId}", &message_id.into().to_string());
+        let path = "/messaging/messages/sms/{messageId}"
+            .to_string()
+            .replace("{messageId}", &message_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a message by its unique ID.
@@ -435,24 +532,29 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/messages/{messageId}".to_string().replace("{messageId}", &message_id.into().to_string());
+        let path = "/messaging/messages/{messageId}"
+            .to_string()
+            .replace("{messageId}", &message_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a message. If the message is not a draft or scheduled, but has been
     /// sent, this will not recall the message.
-    pub async fn delete(
-        &self,
-        message_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    pub async fn delete(&self, message_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/messaging/messages/{messageId}".to_string().replace("{messageId}", &message_id.into().to_string());
+        let path = "/messaging/messages/{messageId}"
+            .to_string()
+            .replace("{messageId}", &message_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of the targets associated with a message.
@@ -464,7 +566,10 @@ impl Messaging {
     ) -> crate::error::Result<crate::models::TargetList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -472,9 +577,13 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/messages/{messageId}/targets".to_string().replace("{messageId}", &message_id.into().to_string());
+        let path = "/messaging/messages/{messageId}/targets"
+            .to_string()
+            .replace("{messageId}", &message_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all providers from the current Appwrite project.
@@ -486,7 +595,10 @@ impl Messaging {
     ) -> crate::error::Result<crate::models::ProviderList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -499,7 +611,9 @@ impl Messaging {
 
         let path = "/messaging/providers".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Apple Push Notification service provider.
@@ -542,7 +656,9 @@ impl Messaging {
 
         let path = "/messaging/providers/apns".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a Apple Push Notification service provider by its unique ID.
@@ -584,9 +700,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/apns/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/apns/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Firebase Cloud Messaging provider.
@@ -612,7 +732,9 @@ impl Messaging {
 
         let path = "/messaging/providers/fcm".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a Firebase Cloud Messaging provider by its unique ID.
@@ -637,9 +759,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/fcm/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/fcm/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Mailgun provider.
@@ -690,7 +816,9 @@ impl Messaging {
 
         let path = "/messaging/providers/mailgun".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a Mailgun provider by its unique ID.
@@ -740,9 +868,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/mailgun/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/mailgun/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new MSG91 provider.
@@ -776,7 +908,9 @@ impl Messaging {
 
         let path = "/messaging/providers/msg91".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a MSG91 provider by its unique ID.
@@ -809,9 +943,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/msg91/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/msg91/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Resend provider.
@@ -854,7 +992,9 @@ impl Messaging {
 
         let path = "/messaging/providers/resend".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a Resend provider by its unique ID.
@@ -896,9 +1036,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/resend/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/resend/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Sendgrid provider.
@@ -941,7 +1085,9 @@ impl Messaging {
 
         let path = "/messaging/providers/sendgrid".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a Sendgrid provider by its unique ID.
@@ -983,9 +1129,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/sendgrid/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/sendgrid/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Amazon SES provider.
@@ -1036,7 +1186,9 @@ impl Messaging {
 
         let path = "/messaging/providers/ses".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an Amazon SES provider by its unique ID.
@@ -1086,9 +1238,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/ses/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/ses/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new SMTP provider.
@@ -1153,7 +1309,9 @@ impl Messaging {
 
         let path = "/messaging/providers/smtp".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a SMTP provider by its unique ID.
@@ -1219,9 +1377,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/smtp/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/smtp/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Telesign provider.
@@ -1255,7 +1417,9 @@ impl Messaging {
 
         let path = "/messaging/providers/telesign".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a Telesign provider by its unique ID.
@@ -1288,9 +1452,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/telesign/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/telesign/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Textmagic provider.
@@ -1324,7 +1492,9 @@ impl Messaging {
 
         let path = "/messaging/providers/textmagic".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a Textmagic provider by its unique ID.
@@ -1357,9 +1527,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/textmagic/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/textmagic/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Twilio provider.
@@ -1393,7 +1567,9 @@ impl Messaging {
 
         let path = "/messaging/providers/twilio".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a Twilio provider by its unique ID.
@@ -1426,9 +1602,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/twilio/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/twilio/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Vonage provider.
@@ -1462,7 +1642,9 @@ impl Messaging {
 
         let path = "/messaging/providers/vonage".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a Vonage provider by its unique ID.
@@ -1495,9 +1677,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/vonage/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/vonage/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a provider by its unique ID.
@@ -1509,9 +1695,13 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a provider by its unique ID.
@@ -1523,9 +1713,13 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/messaging/providers/{providerId}".to_string().replace("{providerId}", &provider_id.into().to_string());
+        let path = "/messaging/providers/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all topics from the current Appwrite project.
@@ -1537,7 +1731,10 @@ impl Messaging {
     ) -> crate::error::Result<crate::models::TopicList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -1550,7 +1747,9 @@ impl Messaging {
 
         let path = "/messaging/topics".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new topic.
@@ -1564,7 +1763,10 @@ impl Messaging {
         params.insert("topicId".to_string(), json!(topic_id.into()));
         params.insert("name".to_string(), json!(name.into()));
         if let Some(value) = subscribe {
-            params.insert("subscribe".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "subscribe".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1572,7 +1774,9 @@ impl Messaging {
 
         let path = "/messaging/topics".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a topic by its unique ID.
@@ -1584,9 +1788,13 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/topics/{topicId}".to_string().replace("{topicId}", &topic_id.into().to_string());
+        let path = "/messaging/topics/{topicId}"
+            .to_string()
+            .replace("{topicId}", &topic_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a topic by its unique ID.
@@ -1601,29 +1809,37 @@ impl Messaging {
             params.insert("name".to_string(), json!(value));
         }
         if let Some(value) = subscribe {
-            params.insert("subscribe".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "subscribe".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/topics/{topicId}".to_string().replace("{topicId}", &topic_id.into().to_string());
+        let path = "/messaging/topics/{topicId}"
+            .to_string()
+            .replace("{topicId}", &topic_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a topic by its unique ID.
-    pub async fn delete_topic(
-        &self,
-        topic_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    pub async fn delete_topic(&self, topic_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/messaging/topics/{topicId}".to_string().replace("{topicId}", &topic_id.into().to_string());
+        let path = "/messaging/topics/{topicId}"
+            .to_string()
+            .replace("{topicId}", &topic_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all subscribers from the current Appwrite project.
@@ -1636,7 +1852,10 @@ impl Messaging {
     ) -> crate::error::Result<crate::models::SubscriberList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -1647,9 +1866,13 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/topics/{topicId}/subscribers".to_string().replace("{topicId}", &topic_id.into().to_string());
+        let path = "/messaging/topics/{topicId}/subscribers"
+            .to_string()
+            .replace("{topicId}", &topic_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new subscriber.
@@ -1666,9 +1889,13 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/topics/{topicId}/subscribers".to_string().replace("{topicId}", &topic_id.into().to_string());
+        let path = "/messaging/topics/{topicId}/subscribers"
+            .to_string()
+            .replace("{topicId}", &topic_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a subscriber by its unique ID.
@@ -1681,9 +1908,14 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/messaging/topics/{topicId}/subscribers/{subscriberId}".to_string().replace("{topicId}", &topic_id.into().to_string()).replace("{subscriberId}", &subscriber_id.into().to_string());
+        let path = "/messaging/topics/{topicId}/subscribers/{subscriberId}"
+            .to_string()
+            .replace("{topicId}", &topic_id.into().to_string())
+            .replace("{subscriberId}", &subscriber_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a subscriber by its unique ID.
@@ -1696,11 +1928,15 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/messaging/topics/{topicId}/subscribers/{subscriberId}".to_string().replace("{topicId}", &topic_id.into().to_string()).replace("{subscriberId}", &subscriber_id.into().to_string());
+        let path = "/messaging/topics/{topicId}/subscribers/{subscriberId}"
+            .to_string()
+            .replace("{topicId}", &topic_id.into().to_string())
+            .replace("{subscriberId}", &subscriber_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Messaging {

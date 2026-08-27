@@ -169,6 +169,9 @@ pub struct BillingPlan {
     /// Does plan support credit
     #[serde(rename = "supportsCredits")]
     pub supports_credits: bool,
+    /// Does plan support dedicated databases.
+    #[serde(rename = "supportsDedicatedDatabases")]
+    pub supports_dedicated_databases: bool,
     /// Does plan support blocking disposable email addresses.
     #[serde(rename = "supportsDisposableEmailValidation")]
     pub supports_disposable_email_validation: bool,
@@ -218,6 +221,10 @@ pub struct BillingPlan {
     #[serde(rename = "program")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub program: Option<crate::models::Program>,
+    /// Included monthly dedicated-database compute credit in USD. Resets each
+    /// billing cycle with no roll-over.
+    #[serde(rename = "databaseComputeCredit")]
+    pub database_compute_credit: f64,
     /// Dedicated database limits available to this plan.
     #[serde(rename = "dedicatedDatabases")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -508,6 +515,11 @@ impl BillingPlan {
         &self.supports_credits
     }
 
+    /// Get supports_dedicated_databases
+    pub fn supports_dedicated_databases(&self) -> &bool {
+        &self.supports_dedicated_databases
+    }
+
     /// Get supports_disposable_email_validation
     pub fn supports_disposable_email_validation(&self) -> &bool {
         &self.supports_disposable_email_validation
@@ -607,17 +619,26 @@ impl BillingPlan {
         self.program.as_ref()
     }
 
+    /// Get database_compute_credit
+    pub fn database_compute_credit(&self) -> &f64 {
+        &self.database_compute_credit
+    }
+
     /// Set dedicated_databases
-    pub fn set_dedicated_databases(mut self, dedicated_databases: crate::models::BillingPlanDedicatedDatabaseLimits) -> Self {
+    pub fn set_dedicated_databases(
+        mut self,
+        dedicated_databases: crate::models::BillingPlanDedicatedDatabaseLimits,
+    ) -> Self {
         self.dedicated_databases = Some(dedicated_databases);
         self
     }
 
     /// Get dedicated_databases
-    pub fn dedicated_databases(&self) -> Option<&crate::models::BillingPlanDedicatedDatabaseLimits> {
+    pub fn dedicated_databases(
+        &self,
+    ) -> Option<&crate::models::BillingPlanDedicatedDatabaseLimits> {
         self.dedicated_databases.as_ref()
     }
-
 }
 
 #[cfg(test)]
@@ -677,6 +698,7 @@ mod tests {
         let _ = _model.supports_mock_numbers();
         let _ = _model.supports_organization_roles();
         let _ = _model.supports_credits();
+        let _ = _model.supports_dedicated_databases();
         let _ = _model.supports_disposable_email_validation();
         let _ = _model.supports_canonical_email_validation();
         let _ = _model.supports_free_email_validation();
@@ -688,6 +710,7 @@ mod tests {
         let _ = _model.build_size();
         let _ = _model.databases_allow_encrypt();
         let _ = _model.group();
+        let _ = _model.database_compute_credit();
     }
 
     #[test]

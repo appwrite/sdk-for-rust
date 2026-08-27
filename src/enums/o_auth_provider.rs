@@ -43,6 +43,8 @@ pub enum OAuthProvider {
     Gitlab,
     #[serde(rename = "google")]
     Google,
+    #[serde(rename = "huggingface")]
+    Huggingface,
     #[serde(rename = "keycloak")]
     Keycloak,
     #[serde(rename = "kick")]
@@ -117,6 +119,7 @@ impl OAuthProvider {
             OAuthProvider::Github => "github",
             OAuthProvider::Gitlab => "gitlab",
             OAuthProvider::Google => "google",
+            OAuthProvider::Huggingface => "huggingface",
             OAuthProvider::Keycloak => "keycloak",
             OAuthProvider::Kick => "kick",
             OAuthProvider::Linkedin => "linkedin",

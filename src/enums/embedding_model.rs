@@ -5,12 +5,8 @@ pub enum EmbeddingModel {
     #[serde(rename = "nomic-embed-text")]
     #[default]
     NomicEmbedText,
-    #[serde(rename = "embedding-gemma")]
-    EmbeddingGemma,
     #[serde(rename = "all-minilm")]
     AllMinilm,
-    #[serde(rename = "bge-small")]
-    BgeSmall,
 }
 
 impl EmbeddingModel {
@@ -18,9 +14,7 @@ impl EmbeddingModel {
     pub fn as_str(&self) -> &str {
         match self {
             EmbeddingModel::NomicEmbedText => "nomic-embed-text",
-            EmbeddingModel::EmbeddingGemma => "embedding-gemma",
             EmbeddingModel::AllMinilm => "all-minilm",
-            EmbeddingModel::BgeSmall => "bge-small",
         }
     }
 }
