@@ -19,8 +19,9 @@ pub struct DedicatedDatabaseOperation {
     /// failover, backup-create or cross-region-enable.
     #[serde(rename = "type")]
     pub r#type: String,
-    /// Operation status. Possible values: running (in progress), completed
-    /// (finished successfully), failed (ended in an error).
+    /// Operation status. Possible values: queued (accepted and waiting to resume),
+    /// running (in progress), completed (finished successfully), failed (ended in
+    /// an error).
     #[serde(rename = "status")]
     pub status: String,
     /// Number of times this operation has been attempted.
@@ -120,7 +121,6 @@ impl DedicatedDatabaseOperation {
     pub fn error_message(&self) -> &String {
         &self.error_message
     }
-
 }
 
 #[cfg(test)]
@@ -146,7 +146,8 @@ mod tests {
         let json = serde_json::to_string(&model);
         assert!(json.is_ok());
 
-        let deserialized: Result<DedicatedDatabaseOperation, _> = serde_json::from_str(&json.unwrap());
+        let deserialized: Result<DedicatedDatabaseOperation, _> =
+            serde_json::from_str(&json.unwrap());
         assert!(deserialized.is_ok());
     }
 }

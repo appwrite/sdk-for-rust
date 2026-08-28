@@ -14,10 +14,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = databases.create_enum_attribute(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        "",
-        vec![],
+        "<KEY>",
+        vec!["active".into(), "inactive".into()],
         false,
-        Some("<DEFAULT>"), // optional
+        Some("active"), // optional
         Some(false) // optional
     ).await?;
 

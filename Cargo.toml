@@ -1,6 +1,6 @@
 [package]
 name = "appwrite"
-version = "0.13.0"
+version = "0.14.0-rc.1"
 edition = "2021"
 rust-version = "1.83"
 authors = ["appwrite"]
@@ -37,7 +37,7 @@ security-framework = ">=3, <3.7"
 
 [dev-dependencies]
 tokio-test = "=0.4.4"
-wiremock = "=0.5.22"
+wiremock = "=0.6.4"
 
 [lib]
 name = "appwrite"

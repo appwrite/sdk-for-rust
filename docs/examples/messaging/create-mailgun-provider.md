@@ -15,7 +15,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<PROVIDER_ID>",
         "<NAME>",
         Some("<API_KEY>"), // optional
-        Some("<DOMAIN>"), // optional
+        Some("example.com"), // optional
         Some(false), // optional
         Some("<FROM_NAME>"), // optional
         Some("email@example.com"), // optional

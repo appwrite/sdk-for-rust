@@ -24,7 +24,6 @@ impl MessageList {
     pub fn messages(&self) -> &Vec<crate::models::Message> {
         &self.messages
     }
-
 }
 
 #[cfg(test)]

@@ -159,6 +159,8 @@ pub enum Runtime {
     Bun12,
     #[serde(rename = "bun-1.3")]
     Bun13,
+    #[serde(rename = "bun-1.4")]
+    Bun14,
     #[serde(rename = "go-1.23")]
     Go123,
     #[serde(rename = "go-1.24")]
@@ -271,6 +273,7 @@ impl Runtime {
             Runtime::Bun11 => "bun-1.1",
             Runtime::Bun12 => "bun-1.2",
             Runtime::Bun13 => "bun-1.3",
+            Runtime::Bun14 => "bun-1.4",
             Runtime::Go123 => "go-1.23",
             Runtime::Go124 => "go-1.24",
             Runtime::Go125 => "go-1.25",

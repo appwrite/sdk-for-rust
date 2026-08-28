@@ -41,7 +41,6 @@ impl MockNumber {
     pub fn updated_at(&self) -> &String {
         &self.updated_at
     }
-
 }
 
 #[cfg(test)]

@@ -15,7 +15,9 @@ pub struct Functions {
 
 impl Functions {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -32,7 +34,10 @@ impl Functions {
     ) -> crate::error::Result<crate::models::FunctionList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -45,7 +50,9 @@ impl Functions {
 
         let path = "/functions".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new function. You can pass a list of
@@ -83,10 +90,16 @@ impl Functions {
         params.insert("name".to_string(), json!(name.into()));
         params.insert("runtime".to_string(), json!(runtime));
         if let Some(value) = execute {
-            params.insert("execute".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "execute".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = events {
-            params.insert("events".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "events".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = schedule {
             params.insert("schedule".to_string(), json!(value));
@@ -125,10 +138,16 @@ impl Functions {
             params.insert("providerRootDirectory".to_string(), json!(value));
         }
         if let Some(value) = provider_branches {
-            params.insert("providerBranches".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "providerBranches".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = provider_paths {
-            params.insert("providerPaths".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "providerPaths".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = build_specification {
             params.insert("buildSpecification".to_string(), json!(value));
@@ -145,20 +164,22 @@ impl Functions {
 
         let path = "/functions".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all runtimes that are currently active on your instance.
-    pub async fn list_runtimes(
-        &self,
-    ) -> crate::error::Result<crate::models::RuntimeList> {
+    pub async fn list_runtimes(&self) -> crate::error::Result<crate::models::RuntimeList> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/functions/runtimes".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List allowed function specifications for this instance.
@@ -175,7 +196,9 @@ impl Functions {
 
         let path = "/functions/specifications".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a function by its unique ID.
@@ -187,9 +210,13 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}".to_string().replace("{functionId}", &function_id.into().to_string());
+        let path = "/functions/{functionId}"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update function by its unique ID.
@@ -225,10 +252,16 @@ impl Functions {
             params.insert("runtime".to_string(), json!(value));
         }
         if let Some(value) = execute {
-            params.insert("execute".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "execute".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = events {
-            params.insert("events".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "events".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = schedule {
             params.insert("schedule".to_string(), json!(value));
@@ -267,10 +300,16 @@ impl Functions {
             params.insert("providerRootDirectory".to_string(), json!(value));
         }
         if let Some(value) = provider_branches {
-            params.insert("providerBranches".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "providerBranches".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = provider_paths {
-            params.insert("providerPaths".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "providerPaths".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = build_specification {
             params.insert("buildSpecification".to_string(), json!(value));
@@ -285,23 +324,28 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}".to_string().replace("{functionId}", &function_id.into().to_string());
+        let path = "/functions/{functionId}"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a function by its unique ID.
-    pub async fn delete(
-        &self,
-        function_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    pub async fn delete(&self, function_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}".to_string().replace("{functionId}", &function_id.into().to_string());
+        let path = "/functions/{functionId}"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the function active deployment. Use this endpoint to switch the code
@@ -317,9 +361,13 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/deployment".to_string().replace("{functionId}", &function_id.into().to_string());
+        let path = "/functions/{functionId}/deployment"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all the function's code deployments. You can use the query
@@ -333,7 +381,10 @@ impl Functions {
     ) -> crate::error::Result<crate::models::DeploymentList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -344,20 +395,24 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/deployments".to_string().replace("{functionId}", &function_id.into().to_string());
+        let path = "/functions/{functionId}/deployments"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new function code deployment. Use this endpoint to upload a new
     /// version of your code function. To execute your newly uploaded code, you'll
     /// need to update the function's deployment to use your new deployment UID.
-    /// 
+    ///
     /// This endpoint accepts a tar.gz file compressed with your code. Make sure to
     /// include any dependencies your code has within the compressed file. You can
     /// learn more about code packaging in the [Appwrite Cloud Functions
     /// tutorial](https://appwrite.io/docs/functions).
-    /// 
+    ///
     /// Use the "command" param to set the entrypoint used to execute your code.
     pub async fn create_deployment(
         &self,
@@ -376,12 +431,19 @@ impl Functions {
         }
         params.insert("activate".to_string(), json!(activate));
         let mut api_headers = HashMap::new();
-        api_headers.insert("content-type".to_string(), "multipart/form-data".to_string());
+        api_headers.insert(
+            "content-type".to_string(),
+            "multipart/form-data".to_string(),
+        );
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/deployments".to_string().replace("{functionId}", &function_id.into().to_string());
+        let path = "/functions/{functionId}/deployments"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string());
 
-        self.client.file_upload(&path, Some(api_headers), params, "code", code, None).await
+        self.client
+            .file_upload(&path, Some(api_headers), params, "code", code, None)
+            .await
     }
 
     /// Create a new build for an existing function deployment. This endpoint
@@ -404,13 +466,17 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/deployments/duplicate".to_string().replace("{functionId}", &function_id.into().to_string());
+        let path = "/functions/{functionId}/deployments/duplicate"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a deployment based on a template.
-    /// 
+    ///
     /// Use this endpoint with combination of
     /// [listTemplates](https://appwrite.io/docs/products/functions/templates) to
     /// find the template details.
@@ -438,13 +504,17 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/deployments/template".to_string().replace("{functionId}", &function_id.into().to_string());
+        let path = "/functions/{functionId}/deployments/template"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a deployment when a function is connected to VCS.
-    /// 
+    ///
     /// This endpoint lets you create deployment from a branch, commit, or a tag.
     pub async fn create_vcs_deployment(
         &self,
@@ -463,9 +533,13 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/deployments/vcs".to_string().replace("{functionId}", &function_id.into().to_string());
+        let path = "/functions/{functionId}/deployments/vcs"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a function deployment by its unique ID.
@@ -478,9 +552,14 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/deployments/{deploymentId}".to_string().replace("{functionId}", &function_id.into().to_string()).replace("{deploymentId}", &deployment_id.into().to_string());
+        let path = "/functions/{functionId}/deployments/{deploymentId}"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string())
+            .replace("{deploymentId}", &deployment_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a code deployment by its unique ID.
@@ -493,9 +572,14 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/deployments/{deploymentId}".to_string().replace("{functionId}", &function_id.into().to_string()).replace("{deploymentId}", &deployment_id.into().to_string());
+        let path = "/functions/{functionId}/deployments/{deploymentId}"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string())
+            .replace("{deploymentId}", &deployment_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a function deployment content by its unique ID. The endpoint response
@@ -518,9 +602,14 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "*/*".to_string());
 
-        let path = "/functions/{functionId}/deployments/{deploymentId}/download".to_string().replace("{functionId}", &function_id.into().to_string()).replace("{deploymentId}", &deployment_id.into().to_string());
+        let path = "/functions/{functionId}/deployments/{deploymentId}/download"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string())
+            .replace("{deploymentId}", &deployment_id.into().to_string());
 
-        self.client.call_bytes(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Cancel an ongoing function deployment build. If the build is already in
@@ -538,9 +627,14 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/deployments/{deploymentId}/status".to_string().replace("{functionId}", &function_id.into().to_string()).replace("{deploymentId}", &deployment_id.into().to_string());
+        let path = "/functions/{functionId}/deployments/{deploymentId}/status"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string())
+            .replace("{deploymentId}", &deployment_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all the current user function execution logs. You can use the
@@ -553,7 +647,10 @@ impl Functions {
     ) -> crate::error::Result<crate::models::ExecutionList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -561,9 +658,13 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/executions".to_string().replace("{functionId}", &function_id.into().to_string());
+        let path = "/functions/{functionId}/executions"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Trigger a function execution. The returned object will return you the
@@ -604,9 +705,13 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/executions".to_string().replace("{functionId}", &function_id.into().to_string());
+        let path = "/functions/{functionId}/executions"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a function execution log by its unique ID.
@@ -619,9 +724,14 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/executions/{executionId}".to_string().replace("{functionId}", &function_id.into().to_string()).replace("{executionId}", &execution_id.into().to_string());
+        let path = "/functions/{functionId}/executions/{executionId}"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string())
+            .replace("{executionId}", &execution_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a function execution by its unique ID.
@@ -634,9 +744,14 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/executions/{executionId}".to_string().replace("{functionId}", &function_id.into().to_string()).replace("{executionId}", &execution_id.into().to_string());
+        let path = "/functions/{functionId}/executions/{executionId}"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string())
+            .replace("{executionId}", &execution_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all variables of a specific function.
@@ -648,7 +763,10 @@ impl Functions {
     ) -> crate::error::Result<crate::models::VariableList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -656,9 +774,13 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/variables".to_string().replace("{functionId}", &function_id.into().to_string());
+        let path = "/functions/{functionId}/variables"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new function environment variable. These variables can be accessed
@@ -682,9 +804,13 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/variables".to_string().replace("{functionId}", &function_id.into().to_string());
+        let path = "/functions/{functionId}/variables"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a variable by its unique ID.
@@ -697,9 +823,14 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/variables/{variableId}".to_string().replace("{functionId}", &function_id.into().to_string()).replace("{variableId}", &variable_id.into().to_string());
+        let path = "/functions/{functionId}/variables/{variableId}"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string())
+            .replace("{variableId}", &variable_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update variable by its unique ID.
@@ -725,9 +856,14 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/variables/{variableId}".to_string().replace("{functionId}", &function_id.into().to_string()).replace("{variableId}", &variable_id.into().to_string());
+        let path = "/functions/{functionId}/variables/{variableId}"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string())
+            .replace("{variableId}", &variable_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a variable by its unique ID.
@@ -740,11 +876,15 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/functions/{functionId}/variables/{variableId}".to_string().replace("{functionId}", &function_id.into().to_string()).replace("{variableId}", &variable_id.into().to_string());
+        let path = "/functions/{functionId}/variables/{variableId}"
+            .to_string()
+            .replace("{functionId}", &function_id.into().to_string())
+            .replace("{variableId}", &variable_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Functions {

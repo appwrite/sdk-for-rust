@@ -72,7 +72,6 @@ impl Runtime {
     pub fn supports(&self) -> &Vec<String> {
         &self.supports
     }
-
 }
 
 #[cfg(test)]

@@ -107,7 +107,6 @@ impl Oauth2Grant {
     pub fn expire(&self) -> &String {
         &self.expire
     }
-
 }
 
 #[cfg(test)]

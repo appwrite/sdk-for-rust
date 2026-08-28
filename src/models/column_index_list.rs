@@ -24,7 +24,6 @@ impl ColumnIndexList {
     pub fn indexes(&self) -> &Vec<crate::models::ColumnIndex> {
         &self.indexes
     }
-
 }
 
 #[cfg(test)]

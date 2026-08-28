@@ -105,7 +105,6 @@ impl ColumnEmail {
     pub fn default(&self) -> Option<&String> {
         self.default.as_ref()
     }
-
 }
 
 #[cfg(test)]

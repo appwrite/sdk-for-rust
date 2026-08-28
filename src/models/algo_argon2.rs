@@ -40,7 +40,6 @@ impl AlgoArgon2 {
     pub fn threads(&self) -> &i64 {
         &self.threads
     }
-
 }
 
 #[cfg(test)]

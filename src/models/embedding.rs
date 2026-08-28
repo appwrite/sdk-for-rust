@@ -40,7 +40,6 @@ impl Embedding {
     pub fn error(&self) -> &String {
         &self.error
     }
-
 }
 
 #[cfg(test)]

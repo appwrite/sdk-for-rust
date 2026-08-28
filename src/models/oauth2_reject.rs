@@ -17,7 +17,6 @@ impl Oauth2Reject {
     pub fn redirect_url(&self) -> &String {
         &self.redirect_url
     }
-
 }
 
 #[cfg(test)]

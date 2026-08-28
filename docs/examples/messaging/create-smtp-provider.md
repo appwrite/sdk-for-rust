@@ -15,7 +15,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<PROVIDER_ID>",
         "<NAME>",
         "<HOST>",
-        Some(1), // optional
+        Some(587), // optional
         Some("<USERNAME>"), // optional
         Some("password"), // optional
         Some(appwrite::enums::SmtpEncryption::None), // optional

@@ -1,0 +1,27 @@
+```rust
+use appwrite::Client;
+use appwrite::services::DocumentsDB;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let client = Client::new();
+    client.set_endpoint("https://<REGION>.cloud.appwrite.io/v1"); // Your API Endpoint
+    client.set_project("<YOUR_PROJECT_ID>"); // Your project ID
+    client.set_key("<YOUR_API_KEY>"); // Your secret API key
+
+    let documents_db = DocumentsDB::new(&client);
+
+    let result = documents_db.create(
+        "<DATABASE_ID>",
+        "<NAME>",
+        Some(false), // optional
+        Some("serverless"), // optional
+        Some(0), // optional
+        Some("async") // optional
+    ).await?;
+
+    let _ = result;
+
+    Ok(())
+}
+```

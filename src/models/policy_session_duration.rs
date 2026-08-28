@@ -24,7 +24,6 @@ impl PolicySessionDuration {
     pub fn duration(&self) -> &i64 {
         &self.duration
     }
-
 }
 
 #[cfg(test)]

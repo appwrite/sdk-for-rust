@@ -40,7 +40,6 @@ impl OAuth2Salesforce {
     pub fn customer_secret(&self) -> &String {
         &self.customer_secret
     }
-
 }
 
 #[cfg(test)]

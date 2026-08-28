@@ -40,7 +40,6 @@ impl OAuth2Tradeshift {
     pub fn oauth2_client_secret(&self) -> &String {
         &self.oauth2_client_secret
     }
-
 }
 
 #[cfg(test)]

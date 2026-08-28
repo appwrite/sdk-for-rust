@@ -24,7 +24,6 @@ impl RuntimeList {
     pub fn runtimes(&self) -> &Vec<crate::models::Runtime> {
         &self.runtimes
     }
-
 }
 
 #[cfg(test)]

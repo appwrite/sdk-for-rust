@@ -72,7 +72,6 @@ impl Topic {
     pub fn subscribe(&self) -> &Vec<String> {
         &self.subscribe
     }
-
 }
 
 #[cfg(test)]

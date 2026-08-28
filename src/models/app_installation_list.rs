@@ -24,7 +24,6 @@ impl AppInstallationList {
     pub fn installations(&self) -> &Vec<crate::models::AppInstallation> {
         &self.installations
     }
-
 }
 
 #[cfg(test)]

@@ -41,7 +41,6 @@ impl ProxyInvalidation {
     pub fn status(&self) -> &String {
         &self.status
     }
-
 }
 
 #[cfg(test)]

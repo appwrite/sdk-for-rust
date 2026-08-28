@@ -24,7 +24,6 @@ impl OAuth2ProviderList {
     pub fn providers(&self) -> &Vec<serde_json::Value> {
         &self.providers
     }
-
 }
 
 #[cfg(test)]

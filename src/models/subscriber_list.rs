@@ -24,7 +24,6 @@ impl SubscriberList {
     pub fn subscribers(&self) -> &Vec<crate::models::Subscriber> {
         &self.subscribers
     }
-
 }
 
 #[cfg(test)]

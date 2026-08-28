@@ -174,7 +174,6 @@ impl Insight {
     pub fn dismissed_by(&self) -> Option<&String> {
         self.dismissed_by.as_ref()
     }
-
 }
 
 #[cfg(test)]

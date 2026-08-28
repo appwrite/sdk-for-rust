@@ -80,7 +80,6 @@ impl Program {
     pub fn billing_plan_id(&self) -> &String {
         &self.billing_plan_id
     }
-
 }
 
 #[cfg(test)]

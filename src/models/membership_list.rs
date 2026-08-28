@@ -24,7 +24,6 @@ impl MembershipList {
     pub fn memberships(&self) -> &Vec<crate::models::Membership> {
         &self.memberships
     }
-
 }
 
 #[cfg(test)]

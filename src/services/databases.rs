@@ -15,7 +15,9 @@ pub struct Databases {
 
 impl Databases {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -32,7 +34,10 @@ impl Databases {
     ) -> crate::error::Result<crate::models::DatabaseList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -45,7 +50,9 @@ impl Databases {
 
         let path = "/databases".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Database.
@@ -67,7 +74,9 @@ impl Databases {
 
         let path = "/databases".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List transactions across all databases.
@@ -77,14 +86,19 @@ impl Databases {
     ) -> crate::error::Result<crate::models::TransactionList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/databases/transactions".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new transaction.
@@ -102,7 +116,9 @@ impl Databases {
 
         let path = "/databases/transactions".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a transaction by its unique ID.
@@ -114,9 +130,13 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/transactions/{transactionId}".to_string().replace("{transactionId}", &transaction_id.into().to_string());
+        let path = "/databases/transactions/{transactionId}"
+            .to_string()
+            .replace("{transactionId}", &transaction_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a transaction, to either commit or roll back its operations.
@@ -137,9 +157,13 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/transactions/{transactionId}".to_string().replace("{transactionId}", &transaction_id.into().to_string());
+        let path = "/databases/transactions/{transactionId}"
+            .to_string()
+            .replace("{transactionId}", &transaction_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a transaction by its unique ID.
@@ -151,9 +175,13 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/databases/transactions/{transactionId}".to_string().replace("{transactionId}", &transaction_id.into().to_string());
+        let path = "/databases/transactions/{transactionId}"
+            .to_string()
+            .replace("{transactionId}", &transaction_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create multiple operations in a single transaction.
@@ -170,9 +198,13 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/transactions/{transactionId}/operations".to_string().replace("{transactionId}", &transaction_id.into().to_string());
+        let path = "/databases/transactions/{transactionId}/operations"
+            .to_string()
+            .replace("{transactionId}", &transaction_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a database by its unique ID. This endpoint response returns a JSON
@@ -185,9 +217,13 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/databases/{databaseId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a database by its unique ID.
@@ -208,24 +244,29 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/databases/{databaseId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a database by its unique ID. Only API keys with with databases.write
     /// scope can delete a database.
-    pub async fn delete(
-        &self,
-        database_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    pub async fn delete(&self, database_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/databases/{databaseId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all collections that belong to the provided databaseId. You
@@ -239,7 +280,10 @@ impl Databases {
     ) -> crate::error::Result<crate::models::CollectionList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -250,9 +294,13 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/databases/{databaseId}/collections"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Collection. Before using this route, you should create a new
@@ -275,7 +323,10 @@ impl Databases {
         params.insert("collectionId".to_string(), json!(collection_id.into()));
         params.insert("name".to_string(), json!(name.into()));
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = document_security {
             params.insert("documentSecurity".to_string(), json!(value));
@@ -293,9 +344,13 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/databases/{databaseId}/collections"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a collection by its unique ID. This endpoint response returns a JSON
@@ -309,9 +364,14 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a collection by its unique ID.
@@ -331,7 +391,10 @@ impl Databases {
             params.insert("name".to_string(), json!(value));
         }
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = document_security {
             params.insert("documentSecurity".to_string(), json!(value));
@@ -346,9 +409,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a collection by its unique ID. Only users with write permissions
@@ -362,9 +430,14 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List attributes in the collection.
@@ -377,7 +450,10 @@ impl Databases {
     ) -> crate::error::Result<crate::models::AttributeList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -385,9 +461,14 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a bigint attribute. Optionally, minimum and maximum values can be
@@ -423,9 +504,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/bigint".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/bigint"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a bigint attribute. Changing the `default` value will not update
@@ -460,9 +546,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/bigint/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/bigint/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a boolean attribute.
@@ -488,9 +580,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/boolean".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/boolean"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a boolean attribute. Changing the `default` value will not update
@@ -516,9 +613,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/boolean/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/boolean/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a date time attribute according to the ISO 8601 standard.
@@ -544,9 +647,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/datetime".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/datetime"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a date time attribute. Changing the `default` value will not update
@@ -572,9 +680,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/datetime/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/datetime/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create an email attribute.
@@ -600,9 +714,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/email".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/email"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an email attribute. Changing the `default` value will not update
@@ -628,9 +747,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/email/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/email/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create an enum attribute. The `elements` param acts as a white-list of
@@ -648,7 +773,13 @@ impl Databases {
     ) -> crate::error::Result<crate::models::AttributeEnum> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
-        params.insert("elements".to_string(), json!(elements.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "elements".to_string(),
+            json!(elements
+                .into_iter()
+                .map(|s| s.into())
+                .collect::<Vec<String>>()),
+        );
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
             params.insert("default".to_string(), json!(value));
@@ -660,9 +791,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/enum".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/enum"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an enum attribute. Changing the `default` value will not update
@@ -679,7 +815,13 @@ impl Databases {
         new_key: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeEnum> {
         let mut params = HashMap::new();
-        params.insert("elements".to_string(), json!(elements.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "elements".to_string(),
+            json!(elements
+                .into_iter()
+                .map(|s| s.into())
+                .collect::<Vec<String>>()),
+        );
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
             params.insert("default".to_string(), json!(value));
@@ -691,9 +833,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/enum/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/enum/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a float attribute. Optionally, minimum and maximum values can be
@@ -729,9 +877,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/float".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/float"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a float attribute. Changing the `default` value will not update
@@ -766,9 +919,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/float/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/float/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create an integer attribute. Optionally, minimum and maximum values can be
@@ -804,9 +963,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/integer".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/integer"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an integer attribute. Changing the `default` value will not update
@@ -841,9 +1005,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/integer/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/integer/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create IP address attribute.
@@ -869,9 +1039,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/ip".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/ip"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an ip attribute. Changing the `default` value will not update
@@ -897,9 +1072,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/ip/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/ip/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a geometric line attribute.
@@ -921,9 +1102,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/line".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/line"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a line attribute. Changing the `default` value will not update
@@ -949,9 +1135,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/line/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/line/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a longtext attribute.
@@ -982,9 +1174,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/longtext".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/longtext"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a longtext attribute. Changing the `default` value will not update
@@ -1010,9 +1207,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/longtext/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/longtext/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a mediumtext attribute.
@@ -1043,9 +1246,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a mediumtext attribute. Changing the `default` value will not update
@@ -1071,9 +1279,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a geometric point attribute.
@@ -1095,9 +1309,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/point".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/point"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a point attribute. Changing the `default` value will not update
@@ -1123,9 +1342,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/point/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/point/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a geometric polygon attribute.
@@ -1147,9 +1372,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/polygon".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/polygon"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a polygon attribute. Changing the `default` value will not update
@@ -1175,9 +1405,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/polygon/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/polygon/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create relationship attribute. [Learn more about relationship
@@ -1195,7 +1431,10 @@ impl Databases {
         on_delete: Option<crate::enums::RelationMutate>,
     ) -> crate::error::Result<crate::models::AttributeRelationship> {
         let mut params = HashMap::new();
-        params.insert("relatedCollectionId".to_string(), json!(related_collection_id.into()));
+        params.insert(
+            "relatedCollectionId".to_string(),
+            json!(related_collection_id.into()),
+        );
         params.insert("type".to_string(), json!(r#type));
         if let Some(value) = two_way {
             params.insert("twoWay".to_string(), json!(value));
@@ -1213,9 +1452,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/relationship".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/relationship"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update relationship attribute. [Learn more about relationship
@@ -1239,9 +1483,16 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/relationship/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path =
+            "/databases/{databaseId}/collections/{collectionId}/attributes/relationship/{key}"
+                .to_string()
+                .replace("{databaseId}", &database_id.into().to_string())
+                .replace("{collectionId}", &collection_id.into().to_string())
+                .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a string attribute.
@@ -1274,9 +1525,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/string".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/string"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a string attribute. Changing the `default` value will not update
@@ -1307,9 +1563,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/string/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/string/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a text attribute.
@@ -1340,9 +1602,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/text".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/text"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a text attribute. Changing the `default` value will not update
@@ -1368,9 +1635,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/text/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/text/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a URL attribute.
@@ -1396,9 +1669,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/url".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/url"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an url attribute. Changing the `default` value will not update
@@ -1424,9 +1702,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/url/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/url/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a varchar attribute.
@@ -1459,9 +1743,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/varchar".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/varchar"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a varchar attribute. Changing the `default` value will not update
@@ -1492,9 +1781,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/varchar/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/varchar/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get attribute by ID.
@@ -1508,9 +1803,15 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Deletes an attribute.
@@ -1524,9 +1825,15 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/attributes/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all the user's documents in a given collection. You can use
@@ -1542,7 +1849,10 @@ impl Databases {
     ) -> crate::error::Result<crate::models::DocumentList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -1556,9 +1866,14 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/documents".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/documents"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Document. Before using this route, you should create a new
@@ -1578,7 +1893,10 @@ impl Databases {
         params.insert("documentId".to_string(), json!(document_id.into()));
         params.insert("data".to_string(), json!(data));
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -1587,9 +1905,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/documents".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/documents"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create new Documents. Before using this route, you should create a new
@@ -1612,9 +1935,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/documents".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/documents"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create or update Documents. Before using this route, you should create a
@@ -1637,9 +1965,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/documents".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/documents"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update all documents that match your queries, if no queries are submitted
@@ -1658,7 +1991,10 @@ impl Databases {
             params.insert("data".to_string(), json!(value));
         }
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -1667,9 +2003,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/documents".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/documents"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Bulk delete documents using queries, if no queries are passed then all
@@ -1683,7 +2024,10 @@ impl Databases {
     ) -> crate::error::Result<crate::models::DocumentList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -1692,9 +2036,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/documents".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/documents"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a document by its unique ID. This endpoint response returns a JSON
@@ -1709,7 +2058,10 @@ impl Databases {
     ) -> crate::error::Result<crate::models::Document> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -1717,9 +2069,15 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{documentId}", &document_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{documentId}", &document_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create or update a Document. Before using this route, you should create a
@@ -1740,7 +2098,10 @@ impl Databases {
             params.insert("data".to_string(), json!(value));
         }
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -1749,9 +2110,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{documentId}", &document_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{documentId}", &document_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a document by its unique ID. Using the patch method you can pass
@@ -1770,7 +2137,10 @@ impl Databases {
             params.insert("data".to_string(), json!(value));
         }
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -1779,9 +2149,15 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{documentId}", &document_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{documentId}", &document_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a document by its unique ID.
@@ -1799,9 +2175,15 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{documentId}", &document_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{documentId}", &document_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Decrement a specific attribute of a document by a given value.
@@ -1830,9 +2212,17 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/decrement".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{documentId}", &document_id.into().to_string()).replace("{attribute}", &attribute.into().to_string());
+        let path =
+            "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/decrement"
+                .to_string()
+                .replace("{databaseId}", &database_id.into().to_string())
+                .replace("{collectionId}", &collection_id.into().to_string())
+                .replace("{documentId}", &document_id.into().to_string())
+                .replace("{attribute}", &attribute.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Increment a specific attribute of a document by a given value.
@@ -1861,9 +2251,17 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/increment".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{documentId}", &document_id.into().to_string()).replace("{attribute}", &attribute.into().to_string());
+        let path =
+            "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/increment"
+                .to_string()
+                .replace("{databaseId}", &database_id.into().to_string())
+                .replace("{collectionId}", &collection_id.into().to_string())
+                .replace("{documentId}", &document_id.into().to_string())
+                .replace("{attribute}", &attribute.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List indexes in the collection.
@@ -1876,7 +2274,10 @@ impl Databases {
     ) -> crate::error::Result<crate::models::IndexList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -1884,9 +2285,14 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/indexes".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/indexes"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Creates an index on the attributes listed. Your index should include all
@@ -1906,7 +2312,13 @@ impl Databases {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("type".to_string(), json!(r#type));
-        params.insert("attributes".to_string(), json!(attributes.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "attributes".to_string(),
+            json!(attributes
+                .into_iter()
+                .map(|s| s.into())
+                .collect::<Vec<String>>()),
+        );
         if let Some(value) = orders {
             params.insert("orders".to_string(), json!(value));
         }
@@ -1917,9 +2329,14 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/indexes".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/indexes"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get an index by its unique ID.
@@ -1933,9 +2350,15 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/indexes/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/indexes/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete an index.
@@ -1949,11 +2372,16 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/databases/{databaseId}/collections/{collectionId}/indexes/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{collectionId}", &collection_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/databases/{databaseId}/collections/{collectionId}/indexes/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{collectionId}", &collection_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Databases {

@@ -24,7 +24,6 @@ impl TableList {
     pub fn tables(&self) -> &Vec<crate::models::Table> {
         &self.tables
     }
-
 }
 
 #[cfg(test)]

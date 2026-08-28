@@ -14,10 +14,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = databases.create_varchar_attribute(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        "",
+        "<KEY>",
         1,
         false,
-        Some("<DEFAULT>"), // optional
+        Some("Hello World"), // optional
         Some(false), // optional
         Some(false) // optional
     ).await?;

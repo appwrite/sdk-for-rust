@@ -252,7 +252,10 @@ impl BillingPlanDedicatedDatabaseLimits {
     }
 
     /// Set max_sql_api_allowed_statements
-    pub fn set_max_sql_api_allowed_statements(mut self, max_sql_api_allowed_statements: i64) -> Self {
+    pub fn set_max_sql_api_allowed_statements(
+        mut self,
+        max_sql_api_allowed_statements: i64,
+    ) -> Self {
         self.max_sql_api_allowed_statements = Some(max_sql_api_allowed_statements);
         self
     }
@@ -294,7 +297,6 @@ impl BillingPlanDedicatedDatabaseLimits {
     pub fn allowed_sync_modes(&self) -> Option<&Vec<String>> {
         self.allowed_sync_modes.as_ref()
     }
-
 }
 
 #[cfg(test)]
@@ -312,7 +314,8 @@ mod tests {
         let json = serde_json::to_string(&model);
         assert!(json.is_ok());
 
-        let deserialized: Result<BillingPlanDedicatedDatabaseLimits, _> = serde_json::from_str(&json.unwrap());
+        let deserialized: Result<BillingPlanDedicatedDatabaseLimits, _> =
+            serde_json::from_str(&json.unwrap());
         assert!(deserialized.is_ok());
     }
 }

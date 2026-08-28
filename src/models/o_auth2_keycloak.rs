@@ -56,7 +56,6 @@ impl OAuth2Keycloak {
     pub fn realm_name(&self) -> &String {
         &self.realm_name
     }
-
 }
 
 #[cfg(test)]

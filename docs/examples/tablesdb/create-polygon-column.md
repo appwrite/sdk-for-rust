@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.create_polygon_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        "",
+        "<KEY>",
         false,
         Some(vec![serde_json::json!([[1,2],[3,4],[5,6],[1,2]])]) // optional
     ).await?;

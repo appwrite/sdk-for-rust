@@ -190,7 +190,6 @@ impl Log {
     pub fn country_name(&self) -> &String {
         &self.country_name
     }
-
 }
 
 #[cfg(test)]

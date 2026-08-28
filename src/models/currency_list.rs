@@ -24,7 +24,6 @@ impl CurrencyList {
     pub fn currencies(&self) -> &Vec<crate::models::Currency> {
         &self.currencies
     }
-
 }
 
 #[cfg(test)]

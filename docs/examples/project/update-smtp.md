@@ -12,8 +12,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let project = Project::new(&client);
 
     let result = project.update_smtp(
-        Some(""), // optional
-        Some(0), // optional
+        Some("example.com"), // optional
+        Some(587), // optional
         Some("<USERNAME>"), // optional
         Some("password"), // optional
         Some("email@example.com"), // optional

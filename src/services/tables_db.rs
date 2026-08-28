@@ -15,7 +15,9 @@ pub struct TablesDB {
 
 impl TablesDB {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -32,7 +34,10 @@ impl TablesDB {
     ) -> crate::error::Result<crate::models::DatabaseList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -45,7 +50,9 @@ impl TablesDB {
 
         let path = "/tablesdb".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Database.
@@ -79,7 +86,9 @@ impl TablesDB {
 
         let path = "/tablesdb".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List the dedicated database specifications available on the current plan.
@@ -94,7 +103,9 @@ impl TablesDB {
 
         let path = "/tablesdb/specifications".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List transactions across all databases.
@@ -104,14 +115,19 @@ impl TablesDB {
     ) -> crate::error::Result<crate::models::TransactionList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/tablesdb/transactions".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new transaction.
@@ -129,7 +145,9 @@ impl TablesDB {
 
         let path = "/tablesdb/transactions".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a transaction by its unique ID.
@@ -141,9 +159,13 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/transactions/{transactionId}".to_string().replace("{transactionId}", &transaction_id.into().to_string());
+        let path = "/tablesdb/transactions/{transactionId}"
+            .to_string()
+            .replace("{transactionId}", &transaction_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a transaction, to either commit or roll back its operations.
@@ -164,9 +186,13 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/transactions/{transactionId}".to_string().replace("{transactionId}", &transaction_id.into().to_string());
+        let path = "/tablesdb/transactions/{transactionId}"
+            .to_string()
+            .replace("{transactionId}", &transaction_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a transaction by its unique ID.
@@ -178,9 +204,13 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/transactions/{transactionId}".to_string().replace("{transactionId}", &transaction_id.into().to_string());
+        let path = "/tablesdb/transactions/{transactionId}"
+            .to_string()
+            .replace("{transactionId}", &transaction_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create multiple operations in a single transaction.
@@ -197,9 +227,13 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/transactions/{transactionId}/operations".to_string().replace("{transactionId}", &transaction_id.into().to_string());
+        let path = "/tablesdb/transactions/{transactionId}/operations"
+            .to_string()
+            .replace("{transactionId}", &transaction_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a database by its unique ID. This endpoint response returns a JSON
@@ -212,9 +246,13 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/tablesdb/{databaseId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a database by its unique ID.
@@ -247,31 +285,40 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/tablesdb/{databaseId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a database by its unique ID. Only API keys with with databases.write
     /// scope can delete a database.
-    pub async fn delete(
-        &self,
-        database_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    pub async fn delete(&self, database_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/tablesdb/{databaseId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Trigger a manual failover for a dedicated database with high availability
     /// enabled. Promotes a replica to primary. The failover runs asynchronously;
     /// poll the database document for status updates. A database left
-    /// mid-operation by a failover that did not finish also accepts this call as a
-    /// repair, provided `targetReplicaId` names the member to promote.
+    /// mid-operation also accepts this call as a repair once nothing is driving
+    /// the operation it is stuck in. Repairing a failover that did not finish, a
+    /// `failed` database, a stranded upgrade or migrate, or a stranded compute
+    /// resize additionally requires `targetReplicaId` to name the member to
+    /// promote, because the default target may be the member that operation
+    /// already promoted.
     pub async fn create_failover(
         &self,
         database_id: impl Into<String>,
@@ -285,9 +332,13 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/failovers".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/failovers"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List the dedicated migrations for a TablesDB database. A database has at
@@ -300,9 +351,13 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/migrations".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/migrations"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Start migrating a serverless TablesDB database onto a dedicated MySQL
@@ -323,9 +378,13 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/migrations".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/migrations"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a single dedicated migration for a TablesDB database by its ID.
@@ -338,9 +397,14 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/migrations/{migrationId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{migrationId}", &migration_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/migrations/{migrationId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{migrationId}", &migration_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Abort an in-flight TablesDB dedicated migration. Only allowed before
@@ -355,9 +419,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/migrations/{migrationId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{migrationId}", &migration_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/migrations/{migrationId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{migrationId}", &migration_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Cut a verified TablesDB migration over to its dedicated compute. Only
@@ -376,9 +445,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/migrations/{migrationId}/cutover".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{migrationId}", &migration_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/migrations/{migrationId}/cutover"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{migrationId}", &migration_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List the lifecycle operations recorded for a dedicated database, newest
@@ -405,9 +479,13 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/operations".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/operations"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get high availability status for a dedicated database. Returns replica
@@ -420,9 +498,13 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/replicas".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/replicas"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get real-time health and status information for a dedicated database.
@@ -436,9 +518,13 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/status".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/status"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all tables that belong to the provided databaseId. You can
@@ -452,7 +538,10 @@ impl TablesDB {
     ) -> crate::error::Result<crate::models::TableList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
@@ -463,9 +552,13 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Table. Before using this route, you should create a new
@@ -488,7 +581,10 @@ impl TablesDB {
         params.insert("tableId".to_string(), json!(table_id.into()));
         params.insert("name".to_string(), json!(name.into()));
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = row_security {
             params.insert("rowSecurity".to_string(), json!(value));
@@ -506,9 +602,13 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables".to_string().replace("{databaseId}", &database_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a table by its unique ID. This endpoint response returns a JSON object
@@ -522,9 +622,14 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a table by its unique ID.
@@ -544,7 +649,10 @@ impl TablesDB {
             params.insert("name".to_string(), json!(value));
         }
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = row_security {
             params.insert("rowSecurity".to_string(), json!(value));
@@ -559,9 +667,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a table by its unique ID. Only users with write permissions have
@@ -575,9 +688,14 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List columns in the table.
@@ -590,7 +708,10 @@ impl TablesDB {
     ) -> crate::error::Result<crate::models::ColumnList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -598,9 +719,14 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a bigint column. Optionally, minimum and maximum values can be
@@ -636,9 +762,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/bigint".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/bigint"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a bigint column. Changing the `default` value will not update
@@ -673,9 +804,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/bigint/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/bigint/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a boolean column.
@@ -701,9 +838,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/boolean".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/boolean"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a boolean column. Changing the `default` value will not update
@@ -729,9 +871,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/boolean/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/boolean/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a date time column according to the ISO 8601 standard.
@@ -757,9 +905,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/datetime".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/datetime"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a date time column. Changing the `default` value will not update
@@ -785,9 +938,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/datetime/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/datetime/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create an email column.
@@ -813,9 +972,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/email".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/email"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an email column. Changing the `default` value will not update
@@ -841,9 +1005,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/email/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/email/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create an enumeration column. The `elements` param acts as a white-list of
@@ -861,7 +1031,13 @@ impl TablesDB {
     ) -> crate::error::Result<crate::models::ColumnEnum> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
-        params.insert("elements".to_string(), json!(elements.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "elements".to_string(),
+            json!(elements
+                .into_iter()
+                .map(|s| s.into())
+                .collect::<Vec<String>>()),
+        );
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
             params.insert("default".to_string(), json!(value));
@@ -873,9 +1049,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/enum".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/enum"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an enum column. Changing the `default` value will not update already
@@ -892,7 +1073,13 @@ impl TablesDB {
         new_key: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnEnum> {
         let mut params = HashMap::new();
-        params.insert("elements".to_string(), json!(elements.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "elements".to_string(),
+            json!(elements
+                .into_iter()
+                .map(|s| s.into())
+                .collect::<Vec<String>>()),
+        );
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
             params.insert("default".to_string(), json!(value));
@@ -904,9 +1091,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/enum/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/enum/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a float column. Optionally, minimum and maximum values can be
@@ -942,9 +1135,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/float".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/float"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a float column. Changing the `default` value will not update already
@@ -979,9 +1177,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/float/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/float/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create an integer column. Optionally, minimum and maximum values can be
@@ -1017,9 +1221,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/integer".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/integer"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an integer column. Changing the `default` value will not update
@@ -1054,9 +1263,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/integer/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/integer/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create IP address column.
@@ -1082,9 +1297,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/ip".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/ip"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an ip column. Changing the `default` value will not update already
@@ -1110,9 +1330,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/ip/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/ip/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a geometric line column.
@@ -1134,9 +1360,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/line".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/line"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a line column. Changing the `default` value will not update already
@@ -1162,9 +1393,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/line/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/line/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a longtext column.
@@ -1195,9 +1432,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/longtext".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/longtext"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a longtext column. Changing the `default` value will not update
@@ -1223,9 +1465,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/longtext/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/longtext/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a mediumtext column.
@@ -1256,9 +1504,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a mediumtext column. Changing the `default` value will not update
@@ -1284,9 +1537,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a geometric point column.
@@ -1308,9 +1567,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/point".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/point"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a point column. Changing the `default` value will not update already
@@ -1336,9 +1600,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/point/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/point/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a geometric polygon column.
@@ -1360,9 +1630,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/polygon".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/polygon"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a polygon column. Changing the `default` value will not update
@@ -1388,9 +1663,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/polygon/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/polygon/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create relationship column. [Learn more about relationship
@@ -1426,9 +1707,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/relationship".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/relationship"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a string column.
@@ -1461,9 +1747,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/string".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/string"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a string column. Changing the `default` value will not update
@@ -1494,9 +1785,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/string/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/string/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a text column.
@@ -1527,9 +1824,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/text".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/text"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a text column. Changing the `default` value will not update already
@@ -1555,9 +1857,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/text/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/text/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a URL column.
@@ -1583,9 +1891,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/url".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/url"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an url column. Changing the `default` value will not update already
@@ -1611,9 +1924,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/url/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/url/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a varchar column.
@@ -1646,9 +1965,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/varchar".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/varchar"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a varchar column. Changing the `default` value will not update
@@ -1679,9 +2003,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/varchar/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/varchar/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get column by ID.
@@ -1695,9 +2025,15 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Deletes a column.
@@ -1711,9 +2047,15 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update relationship column. [Learn more about relationship
@@ -1737,9 +2079,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/{key}/relationship".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/{key}/relationship"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List indexes on the table.
@@ -1752,7 +2100,10 @@ impl TablesDB {
     ) -> crate::error::Result<crate::models::ColumnIndexList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -1760,9 +2111,14 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Creates an index on the columns listed. Your index should include all the
@@ -1782,7 +2138,13 @@ impl TablesDB {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("type".to_string(), json!(r#type));
-        params.insert("columns".to_string(), json!(columns.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "columns".to_string(),
+            json!(columns
+                .into_iter()
+                .map(|s| s.into())
+                .collect::<Vec<String>>()),
+        );
         if let Some(value) = orders {
             params.insert("orders".to_string(), json!(value));
         }
@@ -1793,9 +2155,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get index by ID.
@@ -1809,9 +2176,15 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete an index.
@@ -1825,9 +2198,15 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{key}", &key.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{key}", &key.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all the user's rows in a given table. You can use the query
@@ -1843,7 +2222,10 @@ impl TablesDB {
     ) -> crate::error::Result<crate::models::RowList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -1857,9 +2239,14 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new Row. Before using this route, you should create a new table
@@ -1879,7 +2266,10 @@ impl TablesDB {
         params.insert("rowId".to_string(), json!(row_id.into()));
         params.insert("data".to_string(), json!(data));
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -1888,9 +2278,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create new Rows. Before using this route, you should create a new table
@@ -1913,9 +2308,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create or update Rows. Before using this route, you should create a new
@@ -1938,9 +2338,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update all rows that match your queries, if no queries are submitted then
@@ -1958,7 +2363,10 @@ impl TablesDB {
             params.insert("data".to_string(), json!(value));
         }
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -1967,9 +2375,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Bulk delete rows using queries, if no queries are passed then all rows are
@@ -1983,7 +2396,10 @@ impl TablesDB {
     ) -> crate::error::Result<crate::models::RowList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -1992,9 +2408,14 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a row by its unique ID. This endpoint response returns a JSON object
@@ -2009,7 +2430,10 @@ impl TablesDB {
     ) -> crate::error::Result<crate::models::Row> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -2017,9 +2441,15 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{rowId}", &row_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{rowId}", &row_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create or update a Row. Before using this route, you should create a new
@@ -2040,7 +2470,10 @@ impl TablesDB {
             params.insert("data".to_string(), json!(value));
         }
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -2049,9 +2482,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{rowId}", &row_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{rowId}", &row_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a row by its unique ID. Using the patch method you can pass only
@@ -2070,7 +2509,10 @@ impl TablesDB {
             params.insert("data".to_string(), json!(value));
         }
         if let Some(value) = permissions {
-            params.insert("permissions".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "permissions".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = transaction_id {
             params.insert("transactionId".to_string(), json!(value));
@@ -2079,9 +2521,15 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{rowId}", &row_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{rowId}", &row_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a row by its unique ID.
@@ -2099,9 +2547,15 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{rowId}", &row_id.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{rowId}", &row_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Decrement a specific column of a row by a given value.
@@ -2130,9 +2584,16 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/decrement".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{rowId}", &row_id.into().to_string()).replace("{column}", &column.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/decrement"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{rowId}", &row_id.into().to_string())
+            .replace("{column}", &column.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Increment a specific column of a row by a given value.
@@ -2161,11 +2622,17 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/increment".to_string().replace("{databaseId}", &database_id.into().to_string()).replace("{tableId}", &table_id.into().to_string()).replace("{rowId}", &row_id.into().to_string()).replace("{column}", &column.into().to_string());
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/increment"
+            .to_string()
+            .replace("{databaseId}", &database_id.into().to_string())
+            .replace("{tableId}", &table_id.into().to_string())
+            .replace("{rowId}", &row_id.into().to_string())
+            .replace("{column}", &column.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for TablesDB {

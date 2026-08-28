@@ -24,7 +24,6 @@ impl CountryList {
     pub fn countries(&self) -> &Vec<crate::models::Country> {
         &self.countries
     }
-
 }
 
 #[cfg(test)]

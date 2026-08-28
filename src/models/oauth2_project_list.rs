@@ -24,7 +24,6 @@ impl Oauth2ProjectList {
     pub fn projects(&self) -> &Vec<crate::models::Oauth2Project> {
         &self.projects
     }
-
 }
 
 #[cfg(test)]

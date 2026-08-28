@@ -24,7 +24,6 @@ impl RowList {
     pub fn rows(&self) -> &Vec<crate::models::Row> {
         &self.rows
     }
-
 }
 
 #[cfg(test)]

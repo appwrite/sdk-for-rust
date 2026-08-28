@@ -14,11 +14,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.update_enum_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        "",
-        vec![],
+        "<KEY>",
+        vec!["active".into(), "inactive".into()],
         false,
-        Some("<DEFAULT>"),
-        Some("") // optional
+        Some("active"),
+        Some("<NEW_KEY>") // optional
     ).await?;
 
     let _ = result;

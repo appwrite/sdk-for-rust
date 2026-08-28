@@ -56,7 +56,6 @@ impl PlatformLinux {
     pub fn package_name(&self) -> &String {
         &self.package_name
     }
-
 }
 
 #[cfg(test)]

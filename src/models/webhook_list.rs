@@ -24,7 +24,6 @@ impl WebhookList {
     pub fn webhooks(&self) -> &Vec<crate::models::Webhook> {
         &self.webhooks
     }
-
 }
 
 #[cfg(test)]

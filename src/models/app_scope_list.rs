@@ -24,7 +24,6 @@ impl AppScopeList {
     pub fn scopes(&self) -> &Vec<crate::models::AppScope> {
         &self.scopes
     }
-
 }
 
 #[cfg(test)]

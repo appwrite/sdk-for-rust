@@ -14,10 +14,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.create_varchar_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        "",
+        "<KEY>",
         1,
         false,
-        Some("<DEFAULT>"), // optional
+        Some("Hello World"), // optional
         Some(false), // optional
         Some(false) // optional
     ).await?;

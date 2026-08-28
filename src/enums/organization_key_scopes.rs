@@ -47,8 +47,12 @@ impl OrganizationKeyScopes {
             OrganizationKeyScopes::DevKeysWrite => "devKeys.write",
             OrganizationKeyScopes::OrganizationKeysRead => "organization.keys.read",
             OrganizationKeyScopes::OrganizationKeysWrite => "organization.keys.write",
-            OrganizationKeyScopes::OrganizationInstallationsRead => "organization.installations.read",
-            OrganizationKeyScopes::OrganizationInstallationsWrite => "organization.installations.write",
+            OrganizationKeyScopes::OrganizationInstallationsRead => {
+                "organization.installations.read"
+            }
+            OrganizationKeyScopes::OrganizationInstallationsWrite => {
+                "organization.installations.write"
+            }
             OrganizationKeyScopes::OrganizationMembershipsRead => "organization.memberships.read",
             OrganizationKeyScopes::OrganizationMembershipsWrite => "organization.memberships.write",
             OrganizationKeyScopes::OrganizationRead => "organization.read",

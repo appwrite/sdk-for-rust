@@ -88,7 +88,6 @@ impl Identity {
     pub fn provider_refresh_token(&self) -> &String {
         &self.provider_refresh_token
     }
-
 }
 
 #[cfg(test)]

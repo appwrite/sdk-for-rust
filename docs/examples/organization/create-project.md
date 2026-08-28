@@ -12,7 +12,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let organization = Organization::new(&client);
 
     let result = organization.create_project(
-        "",
+        "<PROJECT_ID>",
         "<NAME>",
         Some(appwrite::enums::Region::Fra) // optional
     ).await?;

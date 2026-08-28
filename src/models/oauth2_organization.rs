@@ -16,7 +16,6 @@ impl Oauth2Organization {
     pub fn id(&self) -> &String {
         &self.id
     }
-
 }
 
 #[cfg(test)]

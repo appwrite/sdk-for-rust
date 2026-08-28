@@ -48,7 +48,6 @@ impl OAuth2Auth0 {
     pub fn endpoint(&self) -> &String {
         &self.endpoint
     }
-
 }
 
 #[cfg(test)]

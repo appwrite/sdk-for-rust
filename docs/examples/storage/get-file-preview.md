@@ -19,11 +19,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(appwrite::enums::ImageGravity::Center), // optional
         Some(-1), // optional
         Some(0), // optional
-        Some(""), // optional
+        Some("FFFFFF"), // optional
         Some(0), // optional
         Some(0), // optional
         Some(-360), // optional
-        Some(""), // optional
+        Some("FFFFFF"), // optional
         Some(appwrite::enums::ImageFormat::Jpg), // optional
         Some("<TOKEN>") // optional
     ).await?;

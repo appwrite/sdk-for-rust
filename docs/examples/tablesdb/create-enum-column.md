@@ -14,10 +14,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.create_enum_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        "",
-        vec![],
+        "<KEY>",
+        vec!["active".into(), "inactive".into()],
         false,
-        Some("<DEFAULT>"), // optional
+        Some("active"), // optional
         Some(false) // optional
     ).await?;
 

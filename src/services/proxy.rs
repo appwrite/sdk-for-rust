@@ -15,7 +15,9 @@ pub struct Proxy {
 
 impl Proxy {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -24,7 +26,7 @@ impl Proxy {
 
     /// Create a new CDN cache invalidation for a domain. Executes a hard purge of
     /// cached content.
-    /// 
+    ///
     /// Depending on type, the invalidation purges a single cache tag, a single URL
     /// path, or all cached content for the domain.
     pub async fn create_invalidation(
@@ -45,7 +47,9 @@ impl Proxy {
 
         let path = "/proxy/invalidations".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a list of all the proxy rules. You can use the query params to filter
@@ -57,7 +61,10 @@ impl Proxy {
     ) -> crate::error::Result<crate::models::ProxyRuleList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -67,11 +74,13 @@ impl Proxy {
 
         let path = "/proxy/rules".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new proxy rule for serving Appwrite's API on custom domain.
-    /// 
+    ///
     /// Rule ID is automatically generated as MD5 hash of a rule domain for
     /// performance purposes.
     pub async fn create_api_rule(
@@ -86,11 +95,13 @@ impl Proxy {
 
         let path = "/proxy/rules/api".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new proxy rule for executing Appwrite Function on custom domain.
-    /// 
+    ///
     /// Rule ID is automatically generated as MD5 hash of a rule domain for
     /// performance purposes.
     pub async fn create_function_rule(
@@ -111,12 +122,14 @@ impl Proxy {
 
         let path = "/proxy/rules/function".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new proxy rule for to redirect from custom domain to another
     /// domain.
-    /// 
+    ///
     /// Rule ID is automatically generated as MD5 hash of a rule domain for
     /// performance purposes.
     pub async fn create_redirect_rule(
@@ -139,11 +152,13 @@ impl Proxy {
 
         let path = "/proxy/rules/redirect".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new proxy rule for serving Appwrite Site on custom domain.
-    /// 
+    ///
     /// Rule ID is automatically generated as MD5 hash of a rule domain for
     /// performance purposes.
     pub async fn create_site_rule(
@@ -164,7 +179,9 @@ impl Proxy {
 
         let path = "/proxy/rules/site".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a proxy rule by its unique ID.
@@ -176,23 +193,28 @@ impl Proxy {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/proxy/rules/{ruleId}".to_string().replace("{ruleId}", &rule_id.into().to_string());
+        let path = "/proxy/rules/{ruleId}"
+            .to_string()
+            .replace("{ruleId}", &rule_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a proxy rule by its unique ID.
-    pub async fn delete_rule(
-        &self,
-        rule_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    pub async fn delete_rule(&self, rule_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/proxy/rules/{ruleId}".to_string().replace("{ruleId}", &rule_id.into().to_string());
+        let path = "/proxy/rules/{ruleId}"
+            .to_string()
+            .replace("{ruleId}", &rule_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// If not succeeded yet, retry verification process of a proxy rule domain.
@@ -208,11 +230,14 @@ impl Proxy {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/proxy/rules/{ruleId}/status".to_string().replace("{ruleId}", &rule_id.into().to_string());
+        let path = "/proxy/rules/{ruleId}/status"
+            .to_string()
+            .replace("{ruleId}", &rule_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Proxy {

@@ -24,7 +24,6 @@ impl ProxyRuleList {
     pub fn rules(&self) -> &Vec<crate::models::ProxyRule> {
         &self.rules
     }
-
 }
 
 #[cfg(test)]

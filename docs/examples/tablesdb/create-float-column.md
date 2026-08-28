@@ -14,11 +14,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.create_float_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        "",
+        "<KEY>",
         false,
         Some(0), // optional
-        Some(0), // optional
-        Some(0), // optional
+        Some(100), // optional
+        Some(10.5), // optional
         Some(false) // optional
     ).await?;
 

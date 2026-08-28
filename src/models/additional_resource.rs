@@ -56,7 +56,6 @@ impl AdditionalResource {
     pub fn invoice_desc(&self) -> &String {
         &self.invoice_desc
     }
-
 }
 
 #[cfg(test)]

@@ -225,7 +225,6 @@ impl Deployment {
     pub fn provider_branch_url(&self) -> &String {
         &self.provider_branch_url
     }
-
 }
 
 #[cfg(test)]

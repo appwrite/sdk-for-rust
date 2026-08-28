@@ -46,7 +46,6 @@ impl InsightCTA {
     pub fn params(&self) -> &serde_json::Value {
         &self.params
     }
-
 }
 
 #[cfg(test)]

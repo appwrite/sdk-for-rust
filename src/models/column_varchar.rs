@@ -120,7 +120,6 @@ impl ColumnVarchar {
     pub fn encrypt(&self) -> Option<&bool> {
         self.encrypt.as_ref()
     }
-
 }
 
 #[cfg(test)]

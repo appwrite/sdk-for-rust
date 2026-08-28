@@ -426,7 +426,6 @@ impl DedicatedDatabase {
     pub fn error(&self) -> &String {
         &self.error
     }
-
 }
 
 #[cfg(test)]

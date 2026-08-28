@@ -40,7 +40,6 @@ impl DatabaseStatusVolume {
     pub fn mounted(&self) -> &bool {
         &self.mounted
     }
-
 }
 
 #[cfg(test)]

@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     tables_db.delete_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        ""
+        "<KEY>"
     ).await?;
 
     Ok(())

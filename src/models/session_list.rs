@@ -24,7 +24,6 @@ impl SessionList {
     pub fn sessions(&self) -> &Vec<crate::models::Session> {
         &self.sessions
     }
-
 }
 
 #[cfg(test)]

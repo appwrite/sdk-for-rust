@@ -24,7 +24,6 @@ impl InsightList {
     pub fn insights(&self) -> &Vec<crate::models::Insight> {
         &self.insights
     }
-
 }
 
 #[cfg(test)]

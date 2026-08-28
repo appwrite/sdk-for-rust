@@ -38,6 +38,9 @@ pub struct DatabaseMigration {
     /// Number of documents still pending replication to the target.
     #[serde(rename = "lagDocuments")]
     pub lag_documents: i64,
+    /// Highest source changelog sequence applied to the target so far.
+    #[serde(rename = "changelogWatermark")]
+    pub changelog_watermark: i64,
     /// Time the migrated data was verified against the source in ISO 8601 format.
     #[serde(rename = "verifiedAt")]
     pub verified_at: String,
@@ -113,6 +116,11 @@ impl DatabaseMigration {
         &self.lag_documents
     }
 
+    /// Get changelog_watermark
+    pub fn changelog_watermark(&self) -> &i64 {
+        &self.changelog_watermark
+    }
+
     /// Get verified_at
     pub fn verified_at(&self) -> &String {
         &self.verified_at
@@ -142,7 +150,6 @@ impl DatabaseMigration {
     pub fn paused(&self) -> &bool {
         &self.paused
     }
-
 }
 
 #[cfg(test)]
@@ -162,6 +169,7 @@ mod tests {
         let _ = _model.attempt();
         let _ = _model.last_error();
         let _ = _model.lag_documents();
+        let _ = _model.changelog_watermark();
         let _ = _model.verified_at();
         let _ = _model.cutover_at();
         let _ = _model.soak_until();

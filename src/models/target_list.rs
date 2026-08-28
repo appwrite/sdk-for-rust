@@ -24,7 +24,6 @@ impl TargetList {
     pub fn targets(&self) -> &Vec<crate::models::Target> {
         &self.targets
     }
-
 }
 
 #[cfg(test)]

@@ -25,7 +25,6 @@ impl PolicyUserLimit {
     pub fn total(&self) -> &i64 {
         &self.total
     }
-
 }
 
 #[cfg(test)]

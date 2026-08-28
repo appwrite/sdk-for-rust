@@ -14,11 +14,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = databases.update_string_attribute(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        "",
+        "<KEY>",
         false,
-        Some("<DEFAULT>"),
+        Some("Hello World"),
         Some(1), // optional
-        Some("") // optional
+        Some("<NEW_KEY>") // optional
     ).await?;
 
     let _ = result;

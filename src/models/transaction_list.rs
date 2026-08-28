@@ -24,7 +24,6 @@ impl TransactionList {
     pub fn transactions(&self) -> &Vec<crate::models::Transaction> {
         &self.transactions
     }
-
 }
 
 #[cfg(test)]

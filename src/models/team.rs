@@ -56,7 +56,6 @@ impl Team {
     pub fn prefs(&self) -> &crate::models::Preferences {
         &self.prefs
     }
-
 }
 
 #[cfg(test)]

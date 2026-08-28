@@ -33,7 +33,6 @@ impl Oauth2Project {
     pub fn endpoint(&self) -> &String {
         &self.endpoint
     }
-
 }
 
 #[cfg(test)]

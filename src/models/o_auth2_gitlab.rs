@@ -49,7 +49,6 @@ impl OAuth2Gitlab {
     pub fn endpoint(&self) -> &String {
         &self.endpoint
     }
-
 }
 
 #[cfg(test)]

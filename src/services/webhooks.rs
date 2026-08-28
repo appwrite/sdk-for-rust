@@ -14,7 +14,9 @@ pub struct Webhooks {
 
 impl Webhooks {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -30,7 +32,10 @@ impl Webhooks {
     ) -> crate::error::Result<crate::models::WebhookList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -40,7 +45,9 @@ impl Webhooks {
 
         let path = "/webhooks".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new webhook. Use this endpoint to configure a URL that will
@@ -62,7 +69,13 @@ impl Webhooks {
         params.insert("webhookId".to_string(), json!(webhook_id.into()));
         params.insert("url".to_string(), json!(url.into()));
         params.insert("name".to_string(), json!(name.into()));
-        params.insert("events".to_string(), json!(events.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "events".to_string(),
+            json!(events
+                .into_iter()
+                .map(|s| s.into())
+                .collect::<Vec<String>>()),
+        );
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
         }
@@ -84,7 +97,9 @@ impl Webhooks {
 
         let path = "/webhooks".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get a webhook by its unique ID. This endpoint returns details about a
@@ -97,9 +112,13 @@ impl Webhooks {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/webhooks/{webhookId}".to_string().replace("{webhookId}", &webhook_id.into().to_string());
+        let path = "/webhooks/{webhookId}"
+            .to_string()
+            .replace("{webhookId}", &webhook_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update a webhook by its unique ID. Use this endpoint to update the URL,
@@ -119,7 +138,13 @@ impl Webhooks {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
         params.insert("url".to_string(), json!(url.into()));
-        params.insert("events".to_string(), json!(events.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "events".to_string(),
+            json!(events
+                .into_iter()
+                .map(|s| s.into())
+                .collect::<Vec<String>>()),
+        );
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
         }
@@ -136,24 +161,29 @@ impl Webhooks {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/webhooks/{webhookId}".to_string().replace("{webhookId}", &webhook_id.into().to_string());
+        let path = "/webhooks/{webhookId}"
+            .to_string()
+            .replace("{webhookId}", &webhook_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete a webhook by its unique ID. Once deleted, the webhook will no longer
     /// receive project events.
-    pub async fn delete(
-        &self,
-        webhook_id: impl Into<String>,
-    ) -> crate::error::Result<()> {
+    pub async fn delete(&self, webhook_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
 
-        let path = "/webhooks/{webhookId}".to_string().replace("{webhookId}", &webhook_id.into().to_string());
+        let path = "/webhooks/{webhookId}"
+            .to_string()
+            .replace("{webhookId}", &webhook_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the webhook signing key. This endpoint can be used to regenerate the
@@ -172,11 +202,14 @@ impl Webhooks {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/webhooks/{webhookId}/secret".to_string().replace("{webhookId}", &webhook_id.into().to_string());
+        let path = "/webhooks/{webhookId}/secret"
+            .to_string()
+            .replace("{webhookId}", &webhook_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Webhooks {

@@ -24,7 +24,6 @@ impl PolicyDenyCorporateEmail {
     pub fn enabled(&self) -> &bool {
         &self.enabled
     }
-
 }
 
 #[cfg(test)]
@@ -44,7 +43,8 @@ mod tests {
         let json = serde_json::to_string(&model);
         assert!(json.is_ok());
 
-        let deserialized: Result<PolicyDenyCorporateEmail, _> = serde_json::from_str(&json.unwrap());
+        let deserialized: Result<PolicyDenyCorporateEmail, _> =
+            serde_json::from_str(&json.unwrap());
         assert!(deserialized.is_ok());
     }
 }

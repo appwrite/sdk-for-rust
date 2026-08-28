@@ -48,7 +48,6 @@ impl OAuth2Google {
     pub fn prompt(&self) -> &Vec<crate::enums::OAuth2GooglePrompt> {
         &self.prompt
     }
-
 }
 
 #[cfg(test)]

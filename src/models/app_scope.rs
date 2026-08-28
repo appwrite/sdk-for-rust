@@ -50,7 +50,6 @@ impl AppScope {
     pub fn deprecated(&self) -> &bool {
         &self.deprecated
     }
-
 }
 
 #[cfg(test)]

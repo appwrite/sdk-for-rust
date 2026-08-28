@@ -64,7 +64,6 @@ impl PolicyMembershipPrivacy {
     pub fn user_accessed_at(&self) -> &bool {
         &self.user_accessed_at
     }
-
 }
 
 #[cfg(test)]

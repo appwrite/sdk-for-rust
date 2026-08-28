@@ -21,7 +21,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<FILE_ID>",
         file,
         Some(vec![Permission::read(Role::any()).to_string()]), // optional
-        Some("") // optional
+        Some("photos/2026") // optional
     ).await?;
 
     let _ = result;

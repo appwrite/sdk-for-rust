@@ -92,7 +92,6 @@ impl Oauth2Consent {
     pub fn expire(&self) -> &String {
         &self.expire
     }
-
 }
 
 #[cfg(test)]

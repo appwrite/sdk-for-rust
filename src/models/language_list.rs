@@ -24,7 +24,6 @@ impl LanguageList {
     pub fn languages(&self) -> &Vec<crate::models::Language> {
         &self.languages
     }
-
 }
 
 #[cfg(test)]

@@ -24,7 +24,6 @@ impl EmbeddingList {
     pub fn embeddings(&self) -> &Vec<crate::models::Embedding> {
         &self.embeddings
     }
-
 }
 
 #[cfg(test)]

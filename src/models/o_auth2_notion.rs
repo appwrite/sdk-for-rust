@@ -40,7 +40,6 @@ impl OAuth2Notion {
     pub fn oauth_client_secret(&self) -> &String {
         &self.oauth_client_secret
     }
-
 }
 
 #[cfg(test)]

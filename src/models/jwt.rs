@@ -16,7 +16,6 @@ impl Jwt {
     pub fn jwt(&self) -> &String {
         &self.jwt
     }
-
 }
 
 #[cfg(test)]

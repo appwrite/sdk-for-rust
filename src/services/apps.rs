@@ -15,7 +15,9 @@ pub struct Apps {
 
 impl Apps {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -30,7 +32,10 @@ impl Apps {
     ) -> crate::error::Result<crate::models::AppsList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -40,7 +45,9 @@ impl Apps {
 
         let path = "/apps".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new application.
@@ -86,16 +93,25 @@ impl Apps {
             params.insert("termsUrl".to_string(), json!(value));
         }
         if let Some(value) = contacts {
-            params.insert("contacts".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "contacts".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = tagline {
             params.insert("tagline".to_string(), json!(value));
         }
         if let Some(value) = tags {
-            params.insert("tags".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "tags".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = images {
-            params.insert("images".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "images".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = support_url {
             params.insert("supportUrl".to_string(), json!(value));
@@ -103,9 +119,18 @@ impl Apps {
         if let Some(value) = data_deletion_url {
             params.insert("dataDeletionUrl".to_string(), json!(value));
         }
-        params.insert("redirectUris".to_string(), json!(redirect_uris.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "redirectUris".to_string(),
+            json!(redirect_uris
+                .into_iter()
+                .map(|s| s.into())
+                .collect::<Vec<String>>()),
+        );
         if let Some(value) = post_logout_redirect_uris {
-            params.insert("postLogoutRedirectUris".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "postLogoutRedirectUris".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
@@ -125,7 +150,9 @@ impl Apps {
 
         let path = "/apps".to_string();
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List scopes an application can request when installed on a team.
@@ -138,34 +165,37 @@ impl Apps {
 
         let path = "/apps/scopes/installations".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List scopes an application can request during the OAuth2 flow.
-    pub async fn list_o_auth2_scopes(
-        &self,
-    ) -> crate::error::Result<crate::models::AppScopeList> {
+    pub async fn list_o_auth2_scopes(&self) -> crate::error::Result<crate::models::AppScopeList> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/apps/scopes/oauth2".to_string();
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get an application by its unique ID.
-    pub async fn get(
-        &self,
-        app_id: impl Into<String>,
-    ) -> crate::error::Result<crate::models::App> {
+    pub async fn get(&self, app_id: impl Into<String>) -> crate::error::Result<crate::models::App> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}".to_string().replace("{appId}", &app_id.into().to_string());
+        let path = "/apps/{appId}"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update an application by its unique ID.
@@ -211,16 +241,25 @@ impl Apps {
             params.insert("termsUrl".to_string(), json!(value));
         }
         if let Some(value) = contacts {
-            params.insert("contacts".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "contacts".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = tagline {
             params.insert("tagline".to_string(), json!(value));
         }
         if let Some(value) = tags {
-            params.insert("tags".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "tags".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = images {
-            params.insert("images".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "images".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = support_url {
             params.insert("supportUrl".to_string(), json!(value));
@@ -232,10 +271,16 @@ impl Apps {
             params.insert("enabled".to_string(), json!(value));
         }
         if let Some(value) = redirect_uris {
-            params.insert("redirectUris".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "redirectUris".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = post_logout_redirect_uris {
-            params.insert("postLogoutRedirectUris".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "postLogoutRedirectUris".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = r#type {
             params.insert("type".to_string(), json!(value));
@@ -244,7 +289,10 @@ impl Apps {
             params.insert("deviceFlow".to_string(), json!(value));
         }
         if let Some(value) = installation_scopes {
-            params.insert("installationScopes".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "installationScopes".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = installation_redirect_url {
             params.insert("installationRedirectUrl".to_string(), json!(value));
@@ -253,9 +301,13 @@ impl Apps {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}".to_string().replace("{appId}", &app_id.into().to_string());
+        let path = "/apps/{appId}"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete an application by its unique ID.
@@ -268,9 +320,13 @@ impl Apps {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}".to_string().replace("{appId}", &app_id.into().to_string());
+        let path = "/apps/{appId}"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List installations of an application. Requires an app key sent in the
@@ -284,7 +340,10 @@ impl Apps {
     ) -> crate::error::Result<crate::models::AppInstallationList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -292,9 +351,13 @@ impl Apps {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/installations".to_string().replace("{appId}", &app_id.into().to_string());
+        let path = "/apps/{appId}/installations"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get an installation of an application by its unique ID. Requires an app key
@@ -309,9 +372,14 @@ impl Apps {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/installations/{installationId}".to_string().replace("{appId}", &app_id.into().to_string()).replace("{installationId}", &installation_id.into().to_string());
+        let path = "/apps/{appId}/installations/{installationId}"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string())
+            .replace("{installationId}", &installation_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete an installation of an application by its unique ID. Requires a
@@ -327,9 +395,14 @@ impl Apps {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/installations/{installationId}".to_string().replace("{appId}", &app_id.into().to_string()).replace("{installationId}", &installation_id.into().to_string());
+        let path = "/apps/{appId}/installations/{installationId}"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string())
+            .replace("{installationId}", &installation_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a token for an installation of an application. Requires an app key
@@ -350,9 +423,14 @@ impl Apps {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/installations/{installationId}/tokens".to_string().replace("{appId}", &app_id.into().to_string()).replace("{installationId}", &installation_id.into().to_string());
+        let path = "/apps/{appId}/installations/{installationId}/tokens"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string())
+            .replace("{installationId}", &installation_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List app keys for an application.
@@ -364,7 +442,10 @@ impl Apps {
     ) -> crate::error::Result<crate::models::AppKeyList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -372,9 +453,13 @@ impl Apps {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/keys".to_string().replace("{appId}", &app_id.into().to_string());
+        let path = "/apps/{appId}/keys"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new app key for an application. App keys carry no scopes; send one
@@ -389,9 +474,13 @@ impl Apps {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/keys".to_string().replace("{appId}", &app_id.into().to_string());
+        let path = "/apps/{appId}/keys"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get an app key by its unique ID.
@@ -404,9 +493,14 @@ impl Apps {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/keys/{keyId}".to_string().replace("{appId}", &app_id.into().to_string()).replace("{keyId}", &key_id.into().to_string());
+        let path = "/apps/{appId}/keys/{keyId}"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string())
+            .replace("{keyId}", &key_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete an app key by its unique ID.
@@ -420,9 +514,14 @@ impl Apps {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/keys/{keyId}".to_string().replace("{appId}", &app_id.into().to_string()).replace("{keyId}", &key_id.into().to_string());
+        let path = "/apps/{appId}/keys/{keyId}"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string())
+            .replace("{keyId}", &key_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Update the labels of an application. Labels are read-only for clients; only
@@ -434,14 +533,24 @@ impl Apps {
         labels: impl IntoIterator<Item = impl Into<String>>,
     ) -> crate::error::Result<crate::models::App> {
         let mut params = HashMap::new();
-        params.insert("labels".to_string(), json!(labels.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+        params.insert(
+            "labels".to_string(),
+            json!(labels
+                .into_iter()
+                .map(|s| s.into())
+                .collect::<Vec<String>>()),
+        );
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/labels".to_string().replace("{appId}", &app_id.into().to_string());
+        let path = "/apps/{appId}/labels"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string());
 
-        self.client.call(Method::PUT, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List client secrets for an application.
@@ -453,7 +562,10 @@ impl Apps {
     ) -> crate::error::Result<crate::models::AppSecretList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
-            params.insert("queries".to_string(), json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()));
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = total {
             params.insert("total".to_string(), json!(value));
@@ -461,9 +573,13 @@ impl Apps {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/secrets".to_string().replace("{appId}", &app_id.into().to_string());
+        let path = "/apps/{appId}/secrets"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Create a new client secret for an application.
@@ -476,9 +592,13 @@ impl Apps {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/secrets".to_string().replace("{appId}", &app_id.into().to_string());
+        let path = "/apps/{appId}/secrets"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string());
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get an application client secret by its unique ID.
@@ -491,9 +611,14 @@ impl Apps {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/secrets/{secretId}".to_string().replace("{appId}", &app_id.into().to_string()).replace("{secretId}", &secret_id.into().to_string());
+        let path = "/apps/{appId}/secrets/{secretId}"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string())
+            .replace("{secretId}", &secret_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Delete an application client secret by its unique ID.
@@ -507,9 +632,14 @@ impl Apps {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/secrets/{secretId}".to_string().replace("{appId}", &app_id.into().to_string()).replace("{secretId}", &secret_id.into().to_string());
+        let path = "/apps/{appId}/secrets/{secretId}"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string())
+            .replace("{secretId}", &secret_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Transfer an application to another team by its unique ID.
@@ -524,9 +654,13 @@ impl Apps {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/team".to_string().replace("{appId}", &app_id.into().to_string());
+        let path = "/apps/{appId}/team"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string());
 
-        self.client.call(Method::PATCH, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Revoke all tokens for an application by its unique ID.
@@ -539,11 +673,14 @@ impl Apps {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/apps/{appId}/tokens".to_string().replace("{appId}", &app_id.into().to_string());
+        let path = "/apps/{appId}/tokens"
+            .to_string()
+            .replace("{appId}", &app_id.into().to_string());
 
-        self.client.call(Method::DELETE, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Apps {

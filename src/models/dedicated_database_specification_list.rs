@@ -32,7 +32,6 @@ impl DedicatedDatabaseSpecificationList {
     pub fn pricing(&self) -> &crate::models::DedicatedDatabaseSpecificationPricing {
         &self.pricing
     }
-
 }
 
 #[cfg(test)]
@@ -53,7 +52,8 @@ mod tests {
         let json = serde_json::to_string(&model);
         assert!(json.is_ok());
 
-        let deserialized: Result<DedicatedDatabaseSpecificationList, _> = serde_json::from_str(&json.unwrap());
+        let deserialized: Result<DedicatedDatabaseSpecificationList, _> =
+            serde_json::from_str(&json.unwrap());
         assert!(deserialized.is_ok());
     }
 }

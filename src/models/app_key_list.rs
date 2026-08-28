@@ -24,7 +24,6 @@ impl AppKeyList {
     pub fn keys(&self) -> &Vec<crate::models::AppKey> {
         &self.keys
     }
-
 }
 
 #[cfg(test)]

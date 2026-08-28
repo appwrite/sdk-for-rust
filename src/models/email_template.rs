@@ -72,7 +72,6 @@ impl EmailTemplate {
     pub fn subject(&self) -> &String {
         &self.subject
     }
-
 }
 
 #[cfg(test)]

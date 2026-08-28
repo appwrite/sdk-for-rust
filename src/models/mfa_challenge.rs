@@ -40,7 +40,6 @@ impl MfaChallenge {
     pub fn expire(&self) -> &String {
         &self.expire
     }
-
 }
 
 #[cfg(test)]

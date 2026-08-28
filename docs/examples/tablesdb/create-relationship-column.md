@@ -17,8 +17,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<RELATED_TABLE_ID>",
         appwrite::enums::RelationshipType::OneToOne,
         Some(false), // optional
-        Some(""), // optional
-        Some(""), // optional
+        Some("<KEY>"), // optional
+        Some("<TWO_WAY_KEY>"), // optional
         Some(appwrite::enums::RelationMutate::Cascade) // optional
     ).await?;
 

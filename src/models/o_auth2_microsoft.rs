@@ -49,7 +49,6 @@ impl OAuth2Microsoft {
     pub fn tenant(&self) -> &String {
         &self.tenant
     }
-
 }
 
 #[cfg(test)]

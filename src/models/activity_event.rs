@@ -240,7 +240,6 @@ impl ActivityEvent {
     pub fn sdk_version(&self) -> &String {
         &self.sdk_version
     }
-
 }
 
 #[cfg(test)]

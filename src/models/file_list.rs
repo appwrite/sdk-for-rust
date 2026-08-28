@@ -24,7 +24,6 @@ impl FileList {
     pub fn files(&self) -> &Vec<crate::models::File> {
         &self.files
     }
-
 }
 
 #[cfg(test)]

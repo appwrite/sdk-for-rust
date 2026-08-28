@@ -56,7 +56,6 @@ impl PlatformAndroid {
     pub fn application_id(&self) -> &String {
         &self.application_id
     }
-
 }
 
 #[cfg(test)]

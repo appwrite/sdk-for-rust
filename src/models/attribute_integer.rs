@@ -127,7 +127,6 @@ impl AttributeInteger {
     pub fn default(&self) -> Option<&i64> {
         self.default.as_ref()
     }
-
 }
 
 #[cfg(test)]

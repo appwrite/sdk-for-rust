@@ -57,7 +57,6 @@ impl OAuth2Apple {
     pub fn p8_file(&self) -> &String {
         &self.p8_file
     }
-
 }
 
 #[cfg(test)]

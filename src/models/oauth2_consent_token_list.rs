@@ -24,7 +24,6 @@ impl Oauth2ConsentTokenList {
     pub fn tokens(&self) -> &Vec<crate::models::Oauth2ConsentToken> {
         &self.tokens
     }
-
 }
 
 #[cfg(test)]

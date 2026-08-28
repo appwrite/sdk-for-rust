@@ -14,12 +14,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.update_float_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        "",
+        "<KEY>",
         false,
-        Some(0),
+        Some(10.5),
         Some(0), // optional
-        Some(0), // optional
-        Some("") // optional
+        Some(100), // optional
+        Some("<NEW_KEY>") // optional
     ).await?;
 
     let _ = result;

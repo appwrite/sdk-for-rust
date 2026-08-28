@@ -92,7 +92,8 @@ pub struct Project {
     pub console_accessed_at: String,
     /// Whether WAF enforcement is enabled for the project.
     #[serde(rename = "wafEnabled")]
-    pub waf_enabled: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub waf_enabled: Option<bool>,
     /// Billing limits reached
     #[serde(rename = "billingLimits")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -312,9 +313,15 @@ impl Project {
         &self.console_accessed_at
     }
 
+    /// Set waf_enabled
+    pub fn set_waf_enabled(mut self, waf_enabled: bool) -> Self {
+        self.waf_enabled = Some(waf_enabled);
+        self
+    }
+
     /// Get waf_enabled
-    pub fn waf_enabled(&self) -> &bool {
-        &self.waf_enabled
+    pub fn waf_enabled(&self) -> Option<&bool> {
+        self.waf_enabled.as_ref()
     }
 
     /// Set billing_limits
@@ -340,7 +347,10 @@ impl Project {
     }
 
     /// Set o_auth2_server_authorization_url
-    pub fn set_o_auth2_server_authorization_url(mut self, o_auth2_server_authorization_url: String) -> Self {
+    pub fn set_o_auth2_server_authorization_url(
+        mut self,
+        o_auth2_server_authorization_url: String,
+    ) -> Self {
         self.o_auth2_server_authorization_url = Some(o_auth2_server_authorization_url);
         self
     }
@@ -362,7 +372,10 @@ impl Project {
     }
 
     /// Set o_auth2_server_default_scopes
-    pub fn set_o_auth2_server_default_scopes(mut self, o_auth2_server_default_scopes: Vec<String>) -> Self {
+    pub fn set_o_auth2_server_default_scopes(
+        mut self,
+        o_auth2_server_default_scopes: Vec<String>,
+    ) -> Self {
         self.o_auth2_server_default_scopes = Some(o_auth2_server_default_scopes);
         self
     }
@@ -373,7 +386,10 @@ impl Project {
     }
 
     /// Set o_auth2_server_installation_scopes
-    pub fn set_o_auth2_server_installation_scopes(mut self, o_auth2_server_installation_scopes: Vec<String>) -> Self {
+    pub fn set_o_auth2_server_installation_scopes(
+        mut self,
+        o_auth2_server_installation_scopes: Vec<String>,
+    ) -> Self {
         self.o_auth2_server_installation_scopes = Some(o_auth2_server_installation_scopes);
         self
     }
@@ -384,8 +400,12 @@ impl Project {
     }
 
     /// Set o_auth2_server_authorization_details_types
-    pub fn set_o_auth2_server_authorization_details_types(mut self, o_auth2_server_authorization_details_types: Vec<String>) -> Self {
-        self.o_auth2_server_authorization_details_types = Some(o_auth2_server_authorization_details_types);
+    pub fn set_o_auth2_server_authorization_details_types(
+        mut self,
+        o_auth2_server_authorization_details_types: Vec<String>,
+    ) -> Self {
+        self.o_auth2_server_authorization_details_types =
+            Some(o_auth2_server_authorization_details_types);
         self
     }
 
@@ -395,7 +415,10 @@ impl Project {
     }
 
     /// Set o_auth2_server_access_token_duration
-    pub fn set_o_auth2_server_access_token_duration(mut self, o_auth2_server_access_token_duration: i64) -> Self {
+    pub fn set_o_auth2_server_access_token_duration(
+        mut self,
+        o_auth2_server_access_token_duration: i64,
+    ) -> Self {
         self.o_auth2_server_access_token_duration = Some(o_auth2_server_access_token_duration);
         self
     }
@@ -406,7 +429,10 @@ impl Project {
     }
 
     /// Set o_auth2_server_refresh_token_duration
-    pub fn set_o_auth2_server_refresh_token_duration(mut self, o_auth2_server_refresh_token_duration: i64) -> Self {
+    pub fn set_o_auth2_server_refresh_token_duration(
+        mut self,
+        o_auth2_server_refresh_token_duration: i64,
+    ) -> Self {
         self.o_auth2_server_refresh_token_duration = Some(o_auth2_server_refresh_token_duration);
         self
     }
@@ -417,8 +443,12 @@ impl Project {
     }
 
     /// Set o_auth2_server_public_access_token_duration
-    pub fn set_o_auth2_server_public_access_token_duration(mut self, o_auth2_server_public_access_token_duration: i64) -> Self {
-        self.o_auth2_server_public_access_token_duration = Some(o_auth2_server_public_access_token_duration);
+    pub fn set_o_auth2_server_public_access_token_duration(
+        mut self,
+        o_auth2_server_public_access_token_duration: i64,
+    ) -> Self {
+        self.o_auth2_server_public_access_token_duration =
+            Some(o_auth2_server_public_access_token_duration);
         self
     }
 
@@ -428,8 +458,12 @@ impl Project {
     }
 
     /// Set o_auth2_server_public_refresh_token_duration
-    pub fn set_o_auth2_server_public_refresh_token_duration(mut self, o_auth2_server_public_refresh_token_duration: i64) -> Self {
-        self.o_auth2_server_public_refresh_token_duration = Some(o_auth2_server_public_refresh_token_duration);
+    pub fn set_o_auth2_server_public_refresh_token_duration(
+        mut self,
+        o_auth2_server_public_refresh_token_duration: i64,
+    ) -> Self {
+        self.o_auth2_server_public_refresh_token_duration =
+            Some(o_auth2_server_public_refresh_token_duration);
         self
     }
 
@@ -439,18 +473,26 @@ impl Project {
     }
 
     /// Set o_auth2_server_installation_access_token_duration
-    pub fn set_o_auth2_server_installation_access_token_duration(mut self, o_auth2_server_installation_access_token_duration: i64) -> Self {
-        self.o_auth2_server_installation_access_token_duration = Some(o_auth2_server_installation_access_token_duration);
+    pub fn set_o_auth2_server_installation_access_token_duration(
+        mut self,
+        o_auth2_server_installation_access_token_duration: i64,
+    ) -> Self {
+        self.o_auth2_server_installation_access_token_duration =
+            Some(o_auth2_server_installation_access_token_duration);
         self
     }
 
     /// Get o_auth2_server_installation_access_token_duration
     pub fn o_auth2_server_installation_access_token_duration(&self) -> Option<&i64> {
-        self.o_auth2_server_installation_access_token_duration.as_ref()
+        self.o_auth2_server_installation_access_token_duration
+            .as_ref()
     }
 
     /// Set o_auth2_server_confidential_pkce
-    pub fn set_o_auth2_server_confidential_pkce(mut self, o_auth2_server_confidential_pkce: bool) -> Self {
+    pub fn set_o_auth2_server_confidential_pkce(
+        mut self,
+        o_auth2_server_confidential_pkce: bool,
+    ) -> Self {
         self.o_auth2_server_confidential_pkce = Some(o_auth2_server_confidential_pkce);
         self
     }
@@ -461,7 +503,10 @@ impl Project {
     }
 
     /// Set o_auth2_server_verification_url
-    pub fn set_o_auth2_server_verification_url(mut self, o_auth2_server_verification_url: String) -> Self {
+    pub fn set_o_auth2_server_verification_url(
+        mut self,
+        o_auth2_server_verification_url: String,
+    ) -> Self {
         self.o_auth2_server_verification_url = Some(o_auth2_server_verification_url);
         self
     }
@@ -472,7 +517,10 @@ impl Project {
     }
 
     /// Set o_auth2_server_user_code_length
-    pub fn set_o_auth2_server_user_code_length(mut self, o_auth2_server_user_code_length: i64) -> Self {
+    pub fn set_o_auth2_server_user_code_length(
+        mut self,
+        o_auth2_server_user_code_length: i64,
+    ) -> Self {
         self.o_auth2_server_user_code_length = Some(o_auth2_server_user_code_length);
         self
     }
@@ -483,7 +531,10 @@ impl Project {
     }
 
     /// Set o_auth2_server_user_code_format
-    pub fn set_o_auth2_server_user_code_format(mut self, o_auth2_server_user_code_format: String) -> Self {
+    pub fn set_o_auth2_server_user_code_format(
+        mut self,
+        o_auth2_server_user_code_format: String,
+    ) -> Self {
         self.o_auth2_server_user_code_format = Some(o_auth2_server_user_code_format);
         self
     }
@@ -494,7 +545,10 @@ impl Project {
     }
 
     /// Set o_auth2_server_device_code_duration
-    pub fn set_o_auth2_server_device_code_duration(mut self, o_auth2_server_device_code_duration: i64) -> Self {
+    pub fn set_o_auth2_server_device_code_duration(
+        mut self,
+        o_auth2_server_device_code_duration: i64,
+    ) -> Self {
         self.o_auth2_server_device_code_duration = Some(o_auth2_server_device_code_duration);
         self
     }
@@ -505,7 +559,10 @@ impl Project {
     }
 
     /// Set o_auth2_server_discovery_url
-    pub fn set_o_auth2_server_discovery_url(mut self, o_auth2_server_discovery_url: String) -> Self {
+    pub fn set_o_auth2_server_discovery_url(
+        mut self,
+        o_auth2_server_discovery_url: String,
+    ) -> Self {
         self.o_auth2_server_discovery_url = Some(o_auth2_server_discovery_url);
         self
     }
@@ -514,7 +571,6 @@ impl Project {
     pub fn o_auth2_server_discovery_url(&self) -> Option<&String> {
         self.o_auth2_server_discovery_url.as_ref()
     }
-
 }
 
 #[cfg(test)]
@@ -551,7 +607,6 @@ mod tests {
         let _ = _model.protocols();
         let _ = _model.blocks();
         let _ = _model.console_accessed_at();
-        let _ = _model.waf_enabled();
     }
 
     #[test]

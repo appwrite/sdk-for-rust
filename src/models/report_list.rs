@@ -24,7 +24,6 @@ impl ReportList {
     pub fn reports(&self) -> &Vec<crate::models::Report> {
         &self.reports
     }
-
 }
 
 #[cfg(test)]

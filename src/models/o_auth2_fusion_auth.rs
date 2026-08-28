@@ -48,7 +48,6 @@ impl OAuth2FusionAuth {
     pub fn endpoint(&self) -> &String {
         &self.endpoint
     }
-
 }
 
 #[cfg(test)]

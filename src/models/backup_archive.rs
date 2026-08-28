@@ -121,7 +121,6 @@ impl BackupArchive {
     pub fn resource_type(&self) -> Option<&String> {
         self.resource_type.as_ref()
     }
-
 }
 
 #[cfg(test)]

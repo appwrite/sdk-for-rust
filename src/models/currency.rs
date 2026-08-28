@@ -65,7 +65,6 @@ impl Currency {
     pub fn name_plural(&self) -> &String {
         &self.name_plural
     }
-
 }
 
 #[cfg(test)]

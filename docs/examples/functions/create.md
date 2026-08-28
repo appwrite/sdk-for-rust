@@ -17,7 +17,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         appwrite::enums::Runtime::Node145,
         Some(vec!["any".into()]), // optional
         Some(vec![]), // optional
-        Some(""), // optional
+        Some("0 0 * * *"), // optional
         Some(1), // optional
         Some(false), // optional
         Some(false), // optional
@@ -31,8 +31,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("<PROVIDER_ROOT_DIRECTORY>"), // optional
         Some(vec![]), // optional
         Some(vec![]), // optional
-        Some(""), // optional
-        Some(""), // optional
+        Some("s-1vcpu-512mb"), // optional
+        Some("s-1vcpu-512mb"), // optional
         Some(0) // optional
     ).await?;
 

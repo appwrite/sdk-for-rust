@@ -311,7 +311,10 @@ impl Organization {
     }
 
     /// Set program_discord_channel_name
-    pub fn set_program_discord_channel_name(mut self, program_discord_channel_name: String) -> Self {
+    pub fn set_program_discord_channel_name(
+        mut self,
+        program_discord_channel_name: String,
+    ) -> Self {
         self.program_discord_channel_name = Some(program_discord_channel_name);
         self
     }
@@ -379,7 +382,6 @@ impl Organization {
     pub fn projects(&self) -> &Vec<String> {
         &self.projects
     }
-
 }
 
 #[cfg(test)]

@@ -73,7 +73,6 @@ impl DevKey {
     pub fn sdks(&self) -> &Vec<String> {
         &self.sdks
     }
-
 }
 
 #[cfg(test)]

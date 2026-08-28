@@ -97,7 +97,6 @@ impl Index {
     pub fn orders(&self) -> Option<&Vec<String>> {
         self.orders.as_ref()
     }
-
 }
 
 #[cfg(test)]

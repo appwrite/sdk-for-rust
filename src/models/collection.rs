@@ -108,7 +108,6 @@ impl Collection {
     pub fn bytes_used(&self) -> &i64 {
         &self.bytes_used
     }
-
 }
 
 #[cfg(test)]

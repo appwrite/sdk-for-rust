@@ -24,7 +24,6 @@ impl SpecificationList {
     pub fn specifications(&self) -> &Vec<crate::models::Specification> {
         &self.specifications
     }
-
 }
 
 #[cfg(test)]

@@ -133,7 +133,6 @@ impl Message {
     pub fn status(&self) -> &crate::enums::MessageStatus {
         &self.status
     }
-
 }
 
 #[cfg(test)]

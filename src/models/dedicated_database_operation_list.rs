@@ -24,7 +24,6 @@ impl DedicatedDatabaseOperationList {
     pub fn operations(&self) -> &Vec<crate::models::DedicatedDatabaseOperation> {
         &self.operations
     }
-
 }
 
 #[cfg(test)]
@@ -44,7 +43,8 @@ mod tests {
         let json = serde_json::to_string(&model);
         assert!(json.is_ok());
 
-        let deserialized: Result<DedicatedDatabaseOperationList, _> = serde_json::from_str(&json.unwrap());
+        let deserialized: Result<DedicatedDatabaseOperationList, _> =
+            serde_json::from_str(&json.unwrap());
         assert!(deserialized.is_ok());
     }
 }

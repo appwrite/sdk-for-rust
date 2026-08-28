@@ -49,7 +49,6 @@ impl FrameworkAdapter {
     pub fn fallback_file(&self) -> &String {
         &self.fallback_file
     }
-
 }
 
 #[cfg(test)]

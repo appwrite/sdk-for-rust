@@ -59,7 +59,6 @@ impl Token {
     pub fn phrase(&self) -> &String {
         &self.phrase
     }
-
 }
 
 #[cfg(test)]

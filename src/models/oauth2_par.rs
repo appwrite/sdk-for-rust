@@ -24,7 +24,6 @@ impl Oauth2PAR {
     pub fn expires_in(&self) -> &i64 {
         &self.expires_in
     }
-
 }
 
 #[cfg(test)]

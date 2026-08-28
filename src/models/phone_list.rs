@@ -24,7 +24,6 @@ impl PhoneList {
     pub fn phones(&self) -> &Vec<crate::models::Phone> {
         &self.phones
     }
-
 }
 
 #[cfg(test)]

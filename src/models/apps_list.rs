@@ -24,7 +24,6 @@ impl AppsList {
     pub fn apps(&self) -> &Vec<crate::models::App> {
         &self.apps
     }
-
 }
 
 #[cfg(test)]

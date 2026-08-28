@@ -38,7 +38,6 @@ impl BillingPlanAddon {
     pub fn projects(&self) -> Option<&crate::models::BillingPlanAddonDetails> {
         self.projects.as_ref()
     }
-
 }
 
 #[cfg(test)]

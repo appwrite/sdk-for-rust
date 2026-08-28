@@ -24,7 +24,6 @@ impl AttributeList {
     pub fn attributes(&self) -> &Vec<serde_json::Value> {
         &self.attributes
     }
-
 }
 
 #[cfg(test)]

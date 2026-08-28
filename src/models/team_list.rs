@@ -24,7 +24,6 @@ impl TeamList {
     pub fn teams(&self) -> &Vec<crate::models::Team> {
         &self.teams
     }
-
 }
 
 #[cfg(test)]

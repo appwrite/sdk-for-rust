@@ -30,7 +30,7 @@ pub struct AppInstallation {
     /// request (RFC 9396) style entries; the Appwrite Console stores authorized
     /// project IDs here.
     #[serde(rename = "authorizationDetails")]
-    pub authorization_details: serde_json::Value,
+    pub authorization_details: Vec<serde_json::Value>,
     /// ID of the user who created the installation.
     #[serde(rename = "createdById")]
     pub created_by_id: String,
@@ -76,7 +76,7 @@ impl AppInstallation {
     }
 
     /// Get authorization_details
-    pub fn authorization_details(&self) -> &serde_json::Value {
+    pub fn authorization_details(&self) -> &Vec<serde_json::Value> {
         &self.authorization_details
     }
 
@@ -100,7 +100,6 @@ impl AppInstallation {
     pub fn last_accessed_at(&self) -> Option<&String> {
         self.last_accessed_at.as_ref()
     }
-
 }
 
 #[cfg(test)]

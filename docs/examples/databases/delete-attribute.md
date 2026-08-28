@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     databases.delete_attribute(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        ""
+        "<KEY>"
     ).await?;
 
     Ok(())

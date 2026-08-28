@@ -14,9 +14,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.create_longtext_column(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        "",
+        "<KEY>",
         false,
-        Some("<DEFAULT>"), // optional
+        Some("Hello World"), // optional
         Some(false), // optional
         Some(false) // optional
     ).await?;

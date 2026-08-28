@@ -40,7 +40,6 @@ impl AlgoScryptModified {
     pub fn signer_key(&self) -> &String {
         &self.signer_key
     }
-
 }
 
 #[cfg(test)]

@@ -78,7 +78,6 @@ impl Oauth2Token {
     pub fn id_token(&self) -> Option<&String> {
         self.id_token.as_ref()
     }
-
 }
 
 #[cfg(test)]

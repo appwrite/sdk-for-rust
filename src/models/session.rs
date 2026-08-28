@@ -244,7 +244,6 @@ impl Session {
     pub fn mfa_updated_at(&self) -> &String {
         &self.mfa_updated_at
     }
-
 }
 
 #[cfg(test)]

@@ -15,7 +15,9 @@ pub struct Oauth2 {
 
 impl Oauth2 {
     pub fn new(client: &Client) -> Self {
-        Self { client: client.clone() }
+        Self {
+            client: client.clone(),
+        }
     }
 
     pub fn client(&self) -> &Client {
@@ -45,9 +47,19 @@ impl Oauth2 {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/oauth2/{project_id}/approve".to_string().replace("{project_id}", &self.client.get_headers().get("x-appwrite-project").cloned().unwrap_or_default());
+        let path = "/oauth2/{project_id}/approve".to_string().replace(
+            "{project_id}",
+            &self
+                .client
+                .get_headers()
+                .get("x-appwrite-project")
+                .cloned()
+                .unwrap_or_default(),
+        );
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Begin the OAuth2 authorization flow. When called without a session, the
@@ -119,9 +131,19 @@ impl Oauth2 {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/oauth2/{project_id}/authorize".to_string().replace("{project_id}", &self.client.get_headers().get("x-appwrite-project").cloned().unwrap_or_default());
+        let path = "/oauth2/{project_id}/authorize".to_string().replace(
+            "{project_id}",
+            &self
+                .client
+                .get_headers()
+                .get("x-appwrite-project")
+                .cloned()
+                .unwrap_or_default(),
+        );
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Begin the OAuth2 authorization flow. When called without a session, the
@@ -194,9 +216,19 @@ impl Oauth2 {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/oauth2/{project_id}/authorize".to_string().replace("{project_id}", &self.client.get_headers().get("x-appwrite-project").cloned().unwrap_or_default());
+        let path = "/oauth2/{project_id}/authorize".to_string().replace(
+            "{project_id}",
+            &self
+                .client
+                .get_headers()
+                .get("x-appwrite-project")
+                .cloned()
+                .unwrap_or_default(),
+        );
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Start the OAuth2 Device Authorization Grant. Returns the device code, user
@@ -229,9 +261,21 @@ impl Oauth2 {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/oauth2/{project_id}/device_authorization".to_string().replace("{project_id}", &self.client.get_headers().get("x-appwrite-project").cloned().unwrap_or_default());
+        let path = "/oauth2/{project_id}/device_authorization"
+            .to_string()
+            .replace(
+                "{project_id}",
+                &self
+                    .client
+                    .get_headers()
+                    .get("x-appwrite-project")
+                    .cloned()
+                    .unwrap_or_default(),
+            );
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Exchange a device flow user code for an OAuth2 grant. The authenticated
@@ -248,9 +292,19 @@ impl Oauth2 {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/oauth2/{project_id}/grants".to_string().replace("{project_id}", &self.client.get_headers().get("x-appwrite-project").cloned().unwrap_or_default());
+        let path = "/oauth2/{project_id}/grants".to_string().replace(
+            "{project_id}",
+            &self
+                .client
+                .get_headers()
+                .get("x-appwrite-project")
+                .cloned()
+                .unwrap_or_default(),
+        );
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Get an OAuth2 grant by its ID. Used by the consent screen to display the
@@ -264,9 +318,22 @@ impl Oauth2 {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/oauth2/{project_id}/grants/{grant_id}".to_string().replace("{project_id}", &self.client.get_headers().get("x-appwrite-project").cloned().unwrap_or_default()).replace("{grant_id}", &grant_id.into().to_string());
+        let path = "/oauth2/{project_id}/grants/{grant_id}"
+            .to_string()
+            .replace(
+                "{project_id}",
+                &self
+                    .client
+                    .get_headers()
+                    .get("x-appwrite-project")
+                    .cloned()
+                    .unwrap_or_default(),
+            )
+            .replace("{grant_id}", &grant_id.into().to_string());
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List the organizations the OAuth2 access token can access. Resolves the
@@ -291,9 +358,19 @@ impl Oauth2 {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/oauth2/{project_id}/organizations".to_string().replace("{project_id}", &self.client.get_headers().get("x-appwrite-project").cloned().unwrap_or_default());
+        let path = "/oauth2/{project_id}/organizations".to_string().replace(
+            "{project_id}",
+            &self
+                .client
+                .get_headers()
+                .get("x-appwrite-project")
+                .cloned()
+                .unwrap_or_default(),
+        );
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Store an OAuth2 authorization request server-side and receive a short-lived
@@ -353,9 +430,19 @@ impl Oauth2 {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/oauth2/{project_id}/par".to_string().replace("{project_id}", &self.client.get_headers().get("x-appwrite-project").cloned().unwrap_or_default());
+        let path = "/oauth2/{project_id}/par".to_string().replace(
+            "{project_id}",
+            &self
+                .client
+                .get_headers()
+                .get("x-appwrite-project")
+                .cloned()
+                .unwrap_or_default(),
+        );
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// List the projects the OAuth2 access token can access. Resolves the token's
@@ -380,9 +467,19 @@ impl Oauth2 {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/oauth2/{project_id}/projects".to_string().replace("{project_id}", &self.client.get_headers().get("x-appwrite-project").cloned().unwrap_or_default());
+        let path = "/oauth2/{project_id}/projects".to_string().replace(
+            "{project_id}",
+            &self
+                .client
+                .get_headers()
+                .get("x-appwrite-project")
+                .cloned()
+                .unwrap_or_default(),
+        );
 
-        self.client.call(Method::GET, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Reject an OAuth2 grant when the user denies consent. Returns the
@@ -399,9 +496,19 @@ impl Oauth2 {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/oauth2/{project_id}/reject".to_string().replace("{project_id}", &self.client.get_headers().get("x-appwrite-project").cloned().unwrap_or_default());
+        let path = "/oauth2/{project_id}/reject".to_string().replace(
+            "{project_id}",
+            &self
+                .client
+                .get_headers()
+                .get("x-appwrite-project")
+                .cloned()
+                .unwrap_or_default(),
+        );
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Revoke an OAuth2 access token or refresh token.
@@ -427,9 +534,19 @@ impl Oauth2 {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/oauth2/{project_id}/revoke".to_string().replace("{project_id}", &self.client.get_headers().get("x-appwrite-project").cloned().unwrap_or_default());
+        let path = "/oauth2/{project_id}/revoke".to_string().replace(
+            "{project_id}",
+            &self
+                .client
+                .get_headers()
+                .get("x-appwrite-project")
+                .cloned()
+                .unwrap_or_default(),
+        );
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
 
     /// Exchange an OAuth2 authorization code, refresh token, or device code for
@@ -481,11 +598,20 @@ impl Oauth2 {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/oauth2/{project_id}/token".to_string().replace("{project_id}", &self.client.get_headers().get("x-appwrite-project").cloned().unwrap_or_default());
+        let path = "/oauth2/{project_id}/token".to_string().replace(
+            "{project_id}",
+            &self
+                .client
+                .get_headers()
+                .get("x-appwrite-project")
+                .cloned()
+                .unwrap_or_default(),
+        );
 
-        self.client.call(Method::POST, &path, Some(api_headers), Some(params)).await
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
     }
-
 }
 
 impl crate::services::Service for Oauth2 {

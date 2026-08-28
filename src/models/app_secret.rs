@@ -89,7 +89,6 @@ impl AppSecret {
     pub fn last_accessed_at(&self) -> Option<&String> {
         self.last_accessed_at.as_ref()
     }
-
 }
 
 #[cfg(test)]

@@ -102,7 +102,6 @@ impl Presence {
     pub fn metadata(&self) -> Option<&serde_json::Value> {
         self.metadata.as_ref()
     }
-
 }
 
 #[cfg(test)]

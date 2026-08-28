@@ -103,7 +103,6 @@ impl DedicatedDatabaseReplicas {
     pub fn members(&self) -> &Vec<crate::models::DedicatedDatabaseMember> {
         &self.members
     }
-
 }
 
 #[cfg(test)]
@@ -127,7 +126,8 @@ mod tests {
         let json = serde_json::to_string(&model);
         assert!(json.is_ok());
 
-        let deserialized: Result<DedicatedDatabaseReplicas, _> = serde_json::from_str(&json.unwrap());
+        let deserialized: Result<DedicatedDatabaseReplicas, _> =
+            serde_json::from_str(&json.unwrap());
         assert!(deserialized.is_ok());
     }
 }

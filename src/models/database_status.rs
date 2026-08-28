@@ -150,7 +150,6 @@ impl DatabaseStatus {
     pub fn volumes(&self) -> &Vec<crate::models::DatabaseStatusVolume> {
         &self.volumes
     }
-
 }
 
 #[cfg(test)]

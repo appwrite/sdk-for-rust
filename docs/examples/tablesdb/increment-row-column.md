@@ -15,9 +15,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<DATABASE_ID>",
         "<TABLE_ID>",
         "<ROW_ID>",
-        "",
-        Some(0), // optional
-        Some(0), // optional
+        "<COLUMN>",
+        Some(1), // optional
+        Some(100), // optional
         Some("<TRANSACTION_ID>") // optional
     ).await?;
 

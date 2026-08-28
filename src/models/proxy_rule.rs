@@ -107,13 +107,18 @@ impl ProxyRule {
     }
 
     /// Set deployment_resource_type
-    pub fn set_deployment_resource_type(mut self, deployment_resource_type: crate::enums::ProxyRuleDeploymentResourceType) -> Self {
+    pub fn set_deployment_resource_type(
+        mut self,
+        deployment_resource_type: crate::enums::ProxyRuleDeploymentResourceType,
+    ) -> Self {
         self.deployment_resource_type = Some(deployment_resource_type);
         self
     }
 
     /// Get deployment_resource_type
-    pub fn deployment_resource_type(&self) -> Option<&crate::enums::ProxyRuleDeploymentResourceType> {
+    pub fn deployment_resource_type(
+        &self,
+    ) -> Option<&crate::enums::ProxyRuleDeploymentResourceType> {
         self.deployment_resource_type.as_ref()
     }
 
@@ -141,7 +146,6 @@ impl ProxyRule {
     pub fn renew_at(&self) -> &String {
         &self.renew_at
     }
-
 }
 
 #[cfg(test)]

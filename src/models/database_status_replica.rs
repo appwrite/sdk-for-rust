@@ -19,7 +19,17 @@ pub struct DatabaseStatusReplica {
     /// Whether the replica is healthy.
     #[serde(rename = "healthy")]
     pub healthy: bool,
-    /// Replication lag in seconds (null for primary).
+    /// Whether the engine reports this member's replication stream as up. Null
+    /// when no reading was taken: a primary has no stream to report, and a member
+    /// that is not healthy, or whose probe did not answer, has none yet. `healthy`
+    /// is a reachability probe of the member itself and says nothing about
+    /// replication, so a healthy member may still not be replicating.
+    #[serde(rename = "replicating")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub replicating: Option<bool>,
+    /// Replication lag in seconds (null for primary). Also null against
+    /// `replicating: true`, for a member that is streaming but whose engine
+    /// printed no numeric lag.
     #[serde(rename = "lagSeconds")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub lag_seconds: Option<f64>,
@@ -41,6 +51,17 @@ impl DatabaseStatusReplica {
         &self.healthy
     }
 
+    /// Set replicating
+    pub fn set_replicating(mut self, replicating: bool) -> Self {
+        self.replicating = Some(replicating);
+        self
+    }
+
+    /// Get replicating
+    pub fn replicating(&self) -> Option<&bool> {
+        self.replicating.as_ref()
+    }
+
     /// Set lag_seconds
     pub fn set_lag_seconds(mut self, lag_seconds: f64) -> Self {
         self.lag_seconds = Some(lag_seconds);
@@ -51,7 +72,6 @@ impl DatabaseStatusReplica {
     pub fn lag_seconds(&self) -> Option<&f64> {
         self.lag_seconds.as_ref()
     }
-
 }
 
 #[cfg(test)]

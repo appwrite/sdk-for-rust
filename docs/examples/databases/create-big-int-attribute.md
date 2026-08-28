@@ -14,10 +14,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = databases.create_big_int_attribute(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        "",
+        "<KEY>",
         false,
         Some(0), // optional
-        Some(0), // optional
+        Some(1000000), // optional
         Some(0), // optional
         Some(false) // optional
     ).await?;
