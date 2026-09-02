@@ -99,6 +99,10 @@ pub enum ProjectKeyScopes {
     DocumentsdbDocumentsRead,
     #[serde(rename = "documentsdb.documents.write")]
     DocumentsdbDocumentsWrite,
+    #[serde(rename = "documentsdb.indexes.read")]
+    DocumentsdbIndexesRead,
+    #[serde(rename = "documentsdb.indexes.write")]
+    DocumentsdbIndexesWrite,
     #[serde(rename = "vectorsdb.read")]
     VectorsdbRead,
     #[serde(rename = "vectorsdb.write")]
@@ -111,6 +115,10 @@ pub enum ProjectKeyScopes {
     VectorsdbDocumentsRead,
     #[serde(rename = "vectorsdb.documents.write")]
     VectorsdbDocumentsWrite,
+    #[serde(rename = "vectorsdb.indexes.read")]
+    VectorsdbIndexesRead,
+    #[serde(rename = "vectorsdb.indexes.write")]
+    VectorsdbIndexesWrite,
     #[serde(rename = "buckets.read")]
     BucketsRead,
     #[serde(rename = "buckets.write")]
@@ -291,12 +299,16 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::DocumentsdbCollectionsWrite => "documentsdb.collections.write",
             ProjectKeyScopes::DocumentsdbDocumentsRead => "documentsdb.documents.read",
             ProjectKeyScopes::DocumentsdbDocumentsWrite => "documentsdb.documents.write",
+            ProjectKeyScopes::DocumentsdbIndexesRead => "documentsdb.indexes.read",
+            ProjectKeyScopes::DocumentsdbIndexesWrite => "documentsdb.indexes.write",
             ProjectKeyScopes::VectorsdbRead => "vectorsdb.read",
             ProjectKeyScopes::VectorsdbWrite => "vectorsdb.write",
             ProjectKeyScopes::VectorsdbCollectionsRead => "vectorsdb.collections.read",
             ProjectKeyScopes::VectorsdbCollectionsWrite => "vectorsdb.collections.write",
             ProjectKeyScopes::VectorsdbDocumentsRead => "vectorsdb.documents.read",
             ProjectKeyScopes::VectorsdbDocumentsWrite => "vectorsdb.documents.write",
+            ProjectKeyScopes::VectorsdbIndexesRead => "vectorsdb.indexes.read",
+            ProjectKeyScopes::VectorsdbIndexesWrite => "vectorsdb.indexes.write",
             ProjectKeyScopes::BucketsRead => "buckets.read",
             ProjectKeyScopes::BucketsWrite => "buckets.write",
             ProjectKeyScopes::FilesRead => "files.read",

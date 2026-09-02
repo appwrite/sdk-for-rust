@@ -18,7 +18,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<COLLECTION_ID>",
         "<DOCUMENT_ID>",
         serde_json::json!({}),
-        Some(vec![Permission::read(Role::any()).to_string()]) // optional
+        Some(vec![Permission::read(Role::any()).to_string()]), // optional
+        Some("<TRANSACTION_ID>") // optional
     ).await?;
 
     let _ = result;

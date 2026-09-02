@@ -21,7 +21,8 @@ pub struct FrameworkAdapter {
     /// Name of fallback file to use instead of 404 page. If null, Appwrite 404
     /// page will be displayed.
     #[serde(rename = "fallbackFile")]
-    pub fallback_file: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fallback_file: Option<String>,
 }
 
 impl FrameworkAdapter {
@@ -45,9 +46,15 @@ impl FrameworkAdapter {
         &self.output_directory
     }
 
+    /// Set fallback_file
+    pub fn set_fallback_file(mut self, fallback_file: String) -> Self {
+        self.fallback_file = Some(fallback_file);
+        self
+    }
+
     /// Get fallback_file
-    pub fn fallback_file(&self) -> &String {
-        &self.fallback_file
+    pub fn fallback_file(&self) -> Option<&String> {
+        self.fallback_file.as_ref()
     }
 }
 
@@ -62,7 +69,6 @@ mod tests {
         let _ = _model.install_command();
         let _ = _model.build_command();
         let _ = _model.output_directory();
-        let _ = _model.fallback_file();
     }
 
     #[test]

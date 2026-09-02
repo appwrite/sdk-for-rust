@@ -120,6 +120,12 @@ pub struct BillingPlan {
     #[serde(rename = "usageLogsIntervals")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub usage_logs_intervals: Option<Vec<String>>,
+    /// Metrics this plan only records as a total. They cannot be broken down by
+    /// dimension or filtered, because the stored events cover a fraction of the
+    /// real traffic.
+    #[serde(rename = "usageAggregateOnlyMetrics")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub usage_aggregate_only_metrics: Option<Vec<String>>,
     /// Number of days of console inactivity before a project is paused. 0 means
     /// pausing is disabled.
     #[serde(rename = "projectInactivityDays")]
@@ -433,6 +439,20 @@ impl BillingPlan {
     /// Get usage_logs_intervals
     pub fn usage_logs_intervals(&self) -> Option<&Vec<String>> {
         self.usage_logs_intervals.as_ref()
+    }
+
+    /// Set usage_aggregate_only_metrics
+    pub fn set_usage_aggregate_only_metrics(
+        mut self,
+        usage_aggregate_only_metrics: Vec<String>,
+    ) -> Self {
+        self.usage_aggregate_only_metrics = Some(usage_aggregate_only_metrics);
+        self
+    }
+
+    /// Get usage_aggregate_only_metrics
+    pub fn usage_aggregate_only_metrics(&self) -> Option<&Vec<String>> {
+        self.usage_aggregate_only_metrics.as_ref()
     }
 
     /// Get project_inactivity_days

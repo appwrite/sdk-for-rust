@@ -516,6 +516,7 @@ impl VectorsDB {
         document_id: impl Into<String>,
         data: serde_json::Value,
         permissions: Option<Vec<String>>,
+        transaction_id: Option<&str>,
     ) -> crate::error::Result<crate::models::Document> {
         let mut params = HashMap::new();
         params.insert("documentId".to_string(), json!(document_id.into()));
@@ -525,6 +526,9 @@ impl VectorsDB {
                 "permissions".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = transaction_id {
+            params.insert("transactionId".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -549,9 +553,13 @@ impl VectorsDB {
         database_id: impl Into<String>,
         collection_id: impl Into<String>,
         documents: Vec<serde_json::Value>,
+        transaction_id: Option<&str>,
     ) -> crate::error::Result<crate::models::DocumentList> {
         let mut params = HashMap::new();
         params.insert("documents".to_string(), json!(documents));
+        if let Some(value) = transaction_id {
+            params.insert("transactionId".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());

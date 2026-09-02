@@ -11,7 +11,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let tables_db = TablesDB::new(&client);
 
-    let result = tables_db.cutover_migration(
+    let result = tables_db.create_cutover(
         "<DATABASE_ID>",
         "<MIGRATION_ID>"
     ).await?;

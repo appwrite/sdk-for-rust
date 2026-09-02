@@ -638,14 +638,14 @@ impl Mysql {
             .await
     }
 
-    /// Rotate the primary connection credentials for a dedicated database.
-    /// Generates a new password and updates the database atomically. Previous
-    /// credentials stop working immediately. Returns the database with a refreshed
-    /// connection string carrying the new password.
+    /// Queue a rotation of the primary connection credentials for a dedicated
+    /// database. A hibernated database is woken by the worker before rotation.
+    /// List database operations until the returned operation reaches a terminal
+    /// status, then fetch the database again for the refreshed connection string.
     pub async fn update_credentials(
         &self,
         database_id: impl Into<String>,
-    ) -> crate::error::Result<crate::models::DedicatedDatabase> {
+    ) -> crate::error::Result<crate::models::DedicatedDatabaseOperation> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

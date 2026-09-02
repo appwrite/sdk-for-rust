@@ -15,8 +15,8 @@ pub struct DedicatedDatabaseOperation {
     /// Database ID the operation ran against.
     #[serde(rename = "databaseId")]
     pub database_id: String,
-    /// Operation type, such as provision, update, restore, pausing, resuming,
-    /// failover, backup-create or cross-region-enable.
+    /// Operation type, such as provision, update, credentials-update, restore,
+    /// pausing, resuming, failover, backup-create or cross-region-enable.
     #[serde(rename = "type")]
     pub r#type: String,
     /// Operation status. Possible values: queued (accepted and waiting to resume),

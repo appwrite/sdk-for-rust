@@ -21,6 +21,8 @@ pub enum OAuthProvider {
     Bitly,
     #[serde(rename = "box")]
     Box,
+    #[serde(rename = "cloudflare")]
+    Cloudflare,
     #[serde(rename = "dailymotion")]
     Dailymotion,
     #[serde(rename = "discord")]
@@ -65,6 +67,8 @@ pub enum OAuthProvider {
     PaypalSandbox,
     #[serde(rename = "podio")]
     Podio,
+    #[serde(rename = "resend")]
+    Resend,
     #[serde(rename = "salesforce")]
     Salesforce,
     #[serde(rename = "slack")]
@@ -108,6 +112,7 @@ impl OAuthProvider {
             OAuthProvider::Bitbucket => "bitbucket",
             OAuthProvider::Bitly => "bitly",
             OAuthProvider::Box => "box",
+            OAuthProvider::Cloudflare => "cloudflare",
             OAuthProvider::Dailymotion => "dailymotion",
             OAuthProvider::Discord => "discord",
             OAuthProvider::Disqus => "disqus",
@@ -130,6 +135,7 @@ impl OAuthProvider {
             OAuthProvider::Paypal => "paypal",
             OAuthProvider::PaypalSandbox => "paypalSandbox",
             OAuthProvider::Podio => "podio",
+            OAuthProvider::Resend => "resend",
             OAuthProvider::Salesforce => "salesforce",
             OAuthProvider::Slack => "slack",
             OAuthProvider::Spotify => "spotify",

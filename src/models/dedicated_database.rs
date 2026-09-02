@@ -35,7 +35,7 @@ pub struct DedicatedDatabase {
     /// Specification identifier.
     #[serde(rename = "specification")]
     pub specification: String,
-    /// Database backend provider. Possible values: prisma, edge.
+    /// Database backend provider. Possible values: edge.
     #[serde(rename = "backend")]
     pub backend: String,
     /// Database hostname for connections.
@@ -51,6 +51,10 @@ pub struct DedicatedDatabase {
     /// Database password for connections.
     #[serde(rename = "connectionPassword")]
     pub connection_password: String,
+    /// Committed generation of the primary connection credentials. Null until the
+    /// rotation contract has been initialized.
+    #[serde(rename = "credentialGeneration")]
+    pub credential_generation: i64,
     /// Full database connection string (URI format).
     #[serde(rename = "connectionString")]
     pub connection_string: String,
@@ -243,6 +247,11 @@ impl DedicatedDatabase {
     /// Get connection_password
     pub fn connection_password(&self) -> &String {
         &self.connection_password
+    }
+
+    /// Get credential_generation
+    pub fn credential_generation(&self) -> &i64 {
+        &self.credential_generation
     }
 
     /// Get connection_string
@@ -449,6 +458,7 @@ mod tests {
         let _ = _model.connection_port();
         let _ = _model.connection_user();
         let _ = _model.connection_password();
+        let _ = _model.credential_generation();
         let _ = _model.connection_string();
         let _ = _model.ssl();
         let _ = _model.status();

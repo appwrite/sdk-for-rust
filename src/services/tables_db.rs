@@ -435,7 +435,7 @@ impl TablesDB {
     /// after this returns, with a brief read-only window. One call buys one
     /// attempt: a cutover that fails a check returns the migration to `verifying`
     /// and parks it again, so call this once more to retry.
-    pub async fn cutover_migration(
+    pub async fn create_cutover(
         &self,
         database_id: impl Into<String>,
         migration_id: impl Into<String>,
@@ -445,7 +445,7 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/tablesdb/{databaseId}/migrations/{migrationId}/cutover"
+        let path = "/tablesdb/{databaseId}/migrations/{migrationId}/cutovers"
             .to_string()
             .replace("{databaseId}", &database_id.into().to_string())
             .replace("{migrationId}", &migration_id.into().to_string());
