@@ -21,6 +21,8 @@ pub enum ProjectOAuthProviderId {
     Bitly,
     #[serde(rename = "box")]
     Box,
+    #[serde(rename = "cloudflare")]
+    Cloudflare,
     #[serde(rename = "dailymotion")]
     Dailymotion,
     #[serde(rename = "discord")]
@@ -65,6 +67,8 @@ pub enum ProjectOAuthProviderId {
     PaypalSandbox,
     #[serde(rename = "podio")]
     Podio,
+    #[serde(rename = "resend")]
+    Resend,
     #[serde(rename = "salesforce")]
     Salesforce,
     #[serde(rename = "slack")]
@@ -108,6 +112,7 @@ impl ProjectOAuthProviderId {
             ProjectOAuthProviderId::Bitbucket => "bitbucket",
             ProjectOAuthProviderId::Bitly => "bitly",
             ProjectOAuthProviderId::Box => "box",
+            ProjectOAuthProviderId::Cloudflare => "cloudflare",
             ProjectOAuthProviderId::Dailymotion => "dailymotion",
             ProjectOAuthProviderId::Discord => "discord",
             ProjectOAuthProviderId::Disqus => "disqus",
@@ -130,6 +135,7 @@ impl ProjectOAuthProviderId {
             ProjectOAuthProviderId::Paypal => "paypal",
             ProjectOAuthProviderId::PaypalSandbox => "paypalSandbox",
             ProjectOAuthProviderId::Podio => "podio",
+            ProjectOAuthProviderId::Resend => "resend",
             ProjectOAuthProviderId::Salesforce => "salesforce",
             ProjectOAuthProviderId::Slack => "slack",
             ProjectOAuthProviderId::Spotify => "spotify",

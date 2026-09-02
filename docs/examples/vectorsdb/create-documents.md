@@ -14,7 +14,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = vectors_db.create_documents(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        vec![]
+        vec![],
+        Some("<TRANSACTION_ID>") // optional
     ).await?;
 
     let _ = result;

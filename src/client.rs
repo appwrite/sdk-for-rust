@@ -91,11 +91,11 @@ impl Client {
     /// Create a new Appwrite client
     pub fn new() -> Self {
         let mut headers = HeaderMap::new();
-        headers.insert("X-Appwrite-Response-Format", "1.9.6".parse().unwrap());
+        headers.insert("X-Appwrite-Response-Format", "2.0.0".parse().unwrap());
         headers.insert(
             "user-agent",
             format!(
-                "AppwriteRustSDK/0.14.0-rc.1 ({}; {})",
+                "AppwriteRustSDK/0.14.0 ({}; {})",
                 std::env::consts::OS,
                 std::env::consts::ARCH
             )
@@ -105,7 +105,7 @@ impl Client {
         headers.insert("x-sdk-name", "Rust".parse().unwrap());
         headers.insert("x-sdk-platform", "server".parse().unwrap());
         headers.insert("x-sdk-language", "rust".parse().unwrap());
-        headers.insert("x-sdk-version", "0.14.0-rc.1".parse().unwrap());
+        headers.insert("x-sdk-version", "0.14.0".parse().unwrap());
 
         let config = Config {
             endpoint: "https://cloud.appwrite.io/v1".to_string(),

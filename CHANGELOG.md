@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.14.0-rc.1] - TBD
+## [0.14.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
-- Full support for Appwrite API 1.9.6
+- Full support for Appwrite API 2.0.0
 - Async/await support with tokio runtime
 - Built-in error handling with custom error types
 - File upload support with automatic chunking
@@ -40,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Organization service with 23 methods
 - Postgresql service with 37 methods
 - Presences service with 5 methods
-- Project service with 103 methods
+- Project service with 105 methods
 - Proxy service with 9 methods
 - Advisor service with 5 methods
 - Sites service with 25 methods
@@ -199,7 +199,7 @@ When one dimension is specified and the other is 0, the image is scaled with pre
 
 - `get_photo()` - Returns the best available profile photo for a user. The endpoint tries each source in priority order and returns the first successful result: OAuth2 identity photo, Gravatar, Libravatar, Appwrite Initials, built-in static fallback.
 
-The photo resolves for the currently authenticated user unless `userId` points at another user. Passing `emailHash` and/or `name` resolves the avatar from those values alone: the hash is looked up on Gravatar and Libravatar, the name is rendered as initials, and the user&#039;s own identity photos, email, and name leave the chain so they never shadow the avatar being asked for. Emails are only ever accepted pre-hashed, so no address ends up in a URL.
+Passing `userId` — `current()` for the authenticated user — resolves the photo from everything known about that user: identity photos, email, and name. An explicit `emailHash` or `name` then overrides just that value, and the user&#039;s remaining sources stay in the chain. Without `userId`, passing `emailHash` and/or `name` resolves the avatar from those values alone: the hash is looked up on Gravatar and Libravatar, the name is rendered as initials, and the session user stays out of the chain so their own photo never shadows the avatar being asked for. When nothing is passed, the photo resolves for the currently authenticated user. Emails are only ever accepted pre-hashed, so no address ends up in a URL.
 - `get_qr()` - Converts a given plain text to a QR code image. You can use the query parameters to change the size and style of the resulting image.
 
 - `get_screenshot()` - Use this endpoint to capture a screenshot of any website URL. This endpoint uses a headless browser to render the webpage and capture it as an image.
@@ -526,7 +526,7 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 - `list_branches()` - List all ephemeral branches for a dedicated database. Returns branch metadata including ID, name, namespace, and expiration time.
 - `create_branch()` - Create an ephemeral database branch from the primary via PVC snapshot. The branch is a full copy of the database at the current point in time, useful for testing schema migrations or running experiments without affecting production data. Branches expire after the configured TTL (default 24 hours). The branch is created asynchronously.
 - `delete_branch()` - Delete an ephemeral database branch. This removes the branch namespace, its PVC, and the associated VolumeSnapshot. The deletion runs asynchronously and is irreversible.
-- `update_credentials()` - Rotate the primary connection credentials for a dedicated database. Generates a new password and updates the database atomically. Previous credentials stop working immediately. Returns the database with a refreshed connection string carrying the new password.
+- `update_credentials()` - Queue a rotation of the primary connection credentials for a dedicated database. A hibernated database is woken by the worker before rotation. List database operations until the returned operation reaches a terminal status, then fetch the database again for the refreshed connection string.
 - `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
 - `update_maintenance()` - Update the maintenance window for a dedicated database. Maintenance operations like minor version upgrades will be performed during this window.
 - `create_migration()` - Migrate a database between shared and dedicated types. Shared to dedicated provisions an always-on dedicated instance; dedicated to shared converts to a serverless instance that scales to zero when idle. Data is copied to the target with a brief read-only window during cutover.
@@ -560,7 +560,7 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 - `list_branches()` - List all ephemeral branches for a dedicated database. Returns branch metadata including ID, name, namespace, and expiration time.
 - `create_branch()` - Create an ephemeral database branch from the primary via PVC snapshot. The branch is a full copy of the database at the current point in time, useful for testing schema migrations or running experiments without affecting production data. Branches expire after the configured TTL (default 24 hours). The branch is created asynchronously.
 - `delete_branch()` - Delete an ephemeral database branch. This removes the branch namespace, its PVC, and the associated VolumeSnapshot. The deletion runs asynchronously and is irreversible.
-- `update_credentials()` - Rotate the primary connection credentials for a dedicated database. Generates a new password and updates the database atomically. Previous credentials stop working immediately. Returns the database with a refreshed connection string carrying the new password.
+- `update_credentials()` - Queue a rotation of the primary connection credentials for a dedicated database. A hibernated database is woken by the worker before rotation. List database operations until the returned operation reaches a terminal status, then fetch the database again for the refreshed connection string.
 - `create_execution()` - Execute SQL through the console-facing Cloud endpoint. Cloud proxies through the edge platform to the per-database SQL API sidecar. Application traffic should bypass cloud entirely and POST directly to the per-database hostname: `https://db-{project}-{db}.{region}.appwrite.center/v1/sql/executions` with an `X-Appwrite-Key` header — that path scales to the whole DB fleet without a per-query cloud round-trip. The statement type must be on the database&#039;s configured allow-list. Use bound parameters for any user-supplied values — the API does not interpolate raw strings.
 - `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
 - `update_maintenance()` - Update the maintenance window for a dedicated database. Maintenance operations like minor version upgrades will be performed during this window.
@@ -638,7 +638,7 @@ The Organization service allows you to manage organization-level projects.
 - `list_branches()` - List all ephemeral branches for a dedicated database. Returns branch metadata including ID, name, namespace, and expiration time.
 - `create_branch()` - Create an ephemeral database branch from the primary via PVC snapshot. The branch is a full copy of the database at the current point in time, useful for testing schema migrations or running experiments without affecting production data. Branches expire after the configured TTL (default 24 hours). The branch is created asynchronously.
 - `delete_branch()` - Delete an ephemeral database branch. This removes the branch namespace, its PVC, and the associated VolumeSnapshot. The deletion runs asynchronously and is irreversible.
-- `update_credentials()` - Rotate the primary connection credentials for a dedicated database. Generates a new password and updates the database atomically. Previous credentials stop working immediately. Returns the database with a refreshed connection string carrying the new password.
+- `update_credentials()` - Queue a rotation of the primary connection credentials for a dedicated database. A hibernated database is woken by the worker before rotation. List database operations until the returned operation reaches a terminal status, then fetch the database again for the refreshed connection string.
 - `create_execution()` - Execute SQL through the console-facing Cloud endpoint. Cloud proxies through the edge platform to the per-database SQL API sidecar. Application traffic should bypass cloud entirely and POST directly to the per-database hostname: `https://db-{project}-{db}.{region}.appwrite.center/v1/sql/executions` with an `X-Appwrite-Key` header — that path scales to the whole DB fleet without a per-query cloud round-trip. The statement type must be on the database&#039;s configured allow-list. Use bound parameters for any user-supplied values — the API does not interpolate raw strings.
 - `list_extensions()` - List installed and available extensions for a PostgreSQL database.
 - `create_extension()` - Install a database extension. Only available for PostgreSQL databases. The install runs asynchronously; poll the extensions list endpoint for status.
@@ -699,6 +699,7 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_o_auth2_bitbucket()` - Update the project OAuth2 Bitbucket configuration.
 - `update_o_auth2_bitly()` - Update the project OAuth2 Bitly configuration.
 - `update_o_auth2_box()` - Update the project OAuth2 Box configuration.
+- `update_o_auth2_cloudflare()` - Update the project OAuth2 Cloudflare configuration.
 - `update_o_auth2_dailymotion()` - Update the project OAuth2 Dailymotion configuration.
 - `update_o_auth2_discord()` - Update the project OAuth2 Discord configuration.
 - `update_o_auth2_disqus()` - Update the project OAuth2 Disqus configuration.
@@ -721,6 +722,7 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_o_auth2_paypal()` - Update the project OAuth2 Paypal configuration.
 - `update_o_auth2_paypal_sandbox()` - Update the project OAuth2 PaypalSandbox configuration.
 - `update_o_auth2_podio()` - Update the project OAuth2 Podio configuration.
+- `update_o_auth2_resend()` - Update the project OAuth2 Resend configuration.
 - `update_o_auth2_salesforce()` - Update the project OAuth2 Salesforce configuration.
 - `update_o_auth2_slack()` - Update the project OAuth2 Slack configuration.
 - `update_o_auth2_spotify()` - Update the project OAuth2 Spotify configuration.
@@ -890,7 +892,7 @@ The TablesDB service allows you to create structured tables of columns, query an
 - `create_migration()` - Start migrating a serverless TablesDB database onto a dedicated MySQL compute. Data is copied to the target while the source stays live, with a brief read-only window during cutover.
 - `get_migration()` - Get a single dedicated migration for a TablesDB database by its ID.
 - `delete_migration()` - Abort an in-flight TablesDB dedicated migration. Only allowed before cutover; once the migration has cut over it cannot be aborted.
-- `cutover_migration()` - Cut a verified TablesDB migration over to its dedicated compute. Only applies to a migration created with `autoCutover` disabled, which waits at `ready_to_cutover` until this is called. The routing flip happens shortly after this returns, with a brief read-only window. One call buys one attempt: a cutover that fails a check returns the migration to `verifying` and parks it again, so call this once more to retry.
+- `create_cutover()` - Cut a verified TablesDB migration over to its dedicated compute. Only applies to a migration created with `autoCutover` disabled, which waits at `ready_to_cutover` until this is called. The routing flip happens shortly after this returns, with a brief read-only window. One call buys one attempt: a cutover that fails a check returns the migration to `verifying` and parks it again, so call this once more to retry.
 - `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
 - `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
 - `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
@@ -1294,6 +1296,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `OAuth2Notion` - OAuth2Notion
 - `OAuth2Salesforce` - OAuth2Salesforce
 - `OAuth2Yahoo` - OAuth2Yahoo
+- `OAuth2Cloudflare` - OAuth2Cloudflare
 - `OAuth2HuggingFace` - OAuth2HuggingFace
 - `OAuth2Linkedin` - OAuth2Linkedin
 - `OAuth2Disqus` - OAuth2Disqus
@@ -1313,6 +1316,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `OAuth2Kick` - OAuth2Kick
 - `OAuth2Apple` - OAuth2Apple
 - `OAuth2Microsoft` - OAuth2Microsoft
+- `OAuth2Resend` - OAuth2Resend
 - `OAuth2ProviderList` - OAuth2 Providers List
 - `PolicyPasswordDictionary` - Policy Password Dictionary
 - `PolicyPasswordHistory` - Policy Password History
@@ -1449,4 +1453,4 @@ The Webhooks service allows you to manage your project webhooks.
 - File upload examples
 - Query builder documentation
 
-[0.14.0-rc.1]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.14.0-rc.1
+[0.14.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.14.0

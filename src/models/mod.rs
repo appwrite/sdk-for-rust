@@ -316,6 +316,8 @@ pub mod o_auth2_salesforce;
 pub use o_auth2_salesforce::OAuth2Salesforce;
 pub mod o_auth2_yahoo;
 pub use o_auth2_yahoo::OAuth2Yahoo;
+pub mod o_auth2_cloudflare;
+pub use o_auth2_cloudflare::OAuth2Cloudflare;
 pub mod o_auth2_hugging_face;
 pub use o_auth2_hugging_face::OAuth2HuggingFace;
 pub mod o_auth2_linkedin;
@@ -354,6 +356,8 @@ pub mod o_auth2_apple;
 pub use o_auth2_apple::OAuth2Apple;
 pub mod o_auth2_microsoft;
 pub use o_auth2_microsoft::OAuth2Microsoft;
+pub mod o_auth2_resend;
+pub use o_auth2_resend::OAuth2Resend;
 pub mod o_auth2_provider_list;
 pub use o_auth2_provider_list::OAuth2ProviderList;
 pub mod policy_password_dictionary;
@@ -762,6 +766,7 @@ impl Model for OAuth2Podio {}
 impl Model for OAuth2Notion {}
 impl Model for OAuth2Salesforce {}
 impl Model for OAuth2Yahoo {}
+impl Model for OAuth2Cloudflare {}
 impl Model for OAuth2HuggingFace {}
 impl Model for OAuth2Linkedin {}
 impl Model for OAuth2Disqus {}
@@ -781,6 +786,7 @@ impl Model for OAuth2Okta {}
 impl Model for OAuth2Kick {}
 impl Model for OAuth2Apple {}
 impl Model for OAuth2Microsoft {}
+impl Model for OAuth2Resend {}
 impl Model for OAuth2ProviderList {}
 impl Model for PolicyPasswordDictionary {}
 impl Model for PolicyPasswordHistory {}

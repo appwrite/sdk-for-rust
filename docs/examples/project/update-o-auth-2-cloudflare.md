@@ -1,21 +1,20 @@
 ```rust
 use appwrite::Client;
-use appwrite::services::DocumentsDB;
+use appwrite::services::Project;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let client = Client::new();
     client.set_endpoint("https://<REGION>.cloud.appwrite.io/v1"); // Your API Endpoint
     client.set_project("<YOUR_PROJECT_ID>"); // Your project ID
-    client.set_session(""); // The user session to authenticate with
+    client.set_key("<YOUR_API_KEY>"); // Your secret API key
 
-    let documents_db = DocumentsDB::new(&client);
+    let project = Project::new(&client);
 
-    let result = documents_db.create_documents(
-        "<DATABASE_ID>",
-        "<COLLECTION_ID>",
-        vec![],
-        Some("<TRANSACTION_ID>") // optional
+    let result = project.update_o_auth2_cloudflare(
+        Some("<CLIENT_ID>"), // optional
+        Some("<CLIENT_SECRET>"), // optional
+        Some(false) // optional
     ).await?;
 
     let _ = result;

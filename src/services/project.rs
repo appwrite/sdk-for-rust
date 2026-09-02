@@ -700,6 +700,34 @@ impl Project {
             .await
     }
 
+    /// Update the project OAuth2 Cloudflare configuration.
+    pub async fn update_o_auth2_cloudflare(
+        &self,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::OAuth2Cloudflare> {
+        let mut params = HashMap::new();
+        if let Some(value) = client_id {
+            params.insert("clientId".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/oauth2/cloudflare".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Update the project OAuth2 Dailymotion configuration.
     pub async fn update_o_auth2_dailymotion(
         &self,
@@ -1367,6 +1395,34 @@ impl Project {
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/podio".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update the project OAuth2 Resend configuration.
+    pub async fn update_o_auth2_resend(
+        &self,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::OAuth2Resend> {
+        let mut params = HashMap::new();
+        if let Some(value) = client_id {
+            params.insert("clientId".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/oauth2/resend".to_string();
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
