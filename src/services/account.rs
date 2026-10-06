@@ -966,6 +966,7 @@ impl Account {
         success: Option<&str>,
         failure: Option<&str>,
         scopes: Option<Vec<String>>,
+        state: Option<&str>,
     ) -> crate::error::Result<String> {
         let mut params = HashMap::new();
         if let Some(value) = success {
@@ -979,6 +980,9 @@ impl Account {
                 "scopes".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = state {
+            params.insert("state".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "text/html".to_string());
