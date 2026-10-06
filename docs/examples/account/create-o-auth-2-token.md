@@ -15,7 +15,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         appwrite::enums::OAuthProvider::Amazon,
         Some("https://example.com"), // optional
         Some("https://example.com"), // optional
-        Some(vec![]) // optional
+        Some(vec![]), // optional
+        Some("<STATE>") // optional
     ).await?;
 
     let _ = result;
