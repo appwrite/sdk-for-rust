@@ -69,6 +69,10 @@ pub struct Function {
     /// Function execution schedule in CRON format.
     #[serde(rename = "schedule")]
     pub schedule: String,
+    /// Minutes between scheduled executions. 0 when the function has no interval.
+    #[serde(rename = "interval")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub interval: Option<i64>,
     /// Function execution timeout in seconds.
     #[serde(rename = "timeout")]
     pub timeout: i64,
@@ -208,6 +212,17 @@ impl Function {
     /// Get schedule
     pub fn schedule(&self) -> &String {
         &self.schedule
+    }
+
+    /// Set interval
+    pub fn set_interval(mut self, interval: i64) -> Self {
+        self.interval = Some(interval);
+        self
+    }
+
+    /// Get interval
+    pub fn interval(&self) -> Option<&i64> {
+        self.interval.as_ref()
     }
 
     /// Get timeout

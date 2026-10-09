@@ -33,6 +33,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(vec![]), // optional
         Some("s-1vcpu-512mb"), // optional
         Some("s-1vcpu-512mb"), // optional
+        Some(0), // optional
         Some(0) // optional
     ).await?;
 

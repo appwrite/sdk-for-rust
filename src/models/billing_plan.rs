@@ -213,6 +213,10 @@ pub struct BillingPlan {
     /// Maximum function and site deployment size in MB
     #[serde(rename = "buildSize")]
     pub build_size: i64,
+    /// Shortest function schedule interval allowed, in minutes. 0 allows every
+    /// interval.
+    #[serde(rename = "functionsIntervalMinimum")]
+    pub functions_interval_minimum: i64,
     /// Does the plan support encrypted string attributes or not.
     #[serde(rename = "databasesAllowEncrypt")]
     pub databases_allow_encrypt: bool,
@@ -607,6 +611,11 @@ impl BillingPlan {
         &self.build_size
     }
 
+    /// Get functions_interval_minimum
+    pub fn functions_interval_minimum(&self) -> &i64 {
+        &self.functions_interval_minimum
+    }
+
     /// Get databases_allow_encrypt
     pub fn databases_allow_encrypt(&self) -> &bool {
         &self.databases_allow_encrypt
@@ -728,6 +737,7 @@ mod tests {
         let _ = _model.supported_addons();
         let _ = _model.deployment_size();
         let _ = _model.build_size();
+        let _ = _model.functions_interval_minimum();
         let _ = _model.databases_allow_encrypt();
         let _ = _model.group();
         let _ = _model.database_compute_credit();

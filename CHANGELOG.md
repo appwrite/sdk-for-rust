@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.15.0] - TBD
+## [0.16.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
@@ -1453,4 +1453,4 @@ The Webhooks service allows you to manage your project webhooks.
 - File upload examples
 - Query builder documentation
 
-[0.15.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.15.0
+[0.16.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.16.0

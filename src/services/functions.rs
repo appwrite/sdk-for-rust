@@ -84,6 +84,7 @@ impl Functions {
         build_specification: Option<&str>,
         runtime_specification: Option<&str>,
         deployment_retention: Option<i64>,
+        interval: Option<i64>,
     ) -> crate::error::Result<crate::models::Function> {
         let mut params = HashMap::new();
         params.insert("functionId".to_string(), json!(function_id.into()));
@@ -157,6 +158,9 @@ impl Functions {
         }
         if let Some(value) = deployment_retention {
             params.insert("deploymentRetention".to_string(), json!(value));
+        }
+        if let Some(value) = interval {
+            params.insert("interval".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -245,6 +249,7 @@ impl Functions {
         build_specification: Option<&str>,
         runtime_specification: Option<&str>,
         deployment_retention: Option<i64>,
+        interval: Option<i64>,
     ) -> crate::error::Result<crate::models::Function> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
@@ -319,6 +324,9 @@ impl Functions {
         }
         if let Some(value) = deployment_retention {
             params.insert("deploymentRetention".to_string(), json!(value));
+        }
+        if let Some(value) = interval {
+            params.insert("interval".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
