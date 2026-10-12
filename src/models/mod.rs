@@ -382,6 +382,8 @@ pub mod policy_membership_privacy;
 pub use policy_membership_privacy::PolicyMembershipPrivacy;
 pub mod policy_mfa_factors;
 pub use policy_mfa_factors::PolicyMfaFactors;
+pub mod policy_passkey;
+pub use policy_passkey::PolicyPasskey;
 pub mod platform_web;
 pub use platform_web::PlatformWeb;
 pub mod platform_apple;
@@ -807,6 +809,7 @@ impl Model for PolicySessionLimit {}
 impl Model for PolicyUserLimit {}
 impl Model for PolicyMembershipPrivacy {}
 impl Model for PolicyMfaFactors {}
+impl Model for PolicyPasskey {}
 impl Model for PlatformWeb {}
 impl Model for PlatformApple {}
 impl Model for PlatformAndroid {}
