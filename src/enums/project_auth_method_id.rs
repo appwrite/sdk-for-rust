@@ -17,6 +17,8 @@ pub enum ProjectAuthMethodId {
     Jwt,
     #[serde(rename = "phone")]
     Phone,
+    #[serde(rename = "passkey")]
+    Passkey,
 }
 
 impl ProjectAuthMethodId {
@@ -30,6 +32,7 @@ impl ProjectAuthMethodId {
             ProjectAuthMethodId::Invites => "invites",
             ProjectAuthMethodId::Jwt => "jwt",
             ProjectAuthMethodId::Phone => "phone",
+            ProjectAuthMethodId::Passkey => "passkey",
         }
     }
 }
