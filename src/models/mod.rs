@@ -418,6 +418,14 @@ pub mod mfa_challenge;
 pub use mfa_challenge::MfaChallenge;
 pub mod mfa_challenge_secret;
 pub use mfa_challenge_secret::MfaChallengeSecret;
+pub mod token_secret;
+pub use token_secret::TokenSecret;
+pub mod passkey;
+pub use passkey::Passkey;
+pub mod passkey_challenge;
+pub use passkey_challenge::PasskeyChallenge;
+pub mod passkey_list;
+pub use passkey_list::PasskeyList;
 pub mod mfa_recovery_codes;
 pub use mfa_recovery_codes::MfaRecoveryCodes;
 pub mod mfa_type;
@@ -817,6 +825,10 @@ impl Model for ProxyRule {}
 impl Model for EmailTemplate {}
 impl Model for MfaChallenge {}
 impl Model for MfaChallengeSecret {}
+impl Model for TokenSecret {}
+impl Model for Passkey {}
+impl Model for PasskeyChallenge {}
+impl Model for PasskeyList {}
 impl Model for MfaRecoveryCodes {}
 impl Model for MfaType {}
 impl Model for MfaFactors {}

@@ -517,6 +517,187 @@ impl Account {
             .await
     }
 
+    /// Get the list of verified passkeys registered by the currently logged in
+    /// user.
+    pub async fn list_passkeys(
+        &self,
+        queries: Option<Vec<String>>,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::PasskeyList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/account/passkeys".to_string();
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Start registering a passkey for the currently logged in user. The session
+    /// must have signed in or completed an MFA challenge within the last 10
+    /// minutes. Pass the returned `publicKey` options to
+    /// `navigator.credentials.create()`, then complete the registration with
+    /// [Update passkey
+    /// verification](/docs/references/cloud/client-web/account#updatePasskeyVerification).
+    /// The passkey stays pending until verified, and the challenge expires after 5
+    /// minutes.
+    pub async fn create_passkey(
+        &self,
+        passkey_id: Option<&str>,
+        name: Option<&str>,
+    ) -> crate::error::Result<crate::models::PasskeyChallenge> {
+        let mut params = HashMap::new();
+        if let Some(value) = passkey_id {
+            params.insert("passkeyId".to_string(), json!(value));
+        }
+        if let Some(value) = name {
+            params.insert("name".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/account/passkeys".to_string();
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Get a verified passkey of the currently logged in user by its unique ID.
+    pub async fn get_passkey(
+        &self,
+        passkey_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Passkey> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let passkey_id = passkey_id.into();
+        if passkey_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"passkeyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/account/passkeys/{passkeyId}"
+            .to_string()
+            .replace("{passkeyId}", &passkey_id);
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Rename a passkey of the currently logged in user.
+    pub async fn update_passkey(
+        &self,
+        passkey_id: impl Into<String>,
+        name: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Passkey> {
+        let mut params = HashMap::new();
+        params.insert("name".to_string(), json!(name.into()));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let passkey_id = passkey_id.into();
+        if passkey_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"passkeyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/account/passkeys/{passkeyId}"
+            .to_string()
+            .replace("{passkeyId}", &passkey_id);
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Delete a passkey from the currently logged in user. The passkey can no
+    /// longer be used to sign in, although it may remain stored on the user's
+    /// device. The session must have signed in or completed an MFA challenge
+    /// within the last 10 minutes.
+    pub async fn delete_passkey(&self, passkey_id: impl Into<String>) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let passkey_id = passkey_id.into();
+        if passkey_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"passkeyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/account/passkeys/{passkeyId}"
+            .to_string()
+            .replace("{passkeyId}", &passkey_id);
+
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Complete a passkey registration started with [Create
+    /// passkey](/docs/references/cloud/client-web/account#createPasskey). Pass the
+    /// JSON form of the credential returned by `navigator.credentials.create()`,
+    /// for example `credential.toJSON()`. Each registration can be verified once;
+    /// a failed attempt requires starting it again.
+    pub async fn update_passkey_verification(
+        &self,
+        passkey_id: impl Into<String>,
+        credential: serde_json::Value,
+    ) -> crate::error::Result<crate::models::Passkey> {
+        let mut params = HashMap::new();
+        params.insert("credential".to_string(), json!(credential));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let passkey_id = passkey_id.into();
+        if passkey_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"passkeyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/account/passkeys/{passkeyId}/verification"
+            .to_string()
+            .replace("{passkeyId}", &passkey_id);
+
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Update currently logged in user password. For validation, user is required
     /// to pass in the new password, and the old password. For users created with
     /// OAuth, Team Invites and Magic URL, oldPassword is optional.
@@ -993,6 +1174,56 @@ impl Account {
 
         self.client
             .call_location(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Start signing in with a passkey. No email or user ID is needed: pass the
+    /// returned `publicKey` options to `navigator.credentials.get()` and the user
+    /// picks one of their passkeys. Then call [Update passkey
+    /// token](/docs/references/cloud/client-web/account#updatePasskeyToken) with
+    /// the credential to receive a token, and exchange it with [Create
+    /// session](/docs/references/cloud/client-web/account#createSession). The
+    /// challenge expires after 5 minutes.
+    pub async fn create_passkey_token(
+        &self,
+    ) -> crate::error::Result<crate::models::PasskeyChallenge> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/account/tokens/passkey".to_string();
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Complete a passkey sign-in started with [Create passkey
+    /// token](/docs/references/cloud/client-web/account#createPasskeyToken). Pass
+    /// the challenge ID and the JSON form of the credential returned by
+    /// `navigator.credentials.get()`, for example `credential.toJSON()`. The
+    /// returned token includes its secret and expires after 1 minute: exchange it
+    /// for a session with [Create
+    /// session](/docs/references/cloud/client-web/account#createSession). Passkeys
+    /// require user verification, so the session also satisfies MFA. Each
+    /// challenge can only be used once.
+    pub async fn update_passkey_token(
+        &self,
+        challenge_id: impl Into<String>,
+        credential: serde_json::Value,
+    ) -> crate::error::Result<crate::models::TokenSecret> {
+        let mut params = HashMap::new();
+        params.insert("challengeId".to_string(), json!(challenge_id.into()));
+        params.insert("credential".to_string(), json!(credential));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/account/tokens/passkey".to_string();
+
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
             .await
     }
 
