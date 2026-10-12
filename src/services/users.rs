@@ -741,6 +741,170 @@ impl Users {
             .await
     }
 
+    /// Get the list of verified passkeys registered by a user.
+    pub async fn list_passkeys(
+        &self,
+        user_id: impl Into<String>,
+        queries: Option<Vec<String>>,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::PasskeyList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/users/{userId}/passkeys"
+            .to_string()
+            .replace("{userId}", &user_id);
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Get a verified passkey of a user by its unique ID.
+    pub async fn get_passkey(
+        &self,
+        user_id: impl Into<String>,
+        passkey_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Passkey> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let passkey_id = passkey_id.into();
+        if passkey_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"passkeyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/users/{userId}/passkeys/{passkeyId}"
+            .to_string()
+            .replace("{userId}", &user_id)
+            .replace("{passkeyId}", &passkey_id);
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Rename a passkey of a user.
+    pub async fn update_passkey(
+        &self,
+        user_id: impl Into<String>,
+        passkey_id: impl Into<String>,
+        name: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Passkey> {
+        let mut params = HashMap::new();
+        params.insert("name".to_string(), json!(name.into()));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let passkey_id = passkey_id.into();
+        if passkey_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"passkeyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/users/{userId}/passkeys/{passkeyId}"
+            .to_string()
+            .replace("{userId}", &user_id)
+            .replace("{passkeyId}", &passkey_id);
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Delete a passkey from a user, for example when a device is lost. The
+    /// passkey can no longer be used to sign in.
+    pub async fn delete_passkey(
+        &self,
+        user_id: impl Into<String>,
+        passkey_id: impl Into<String>,
+    ) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let passkey_id = passkey_id.into();
+        if passkey_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"passkeyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/users/{userId}/passkeys/{passkeyId}"
+            .to_string()
+            .replace("{userId}", &user_id)
+            .replace("{passkeyId}", &passkey_id);
+
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Update the user password by its unique ID.
     pub async fn update_password(
         &self,

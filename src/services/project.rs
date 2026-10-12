@@ -2309,6 +2309,29 @@ impl Project {
             .await
     }
 
+    /// Set the relying party ID passkeys are bound to: the domain of your
+    /// application. Passkeys work on the project's web platforms on that domain or
+    /// its subdomains, and on the domain itself for Apple apps. A localhost web
+    /// platform enables passkeys for local development without a relying party ID.
+    /// The relying party ID cannot change while users have passkeys, and any
+    /// change invalidates ceremonies in progress.
+    pub async fn update_passkey_policy(
+        &self,
+        rp_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Project> {
+        let mut params = HashMap::new();
+        params.insert("rpId".to_string(), json!(rp_id.into()));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/policies/passkey".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Updating this policy allows you to control if new passwords are checked
     /// against most common passwords dictionary. When enabled, and user changes
     /// their password, password must not be contained in the dictionary.
