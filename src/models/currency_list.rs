@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct CurrencyList {
     /// Total number of currencies that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of currencies.
     #[serde(rename = "currencies")]
     pub currencies: Vec<crate::models::Currency>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl CurrencyList {

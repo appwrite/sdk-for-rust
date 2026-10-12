@@ -8,32 +8,72 @@ use serde::{Deserialize, Serialize};
 pub struct Provider {
     /// Provider ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Provider creation time in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Provider update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// The name for the provider instance.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// The name of the provider service.
     #[serde(rename = "provider")]
+    #[serde(default = "default_provider")]
     pub provider: String,
     /// Is provider enabled?
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Type of provider.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Provider credentials.
     #[serde(rename = "credentials")]
+    #[serde(default = "default_credentials")]
     pub credentials: serde_json::Value,
     /// Provider options.
     #[serde(rename = "options")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub options: Option<serde_json::Value>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_provider() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    true
+}
+
+fn default_type() -> String {
+    "".to_string()
+}
+
+fn default_credentials() -> serde_json::Value {
+    serde_json::json!({})
 }
 
 impl Provider {

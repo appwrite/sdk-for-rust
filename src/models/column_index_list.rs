@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct ColumnIndexList {
     /// Total number of indexes that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of indexes.
     #[serde(rename = "indexes")]
     pub indexes: Vec<crate::models::ColumnIndex>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl ColumnIndexList {

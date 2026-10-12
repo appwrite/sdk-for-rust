@@ -8,26 +8,61 @@ use serde::{Deserialize, Serialize};
 pub struct Currency {
     /// Currency symbol.
     #[serde(rename = "symbol")]
+    #[serde(default = "default_symbol")]
     pub symbol: String,
     /// Currency name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Currency native symbol.
     #[serde(rename = "symbolNative")]
+    #[serde(default = "default_symbol_native")]
     pub symbol_native: String,
     /// Number of decimal digits.
     #[serde(rename = "decimalDigits")]
+    #[serde(default = "default_decimal_digits")]
     pub decimal_digits: i64,
     /// Currency digit rounding.
     #[serde(rename = "rounding")]
+    #[serde(default = "default_rounding")]
     pub rounding: f64,
     /// Currency code in [ISO 4217-1](http://en.wikipedia.org/wiki/ISO_4217)
     /// three-character format.
     #[serde(rename = "code")]
+    #[serde(default = "default_code")]
     pub code: String,
     /// Currency plural name
     #[serde(rename = "namePlural")]
+    #[serde(default = "default_name_plural")]
     pub name_plural: String,
+}
+
+fn default_symbol() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_symbol_native() -> String {
+    "".to_string()
+}
+
+fn default_decimal_digits() -> i64 {
+    0
+}
+
+fn default_rounding() -> f64 {
+    0.0
+}
+
+fn default_code() -> String {
+    "".to_string()
+}
+
+fn default_name_plural() -> String {
+    "".to_string()
 }
 
 impl Currency {

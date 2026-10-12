@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct DedicatedDatabaseBackupList {
     /// Total number of backups.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of backups.
     #[serde(rename = "backups")]
     pub backups: Vec<crate::models::DedicatedDatabaseBackup>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl DedicatedDatabaseBackupList {

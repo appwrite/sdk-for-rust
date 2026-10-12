@@ -8,24 +8,30 @@ use serde::{Deserialize, Serialize};
 pub struct Execution {
     /// Execution ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Execution creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Execution update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Execution roles.
     #[serde(rename = "$permissions")]
     pub permissions: Vec<String>,
     /// Function or site ID.
     #[serde(rename = "resourceId")]
+    #[serde(default = "default_resource_id")]
     pub resource_id: String,
     /// Execution resource type.
     #[serde(rename = "resourceType")]
+    #[serde(default = "default_resource_type")]
     pub resource_type: crate::enums::ExecutionResourceType,
     /// Deployment ID used to create the execution.
     #[serde(rename = "deploymentId")]
+    #[serde(default = "default_deployment_id")]
     pub deployment_id: String,
     /// The trigger that caused the resource to execute. Possible values can be:
     /// `http`, `schedule`, or `event`.
@@ -37,9 +43,11 @@ pub struct Execution {
     pub status: crate::enums::ExecutionStatus,
     /// HTTP request method type.
     #[serde(rename = "requestMethod")]
+    #[serde(default = "default_request_method")]
     pub request_method: String,
     /// HTTP request path and query.
     #[serde(rename = "requestPath")]
+    #[serde(default = "default_request_path")]
     pub request_path: String,
     /// HTTP request headers as a key-value object. This will return only
     /// whitelisted headers. All headers are returned if execution is created as
@@ -48,10 +56,12 @@ pub struct Execution {
     pub request_headers: Vec<crate::models::Headers>,
     /// HTTP response status code.
     #[serde(rename = "responseStatusCode")]
+    #[serde(default = "default_response_status_code")]
     pub response_status_code: i64,
     /// HTTP response body. This will return empty unless execution is created as
     /// synchronous.
     #[serde(rename = "responseBody")]
+    #[serde(default = "default_response_body")]
     pub response_body: String,
     /// HTTP response headers as a key-value object. This will return only
     /// whitelisted headers. All headers are returned if execution is created as
@@ -62,20 +72,75 @@ pub struct Execution {
     /// empty string unless the response is returned using an API key or as part of
     /// a webhook payload.
     #[serde(rename = "logs")]
+    #[serde(default = "default_logs")]
     pub logs: String,
     /// Resource errors. Includes the last 4,000 characters. This will return an
     /// empty string unless the response is returned using an API key or as part of
     /// a webhook payload.
     #[serde(rename = "errors")]
+    #[serde(default = "default_errors")]
     pub errors: String,
-    /// Resource(function/site) execution duration in seconds.
+    /// Total time the resource(function/site) took to respond, in seconds.
     #[serde(rename = "duration")]
+    #[serde(default = "default_duration")]
     pub duration: f64,
     /// The scheduled time for execution. If left empty, execution will be queued
     /// immediately.
     #[serde(rename = "scheduledAt")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub scheduled_at: Option<String>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_resource_id() -> String {
+    "".to_string()
+}
+
+fn default_resource_type() -> crate::enums::ExecutionResourceType {
+    serde_json::from_value(serde_json::json!("functions")).unwrap()
+}
+
+fn default_deployment_id() -> String {
+    "".to_string()
+}
+
+fn default_request_method() -> String {
+    "".to_string()
+}
+
+fn default_request_path() -> String {
+    "".to_string()
+}
+
+fn default_response_status_code() -> i64 {
+    0
+}
+
+fn default_response_body() -> String {
+    "".to_string()
+}
+
+fn default_logs() -> String {
+    "".to_string()
+}
+
+fn default_errors() -> String {
+    "".to_string()
+}
+
+fn default_duration() -> f64 {
+    0.0
 }
 
 impl Execution {

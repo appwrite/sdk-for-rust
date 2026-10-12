@@ -8,33 +8,43 @@ use serde::{Deserialize, Serialize};
 pub struct BillingPlan {
     /// Plan ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Plan name
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Plan description
     #[serde(rename = "desc")]
+    #[serde(default = "default_desc")]
     pub desc: String,
     /// Plan order
     #[serde(rename = "order")]
+    #[serde(default = "default_order")]
     pub order: i64,
     /// Price
     #[serde(rename = "price")]
+    #[serde(default = "default_price")]
     pub price: f64,
     /// Trial days
     #[serde(rename = "trial")]
+    #[serde(default = "default_trial")]
     pub trial: i64,
     /// Bandwidth
     #[serde(rename = "bandwidth")]
+    #[serde(default = "default_bandwidth")]
     pub bandwidth: i64,
     /// Storage
     #[serde(rename = "storage")]
+    #[serde(default = "default_storage")]
     pub storage: i64,
     /// Image Transformations
     #[serde(rename = "imageTransformations")]
+    #[serde(default = "default_image_transformations")]
     pub image_transformations: i64,
     /// Screenshots generated
     #[serde(rename = "screenshotsGenerated")]
+    #[serde(default = "default_screenshots_generated")]
     pub screenshots_generated: i64,
     /// Members
     #[serde(rename = "members")]
@@ -42,72 +52,95 @@ pub struct BillingPlan {
     pub members: Option<i64>,
     /// Webhooks
     #[serde(rename = "webhooks")]
+    #[serde(default = "default_webhooks")]
     pub webhooks: i64,
     /// Maximum WAF rules per project
     #[serde(rename = "wafRules")]
+    #[serde(default = "default_waf_rules")]
     pub waf_rules: i64,
     /// Projects
     #[serde(rename = "projects")]
+    #[serde(default = "default_projects")]
     pub projects: i64,
     /// Platforms
     #[serde(rename = "platforms")]
+    #[serde(default = "default_platforms")]
     pub platforms: i64,
     /// Users
     #[serde(rename = "users")]
+    #[serde(default = "default_users")]
     pub users: i64,
     /// Teams
     #[serde(rename = "teams")]
+    #[serde(default = "default_teams")]
     pub teams: i64,
     /// Databases
     #[serde(rename = "databases")]
+    #[serde(default = "default_databases")]
     pub databases: i64,
     /// Database reads per month
     #[serde(rename = "databasesReads")]
+    #[serde(default = "default_databases_reads")]
     pub databases_reads: i64,
     /// Database writes per month
     #[serde(rename = "databasesWrites")]
+    #[serde(default = "default_databases_writes")]
     pub databases_writes: i64,
     /// Database batch size limit
     #[serde(rename = "databasesBatchSize")]
+    #[serde(default = "default_databases_batch_size")]
     pub databases_batch_size: i64,
     /// Buckets
     #[serde(rename = "buckets")]
+    #[serde(default = "default_buckets")]
     pub buckets: i64,
     /// File size
     #[serde(rename = "fileSize")]
+    #[serde(default = "default_file_size")]
     pub file_size: i64,
     /// Functions
     #[serde(rename = "functions")]
+    #[serde(default = "default_functions")]
     pub functions: i64,
     /// Sites
     #[serde(rename = "sites")]
+    #[serde(default = "default_sites")]
     pub sites: i64,
     /// Function executions
     #[serde(rename = "executions")]
+    #[serde(default = "default_executions")]
     pub executions: i64,
     /// Rolling max executions retained per function/site
     #[serde(rename = "executionsRetentionCount")]
+    #[serde(default = "default_executions_retention_count")]
     pub executions_retention_count: i64,
     /// GB hours for functions
     #[serde(rename = "GBHours")]
+    #[serde(default = "default_gb_hours")]
     pub gb_hours: i64,
     /// Realtime connections
     #[serde(rename = "realtime")]
+    #[serde(default = "default_realtime")]
     pub realtime: i64,
     /// Realtime messages
     #[serde(rename = "realtimeMessages")]
+    #[serde(default = "default_realtime_messages")]
     pub realtime_messages: i64,
     /// Messages per month
     #[serde(rename = "messages")]
+    #[serde(default = "default_messages")]
     pub messages: i64,
     /// Topics for messaging
     #[serde(rename = "topics")]
+    #[serde(default = "default_topics")]
     pub topics: i64,
     /// SMS authentications per month
     #[serde(rename = "authPhone")]
+    #[serde(default = "default_auth_phone")]
     pub auth_phone: i64,
     /// Custom domains
     #[serde(rename = "domains")]
+    #[serde(default = "default_domains")]
     pub domains: i64,
     /// Activity log days
     #[serde(rename = "activityLogs")]
@@ -115,6 +148,7 @@ pub struct BillingPlan {
     pub activity_logs: Option<i64>,
     /// Usage history days
     #[serde(rename = "usageLogs")]
+    #[serde(default = "default_usage_logs")]
     pub usage_logs: i64,
     /// Usage log time intervals allowed for this plan (e.g. 15m, 1h, 1d).
     #[serde(rename = "usageLogsIntervals")]
@@ -129,69 +163,95 @@ pub struct BillingPlan {
     /// Number of days of console inactivity before a project is paused. 0 means
     /// pausing is disabled.
     #[serde(rename = "projectInactivityDays")]
+    #[serde(default = "default_project_inactivity_days")]
     pub project_inactivity_days: i64,
     /// Alert threshold percentage
     #[serde(rename = "alertLimit")]
+    #[serde(default = "default_alert_limit")]
     pub alert_limit: i64,
-    /// Additional resources
+    /// Additional resources. Null when the plan does not support usage billing.
     #[serde(rename = "usage")]
-    pub usage: crate::models::UsageBillingPlan,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub usage: Option<crate::models::UsageBillingPlan>,
     /// Addons
     #[serde(rename = "addons")]
     pub addons: crate::models::BillingPlanAddon,
     /// Budget cap enabled or disabled.
     #[serde(rename = "budgetCapEnabled")]
+    #[serde(default = "default_budget_cap_enabled")]
     pub budget_cap_enabled: bool,
     /// Custom SMTP
     #[serde(rename = "customSmtp")]
+    #[serde(default = "default_custom_smtp")]
     pub custom_smtp: bool,
     /// Appwrite branding in email
     #[serde(rename = "emailBranding")]
+    #[serde(default = "default_email_branding")]
     pub email_branding: bool,
     /// Does plan require payment method
     #[serde(rename = "requiresPaymentMethod")]
+    #[serde(default = "default_requires_payment_method")]
     pub requires_payment_method: bool,
     /// Does plan require billing address
     #[serde(rename = "requiresBillingAddress")]
+    #[serde(default = "default_requires_billing_address")]
     pub requires_billing_address: bool,
+    /// ISO country codes eligible for this regional plan. Empty means no
+    /// restriction.
+    #[serde(rename = "eligibleCountries")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub eligible_countries: Option<Vec<String>>,
     /// Is the billing plan available
     #[serde(rename = "isAvailable")]
+    #[serde(default = "default_is_available")]
     pub is_available: bool,
     /// Can user change the plan themselves
     #[serde(rename = "selfService")]
+    #[serde(default = "default_self_service")]
     pub self_service: bool,
     /// Does plan enable premium support
     #[serde(rename = "premiumSupport")]
+    #[serde(default = "default_premium_support")]
     pub premium_support: bool,
     /// Does plan support budget cap
     #[serde(rename = "budgeting")]
+    #[serde(default = "default_budgeting")]
     pub budgeting: bool,
     /// Does plan support mock numbers
     #[serde(rename = "supportsMockNumbers")]
+    #[serde(default = "default_supports_mock_numbers")]
     pub supports_mock_numbers: bool,
     /// Does plan support organization roles
     #[serde(rename = "supportsOrganizationRoles")]
+    #[serde(default = "default_supports_organization_roles")]
     pub supports_organization_roles: bool,
     /// Does plan support credit
     #[serde(rename = "supportsCredits")]
+    #[serde(default = "default_supports_credits")]
     pub supports_credits: bool,
     /// Does plan support dedicated databases.
     #[serde(rename = "supportsDedicatedDatabases")]
+    #[serde(default = "default_supports_dedicated_databases")]
     pub supports_dedicated_databases: bool,
     /// Does plan support blocking disposable email addresses.
     #[serde(rename = "supportsDisposableEmailValidation")]
+    #[serde(default = "default_supports_disposable_email_validation")]
     pub supports_disposable_email_validation: bool,
     /// Does plan support requiring canonical email addresses.
     #[serde(rename = "supportsCanonicalEmailValidation")]
+    #[serde(default = "default_supports_canonical_email_validation")]
     pub supports_canonical_email_validation: bool,
     /// Does plan support blocking free email addresses.
     #[serde(rename = "supportsFreeEmailValidation")]
+    #[serde(default = "default_supports_free_email_validation")]
     pub supports_free_email_validation: bool,
     /// Does plan support restricting sign-ups to corporate email addresses only.
     #[serde(rename = "supportsCorporateEmailValidation")]
+    #[serde(default = "default_supports_corporate_email_validation")]
     pub supports_corporate_email_validation: bool,
     /// Does plan support project-specific member roles.
     #[serde(rename = "supportsProjectSpecificRoles")]
+    #[serde(default = "default_supports_project_specific_roles")]
     pub supports_project_specific_roles: bool,
     /// Does plan support backup policies.
     #[serde(rename = "backupsEnabled")]
@@ -199,6 +259,7 @@ pub struct BillingPlan {
     pub backups_enabled: Option<bool>,
     /// Whether usage addons are calculated per project.
     #[serde(rename = "usagePerProject")]
+    #[serde(default = "default_usage_per_project")]
     pub usage_per_project: bool,
     /// Supported addons for this plan
     #[serde(rename = "supportedAddons")]
@@ -209,16 +270,20 @@ pub struct BillingPlan {
     pub backup_policies: Option<i64>,
     /// Maximum function and site deployment size in MB
     #[serde(rename = "deploymentSize")]
+    #[serde(default = "default_deployment_size")]
     pub deployment_size: i64,
     /// Maximum function and site deployment size in MB
     #[serde(rename = "buildSize")]
+    #[serde(default = "default_build_size")]
     pub build_size: i64,
     /// Shortest function schedule interval allowed, in minutes. 0 allows every
     /// interval.
     #[serde(rename = "functionsIntervalMinimum")]
+    #[serde(default = "default_functions_interval_minimum")]
     pub functions_interval_minimum: i64,
     /// Does the plan support encrypted string attributes or not.
     #[serde(rename = "databasesAllowEncrypt")]
+    #[serde(default = "default_databases_allow_encrypt")]
     pub databases_allow_encrypt: bool,
     /// Plan specific limits
     #[serde(rename = "limits")]
@@ -234,11 +299,252 @@ pub struct BillingPlan {
     /// Included monthly dedicated-database compute credit in USD. Resets each
     /// billing cycle with no roll-over.
     #[serde(rename = "databaseComputeCredit")]
+    #[serde(default = "default_database_compute_credit")]
     pub database_compute_credit: f64,
     /// Dedicated database limits available to this plan.
     #[serde(rename = "dedicatedDatabases")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub dedicated_databases: Option<crate::models::BillingPlanDedicatedDatabaseLimits>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_desc() -> String {
+    "".to_string()
+}
+
+fn default_order() -> i64 {
+    0
+}
+
+fn default_price() -> f64 {
+    0.0
+}
+
+fn default_trial() -> i64 {
+    0
+}
+
+fn default_bandwidth() -> i64 {
+    0
+}
+
+fn default_storage() -> i64 {
+    0
+}
+
+fn default_image_transformations() -> i64 {
+    0
+}
+
+fn default_screenshots_generated() -> i64 {
+    0
+}
+
+fn default_webhooks() -> i64 {
+    0
+}
+
+fn default_waf_rules() -> i64 {
+    0
+}
+
+fn default_projects() -> i64 {
+    0
+}
+
+fn default_platforms() -> i64 {
+    0
+}
+
+fn default_users() -> i64 {
+    0
+}
+
+fn default_teams() -> i64 {
+    0
+}
+
+fn default_databases() -> i64 {
+    0
+}
+
+fn default_databases_reads() -> i64 {
+    0
+}
+
+fn default_databases_writes() -> i64 {
+    0
+}
+
+fn default_databases_batch_size() -> i64 {
+    0
+}
+
+fn default_buckets() -> i64 {
+    0
+}
+
+fn default_file_size() -> i64 {
+    0
+}
+
+fn default_functions() -> i64 {
+    0
+}
+
+fn default_sites() -> i64 {
+    0
+}
+
+fn default_executions() -> i64 {
+    0
+}
+
+fn default_executions_retention_count() -> i64 {
+    1000
+}
+
+fn default_gb_hours() -> i64 {
+    0
+}
+
+fn default_realtime() -> i64 {
+    0
+}
+
+fn default_realtime_messages() -> i64 {
+    0
+}
+
+fn default_messages() -> i64 {
+    0
+}
+
+fn default_topics() -> i64 {
+    0
+}
+
+fn default_auth_phone() -> i64 {
+    0
+}
+
+fn default_domains() -> i64 {
+    0
+}
+
+fn default_usage_logs() -> i64 {
+    0
+}
+
+fn default_project_inactivity_days() -> i64 {
+    0
+}
+
+fn default_alert_limit() -> i64 {
+    80
+}
+
+fn default_budget_cap_enabled() -> bool {
+    false
+}
+
+fn default_custom_smtp() -> bool {
+    false
+}
+
+fn default_email_branding() -> bool {
+    false
+}
+
+fn default_requires_payment_method() -> bool {
+    true
+}
+
+fn default_requires_billing_address() -> bool {
+    false
+}
+
+fn default_is_available() -> bool {
+    true
+}
+
+fn default_self_service() -> bool {
+    true
+}
+
+fn default_premium_support() -> bool {
+    true
+}
+
+fn default_budgeting() -> bool {
+    true
+}
+
+fn default_supports_mock_numbers() -> bool {
+    true
+}
+
+fn default_supports_organization_roles() -> bool {
+    true
+}
+
+fn default_supports_credits() -> bool {
+    false
+}
+
+fn default_supports_dedicated_databases() -> bool {
+    false
+}
+
+fn default_supports_disposable_email_validation() -> bool {
+    false
+}
+
+fn default_supports_canonical_email_validation() -> bool {
+    false
+}
+
+fn default_supports_free_email_validation() -> bool {
+    false
+}
+
+fn default_supports_corporate_email_validation() -> bool {
+    false
+}
+
+fn default_supports_project_specific_roles() -> bool {
+    false
+}
+
+fn default_usage_per_project() -> bool {
+    true
+}
+
+fn default_deployment_size() -> i64 {
+    0
+}
+
+fn default_build_size() -> i64 {
+    0
+}
+
+fn default_functions_interval_minimum() -> i64 {
+    0
+}
+
+fn default_databases_allow_encrypt() -> bool {
+    false
+}
+
+fn default_database_compute_credit() -> f64 {
+    0.0
 }
 
 impl BillingPlan {
@@ -469,9 +775,15 @@ impl BillingPlan {
         &self.alert_limit
     }
 
+    /// Set usage
+    pub fn set_usage(mut self, usage: crate::models::UsageBillingPlan) -> Self {
+        self.usage = Some(usage);
+        self
+    }
+
     /// Get usage
-    pub fn usage(&self) -> &crate::models::UsageBillingPlan {
-        &self.usage
+    pub fn usage(&self) -> Option<&crate::models::UsageBillingPlan> {
+        self.usage.as_ref()
     }
 
     /// Get addons
@@ -502,6 +814,17 @@ impl BillingPlan {
     /// Get requires_billing_address
     pub fn requires_billing_address(&self) -> &bool {
         &self.requires_billing_address
+    }
+
+    /// Set eligible_countries
+    pub fn set_eligible_countries(mut self, eligible_countries: Vec<String>) -> Self {
+        self.eligible_countries = Some(eligible_countries);
+        self
+    }
+
+    /// Get eligible_countries
+    pub fn eligible_countries(&self) -> Option<&Vec<String>> {
+        self.eligible_countries.as_ref()
     }
 
     /// Get is_available
@@ -713,7 +1036,6 @@ mod tests {
         let _ = _model.usage_logs();
         let _ = _model.project_inactivity_days();
         let _ = _model.alert_limit();
-        let _ = _model.usage();
         let _ = _model.addons();
         let _ = _model.budget_cap_enabled();
         let _ = _model.custom_smtp();

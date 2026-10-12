@@ -13,10 +13,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = messaging.update_sms(
         "<MESSAGE_ID>",
-        Some(vec![]), // optional
-        Some(vec![]), // optional
-        Some(vec![]), // optional
         Some("<CONTENT>"), // optional
+        Some(vec![]), // optional
+        Some(vec![]), // optional
+        Some(vec![]), // optional
         Some(false), // optional
         Some("2020-10-15T06:38:00.000+00:00") // optional
     ).await?;

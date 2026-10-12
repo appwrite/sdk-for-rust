@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = documents_db.create_documents(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        vec![],
+        vec![serde_json::json!({"$id":"example1","username":"walter.obrien","email":"walter.obrien@example.com","fullName":"Walter O'Brien","age":30,"isAdmin":false})],
         Some("<TRANSACTION_ID>") // optional
     ).await?;
 

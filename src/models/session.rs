@@ -8,95 +8,240 @@ use serde::{Deserialize, Serialize};
 pub struct Session {
     /// Session ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Session creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Session update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// User ID.
     #[serde(rename = "userId")]
+    #[serde(default = "default_user_id")]
     pub user_id: String,
     /// Session expiration date in ISO 8601 format.
     #[serde(rename = "expire")]
+    #[serde(default = "default_expire")]
     pub expire: String,
     /// Session Provider.
     #[serde(rename = "provider")]
+    #[serde(default = "default_provider")]
     pub provider: String,
     /// Session Provider User ID.
     #[serde(rename = "providerUid")]
+    #[serde(default = "default_provider_uid")]
     pub provider_uid: String,
     /// Session Provider Access Token.
     #[serde(rename = "providerAccessToken")]
+    #[serde(default = "default_provider_access_token")]
     pub provider_access_token: String,
     /// The date of when the access token expires in ISO 8601 format.
     #[serde(rename = "providerAccessTokenExpiry")]
+    #[serde(default = "default_provider_access_token_expiry")]
     pub provider_access_token_expiry: String,
     /// Session Provider Refresh Token.
     #[serde(rename = "providerRefreshToken")]
+    #[serde(default = "default_provider_refresh_token")]
     pub provider_refresh_token: String,
     /// IP in use when the session was created.
     #[serde(rename = "ip")]
+    #[serde(default = "default_ip")]
     pub ip: String,
     /// Operating system code name. View list of [available
     /// options](https://github.com/appwrite/appwrite/blob/master/docs/lists/os.json).
     #[serde(rename = "osCode")]
+    #[serde(default = "default_os_code")]
     pub os_code: String,
     /// Operating system name.
     #[serde(rename = "osName")]
+    #[serde(default = "default_os_name")]
     pub os_name: String,
     /// Operating system version.
     #[serde(rename = "osVersion")]
+    #[serde(default = "default_os_version")]
     pub os_version: String,
     /// Client type.
     #[serde(rename = "clientType")]
+    #[serde(default = "default_client_type")]
     pub client_type: String,
     /// Client code name. View list of [available
     /// options](https://github.com/appwrite/appwrite/blob/master/docs/lists/clients.json).
     #[serde(rename = "clientCode")]
+    #[serde(default = "default_client_code")]
     pub client_code: String,
     /// Client name.
     #[serde(rename = "clientName")]
+    #[serde(default = "default_client_name")]
     pub client_name: String,
     /// Client version.
     #[serde(rename = "clientVersion")]
+    #[serde(default = "default_client_version")]
     pub client_version: String,
     /// Client engine name.
     #[serde(rename = "clientEngine")]
+    #[serde(default = "default_client_engine")]
     pub client_engine: String,
     /// Client engine name.
     #[serde(rename = "clientEngineVersion")]
+    #[serde(default = "default_client_engine_version")]
     pub client_engine_version: String,
     /// Device name.
     #[serde(rename = "deviceName")]
+    #[serde(default = "default_device_name")]
     pub device_name: String,
     /// Device brand name.
     #[serde(rename = "deviceBrand")]
+    #[serde(default = "default_device_brand")]
     pub device_brand: String,
     /// Device model name.
     #[serde(rename = "deviceModel")]
+    #[serde(default = "default_device_model")]
     pub device_model: String,
     /// Country two-character ISO 3166-1 alpha code.
     #[serde(rename = "countryCode")]
+    #[serde(default = "default_country_code")]
     pub country_code: String,
     /// Country name.
     #[serde(rename = "countryName")]
+    #[serde(default = "default_country_name")]
     pub country_name: String,
     /// Returns true if this the current user session.
     #[serde(rename = "current")]
+    #[serde(default = "default_current")]
     pub current: bool,
     /// Returns a list of active session factors.
     #[serde(rename = "factors")]
+    #[serde(default = "default_factors")]
     pub factors: Vec<String>,
     /// Secret used to authenticate the user. Only included if the request was made
     /// with an API key
     #[serde(rename = "secret")]
+    #[serde(default = "default_secret")]
     pub secret: String,
     /// Most recent date in ISO 8601 format when the session successfully passed
     /// MFA challenge.
     #[serde(rename = "mfaUpdatedAt")]
+    #[serde(default = "default_mfa_updated_at")]
     pub mfa_updated_at: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_user_id() -> String {
+    "".to_string()
+}
+
+fn default_expire() -> String {
+    "".to_string()
+}
+
+fn default_provider() -> String {
+    "".to_string()
+}
+
+fn default_provider_uid() -> String {
+    "".to_string()
+}
+
+fn default_provider_access_token() -> String {
+    "".to_string()
+}
+
+fn default_provider_access_token_expiry() -> String {
+    "".to_string()
+}
+
+fn default_provider_refresh_token() -> String {
+    "".to_string()
+}
+
+fn default_ip() -> String {
+    "".to_string()
+}
+
+fn default_os_code() -> String {
+    "".to_string()
+}
+
+fn default_os_name() -> String {
+    "".to_string()
+}
+
+fn default_os_version() -> String {
+    "".to_string()
+}
+
+fn default_client_type() -> String {
+    "".to_string()
+}
+
+fn default_client_code() -> String {
+    "".to_string()
+}
+
+fn default_client_name() -> String {
+    "".to_string()
+}
+
+fn default_client_version() -> String {
+    "".to_string()
+}
+
+fn default_client_engine() -> String {
+    "".to_string()
+}
+
+fn default_client_engine_version() -> String {
+    "".to_string()
+}
+
+fn default_device_name() -> String {
+    "".to_string()
+}
+
+fn default_device_brand() -> String {
+    "".to_string()
+}
+
+fn default_device_model() -> String {
+    "".to_string()
+}
+
+fn default_country_code() -> String {
+    "".to_string()
+}
+
+fn default_country_name() -> String {
+    "".to_string()
+}
+
+fn default_current() -> bool {
+    false
+}
+
+fn default_factors() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_secret() -> String {
+    "".to_string()
+}
+
+fn default_mfa_updated_at() -> String {
+    "".to_string()
 }
 
 impl Session {

@@ -47,6 +47,8 @@ pub enum OAuthProvider {
     Google,
     #[serde(rename = "huggingface")]
     Huggingface,
+    #[serde(rename = "kakao")]
+    Kakao,
     #[serde(rename = "keycloak")]
     Keycloak,
     #[serde(rename = "kick")]
@@ -77,12 +79,16 @@ pub enum OAuthProvider {
     Spotify,
     #[serde(rename = "stripe")]
     Stripe,
+    #[serde(rename = "tiktok")]
+    Tiktok,
     #[serde(rename = "tradeshift")]
     Tradeshift,
     #[serde(rename = "tradeshiftBox")]
     TradeshiftBox,
     #[serde(rename = "twitch")]
     Twitch,
+    #[serde(rename = "webflow")]
+    Webflow,
     #[serde(rename = "wordpress")]
     Wordpress,
     #[serde(rename = "x")]
@@ -125,6 +131,7 @@ impl OAuthProvider {
             OAuthProvider::Gitlab => "gitlab",
             OAuthProvider::Google => "google",
             OAuthProvider::Huggingface => "huggingface",
+            OAuthProvider::Kakao => "kakao",
             OAuthProvider::Keycloak => "keycloak",
             OAuthProvider::Kick => "kick",
             OAuthProvider::Linkedin => "linkedin",
@@ -140,9 +147,11 @@ impl OAuthProvider {
             OAuthProvider::Slack => "slack",
             OAuthProvider::Spotify => "spotify",
             OAuthProvider::Stripe => "stripe",
+            OAuthProvider::Tiktok => "tiktok",
             OAuthProvider::Tradeshift => "tradeshift",
             OAuthProvider::TradeshiftBox => "tradeshiftBox",
             OAuthProvider::Twitch => "twitch",
+            OAuthProvider::Webflow => "webflow",
             OAuthProvider::Wordpress => "wordpress",
             OAuthProvider::X => "x",
             OAuthProvider::Yahoo => "yahoo",

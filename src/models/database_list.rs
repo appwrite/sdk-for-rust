@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct DatabaseList {
     /// Total number of databases that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of databases.
     #[serde(rename = "databases")]
     pub databases: Vec<crate::models::Database>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl DatabaseList {

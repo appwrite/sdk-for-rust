@@ -22,8 +22,6 @@ pub mod session_list;
 pub use session_list::SessionList;
 pub mod identity_list;
 pub use identity_list::IdentityList;
-pub mod log_list;
-pub use log_list::LogList;
 pub mod file_list;
 pub use file_list::FileList;
 pub mod bucket_list;
@@ -196,8 +194,6 @@ pub mod document;
 pub use document::Document;
 pub mod presence;
 pub use presence::Presence;
-pub mod log;
-pub use log::Log;
 pub mod user;
 pub use user::User;
 pub mod algo_md5;
@@ -214,6 +210,8 @@ pub mod algo_scrypt_modified;
 pub use algo_scrypt_modified::AlgoScryptModified;
 pub mod algo_argon2;
 pub use algo_argon2::AlgoArgon2;
+pub mod account;
+pub use account::Account;
 pub mod preferences;
 pub use preferences::Preferences;
 pub mod session;
@@ -266,8 +264,6 @@ pub mod key;
 pub use key::Key;
 pub mod ephemeral_key;
 pub use ephemeral_key::EphemeralKey;
-pub mod dev_key;
-pub use dev_key::DevKey;
 pub mod mock_number;
 pub use mock_number::MockNumber;
 pub mod o_auth2_github;
@@ -300,6 +296,8 @@ pub mod o_auth2_x;
 pub use o_auth2_x::OAuth2X;
 pub mod o_auth2_word_press;
 pub use o_auth2_word_press::OAuth2WordPress;
+pub mod o_auth2_webflow;
+pub use o_auth2_webflow::OAuth2Webflow;
 pub mod o_auth2_twitch;
 pub use o_auth2_twitch::OAuth2Twitch;
 pub mod o_auth2_stripe;
@@ -358,6 +356,10 @@ pub mod o_auth2_microsoft;
 pub use o_auth2_microsoft::OAuth2Microsoft;
 pub mod o_auth2_resend;
 pub use o_auth2_resend::OAuth2Resend;
+pub mod o_auth2_tik_tok;
+pub use o_auth2_tik_tok::OAuth2TikTok;
+pub mod o_auth2_kakao;
+pub use o_auth2_kakao::OAuth2Kakao;
 pub mod o_auth2_provider_list;
 pub use o_auth2_provider_list::OAuth2ProviderList;
 pub mod policy_password_dictionary;
@@ -368,6 +370,10 @@ pub mod policy_password_strength;
 pub use policy_password_strength::PolicyPasswordStrength;
 pub mod policy_password_personal_data;
 pub use policy_password_personal_data::PolicyPasswordPersonalData;
+pub mod policy_password_pwned;
+pub use policy_password_pwned::PolicyPasswordPwned;
+pub mod policy_password_rotation;
+pub use policy_password_rotation::PolicyPasswordRotation;
 pub mod policy_session_alert;
 pub use policy_session_alert::PolicySessionAlert;
 pub mod policy_session_duration;
@@ -382,6 +388,16 @@ pub mod policy_membership_privacy;
 pub use policy_membership_privacy::PolicyMembershipPrivacy;
 pub mod policy_mfa_factors;
 pub use policy_mfa_factors::PolicyMfaFactors;
+pub mod policy_passkey;
+pub use policy_passkey::PolicyPasskey;
+pub mod policy_deny_aliased_email;
+pub use policy_deny_aliased_email::PolicyDenyAliasedEmail;
+pub mod policy_deny_disposable_email;
+pub use policy_deny_disposable_email::PolicyDenyDisposableEmail;
+pub mod policy_deny_free_email;
+pub use policy_deny_free_email::PolicyDenyFreeEmail;
+pub mod policy_deny_corporate_email;
+pub use policy_deny_corporate_email::PolicyDenyCorporateEmail;
 pub mod platform_web;
 pub use platform_web::PlatformWeb;
 pub mod platform_apple;
@@ -418,6 +434,14 @@ pub mod mfa_challenge;
 pub use mfa_challenge::MfaChallenge;
 pub mod mfa_challenge_secret;
 pub use mfa_challenge_secret::MfaChallengeSecret;
+pub mod token_secret;
+pub use token_secret::TokenSecret;
+pub mod passkey;
+pub use passkey::Passkey;
+pub mod passkey_challenge;
+pub use passkey_challenge::PasskeyChallenge;
+pub mod passkey_list;
+pub use passkey_list::PasskeyList;
 pub mod mfa_recovery_codes;
 pub use mfa_recovery_codes::MfaRecoveryCodes;
 pub mod mfa_type;
@@ -486,6 +510,14 @@ pub mod dedicated_database_restoration;
 pub use dedicated_database_restoration::DedicatedDatabaseRestoration;
 pub mod database_status;
 pub use database_status::DatabaseStatus;
+pub mod dns_record;
+pub use dns_record::DnsRecord;
+pub mod domain;
+pub use domain::Domain;
+pub mod domain_price;
+pub use domain_price::DomainPrice;
+pub mod domain_transfer_status;
+pub use domain_transfer_status::DomainTransferStatus;
 pub mod dedicated_database_extensions;
 pub use dedicated_database_extensions::DedicatedDatabaseExtensions;
 pub mod dedicated_database_member;
@@ -504,14 +536,6 @@ pub mod dedicated_database_pitr_windows;
 pub use dedicated_database_pitr_windows::DedicatedDatabasePITRWindows;
 pub mod backup_policy;
 pub use backup_policy::BackupPolicy;
-pub mod policy_deny_aliased_email;
-pub use policy_deny_aliased_email::PolicyDenyAliasedEmail;
-pub mod policy_deny_disposable_email;
-pub use policy_deny_disposable_email::PolicyDenyDisposableEmail;
-pub mod policy_deny_free_email;
-pub use policy_deny_free_email::PolicyDenyFreeEmail;
-pub mod policy_deny_corporate_email;
-pub use policy_deny_corporate_email::PolicyDenyCorporateEmail;
 pub mod dedicated_database_pooler;
 pub use dedicated_database_pooler::DedicatedDatabasePooler;
 pub mod postgres_extension;
@@ -526,8 +550,6 @@ pub mod dedicated_database_specification;
 pub use dedicated_database_specification::DedicatedDatabaseSpecification;
 pub mod dedicated_database_specification_list;
 pub use dedicated_database_specification_list::DedicatedDatabaseSpecificationList;
-pub mod dedicated_database_specification_pricing;
-pub use dedicated_database_specification_pricing::DedicatedDatabaseSpecificationPricing;
 pub mod database_status_connections;
 pub use database_status_connections::DatabaseStatusConnections;
 pub mod database_status_replica;
@@ -562,10 +584,24 @@ pub mod oauth2_par;
 pub use oauth2_par::Oauth2PAR;
 pub mod oauth2_token;
 pub use oauth2_token::Oauth2Token;
+pub mod oauth2_introspection;
+pub use oauth2_introspection::Oauth2Introspection;
 pub mod oauth2_consent;
 pub use oauth2_consent::Oauth2Consent;
 pub mod oauth2_consent_token;
 pub use oauth2_consent_token::Oauth2ConsentToken;
+pub mod waf_rule_bypass;
+pub use waf_rule_bypass::WafRuleBypass;
+pub mod waf_rule_deny;
+pub use waf_rule_deny::WafRuleDeny;
+pub mod waf_rule_challenge;
+pub use waf_rule_challenge::WafRuleChallenge;
+pub mod waf_rule_rate_limit;
+pub use waf_rule_rate_limit::WafRuleRateLimit;
+pub mod waf_rule_redirect;
+pub use waf_rule_redirect::WafRuleRedirect;
+pub mod waf_rule_list;
+pub use waf_rule_list::WafRuleList;
 pub mod oauth2_project;
 pub use oauth2_project::Oauth2Project;
 pub mod oauth2_organization;
@@ -590,6 +626,12 @@ pub mod database_migration_list;
 pub use database_migration_list::DatabaseMigrationList;
 pub mod dedicated_database_list;
 pub use dedicated_database_list::DedicatedDatabaseList;
+pub mod dns_records_list;
+pub use dns_records_list::DnsRecordsList;
+pub mod domain_prices_list;
+pub use domain_prices_list::DomainPricesList;
+pub mod domains_list;
+pub use domains_list::DomainsList;
 pub mod apps_list;
 pub use apps_list::AppsList;
 pub mod app_secret_list;
@@ -619,7 +661,6 @@ impl Model for ColumnIndexList {}
 impl Model for UserList {}
 impl Model for SessionList {}
 impl Model for IdentityList {}
-impl Model for LogList {}
 impl Model for FileList {}
 impl Model for BucketList {}
 impl Model for ResourceTokenList {}
@@ -706,7 +747,6 @@ impl Model for ColumnIndex {}
 impl Model for Row {}
 impl Model for Document {}
 impl Model for Presence {}
-impl Model for Log {}
 impl Model for User {}
 impl Model for AlgoMd5 {}
 impl Model for AlgoSha {}
@@ -715,6 +755,7 @@ impl Model for AlgoBcrypt {}
 impl Model for AlgoScrypt {}
 impl Model for AlgoScryptModified {}
 impl Model for AlgoArgon2 {}
+impl Model for Account {}
 impl Model for Preferences {}
 impl Model for Session {}
 impl Model for Identity {}
@@ -741,7 +782,6 @@ impl Model for ProjectProtocol {}
 impl Model for Webhook {}
 impl Model for Key {}
 impl Model for EphemeralKey {}
-impl Model for DevKey {}
 impl Model for MockNumber {}
 impl Model for OAuth2Github {}
 impl Model for OAuth2Discord {}
@@ -758,6 +798,7 @@ impl Model for OAuth2Zoho {}
 impl Model for OAuth2Yandex {}
 impl Model for OAuth2X {}
 impl Model for OAuth2WordPress {}
+impl Model for OAuth2Webflow {}
 impl Model for OAuth2Twitch {}
 impl Model for OAuth2Stripe {}
 impl Model for OAuth2Spotify {}
@@ -787,11 +828,15 @@ impl Model for OAuth2Kick {}
 impl Model for OAuth2Apple {}
 impl Model for OAuth2Microsoft {}
 impl Model for OAuth2Resend {}
+impl Model for OAuth2TikTok {}
+impl Model for OAuth2Kakao {}
 impl Model for OAuth2ProviderList {}
 impl Model for PolicyPasswordDictionary {}
 impl Model for PolicyPasswordHistory {}
 impl Model for PolicyPasswordStrength {}
 impl Model for PolicyPasswordPersonalData {}
+impl Model for PolicyPasswordPwned {}
+impl Model for PolicyPasswordRotation {}
 impl Model for PolicySessionAlert {}
 impl Model for PolicySessionDuration {}
 impl Model for PolicySessionInvalidation {}
@@ -799,6 +844,11 @@ impl Model for PolicySessionLimit {}
 impl Model for PolicyUserLimit {}
 impl Model for PolicyMembershipPrivacy {}
 impl Model for PolicyMfaFactors {}
+impl Model for PolicyPasskey {}
+impl Model for PolicyDenyAliasedEmail {}
+impl Model for PolicyDenyDisposableEmail {}
+impl Model for PolicyDenyFreeEmail {}
+impl Model for PolicyDenyCorporateEmail {}
 impl Model for PlatformWeb {}
 impl Model for PlatformApple {}
 impl Model for PlatformAndroid {}
@@ -817,6 +867,10 @@ impl Model for ProxyRule {}
 impl Model for EmailTemplate {}
 impl Model for MfaChallenge {}
 impl Model for MfaChallengeSecret {}
+impl Model for TokenSecret {}
+impl Model for Passkey {}
+impl Model for PasskeyChallenge {}
+impl Model for PasskeyList {}
 impl Model for MfaRecoveryCodes {}
 impl Model for MfaType {}
 impl Model for MfaFactors {}
@@ -851,6 +905,10 @@ impl Model for DedicatedDatabaseExecution {}
 impl Model for DedicatedDatabaseExecutionColumn {}
 impl Model for DedicatedDatabaseRestoration {}
 impl Model for DatabaseStatus {}
+impl Model for DnsRecord {}
+impl Model for Domain {}
+impl Model for DomainPrice {}
+impl Model for DomainTransferStatus {}
 impl Model for DedicatedDatabaseExtensions {}
 impl Model for DedicatedDatabaseMember {}
 impl Model for DedicatedDatabaseOperation {}
@@ -860,10 +918,6 @@ impl Model for ProxyInvalidation {}
 impl Model for Organization {}
 impl Model for DedicatedDatabasePITRWindows {}
 impl Model for BackupPolicy {}
-impl Model for PolicyDenyAliasedEmail {}
-impl Model for PolicyDenyDisposableEmail {}
-impl Model for PolicyDenyFreeEmail {}
-impl Model for PolicyDenyCorporateEmail {}
 impl Model for DedicatedDatabasePooler {}
 impl Model for PostgresExtension {}
 impl Model for Program {}
@@ -871,7 +925,6 @@ impl Model for BackupRestoration {}
 impl Model for DedicatedDatabaseRestorationList {}
 impl Model for DedicatedDatabaseSpecification {}
 impl Model for DedicatedDatabaseSpecificationList {}
-impl Model for DedicatedDatabaseSpecificationPricing {}
 impl Model for DatabaseStatusConnections {}
 impl Model for DatabaseStatusReplica {}
 impl Model for DatabaseStatusVolume {}
@@ -889,8 +942,15 @@ impl Model for Oauth2Grant {}
 impl Model for Oauth2DeviceAuthorization {}
 impl Model for Oauth2PAR {}
 impl Model for Oauth2Token {}
+impl Model for Oauth2Introspection {}
 impl Model for Oauth2Consent {}
 impl Model for Oauth2ConsentToken {}
+impl Model for WafRuleBypass {}
+impl Model for WafRuleDeny {}
+impl Model for WafRuleChallenge {}
+impl Model for WafRuleRateLimit {}
+impl Model for WafRuleRedirect {}
+impl Model for WafRuleList {}
 impl Model for Oauth2Project {}
 impl Model for Oauth2Organization {}
 impl Model for Oauth2ProjectList {}
@@ -903,6 +963,9 @@ impl Model for BackupPolicyList {}
 impl Model for BackupRestorationList {}
 impl Model for DatabaseMigrationList {}
 impl Model for DedicatedDatabaseList {}
+impl Model for DnsRecordsList {}
+impl Model for DomainPricesList {}
+impl Model for DomainsList {}
 impl Model for AppsList {}
 impl Model for AppSecretList {}
 impl Model for AppScopeList {}

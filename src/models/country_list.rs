@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct CountryList {
     /// Total number of countries that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of countries.
     #[serde(rename = "countries")]
     pub countries: Vec<crate::models::Country>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl CountryList {

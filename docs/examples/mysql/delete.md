@@ -11,11 +11,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mysql = Mysql::new(&client);
 
-    let result = mysql.delete(
+    mysql.delete(
         "<DATABASE_ID>"
     ).await?;
-
-    let _ = result;
 
     Ok(())
 }

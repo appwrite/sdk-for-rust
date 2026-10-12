@@ -8,28 +8,68 @@ use serde::{Deserialize, Serialize};
 pub struct EmailTemplate {
     /// Template type
     #[serde(rename = "templateId")]
+    #[serde(default = "default_template_id")]
     pub template_id: String,
     /// Template locale
     #[serde(rename = "locale")]
+    #[serde(default = "default_locale")]
     pub locale: String,
     /// Template message
     #[serde(rename = "message")]
+    #[serde(default = "default_message")]
     pub message: String,
     /// Name of the sender
     #[serde(rename = "senderName")]
+    #[serde(default = "default_sender_name")]
     pub sender_name: String,
     /// Email of the sender
     #[serde(rename = "senderEmail")]
+    #[serde(default = "default_sender_email")]
     pub sender_email: String,
     /// Reply to email address
     #[serde(rename = "replyToEmail")]
+    #[serde(default = "default_reply_to_email")]
     pub reply_to_email: String,
     /// Reply to name
     #[serde(rename = "replyToName")]
+    #[serde(default = "default_reply_to_name")]
     pub reply_to_name: String,
     /// Email subject
     #[serde(rename = "subject")]
+    #[serde(default = "default_subject")]
     pub subject: String,
+}
+
+fn default_template_id() -> String {
+    "".to_string()
+}
+
+fn default_locale() -> String {
+    "".to_string()
+}
+
+fn default_message() -> String {
+    "".to_string()
+}
+
+fn default_sender_name() -> String {
+    "".to_string()
+}
+
+fn default_sender_email() -> String {
+    "".to_string()
+}
+
+fn default_reply_to_email() -> String {
+    "".to_string()
+}
+
+fn default_reply_to_name() -> String {
+    "".to_string()
+}
+
+fn default_subject() -> String {
+    "".to_string()
 }
 
 impl EmailTemplate {

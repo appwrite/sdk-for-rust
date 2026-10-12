@@ -12,7 +12,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let tables_db = TablesDB::new(&client);
 
     let result = tables_db.list_transactions(
-        Some(vec![]) // optional
+        Some(vec![]), // optional
+        Some(false) // optional
     ).await?;
 
     let _ = result;

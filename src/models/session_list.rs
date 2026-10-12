@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct SessionList {
     /// Total number of sessions that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of sessions.
     #[serde(rename = "sessions")]
     pub sessions: Vec<crate::models::Session>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl SessionList {

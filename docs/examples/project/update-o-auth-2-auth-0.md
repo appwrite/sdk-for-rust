@@ -15,6 +15,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("<CLIENT_ID>"), // optional
         Some("<CLIENT_SECRET>"), // optional
         Some("<ENDPOINT>"), // optional
+        Some(vec![appwrite::enums::ProjectOAuth2Auth0Prompt::None]), // optional
         Some(false) // optional
     ).await?;
 

@@ -8,21 +8,41 @@ use serde::{Deserialize, Serialize};
 pub struct FrameworkAdapter {
     /// Adapter key.
     #[serde(rename = "key")]
+    #[serde(default = "default_key")]
     pub key: String,
     /// Default command to download dependencies.
     #[serde(rename = "installCommand")]
+    #[serde(default = "default_install_command")]
     pub install_command: String,
     /// Default command to build site into output directory.
     #[serde(rename = "buildCommand")]
+    #[serde(default = "default_build_command")]
     pub build_command: String,
     /// Default output directory of build.
     #[serde(rename = "outputDirectory")]
+    #[serde(default = "default_output_directory")]
     pub output_directory: String,
     /// Name of fallback file to use instead of 404 page. If null, Appwrite 404
     /// page will be displayed.
     #[serde(rename = "fallbackFile")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub fallback_file: Option<String>,
+}
+
+fn default_key() -> String {
+    "".to_string()
+}
+
+fn default_install_command() -> String {
+    "".to_string()
+}
+
+fn default_build_command() -> String {
+    "".to_string()
+}
+
+fn default_output_directory() -> String {
+    "".to_string()
 }
 
 impl FrameworkAdapter {

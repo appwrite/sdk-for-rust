@@ -8,16 +8,44 @@ use serde::{Deserialize, Serialize};
 pub struct OAuth2Zoho {
     /// OAuth2 provider ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// OAuth2 provider is active and can be used to create sessions.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Zoho OAuth2 client ID.
     #[serde(rename = "clientId")]
+    #[serde(default = "default_client_id")]
     pub client_id: String,
     /// Zoho OAuth2 client secret.
     #[serde(rename = "clientSecret")]
+    #[serde(default = "default_client_secret")]
     pub client_secret: String,
+    /// Zoho OAuth2 prompt values.
+    #[serde(rename = "prompt")]
+    #[serde(default = "default_prompt")]
+    pub prompt: Vec<crate::enums::OAuth2ZohoPrompt>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    false
+}
+
+fn default_client_id() -> String {
+    "".to_string()
+}
+
+fn default_client_secret() -> String {
+    "".to_string()
+}
+
+fn default_prompt() -> Vec<crate::enums::OAuth2ZohoPrompt> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl OAuth2Zoho {
@@ -40,6 +68,11 @@ impl OAuth2Zoho {
     pub fn client_secret(&self) -> &String {
         &self.client_secret
     }
+
+    /// Get prompt
+    pub fn prompt(&self) -> &Vec<crate::enums::OAuth2ZohoPrompt> {
+        &self.prompt
+    }
 }
 
 #[cfg(test)]
@@ -53,6 +86,7 @@ mod tests {
         let _ = _model.enabled();
         let _ = _model.client_id();
         let _ = _model.client_secret();
+        let _ = _model.prompt();
     }
 
     #[test]

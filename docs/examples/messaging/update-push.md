@@ -13,11 +13,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = messaging.update_push(
         "<MESSAGE_ID>",
-        Some(vec![]), // optional
-        Some(vec![]), // optional
-        Some(vec![]), // optional
         Some("<TITLE>"), // optional
         Some("<BODY>"), // optional
+        Some(vec![]), // optional
+        Some(vec![]), // optional
+        Some(vec![]), // optional
         Some(serde_json::json!({})), // optional
         Some("<ACTION>"), // optional
         Some("<ID1:ID2>"), // optional
@@ -30,7 +30,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("2020-10-15T06:38:00.000+00:00"), // optional
         Some(false), // optional
         Some(false), // optional
-        Some(appwrite::enums::MessagePriority::Normal) // optional
+        Some(appwrite::enums::MessagePriority::Normal), // optional
+        Some("<CHANNEL_ID>") // optional
     ).await?;
 
     let _ = result;

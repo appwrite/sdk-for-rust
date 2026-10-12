@@ -8,24 +8,30 @@ use serde::{Deserialize, Serialize};
 pub struct DedicatedDatabaseOperation {
     /// Operation ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Operation creation time in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Database ID the operation ran against.
     #[serde(rename = "databaseId")]
+    #[serde(default = "default_database_id")]
     pub database_id: String,
     /// Operation type, such as provision, update, credentials-update, restore,
     /// pausing, resuming, failover, backup-create or cross-region-enable.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Operation status. Possible values: queued (accepted and waiting to resume),
     /// running (in progress), completed (finished successfully), failed (ended in
     /// an error).
     #[serde(rename = "status")]
+    #[serde(default = "default_status")]
     pub status: String,
     /// Number of times this operation has been attempted.
     #[serde(rename = "attempts")]
+    #[serde(default = "default_attempts")]
     pub attempts: i64,
     /// Time the operation was requested, in ISO 8601 format.
     #[serde(rename = "requestedAt")]
@@ -42,10 +48,44 @@ pub struct DedicatedDatabaseOperation {
     /// Machine-readable failure code. `Interrupted` marks an attempt that ended
     /// before its outcome could be confirmed.
     #[serde(rename = "errorCode")]
+    #[serde(default = "default_error_code")]
     pub error_code: String,
     /// Failure message if the operation failed.
     #[serde(rename = "errorMessage")]
+    #[serde(default = "default_error_message")]
     pub error_message: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_database_id() -> String {
+    "".to_string()
+}
+
+fn default_type() -> String {
+    "".to_string()
+}
+
+fn default_status() -> String {
+    "".to_string()
+}
+
+fn default_attempts() -> i64 {
+    0
+}
+
+fn default_error_code() -> String {
+    "".to_string()
+}
+
+fn default_error_message() -> String {
+    "".to_string()
 }
 
 impl DedicatedDatabaseOperation {

@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct VariableList {
     /// Total number of variables that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of variables.
     #[serde(rename = "variables")]
     pub variables: Vec<crate::models::Variable>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl VariableList {

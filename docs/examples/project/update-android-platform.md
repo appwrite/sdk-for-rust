@@ -14,7 +14,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = project.update_android_platform(
         "<PLATFORM_ID>",
         "<NAME>",
-        "<APPLICATION_ID>"
+        "<APPLICATION_ID>",
+        Some(vec![]) // optional
     ).await?;
 
     let _ = result;

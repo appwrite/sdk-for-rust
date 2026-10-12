@@ -8,12 +8,22 @@ use serde::{Deserialize, Serialize};
 pub struct DatabaseStatusConnections {
     /// Current number of active connections.
     #[serde(rename = "current")]
+    #[serde(default = "default_current")]
     pub current: i64,
     /// The engine's own max_connections. On a pooled database this is the backend
     /// limit the pooler multiplexes onto, not the ceiling a client pool may reach
     /// — that is networkMaxConnections on the database resource.
     #[serde(rename = "max")]
+    #[serde(default = "default_max")]
     pub max: i64,
+}
+
+fn default_current() -> i64 {
+    0
+}
+
+fn default_max() -> i64 {
+    100
 }
 
 impl DatabaseStatusConnections {

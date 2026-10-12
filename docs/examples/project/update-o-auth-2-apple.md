@@ -16,6 +16,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("<KEY_ID>"), // optional
         Some("<TEAM_ID>"), // optional
         Some("<P8_FILE>"), // optional
+        Some(vec![]), // optional
+        Some(false), // optional
         Some(false) // optional
     ).await?;
 

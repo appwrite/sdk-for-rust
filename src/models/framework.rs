@@ -8,12 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct Framework {
     /// Framework key.
     #[serde(rename = "key")]
+    #[serde(default = "default_key")]
     pub key: String,
     /// Framework Name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Default runtime version.
     #[serde(rename = "buildRuntime")]
+    #[serde(default = "default_build_runtime")]
     pub build_runtime: String,
     /// List of supported runtime versions.
     #[serde(rename = "runtimes")]
@@ -21,6 +24,18 @@ pub struct Framework {
     /// List of supported adapters.
     #[serde(rename = "adapters")]
     pub adapters: Vec<crate::models::FrameworkAdapter>,
+}
+
+fn default_key() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_build_runtime() -> String {
+    "".to_string()
 }
 
 impl Framework {

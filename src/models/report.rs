@@ -8,35 +8,45 @@ use serde::{Deserialize, Serialize};
 pub struct Report {
     /// Report ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Report creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Report update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// ID of the third-party app that submitted the report.
     #[serde(rename = "appId")]
+    #[serde(default = "default_app_id")]
     pub app_id: String,
     /// Analyzer that produced this report. e.g. lighthouse, audit,
     /// databaseAnalyzer.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Short, human-readable title for the report.
     #[serde(rename = "title")]
+    #[serde(default = "default_title")]
     pub title: String,
     /// Markdown summary describing the report.
     #[serde(rename = "summary")]
+    #[serde(default = "default_summary")]
     pub summary: String,
     /// Plural noun describing what the report analyzes, e.g. databases, sites,
     /// urls.
     #[serde(rename = "targetType")]
+    #[serde(default = "default_target_type")]
     pub target_type: String,
     /// Free-form target identifier (URL for lighthouse, resource ID for db).
     #[serde(rename = "target")]
+    #[serde(default = "default_target")]
     pub target: String,
     /// Categories covered by the report, e.g. performance, accessibility.
     #[serde(rename = "categories")]
+    #[serde(default = "default_categories")]
     pub categories: Vec<String>,
     /// Insights nested under this report.
     #[serde(rename = "insights")]
@@ -45,6 +55,46 @@ pub struct Report {
     #[serde(rename = "analyzedAt")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub analyzed_at: Option<String>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_app_id() -> String {
+    "".to_string()
+}
+
+fn default_type() -> String {
+    "".to_string()
+}
+
+fn default_title() -> String {
+    "".to_string()
+}
+
+fn default_summary() -> String {
+    "".to_string()
+}
+
+fn default_target_type() -> String {
+    "".to_string()
+}
+
+fn default_target() -> String {
+    "".to_string()
+}
+
+fn default_categories() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl Report {

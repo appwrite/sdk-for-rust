@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct DatabaseMigrationList {
     /// Total number of migrations that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of migrations.
     #[serde(rename = "migrations")]
     pub migrations: Vec<crate::models::DatabaseMigration>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl DatabaseMigrationList {

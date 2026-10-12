@@ -8,112 +8,144 @@ use serde::{Deserialize, Serialize};
 pub struct Site {
     /// Site ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Site creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Site update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Site name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Site enabled.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Is the site deployed with the latest configuration? This is set to false if
     /// you've changed an environment variables, entrypoint, commands, or other
     /// settings that needs redeploy to be applied. When the value is false,
     /// redeploy the site to update it with the latest configuration.
     #[serde(rename = "live")]
+    #[serde(default = "default_live")]
     pub live: bool,
     /// When disabled, request logs will exclude logs and errors, and site
     /// responses will be slightly faster.
     #[serde(rename = "logging")]
+    #[serde(default = "default_logging")]
     pub logging: bool,
     /// Site framework.
     #[serde(rename = "framework")]
+    #[serde(default = "default_framework")]
     pub framework: String,
     /// How many days to keep the non-active deployments before they will be
     /// automatically deleted.
     #[serde(rename = "deploymentRetention")]
+    #[serde(default = "default_deployment_retention")]
     pub deployment_retention: i64,
     /// Site's active deployment ID.
     #[serde(rename = "deploymentId")]
+    #[serde(default = "default_deployment_id")]
     pub deployment_id: String,
     /// Active deployment creation date in ISO 8601 format.
     #[serde(rename = "deploymentCreatedAt")]
+    #[serde(default = "default_deployment_created_at")]
     pub deployment_created_at: String,
     /// Screenshot of active deployment with light theme preference file ID.
     #[serde(rename = "deploymentScreenshotLight")]
+    #[serde(default = "default_deployment_screenshot_light")]
     pub deployment_screenshot_light: String,
     /// Screenshot of active deployment with dark theme preference file ID.
     #[serde(rename = "deploymentScreenshotDark")]
+    #[serde(default = "default_deployment_screenshot_dark")]
     pub deployment_screenshot_dark: String,
     /// Site's latest deployment ID.
     #[serde(rename = "latestDeploymentId")]
+    #[serde(default = "default_latest_deployment_id")]
     pub latest_deployment_id: String,
     /// Latest deployment creation date in ISO 8601 format.
     #[serde(rename = "latestDeploymentCreatedAt")]
+    #[serde(default = "default_latest_deployment_created_at")]
     pub latest_deployment_created_at: String,
     /// Status of latest deployment. Possible values are "waiting", "processing",
     /// "building", "ready", and "failed".
     #[serde(rename = "latestDeploymentStatus")]
+    #[serde(default = "default_latest_deployment_status")]
     pub latest_deployment_status: String,
     /// Allowed permission scopes.
     #[serde(rename = "scopes")]
+    #[serde(default = "default_scopes")]
     pub scopes: Vec<String>,
     /// Site variables.
     #[serde(rename = "vars")]
     pub vars: Vec<crate::models::Variable>,
     /// Site request timeout in seconds.
     #[serde(rename = "timeout")]
+    #[serde(default = "default_timeout")]
     pub timeout: i64,
     /// The install command used to install the site dependencies.
     #[serde(rename = "installCommand")]
+    #[serde(default = "default_install_command")]
     pub install_command: String,
     /// The build command used to build the site.
     #[serde(rename = "buildCommand")]
+    #[serde(default = "default_build_command")]
     pub build_command: String,
     /// Custom command to use when starting site runtime.
     #[serde(rename = "startCommand")]
+    #[serde(default = "default_start_command")]
     pub start_command: String,
     /// The directory where the site build output is located.
     #[serde(rename = "outputDirectory")]
+    #[serde(default = "default_output_directory")]
     pub output_directory: String,
     /// Site VCS (Version Control System) installation id.
     #[serde(rename = "installationId")]
+    #[serde(default = "default_installation_id")]
     pub installation_id: String,
     /// VCS (Version Control System) Repository ID
     #[serde(rename = "providerRepositoryId")]
+    #[serde(default = "default_provider_repository_id")]
     pub provider_repository_id: String,
     /// VCS (Version Control System) branch name
     #[serde(rename = "providerBranch")]
+    #[serde(default = "default_provider_branch")]
     pub provider_branch: String,
     /// Path to site in VCS (Version Control System) repository
     #[serde(rename = "providerRootDirectory")]
+    #[serde(default = "default_provider_root_directory")]
     pub provider_root_directory: String,
     /// Is VCS (Version Control System) connection is in silent mode? When in
     /// silence mode, no comments will be posted on the repository pull or merge
     /// requests
     #[serde(rename = "providerSilentMode")]
+    #[serde(default = "default_provider_silent_mode")]
     pub provider_silent_mode: bool,
     /// List of branch name patterns that trigger automatic deployments. Supports
     /// glob wildcards. Empty list deploys on all branches.
     #[serde(rename = "providerBranches")]
+    #[serde(default = "default_provider_branches")]
     pub provider_branches: Vec<String>,
     /// List of file path patterns that trigger automatic deployments. Supports
     /// glob wildcards. Empty list deploys on all file changes.
     #[serde(rename = "providerPaths")]
+    #[serde(default = "default_provider_paths")]
     pub provider_paths: Vec<String>,
     /// Machine specification for deployment builds.
     #[serde(rename = "buildSpecification")]
+    #[serde(default = "default_build_specification")]
     pub build_specification: String,
     /// Machine specification for SSR executions.
     #[serde(rename = "runtimeSpecification")]
+    #[serde(default = "default_runtime_specification")]
     pub runtime_specification: String,
     /// Site build runtime.
     #[serde(rename = "buildRuntime")]
+    #[serde(default = "default_build_runtime")]
     pub build_runtime: String,
     /// Site framework adapter.
     #[serde(rename = "adapter")]
@@ -122,6 +154,134 @@ pub struct Site {
     /// page will be displayed.
     #[serde(rename = "fallbackFile")]
     pub fallback_file: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    true
+}
+
+fn default_live() -> bool {
+    true
+}
+
+fn default_logging() -> bool {
+    true
+}
+
+fn default_framework() -> String {
+    "".to_string()
+}
+
+fn default_deployment_retention() -> i64 {
+    0
+}
+
+fn default_deployment_id() -> String {
+    "".to_string()
+}
+
+fn default_deployment_created_at() -> String {
+    "".to_string()
+}
+
+fn default_deployment_screenshot_light() -> String {
+    "".to_string()
+}
+
+fn default_deployment_screenshot_dark() -> String {
+    "".to_string()
+}
+
+fn default_latest_deployment_id() -> String {
+    "".to_string()
+}
+
+fn default_latest_deployment_created_at() -> String {
+    "".to_string()
+}
+
+fn default_latest_deployment_status() -> String {
+    "".to_string()
+}
+
+fn default_scopes() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_timeout() -> i64 {
+    15
+}
+
+fn default_install_command() -> String {
+    "".to_string()
+}
+
+fn default_build_command() -> String {
+    "".to_string()
+}
+
+fn default_start_command() -> String {
+    "".to_string()
+}
+
+fn default_output_directory() -> String {
+    "".to_string()
+}
+
+fn default_installation_id() -> String {
+    "".to_string()
+}
+
+fn default_provider_repository_id() -> String {
+    "".to_string()
+}
+
+fn default_provider_branch() -> String {
+    "".to_string()
+}
+
+fn default_provider_root_directory() -> String {
+    "".to_string()
+}
+
+fn default_provider_silent_mode() -> bool {
+    false
+}
+
+fn default_provider_branches() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_provider_paths() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_build_specification() -> String {
+    "s-1vcpu-512mb".to_string()
+}
+
+fn default_runtime_specification() -> String {
+    "s-1vcpu-512mb".to_string()
+}
+
+fn default_build_runtime() -> String {
+    "".to_string()
 }
 
 impl Site {

@@ -8,15 +8,19 @@ use serde::{Deserialize, Serialize};
 pub struct Insight {
     /// Insight ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Insight creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Insight update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Parent report ID. Insights always belong to a report.
     #[serde(rename = "reportId")]
+    #[serde(default = "default_report_id")]
     pub report_id: String,
     /// Insight type. One of databaseIndex (legacy), tablesDBIndex,
     /// documentsDBIndex, vectorsDBIndex, databasePerformance, sitePerformance,
@@ -25,33 +29,42 @@ pub struct Insight {
     /// (databases.createIndex, tablesDB.createIndex, documentsDB.createIndex, or
     /// vectorsDB.createIndex).
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Insight severity. One of info, warning, critical.
     #[serde(rename = "severity")]
+    #[serde(default = "default_severity")]
     pub severity: String,
     /// Insight status. One of active, dismissed.
     #[serde(rename = "status")]
+    #[serde(default = "default_status")]
     pub status: String,
     /// Type of the resource the insight is about. Plural noun, e.g. databases,
     /// sites, functions.
     #[serde(rename = "resourceType")]
+    #[serde(default = "default_resource_type")]
     pub resource_type: String,
     /// ID of the resource the insight is about.
     #[serde(rename = "resourceId")]
+    #[serde(default = "default_resource_id")]
     pub resource_id: String,
     /// Plural noun for the parent resource that contains the insight's resource,
     /// e.g. an insight about a column index on a table → resourceType=indexes,
     /// parentResourceType=tables. Empty when the resource has no parent.
     #[serde(rename = "parentResourceType")]
+    #[serde(default = "default_parent_resource_type")]
     pub parent_resource_type: String,
     /// ID of the parent resource. Empty when the resource has no parent.
     #[serde(rename = "parentResourceId")]
+    #[serde(default = "default_parent_resource_id")]
     pub parent_resource_id: String,
     /// Insight title.
     #[serde(rename = "title")]
+    #[serde(default = "default_title")]
     pub title: String,
     /// Short markdown summary describing the insight.
     #[serde(rename = "summary")]
+    #[serde(default = "default_summary")]
     pub summary: String,
     /// List of call-to-action buttons attached to this insight.
     #[serde(rename = "ctas")]
@@ -69,6 +82,58 @@ pub struct Insight {
     #[serde(rename = "dismissedBy")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub dismissed_by: Option<String>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_report_id() -> String {
+    "".to_string()
+}
+
+fn default_type() -> String {
+    "".to_string()
+}
+
+fn default_severity() -> String {
+    "info".to_string()
+}
+
+fn default_status() -> String {
+    "active".to_string()
+}
+
+fn default_resource_type() -> String {
+    "".to_string()
+}
+
+fn default_resource_id() -> String {
+    "".to_string()
+}
+
+fn default_parent_resource_type() -> String {
+    "".to_string()
+}
+
+fn default_parent_resource_id() -> String {
+    "".to_string()
+}
+
+fn default_title() -> String {
+    "".to_string()
+}
+
+fn default_summary() -> String {
+    "".to_string()
 }
 
 impl Insight {

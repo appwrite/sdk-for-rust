@@ -83,6 +83,7 @@ impl Databases {
     pub async fn list_transactions(
         &self,
         queries: Option<Vec<String>>,
+        total: Option<bool>,
     ) -> crate::error::Result<crate::models::TransactionList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
@@ -90,6 +91,9 @@ impl Databases {
                 "queries".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -130,9 +134,19 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let transaction_id = transaction_id.into();
+        if transaction_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"transactionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id.into().to_string());
+            .replace("{transactionId}", &transaction_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -157,9 +171,19 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let transaction_id = transaction_id.into();
+        if transaction_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"transactionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id.into().to_string());
+            .replace("{transactionId}", &transaction_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -174,10 +198,21 @@ impl Databases {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let transaction_id = transaction_id.into();
+        if transaction_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"transactionId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/databases/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id.into().to_string());
+            .replace("{transactionId}", &transaction_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -198,9 +233,19 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let transaction_id = transaction_id.into();
+        if transaction_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"transactionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/transactions/{transactionId}/operations"
             .to_string()
-            .replace("{transactionId}", &transaction_id.into().to_string());
+            .replace("{transactionId}", &transaction_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -217,9 +262,19 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -244,9 +299,19 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -259,10 +324,21 @@ impl Databases {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/databases/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -294,9 +370,19 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -344,9 +430,19 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -364,10 +460,30 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -409,10 +525,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -429,11 +565,32 @@ impl Databases {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/databases/{databaseId}/collections/{collectionId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -461,10 +618,30 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -504,10 +681,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/bigint"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -546,11 +743,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/bigint/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -580,10 +807,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/boolean"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -613,11 +860,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/boolean/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -647,10 +924,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/datetime"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -680,11 +977,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/datetime/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -714,10 +1041,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/email"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -747,11 +1094,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/email/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -791,10 +1168,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/enum"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -833,11 +1230,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/enum/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -877,10 +1304,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/float"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -919,11 +1366,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/float/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -963,10 +1440,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/integer"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1005,11 +1502,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/integer/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1039,10 +1566,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/ip"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1072,11 +1619,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/ip/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1102,10 +1679,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/line"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1135,11 +1732,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/line/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1174,10 +1801,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/longtext"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1207,11 +1854,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/longtext/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1246,10 +1923,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1279,11 +1976,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1309,10 +2036,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/point"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1342,11 +2089,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/point/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1372,10 +2149,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/polygon"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1405,11 +2202,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/polygon/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1452,10 +2279,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/relationship"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1483,12 +2330,42 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path =
             "/databases/{databaseId}/collections/{collectionId}/attributes/relationship/{key}"
                 .to_string()
-                .replace("{databaseId}", &database_id.into().to_string())
-                .replace("{collectionId}", &collection_id.into().to_string())
-                .replace("{key}", &key.into().to_string());
+                .replace("{databaseId}", &database_id)
+                .replace("{collectionId}", &collection_id)
+                .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1525,10 +2402,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/string"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1563,11 +2460,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/string/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1602,10 +2529,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/text"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1635,11 +2582,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/text/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1669,10 +2646,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/url"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1702,11 +2699,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/url/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1743,10 +2770,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/varchar"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1781,11 +2828,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/varchar/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1803,11 +2880,41 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1824,12 +2931,43 @@ impl Databases {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1866,10 +3004,30 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1905,10 +3063,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1935,10 +3113,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1965,10 +3163,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2003,10 +3221,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2036,10 +3274,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -2069,11 +3327,41 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let document_id = document_id.into();
+        if document_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"documentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{documentId}", &document_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{documentId}", &document_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2110,11 +3398,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let document_id = document_id.into();
+        if document_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"documentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{documentId}", &document_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{documentId}", &document_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2149,11 +3467,41 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let document_id = document_id.into();
+        if document_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"documentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{documentId}", &document_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{documentId}", &document_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2174,12 +3522,43 @@ impl Databases {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let document_id = document_id.into();
+        if document_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"documentId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{documentId}", &document_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{documentId}", &document_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -2212,13 +3591,53 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let document_id = document_id.into();
+        if document_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"documentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let attribute = attribute.into();
+        if attribute.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"attribute\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path =
             "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/decrement"
                 .to_string()
-                .replace("{databaseId}", &database_id.into().to_string())
-                .replace("{collectionId}", &collection_id.into().to_string())
-                .replace("{documentId}", &document_id.into().to_string())
-                .replace("{attribute}", &attribute.into().to_string());
+                .replace("{databaseId}", &database_id)
+                .replace("{collectionId}", &collection_id)
+                .replace("{documentId}", &document_id)
+                .replace("{attribute}", &attribute);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2251,13 +3670,53 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let document_id = document_id.into();
+        if document_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"documentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let attribute = attribute.into();
+        if attribute.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"attribute\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path =
             "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/increment"
                 .to_string()
-                .replace("{databaseId}", &database_id.into().to_string())
-                .replace("{collectionId}", &collection_id.into().to_string())
-                .replace("{documentId}", &document_id.into().to_string())
-                .replace("{attribute}", &attribute.into().to_string());
+                .replace("{databaseId}", &database_id)
+                .replace("{collectionId}", &collection_id)
+                .replace("{documentId}", &document_id)
+                .replace("{attribute}", &attribute);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2285,10 +3744,30 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/indexes"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2329,10 +3808,30 @@ impl Databases {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/indexes"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2350,11 +3849,41 @@ impl Databases {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/databases/{databaseId}/collections/{collectionId}/indexes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2371,12 +3900,43 @@ impl Databases {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/databases/{databaseId}/collections/{collectionId}/indexes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

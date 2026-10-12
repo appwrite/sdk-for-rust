@@ -11,6 +11,10 @@ pub enum ProjectPolicyId {
     PasswordStrength,
     #[serde(rename = "password-personal-data")]
     PasswordPersonalData,
+    #[serde(rename = "password-pwned")]
+    PasswordPwned,
+    #[serde(rename = "password-rotation")]
+    PasswordRotation,
     #[serde(rename = "session-alert")]
     SessionAlert,
     #[serde(rename = "session-duration")]
@@ -33,6 +37,8 @@ pub enum ProjectPolicyId {
     DenyFreeEmail,
     #[serde(rename = "deny-corporate-email")]
     DenyCorporateEmail,
+    #[serde(rename = "passkey")]
+    Passkey,
 }
 
 impl ProjectPolicyId {
@@ -43,6 +49,8 @@ impl ProjectPolicyId {
             ProjectPolicyId::PasswordHistory => "password-history",
             ProjectPolicyId::PasswordStrength => "password-strength",
             ProjectPolicyId::PasswordPersonalData => "password-personal-data",
+            ProjectPolicyId::PasswordPwned => "password-pwned",
+            ProjectPolicyId::PasswordRotation => "password-rotation",
             ProjectPolicyId::SessionAlert => "session-alert",
             ProjectPolicyId::SessionDuration => "session-duration",
             ProjectPolicyId::SessionInvalidation => "session-invalidation",
@@ -54,6 +62,7 @@ impl ProjectPolicyId {
             ProjectPolicyId::DenyDisposableEmail => "deny-disposable-email",
             ProjectPolicyId::DenyFreeEmail => "deny-free-email",
             ProjectPolicyId::DenyCorporateEmail => "deny-corporate-email",
+            ProjectPolicyId::Passkey => "passkey",
         }
     }
 }

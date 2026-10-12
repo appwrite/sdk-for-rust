@@ -11,12 +11,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let apps = Apps::new(&client);
 
-    let result = apps.delete_installation(
+    apps.delete_installation(
         "<APP_ID>",
         "<INSTALLATION_ID>"
     ).await?;
-
-    let _ = result;
 
     Ok(())
 }

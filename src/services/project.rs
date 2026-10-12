@@ -27,11 +27,13 @@ impl Project {
     /// Get a project.
     pub async fn get(&self) -> crate::error::Result<crate::models::Project> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project".to_string();
 
         self.client
-            .call(Method::GET, &path, None, Some(params))
+            .call(Method::GET, &path, Some(api_headers), Some(params))
             .await
     }
 
@@ -40,6 +42,7 @@ impl Project {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project".to_string();
 
@@ -129,9 +132,19 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let key_id = key_id.into();
+        if key_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"keyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/keys/{keyId}"
             .to_string()
-            .replace("{keyId}", &key_id.into().to_string());
+            .replace("{keyId}", &key_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -157,9 +170,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let key_id = key_id.into();
+        if key_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"keyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/keys/{keyId}"
             .to_string()
-            .replace("{keyId}", &key_id.into().to_string());
+            .replace("{keyId}", &key_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -172,10 +195,21 @@ impl Project {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let key_id = key_id.into();
+        if key_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"keyId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/project/keys/{keyId}"
             .to_string()
-            .replace("{keyId}", &key_id.into().to_string());
+            .replace("{keyId}", &key_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -265,9 +299,19 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let number = number.into();
+        if number.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"number\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/mock-phones/{number}"
             .to_string()
-            .replace("{number}", &number.into().to_string());
+            .replace("{number}", &number);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -287,9 +331,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let number = number.into();
+        if number.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"number\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/mock-phones/{number}"
             .to_string()
-            .replace("{number}", &number.into().to_string());
+            .replace("{number}", &number);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -302,10 +356,21 @@ impl Project {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let number = number.into();
+        if number.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"number\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/project/mock-phones/{number}"
             .to_string()
-            .replace("{number}", &number.into().to_string());
+            .replace("{number}", &number);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -461,13 +526,16 @@ impl Project {
     }
 
     /// Update the project OAuth2 Apple configuration.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_o_auth2_apple(
         &self,
         service_id: Option<&str>,
         key_id: Option<&str>,
         team_id: Option<&str>,
         p8_file: Option<&str>,
+        native_client_ids: Option<Vec<String>>,
         enabled: Option<bool>,
+        native_enabled: Option<bool>,
     ) -> crate::error::Result<crate::models::OAuth2Apple> {
         let mut params = HashMap::new();
         if let Some(value) = service_id {
@@ -482,8 +550,17 @@ impl Project {
         if let Some(value) = p8_file {
             params.insert("p8File".to_string(), json!(value));
         }
+        if let Some(value) = native_client_ids {
+            params.insert(
+                "nativeClientIds".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = native_enabled {
+            params.insert("nativeEnabled".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -530,6 +607,7 @@ impl Project {
         client_id: Option<&str>,
         client_secret: Option<&str>,
         endpoint: Option<&str>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2Auth0Prompt>>,
         enabled: Option<bool>,
     ) -> crate::error::Result<crate::models::OAuth2Auth0> {
         let mut params = HashMap::new();
@@ -541,6 +619,9 @@ impl Project {
         }
         if let Some(value) = endpoint {
             params.insert("endpoint".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
@@ -761,6 +842,7 @@ impl Project {
         &self,
         client_id: Option<&str>,
         client_secret: Option<&str>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2DiscordPrompt>>,
         enabled: Option<bool>,
     ) -> crate::error::Result<crate::models::OAuth2Discord> {
         let mut params = HashMap::new();
@@ -769,6 +851,9 @@ impl Project {
         }
         if let Some(value) = client_secret {
             params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
@@ -961,6 +1046,7 @@ impl Project {
         &self,
         client_id: Option<&str>,
         client_secret: Option<&str>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2GitHubPrompt>>,
         enabled: Option<bool>,
     ) -> crate::error::Result<crate::models::OAuth2Github> {
         let mut params = HashMap::new();
@@ -969,6 +1055,9 @@ impl Project {
         }
         if let Some(value) = client_secret {
             params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
@@ -1022,7 +1111,9 @@ impl Project {
         client_id: Option<&str>,
         client_secret: Option<&str>,
         prompt: Option<Vec<crate::enums::ProjectOAuth2GooglePrompt>>,
+        native_client_ids: Option<Vec<String>>,
         enabled: Option<bool>,
+        native_enabled: Option<bool>,
     ) -> crate::error::Result<crate::models::OAuth2Google> {
         let mut params = HashMap::new();
         if let Some(value) = client_id {
@@ -1034,8 +1125,17 @@ impl Project {
         if let Some(value) = prompt {
             params.insert("prompt".to_string(), json!(value));
         }
+        if let Some(value) = native_client_ids {
+            params.insert(
+                "nativeClientIds".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = native_enabled {
+            params.insert("nativeEnabled".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1070,6 +1170,38 @@ impl Project {
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/huggingface".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update the project OAuth2 Kakao configuration.
+    pub async fn update_o_auth2_kakao(
+        &self,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2KakaoPrompt>>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::OAuth2Kakao> {
+        let mut params = HashMap::new();
+        if let Some(value) = client_id {
+            params.insert("clientId".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/oauth2/kakao".to_string();
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1174,6 +1306,7 @@ impl Project {
         application_id: Option<&str>,
         application_secret: Option<&str>,
         tenant: Option<&str>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2MicrosoftPrompt>>,
         enabled: Option<bool>,
     ) -> crate::error::Result<crate::models::OAuth2Microsoft> {
         let mut params = HashMap::new();
@@ -1185,6 +1318,9 @@ impl Project {
         }
         if let Some(value) = tenant {
             params.insert("tenant".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
@@ -1288,6 +1424,7 @@ impl Project {
         client_secret: Option<&str>,
         domain: Option<&str>,
         authorization_server_id: Option<&str>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2OktaPrompt>>,
         enabled: Option<bool>,
     ) -> crate::error::Result<crate::models::OAuth2Okta> {
         let mut params = HashMap::new();
@@ -1302,6 +1439,9 @@ impl Project {
         }
         if let Some(value) = authorization_server_id {
             params.insert("authorizationServerId".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
@@ -1434,6 +1574,7 @@ impl Project {
         &self,
         customer_key: Option<&str>,
         customer_secret: Option<&str>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2SalesforcePrompt>>,
         enabled: Option<bool>,
     ) -> crate::error::Result<crate::models::OAuth2Salesforce> {
         let mut params = HashMap::new();
@@ -1442,6 +1583,9 @@ impl Project {
         }
         if let Some(value) = customer_secret {
             params.insert("customerSecret".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
@@ -1541,6 +1685,34 @@ impl Project {
             .await
     }
 
+    /// Update the project OAuth2 TikTok configuration.
+    pub async fn update_o_auth2_tik_tok(
+        &self,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::OAuth2TikTok> {
+        let mut params = HashMap::new();
+        if let Some(value) = client_id {
+            params.insert("clientId".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/oauth2/tiktok".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Update the project OAuth2 Tradeshift configuration.
     pub async fn update_o_auth2_tradeshift(
         &self,
@@ -1619,6 +1791,34 @@ impl Project {
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/twitch".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update the project OAuth2 Webflow configuration.
+    pub async fn update_o_auth2_webflow(
+        &self,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::OAuth2Webflow> {
+        let mut params = HashMap::new();
+        if let Some(value) = client_id {
+            params.insert("clientId".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/oauth2/webflow".to_string();
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1742,6 +1942,7 @@ impl Project {
         &self,
         client_id: Option<&str>,
         client_secret: Option<&str>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2ZohoPrompt>>,
         enabled: Option<bool>,
     ) -> crate::error::Result<crate::models::OAuth2Zoho> {
         let mut params = HashMap::new();
@@ -1750,6 +1951,9 @@ impl Project {
         }
         if let Some(value) = client_secret {
             params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
@@ -1847,11 +2051,18 @@ impl Project {
         platform_id: impl Into<String>,
         name: impl Into<String>,
         application_id: impl Into<String>,
+        fingerprints: Option<Vec<String>>,
     ) -> crate::error::Result<crate::models::PlatformAndroid> {
         let mut params = HashMap::new();
         params.insert("platformId".to_string(), json!(platform_id.into()));
         params.insert("name".to_string(), json!(name.into()));
         params.insert("applicationId".to_string(), json!(application_id.into()));
+        if let Some(value) = fingerprints {
+            params.insert(
+                "fingerprints".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -1864,23 +2075,40 @@ impl Project {
     }
 
     /// Update an Android platform by its unique ID. Use this endpoint to update
-    /// the platform's name or application ID.
+    /// the platform's name, application ID or signing certificate fingerprints.
     pub async fn update_android_platform(
         &self,
         platform_id: impl Into<String>,
         name: impl Into<String>,
         application_id: impl Into<String>,
+        fingerprints: Option<Vec<String>>,
     ) -> crate::error::Result<crate::models::PlatformAndroid> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
         params.insert("applicationId".to_string(), json!(application_id.into()));
+        if let Some(value) = fingerprints {
+            params.insert(
+                "fingerprints".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/platforms/android/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -1932,9 +2160,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/platforms/apple/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -1980,9 +2218,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/platforms/linux/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2028,9 +2276,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/platforms/web/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2082,9 +2340,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/platforms/windows/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2101,9 +2369,19 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/platforms/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2119,10 +2397,21 @@ impl Project {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/project/platforms/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -2309,6 +2598,29 @@ impl Project {
             .await
     }
 
+    /// Set the relying party ID passkeys are bound to: the domain of your
+    /// application. Passkeys work on the project's web platforms on that domain or
+    /// its subdomains, and on the domain itself for Apple apps. A localhost web
+    /// platform enables passkeys for local development without a relying party ID.
+    /// The relying party ID cannot change while users have passkeys, and any
+    /// change invalidates ceremonies in progress.
+    pub async fn update_passkey_policy(
+        &self,
+        rp_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Project> {
+        let mut params = HashMap::new();
+        params.insert("rpId".to_string(), json!(rp_id.into()));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/policies/passkey".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Updating this policy allows you to control if new passwords are checked
     /// against most common passwords dictionary. When enabled, and user changes
     /// their password, password must not be contained in the dictionary.
@@ -2372,6 +2684,67 @@ impl Project {
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/password-personal-data".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Updating this policy allows you to control if passwords are checked against
+    /// the Have I Been Pwned breach database. When enabled, every password a user
+    /// signs up, signs in or resets with is checked and the result is recorded on
+    /// the user as `passwordPwned`. On its own the policy only records. Enable
+    /// `users` to reject a breached password when a user signs up or sets a new
+    /// password, and `sessions` to refuse a sign-in with a breached password until
+    /// it is reset. Only the first five characters of the password hash are ever
+    /// shared with the service. Options left out keep their current value.
+    pub async fn update_password_pwned_policy(
+        &self,
+        enabled: Option<bool>,
+        sessions: Option<bool>,
+        users: Option<bool>,
+    ) -> crate::error::Result<crate::models::Project> {
+        let mut params = HashMap::new();
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = sessions {
+            params.insert("sessions".to_string(), json!(value));
+        }
+        if let Some(value) = users {
+            params.insert("users".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/policies/password-pwned".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Require a password reset when an email/password sign-in uses a password
+    /// older than the configured maximum age. Options left out keep their current
+    /// value.
+    pub async fn update_password_rotation_policy(
+        &self,
+        enabled: Option<bool>,
+        max_age: Option<i64>,
+    ) -> crate::error::Result<crate::models::Project> {
+        let mut params = HashMap::new();
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = max_age {
+            params.insert("maxAge".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/policies/password-rotation".to_string();
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2653,6 +3026,7 @@ impl Project {
         );
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/smtp/tests".to_string();
 
@@ -2823,9 +3197,19 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let variable_id = variable_id.into();
+        if variable_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"variableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/variables/{variableId}"
             .to_string()
-            .replace("{variableId}", &variable_id.into().to_string());
+            .replace("{variableId}", &variable_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2854,9 +3238,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let variable_id = variable_id.into();
+        if variable_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"variableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/variables/{variableId}"
             .to_string()
-            .replace("{variableId}", &variable_id.into().to_string());
+            .replace("{variableId}", &variable_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2871,10 +3265,21 @@ impl Project {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let variable_id = variable_id.into();
+        if variable_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"variableId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/project/variables/{variableId}"
             .to_string()
-            .replace("{variableId}", &variable_id.into().to_string());
+            .replace("{variableId}", &variable_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

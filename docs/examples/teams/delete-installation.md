@@ -11,12 +11,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let teams = Teams::new(&client);
 
-    let result = teams.delete_installation(
+    teams.delete_installation(
         "<TEAM_ID>",
         "<INSTALLATION_ID>"
     ).await?;
-
-    let _ = result;
 
     Ok(())
 }

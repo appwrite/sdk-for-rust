@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct DedicatedDatabaseBranchList {
     /// Total number of branches.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of branches.
     #[serde(rename = "branches")]
     pub branches: Vec<crate::models::DedicatedDatabaseBranch>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl DedicatedDatabaseBranchList {

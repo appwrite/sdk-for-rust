@@ -8,22 +8,42 @@ use serde::{Deserialize, Serialize};
 pub struct InsightCTA {
     /// Human-readable label for the CTA, used in UI.
     #[serde(rename = "label")]
+    #[serde(default = "default_label")]
     pub label: String,
     /// Public API service (SDK namespace) the client should invoke. Must match the
     /// engine that owns the resource — for index suggestions: databases
     /// (legacy), tablesDB, documentsDB, or vectorsDB.
     #[serde(rename = "service")]
+    #[serde(default = "default_service")]
     pub service: String,
     /// Public API method on the chosen service the client should invoke when this
     /// CTA is triggered.
     #[serde(rename = "method")]
+    #[serde(default = "default_method")]
     pub method: String,
     /// Parameter map the client should pass to the service method when this CTA is
     /// triggered. Keys match the target API's parameter names (e.g.
     /// databaseId/tableId/columns for tablesDB, databaseId/collectionId/attributes
     /// for the legacy Databases API).
     #[serde(rename = "params")]
+    #[serde(default = "default_params")]
     pub params: serde_json::Value,
+}
+
+fn default_label() -> String {
+    "".to_string()
+}
+
+fn default_service() -> String {
+    "".to_string()
+}
+
+fn default_method() -> String {
+    "".to_string()
+}
+
+fn default_params() -> serde_json::Value {
+    serde_json::json!({})
 }
 
 impl InsightCTA {

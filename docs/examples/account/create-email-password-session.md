@@ -13,7 +13,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = account.create_email_password_session(
         "email@example.com",
-        "password"
+        "password",
+        Some(60) // optional
     ).await?;
 
     let _ = result;

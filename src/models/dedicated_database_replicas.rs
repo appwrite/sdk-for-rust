@@ -8,12 +8,14 @@ use serde::{Deserialize, Serialize};
 pub struct DedicatedDatabaseReplicas {
     /// Number of configured replicas. Zero means high availability is disabled.
     #[serde(rename = "replicas")]
+    #[serde(default = "default_replicas")]
     pub replicas: i64,
     /// Requested replication sync mode. Possible values: async (asynchronous,
     /// fastest), sync (synchronous, strong consistency), quorum (quorum-based,
     /// majority of replicas must confirm). This is what was asked for; compare it
     /// with effectiveSyncMode for what the primary is enforcing.
     #[serde(rename = "syncMode")]
+    #[serde(default = "default_sync_mode")]
     pub sync_mode: String,
     /// Replication sync mode the primary is actually enforcing. Null when high
     /// availability is disabled or the state could not be read. A value below the
@@ -24,13 +26,16 @@ pub struct DedicatedDatabaseReplicas {
     pub effective_sync_mode: Option<String>,
     /// Whether the enforced replication is weaker than the requested syncMode.
     #[serde(rename = "syncDegraded")]
+    #[serde(default = "default_sync_degraded")]
     pub sync_degraded: bool,
     /// Number of standby acknowledgements the primary waits for before a write is
     /// committed. Zero means writes are acknowledged locally.
     #[serde(rename = "syncAcknowledgements")]
+    #[serde(default = "default_sync_acknowledgements")]
     pub sync_acknowledgements: i64,
     /// Number of standbys registered with the primary for synchronous replication.
     #[serde(rename = "syncStandbyCount")]
+    #[serde(default = "default_sync_standby_count")]
     pub sync_standby_count: i64,
     /// Whether the other sync fields are an engine reading rather than a recorded
     /// estimate. True when the primary answered what it is enforcing, including
@@ -49,6 +54,26 @@ pub struct DedicatedDatabaseReplicas {
     /// Per-pod statuses for the primary and every replica.
     #[serde(rename = "members")]
     pub members: Vec<crate::models::DedicatedDatabaseMember>,
+}
+
+fn default_replicas() -> i64 {
+    0
+}
+
+fn default_sync_mode() -> String {
+    "async".to_string()
+}
+
+fn default_sync_degraded() -> bool {
+    false
+}
+
+fn default_sync_acknowledgements() -> i64 {
+    0
+}
+
+fn default_sync_standby_count() -> i64 {
+    0
 }
 
 impl DedicatedDatabaseReplicas {

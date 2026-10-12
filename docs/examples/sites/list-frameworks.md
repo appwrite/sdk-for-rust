@@ -11,7 +11,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let sites = Sites::new(&client);
 
-    let result = sites.list_frameworks().await?;
+    let result = sites.list_frameworks(
+        Some(false) // optional
+    ).await?;
 
     let _ = result;
 

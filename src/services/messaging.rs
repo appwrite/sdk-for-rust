@@ -67,6 +67,8 @@ impl Messaging {
         cc: Option<Vec<String>>,
         bcc: Option<Vec<String>>,
         attachments: Option<Vec<String>>,
+        reply_to_email: Option<&str>,
+        reply_to_name: Option<&str>,
         draft: Option<bool>,
         html: Option<bool>,
         scheduled_at: Option<&str>,
@@ -111,6 +113,12 @@ impl Messaging {
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
         }
+        if let Some(value) = reply_to_email {
+            params.insert("replyToEmail".to_string(), json!(value));
+        }
+        if let Some(value) = reply_to_name {
+            params.insert("replyToName".to_string(), json!(value));
+        }
         if let Some(value) = draft {
             params.insert("draft".to_string(), json!(value));
         }
@@ -138,19 +146,27 @@ impl Messaging {
     pub async fn update_email(
         &self,
         message_id: impl Into<String>,
+        subject: Option<&str>,
+        content: Option<&str>,
         topics: Option<Vec<String>>,
         users: Option<Vec<String>>,
         targets: Option<Vec<String>>,
-        subject: Option<&str>,
-        content: Option<&str>,
-        draft: Option<bool>,
-        html: Option<bool>,
         cc: Option<Vec<String>>,
         bcc: Option<Vec<String>>,
-        scheduled_at: Option<&str>,
         attachments: Option<Vec<String>>,
+        reply_to_email: Option<&str>,
+        reply_to_name: Option<&str>,
+        draft: Option<bool>,
+        html: Option<bool>,
+        scheduled_at: Option<&str>,
     ) -> crate::error::Result<crate::models::Message> {
         let mut params = HashMap::new();
+        if let Some(value) = subject {
+            params.insert("subject".to_string(), json!(value));
+        }
+        if let Some(value) = content {
+            params.insert("content".to_string(), json!(value));
+        }
         if let Some(value) = topics {
             params.insert(
                 "topics".to_string(),
@@ -169,18 +185,6 @@ impl Messaging {
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
         }
-        if let Some(value) = subject {
-            params.insert("subject".to_string(), json!(value));
-        }
-        if let Some(value) = content {
-            params.insert("content".to_string(), json!(value));
-        }
-        if let Some(value) = draft {
-            params.insert("draft".to_string(), json!(value));
-        }
-        if let Some(value) = html {
-            params.insert("html".to_string(), json!(value));
-        }
         if let Some(value) = cc {
             params.insert(
                 "cc".to_string(),
@@ -193,22 +197,44 @@ impl Messaging {
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
         }
-        if let Some(value) = scheduled_at {
-            params.insert("scheduledAt".to_string(), json!(value));
-        }
         if let Some(value) = attachments {
             params.insert(
                 "attachments".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
         }
+        if let Some(value) = reply_to_email {
+            params.insert("replyToEmail".to_string(), json!(value));
+        }
+        if let Some(value) = reply_to_name {
+            params.insert("replyToName".to_string(), json!(value));
+        }
+        if let Some(value) = draft {
+            params.insert("draft".to_string(), json!(value));
+        }
+        if let Some(value) = html {
+            params.insert("html".to_string(), json!(value));
+        }
+        if let Some(value) = scheduled_at {
+            params.insert("scheduledAt".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let message_id = message_id.into();
+        if message_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"messageId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/messages/email/{messageId}"
             .to_string()
-            .replace("{messageId}", &message_id.into().to_string());
+            .replace("{messageId}", &message_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -238,6 +264,7 @@ impl Messaging {
         content_available: Option<bool>,
         critical: Option<bool>,
         priority: Option<crate::enums::MessagePriority>,
+        channel_id: Option<&str>,
     ) -> crate::error::Result<crate::models::Message> {
         let mut params = HashMap::new();
         params.insert("messageId".to_string(), json!(message_id.into()));
@@ -304,6 +331,9 @@ impl Messaging {
         if let Some(value) = priority {
             params.insert("priority".to_string(), json!(value));
         }
+        if let Some(value) = channel_id {
+            params.insert("channelId".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -322,11 +352,11 @@ impl Messaging {
     pub async fn update_push(
         &self,
         message_id: impl Into<String>,
+        title: Option<&str>,
+        body: Option<&str>,
         topics: Option<Vec<String>>,
         users: Option<Vec<String>>,
         targets: Option<Vec<String>>,
-        title: Option<&str>,
-        body: Option<&str>,
         data: Option<serde_json::Value>,
         action: Option<&str>,
         image: Option<&str>,
@@ -340,8 +370,15 @@ impl Messaging {
         content_available: Option<bool>,
         critical: Option<bool>,
         priority: Option<crate::enums::MessagePriority>,
+        channel_id: Option<&str>,
     ) -> crate::error::Result<crate::models::Message> {
         let mut params = HashMap::new();
+        if let Some(value) = title {
+            params.insert("title".to_string(), json!(value));
+        }
+        if let Some(value) = body {
+            params.insert("body".to_string(), json!(value));
+        }
         if let Some(value) = topics {
             params.insert(
                 "topics".to_string(),
@@ -359,12 +396,6 @@ impl Messaging {
                 "targets".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
-        }
-        if let Some(value) = title {
-            params.insert("title".to_string(), json!(value));
-        }
-        if let Some(value) = body {
-            params.insert("body".to_string(), json!(value));
         }
         if let Some(value) = data {
             params.insert("data".to_string(), json!(value));
@@ -405,13 +436,26 @@ impl Messaging {
         if let Some(value) = priority {
             params.insert("priority".to_string(), json!(value));
         }
+        if let Some(value) = channel_id {
+            params.insert("channelId".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let message_id = message_id.into();
+        if message_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"messageId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/messages/push/{messageId}"
             .to_string()
-            .replace("{messageId}", &message_id.into().to_string());
+            .replace("{messageId}", &message_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -475,14 +519,17 @@ impl Messaging {
     pub async fn update_sms(
         &self,
         message_id: impl Into<String>,
+        content: Option<&str>,
         topics: Option<Vec<String>>,
         users: Option<Vec<String>>,
         targets: Option<Vec<String>>,
-        content: Option<&str>,
         draft: Option<bool>,
         scheduled_at: Option<&str>,
     ) -> crate::error::Result<crate::models::Message> {
         let mut params = HashMap::new();
+        if let Some(value) = content {
+            params.insert("content".to_string(), json!(value));
+        }
         if let Some(value) = topics {
             params.insert(
                 "topics".to_string(),
@@ -501,9 +548,6 @@ impl Messaging {
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
         }
-        if let Some(value) = content {
-            params.insert("content".to_string(), json!(value));
-        }
         if let Some(value) = draft {
             params.insert("draft".to_string(), json!(value));
         }
@@ -514,9 +558,19 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let message_id = message_id.into();
+        if message_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"messageId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/messages/sms/{messageId}"
             .to_string()
-            .replace("{messageId}", &message_id.into().to_string());
+            .replace("{messageId}", &message_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -532,9 +586,19 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let message_id = message_id.into();
+        if message_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"messageId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/messages/{messageId}"
             .to_string()
-            .replace("{messageId}", &message_id.into().to_string());
+            .replace("{messageId}", &message_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -547,10 +611,21 @@ impl Messaging {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let message_id = message_id.into();
+        if message_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"messageId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/messaging/messages/{messageId}"
             .to_string()
-            .replace("{messageId}", &message_id.into().to_string());
+            .replace("{messageId}", &message_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -577,9 +652,19 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let message_id = message_id.into();
+        if message_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"messageId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/messages/{messageId}/targets"
             .to_string()
-            .replace("{messageId}", &message_id.into().to_string());
+            .replace("{messageId}", &message_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -700,9 +785,96 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/providers/apns/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Create a new Appwrite push provider.
+    pub async fn create_appwrite_provider(
+        &self,
+        provider_id: impl Into<String>,
+        name: impl Into<String>,
+        enabled: Option<bool>,
+        qos: Option<i64>,
+        expiry: Option<i64>,
+    ) -> crate::error::Result<crate::models::Provider> {
+        let mut params = HashMap::new();
+        params.insert("providerId".to_string(), json!(provider_id.into()));
+        params.insert("name".to_string(), json!(name.into()));
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = qos {
+            params.insert("qos".to_string(), json!(value));
+        }
+        if let Some(value) = expiry {
+            params.insert("expiry".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/messaging/providers/appwrite".to_string();
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update an Appwrite push provider by its unique ID.
+    pub async fn update_appwrite_provider(
+        &self,
+        provider_id: impl Into<String>,
+        name: Option<&str>,
+        enabled: Option<bool>,
+        qos: Option<i64>,
+        expiry: Option<i64>,
+    ) -> crate::error::Result<crate::models::Provider> {
+        let mut params = HashMap::new();
+        if let Some(value) = name {
+            params.insert("name".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = qos {
+            params.insert("qos".to_string(), json!(value));
+        }
+        if let Some(value) = expiry {
+            params.insert("expiry".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/messaging/providers/appwrite/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -759,9 +931,19 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/providers/fcm/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -868,9 +1050,19 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/providers/mailgun/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -943,9 +1135,19 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/providers/msg91/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1036,9 +1238,19 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/providers/resend/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1129,9 +1341,19 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/providers/sendgrid/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1238,9 +1460,19 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/providers/ses/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1377,9 +1609,19 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/providers/smtp/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1452,9 +1694,19 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/providers/telesign/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1527,9 +1779,19 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/providers/textmagic/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1602,9 +1864,19 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/providers/twilio/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1677,9 +1949,19 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/providers/vonage/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1695,9 +1977,19 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/providers/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1712,10 +2004,21 @@ impl Messaging {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/messaging/providers/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id.into().to_string());
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1758,6 +2061,8 @@ impl Messaging {
         topic_id: impl Into<String>,
         name: impl Into<String>,
         subscribe: Option<Vec<String>>,
+        qos: Option<i64>,
+        expiry: Option<i64>,
     ) -> crate::error::Result<crate::models::Topic> {
         let mut params = HashMap::new();
         params.insert("topicId".to_string(), json!(topic_id.into()));
@@ -1767,6 +2072,12 @@ impl Messaging {
                 "subscribe".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = qos {
+            params.insert("qos".to_string(), json!(value));
+        }
+        if let Some(value) = expiry {
+            params.insert("expiry".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1788,9 +2099,19 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let topic_id = topic_id.into();
+        if topic_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"topicId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/topics/{topicId}"
             .to_string()
-            .replace("{topicId}", &topic_id.into().to_string());
+            .replace("{topicId}", &topic_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1803,6 +2124,8 @@ impl Messaging {
         topic_id: impl Into<String>,
         name: Option<&str>,
         subscribe: Option<Vec<String>>,
+        qos: Option<i64>,
+        expiry: Option<i64>,
     ) -> crate::error::Result<crate::models::Topic> {
         let mut params = HashMap::new();
         if let Some(value) = name {
@@ -1814,13 +2137,29 @@ impl Messaging {
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
         }
+        if let Some(value) = qos {
+            params.insert("qos".to_string(), json!(value));
+        }
+        if let Some(value) = expiry {
+            params.insert("expiry".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let topic_id = topic_id.into();
+        if topic_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"topicId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/topics/{topicId}"
             .to_string()
-            .replace("{topicId}", &topic_id.into().to_string());
+            .replace("{topicId}", &topic_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1832,10 +2171,21 @@ impl Messaging {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let topic_id = topic_id.into();
+        if topic_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"topicId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/messaging/topics/{topicId}"
             .to_string()
-            .replace("{topicId}", &topic_id.into().to_string());
+            .replace("{topicId}", &topic_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1866,9 +2216,19 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let topic_id = topic_id.into();
+        if topic_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"topicId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/topics/{topicId}/subscribers"
             .to_string()
-            .replace("{topicId}", &topic_id.into().to_string());
+            .replace("{topicId}", &topic_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1889,9 +2249,19 @@ impl Messaging {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let topic_id = topic_id.into();
+        if topic_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"topicId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/topics/{topicId}/subscribers"
             .to_string()
-            .replace("{topicId}", &topic_id.into().to_string());
+            .replace("{topicId}", &topic_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1908,10 +2278,30 @@ impl Messaging {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let topic_id = topic_id.into();
+        if topic_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"topicId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let subscriber_id = subscriber_id.into();
+        if subscriber_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"subscriberId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/messaging/topics/{topicId}/subscribers/{subscriberId}"
             .to_string()
-            .replace("{topicId}", &topic_id.into().to_string())
-            .replace("{subscriberId}", &subscriber_id.into().to_string());
+            .replace("{topicId}", &topic_id)
+            .replace("{subscriberId}", &subscriber_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1927,11 +2317,32 @@ impl Messaging {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let topic_id = topic_id.into();
+        if topic_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"topicId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let subscriber_id = subscriber_id.into();
+        if subscriber_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"subscriberId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/messaging/topics/{topicId}/subscribers/{subscriberId}"
             .to_string()
-            .replace("{topicId}", &topic_id.into().to_string())
-            .replace("{subscriberId}", &subscriber_id.into().to_string());
+            .replace("{topicId}", &topic_id)
+            .replace("{subscriberId}", &subscriber_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

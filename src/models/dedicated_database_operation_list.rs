@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct DedicatedDatabaseOperationList {
     /// Total number of operations.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of operations.
     #[serde(rename = "operations")]
     pub operations: Vec<crate::models::DedicatedDatabaseOperation>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl DedicatedDatabaseOperationList {

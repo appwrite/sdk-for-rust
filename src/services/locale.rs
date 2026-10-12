@@ -3,7 +3,7 @@
 use crate::client::Client;
 
 use reqwest::Method;
-
+use serde_json::json;
 use std::collections::HashMap;
 
 /// The Locale service allows you to customize your app based on your users'
@@ -44,8 +44,14 @@ impl Locale {
 
     /// List of all locale codes in [ISO
     /// 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
-    pub async fn list_codes(&self) -> crate::error::Result<crate::models::LocaleCodeList> {
-        let params = HashMap::new();
+    pub async fn list_codes(
+        &self,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::LocaleCodeList> {
+        let mut params = HashMap::new();
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
@@ -58,8 +64,14 @@ impl Locale {
 
     /// List of all continents. You can use the locale header to get the data in a
     /// supported language.
-    pub async fn list_continents(&self) -> crate::error::Result<crate::models::ContinentList> {
-        let params = HashMap::new();
+    pub async fn list_continents(
+        &self,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::ContinentList> {
+        let mut params = HashMap::new();
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
@@ -72,8 +84,14 @@ impl Locale {
 
     /// List of all countries. You can use the locale header to get the data in a
     /// supported language.
-    pub async fn list_countries(&self) -> crate::error::Result<crate::models::CountryList> {
-        let params = HashMap::new();
+    pub async fn list_countries(
+        &self,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::CountryList> {
+        let mut params = HashMap::new();
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
@@ -86,8 +104,14 @@ impl Locale {
 
     /// List of all countries that are currently members of the EU. You can use the
     /// locale header to get the data in a supported language.
-    pub async fn list_countries_eu(&self) -> crate::error::Result<crate::models::CountryList> {
-        let params = HashMap::new();
+    pub async fn list_countries_eu(
+        &self,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::CountryList> {
+        let mut params = HashMap::new();
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
@@ -100,8 +124,14 @@ impl Locale {
 
     /// List of all countries phone codes. You can use the locale header to get the
     /// data in a supported language.
-    pub async fn list_countries_phones(&self) -> crate::error::Result<crate::models::PhoneList> {
-        let params = HashMap::new();
+    pub async fn list_countries_phones(
+        &self,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::PhoneList> {
+        let mut params = HashMap::new();
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
@@ -115,8 +145,14 @@ impl Locale {
     /// List of all currencies, including currency symbol, name, plural, and
     /// decimal digits for all major and minor currencies. You can use the locale
     /// header to get the data in a supported language.
-    pub async fn list_currencies(&self) -> crate::error::Result<crate::models::CurrencyList> {
-        let params = HashMap::new();
+    pub async fn list_currencies(
+        &self,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::CurrencyList> {
+        let mut params = HashMap::new();
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
@@ -129,8 +165,14 @@ impl Locale {
 
     /// List of all languages classified by ISO 639-1 including 2-letter code, name
     /// in English, and name in the respective language.
-    pub async fn list_languages(&self) -> crate::error::Result<crate::models::LanguageList> {
-        let params = HashMap::new();
+    pub async fn list_languages(
+        &self,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::LanguageList> {
+        let mut params = HashMap::new();
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 

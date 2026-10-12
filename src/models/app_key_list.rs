@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct AppKeyList {
     /// Total number of keys that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of keys.
     #[serde(rename = "keys")]
     pub keys: Vec<crate::models::AppKey>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl AppKeyList {

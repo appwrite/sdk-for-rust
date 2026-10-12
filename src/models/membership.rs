@@ -8,57 +8,132 @@ use serde::{Deserialize, Serialize};
 pub struct Membership {
     /// Membership ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Membership creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Membership update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// User ID.
     #[serde(rename = "userId")]
+    #[serde(default = "default_user_id")]
     pub user_id: String,
     /// User name. Hide this attribute by toggling membership privacy in the
     /// Console.
     #[serde(rename = "userName")]
+    #[serde(default = "default_user_name")]
     pub user_name: String,
     /// User email address. Hide this attribute by toggling membership privacy in
     /// the Console.
     #[serde(rename = "userEmail")]
+    #[serde(default = "default_user_email")]
     pub user_email: String,
     /// User phone number. Hide this attribute by toggling membership privacy in
     /// the Console.
     #[serde(rename = "userPhone")]
+    #[serde(default = "default_user_phone")]
     pub user_phone: String,
     /// Team ID.
     #[serde(rename = "teamId")]
+    #[serde(default = "default_team_id")]
     pub team_id: String,
     /// Team name.
     #[serde(rename = "teamName")]
+    #[serde(default = "default_team_name")]
     pub team_name: String,
     /// Date, the user has been invited to join the team in ISO 8601 format.
     #[serde(rename = "invited")]
+    #[serde(default = "default_invited")]
     pub invited: String,
     /// Date, the user has accepted the invitation to join the team in ISO 8601
     /// format.
     #[serde(rename = "joined")]
+    #[serde(default = "default_joined")]
     pub joined: String,
     /// User confirmation status, true if the user has joined the team or false
     /// otherwise.
     #[serde(rename = "confirm")]
+    #[serde(default = "default_confirm")]
     pub confirm: bool,
     /// Multi factor authentication status, true if the user has MFA enabled or
     /// false otherwise. Hide this attribute by toggling membership privacy in the
     /// Console.
     #[serde(rename = "mfa")]
+    #[serde(default = "default_mfa")]
     pub mfa: bool,
     /// Most recent access date in ISO 8601 format. Show this attribute by toggling
     /// membership privacy in the Console.
     #[serde(rename = "userAccessedAt")]
+    #[serde(default = "default_user_accessed_at")]
     pub user_accessed_at: String,
     /// User list of roles
     #[serde(rename = "roles")]
+    #[serde(default = "default_roles")]
     pub roles: Vec<String>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_user_id() -> String {
+    "".to_string()
+}
+
+fn default_user_name() -> String {
+    "".to_string()
+}
+
+fn default_user_email() -> String {
+    "".to_string()
+}
+
+fn default_user_phone() -> String {
+    "".to_string()
+}
+
+fn default_team_id() -> String {
+    "".to_string()
+}
+
+fn default_team_name() -> String {
+    "".to_string()
+}
+
+fn default_invited() -> String {
+    "".to_string()
+}
+
+fn default_joined() -> String {
+    "".to_string()
+}
+
+fn default_confirm() -> bool {
+    false
+}
+
+fn default_mfa() -> bool {
+    false
+}
+
+fn default_user_accessed_at() -> String {
+    "".to_string()
+}
+
+fn default_roles() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl Membership {

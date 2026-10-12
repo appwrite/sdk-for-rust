@@ -8,32 +8,72 @@ use serde::{Deserialize, Serialize};
 pub struct EphemeralKey {
     /// Key ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Key creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Key update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Key name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Key expiration date in ISO 8601 format.
     #[serde(rename = "expire")]
+    #[serde(default = "default_expire")]
     pub expire: String,
     /// Allowed permission scopes.
     #[serde(rename = "scopes")]
+    #[serde(default = "default_scopes")]
     pub scopes: Vec<String>,
     /// Secret key.
     #[serde(rename = "secret")]
+    #[serde(default = "default_secret")]
     pub secret: String,
     /// Most recent access date in ISO 8601 format. This attribute is only updated
     /// again after 24 hours.
     #[serde(rename = "accessedAt")]
+    #[serde(default = "default_accessed_at")]
     pub accessed_at: String,
     /// List of SDK user agents that used this key.
     #[serde(rename = "sdks")]
     pub sdks: Vec<String>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_expire() -> String {
+    "".to_string()
+}
+
+fn default_scopes() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_secret() -> String {
+    "".to_string()
+}
+
+fn default_accessed_at() -> String {
+    "".to_string()
 }
 
 impl EphemeralKey {

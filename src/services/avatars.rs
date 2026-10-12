@@ -1,7 +1,7 @@
 //! Avatars service for Appwrite SDK
 
 use crate::client::Client;
-
+use crate::input_file::InputFile;
 use reqwest::Method;
 use serde_json::json;
 use std::collections::HashMap;
@@ -236,9 +236,9 @@ impl Avatars {
     }
 
     /// Returns the best available profile photo for a user. The endpoint tries
-    /// each source in priority order and returns the first successful result:
-    /// OAuth2 identity photo, Gravatar, Libravatar, Appwrite Initials, built-in
-    /// static fallback.
+    /// each source in priority order and returns the first successful result: a
+    /// custom uploaded photo (see avatars.updatePhoto), OAuth2 identity photo,
+    /// Gravatar, Libravatar, Appwrite Initials, built-in static fallback.
     ///
     /// Passing `userId` — `current()` for the authenticated user — resolves
     /// the photo from everything known about that user: identity photos, email,
@@ -294,6 +294,56 @@ impl Avatars {
 
         self.client
             .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update the profile photo of the currently authenticated user. The uploaded
+    /// image takes priority over every other photo source, including OAuth2
+    /// identity photos, Gravatar, and Libravatar. Updating an already customized
+    /// photo replaces it. The image must be at most 5MB and is sent in a single
+    /// request.
+    pub async fn update_photo(
+        &self,
+        file: InputFile,
+    ) -> crate::error::Result<crate::models::Account> {
+        let mut params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert(
+            "content-type".to_string(),
+            "multipart/form-data".to_string(),
+        );
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/avatars/photo".to_string();
+
+        self.client
+            .upload(
+                Method::PUT,
+                &path,
+                Some(api_headers),
+                params,
+                "file",
+                file,
+                None,
+            )
+            .await
+    }
+
+    /// Delete the profile photo of the currently authenticated user and store the
+    /// built-in static placeholder in its place. The placeholder is the user's
+    /// photo from then on, so it takes priority over every other photo source —
+    /// OAuth2 identity photos, Gravatar, Libravatar, and initials — until a new
+    /// photo is uploaded with avatars.updatePhoto.
+    pub async fn delete_photo(&self) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/avatars/photo".to_string();
+
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
             .await
     }
 

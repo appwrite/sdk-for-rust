@@ -8,22 +8,47 @@ use serde::{Deserialize, Serialize};
 pub struct PlatformApple {
     /// Platform ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Platform creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Platform update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Platform name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Platform type. Possible values are: windows, apple, android, linux, web.
     #[serde(rename = "type")]
     pub r#type: crate::enums::PlatformType,
     /// Apple bundle identifier.
     #[serde(rename = "bundleIdentifier")]
+    #[serde(default = "default_bundle_identifier")]
     pub bundle_identifier: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_bundle_identifier() -> String {
+    "".to_string()
 }
 
 impl PlatformApple {

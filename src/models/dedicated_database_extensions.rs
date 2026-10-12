@@ -8,14 +8,24 @@ use serde::{Deserialize, Serialize};
 pub struct DedicatedDatabaseExtensions {
     /// List of installed extensions.
     #[serde(rename = "installed")]
+    #[serde(default = "default_installed")]
     pub installed: Vec<String>,
     /// List of available extensions that can be installed.
     #[serde(rename = "available")]
+    #[serde(default = "default_available")]
     pub available: Vec<String>,
     /// Curated metadata (display name, description, category) for each available
     /// extension.
     #[serde(rename = "metadata")]
     pub metadata: Vec<crate::models::PostgresExtension>,
+}
+
+fn default_installed() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_available() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl DedicatedDatabaseExtensions {

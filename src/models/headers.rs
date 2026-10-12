@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct Headers {
     /// Header name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Header value.
     #[serde(rename = "value")]
+    #[serde(default = "default_value")]
     pub value: String,
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_value() -> String {
+    "".to_string()
 }
 
 impl Headers {

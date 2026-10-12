@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct PolicyList {
     /// Total number of policies in the given project.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of policies.
     #[serde(rename = "policies")]
     pub policies: Vec<serde_json::Value>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl PolicyList {

@@ -11,7 +11,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let account = Account::new(&client);
 
-    let result = account.list_sessions().await?;
+    let result = account.list_sessions(
+        Some(false) // optional
+    ).await?;
 
     let _ = result;
 

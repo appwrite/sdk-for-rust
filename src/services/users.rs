@@ -184,10 +184,21 @@ impl Users {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let identity_id = identity_id.into();
+        if identity_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"identityId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/users/identities/{identityId}"
             .to_string()
-            .replace("{identityId}", &identity_id.into().to_string());
+            .replace("{identityId}", &identity_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -377,9 +388,17 @@ impl Users {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/users/{userId}"
-            .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/users/{userId}".to_string().replace("{userId}", &user_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -396,10 +415,19 @@ impl Users {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/users/{userId}"
-            .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/users/{userId}".to_string().replace("{userId}", &user_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -418,9 +446,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/email"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -431,7 +469,10 @@ impl Users {
     /// impersonation headers are used, the request runs as the target user for API
     /// behavior, while internal audit logs still attribute the action to the
     /// original impersonator and store the impersonated target details only in
-    /// internal audit payload data.
+    /// internal audit payload data. Account endpoints are read-only while
+    /// impersonating: they report the target's account, and anything that would
+    /// change it is refused, so an impersonator cannot alter the target's
+    /// credentials or delete their account.
     pub async fn update_impersonator(
         &self,
         user_id: impl Into<String>,
@@ -443,9 +484,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/impersonator"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -472,9 +523,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/jwts"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -504,41 +565,22 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/labels"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
-            .await
-    }
-
-    /// Get the user activity logs list by its unique ID.
-    pub async fn list_logs(
-        &self,
-        user_id: impl Into<String>,
-        queries: Option<Vec<String>>,
-        total: Option<bool>,
-    ) -> crate::error::Result<crate::models::LogList> {
-        let mut params = HashMap::new();
-        if let Some(value) = queries {
-            params.insert(
-                "queries".to_string(),
-                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
-            );
-        }
-        if let Some(value) = total {
-            params.insert("total".to_string(), json!(value));
-        }
-        let mut api_headers = HashMap::new();
-        api_headers.insert("accept".to_string(), "application/json".to_string());
-
-        let path = "/users/{userId}/logs"
-            .to_string()
-            .replace("{userId}", &user_id.into().to_string());
-
-        self.client
-            .call(Method::GET, &path, Some(api_headers), Some(params))
             .await
     }
 
@@ -566,9 +608,19 @@ impl Users {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/memberships"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -587,9 +639,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/mfa"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -605,10 +667,21 @@ impl Users {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/users/{userId}/mfa/authenticators/{type}"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string())
+            .replace("{userId}", &user_id)
             .replace("{type}", &r#type.to_string());
 
         self.client
@@ -627,10 +700,30 @@ impl Users {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let challenge_id = challenge_id.into();
+        if challenge_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"challengeId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/mfa/challenges/{challengeId}"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string())
-            .replace("{challengeId}", &challenge_id.into().to_string());
+            .replace("{userId}", &user_id)
+            .replace("{challengeId}", &challenge_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -646,9 +739,19 @@ impl Users {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/mfa/factors"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -667,9 +770,19 @@ impl Users {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/mfa/recovery-codes"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -689,9 +802,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/mfa/recovery-codes"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -711,9 +834,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/mfa/recovery-codes"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -732,12 +865,186 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/name"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Get the list of verified passkeys registered by a user.
+    pub async fn list_passkeys(
+        &self,
+        user_id: impl Into<String>,
+        queries: Option<Vec<String>>,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::PasskeyList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/users/{userId}/passkeys"
+            .to_string()
+            .replace("{userId}", &user_id);
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Get a verified passkey of a user by its unique ID.
+    pub async fn get_passkey(
+        &self,
+        user_id: impl Into<String>,
+        passkey_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Passkey> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let passkey_id = passkey_id.into();
+        if passkey_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"passkeyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/users/{userId}/passkeys/{passkeyId}"
+            .to_string()
+            .replace("{userId}", &user_id)
+            .replace("{passkeyId}", &passkey_id);
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Rename a passkey of a user.
+    pub async fn update_passkey(
+        &self,
+        user_id: impl Into<String>,
+        passkey_id: impl Into<String>,
+        name: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Passkey> {
+        let mut params = HashMap::new();
+        params.insert("name".to_string(), json!(name.into()));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let passkey_id = passkey_id.into();
+        if passkey_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"passkeyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/users/{userId}/passkeys/{passkeyId}"
+            .to_string()
+            .replace("{userId}", &user_id)
+            .replace("{passkeyId}", &passkey_id);
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Delete a passkey from a user, for example when a device is lost. The
+    /// passkey can no longer be used to sign in.
+    pub async fn delete_passkey(
+        &self,
+        user_id: impl Into<String>,
+        passkey_id: impl Into<String>,
+    ) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let passkey_id = passkey_id.into();
+        if passkey_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"passkeyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/users/{userId}/passkeys/{passkeyId}"
+            .to_string()
+            .replace("{userId}", &user_id)
+            .replace("{passkeyId}", &passkey_id);
+
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
             .await
     }
 
@@ -753,9 +1060,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/password"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -774,9 +1091,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/phone"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -792,9 +1119,19 @@ impl Users {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/prefs"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -815,9 +1152,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/prefs"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -837,9 +1184,19 @@ impl Users {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/sessions"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -861,9 +1218,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/sessions"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -875,10 +1242,21 @@ impl Users {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/users/{userId}/sessions"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -894,11 +1272,32 @@ impl Users {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let session_id = session_id.into();
+        if session_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"sessionId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/users/{userId}/sessions/{sessionId}"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string())
-            .replace("{sessionId}", &session_id.into().to_string());
+            .replace("{userId}", &user_id)
+            .replace("{sessionId}", &session_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -918,9 +1317,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/status"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -947,9 +1356,19 @@ impl Users {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/targets"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -980,9 +1399,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/targets"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -999,10 +1428,30 @@ impl Users {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let target_id = target_id.into();
+        if target_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"targetId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/targets/{targetId}"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string())
-            .replace("{targetId}", &target_id.into().to_string());
+            .replace("{userId}", &user_id)
+            .replace("{targetId}", &target_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1032,10 +1481,30 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let target_id = target_id.into();
+        if target_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"targetId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/targets/{targetId}"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string())
-            .replace("{targetId}", &target_id.into().to_string());
+            .replace("{userId}", &user_id)
+            .replace("{targetId}", &target_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1051,11 +1520,32 @@ impl Users {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let target_id = target_id.into();
+        if target_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"targetId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/users/{userId}/targets/{targetId}"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string())
-            .replace("{targetId}", &target_id.into().to_string());
+            .replace("{userId}", &user_id)
+            .replace("{targetId}", &target_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1083,9 +1573,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/tokens"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1104,9 +1604,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/verification"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1125,9 +1635,19 @@ impl Users {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let user_id = user_id.into();
+        if user_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"userId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/users/{userId}/verification/phone"
             .to_string()
-            .replace("{userId}", &user_id.into().to_string());
+            .replace("{userId}", &user_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))

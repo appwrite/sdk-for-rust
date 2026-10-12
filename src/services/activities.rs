@@ -55,9 +55,19 @@ impl Activities {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let event_id = event_id.into();
+        if event_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"eventId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/activities/events/{eventId}"
             .to_string()
-            .replace("{eventId}", &event_id.into().to_string());
+            .replace("{eventId}", &event_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))

@@ -14,6 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = project.update_o_auth2_salesforce(
         Some("<CUSTOMER_KEY>"), // optional
         Some("<CUSTOMER_SECRET>"), // optional
+        Some(vec![appwrite::enums::ProjectOAuth2SalesforcePrompt::Login]), // optional
         Some(false) // optional
     ).await?;
 

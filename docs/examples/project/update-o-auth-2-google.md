@@ -15,6 +15,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("<CLIENT_ID>"), // optional
         Some("<CLIENT_SECRET>"), // optional
         Some(vec![appwrite::enums::ProjectOAuth2GooglePrompt::None]), // optional
+        Some(vec![]), // optional
+        Some(false), // optional
         Some(false) // optional
     ).await?;
 

@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct SiteList {
     /// Total number of sites that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of sites.
     #[serde(rename = "sites")]
     pub sites: Vec<crate::models::Site>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl SiteList {

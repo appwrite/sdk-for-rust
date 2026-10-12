@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct FunctionList {
     /// Total number of functions that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of functions.
     #[serde(rename = "functions")]
     pub functions: Vec<crate::models::Function>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl FunctionList {

@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct TeamList {
     /// Total number of teams that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of teams.
     #[serde(rename = "teams")]
     pub teams: Vec<crate::models::Team>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl TeamList {

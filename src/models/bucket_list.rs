@@ -8,10 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct BucketList {
     /// Total number of buckets that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of buckets.
     #[serde(rename = "buckets")]
     pub buckets: Vec<crate::models::Bucket>,
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl BucketList {

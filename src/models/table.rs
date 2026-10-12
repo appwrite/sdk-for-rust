@@ -8,12 +8,15 @@ use serde::{Deserialize, Serialize};
 pub struct Table {
     /// Table ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Table creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Table update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Table permissions. [Learn more about
     /// permissions](https://appwrite.io/docs/permissions).
@@ -21,18 +24,22 @@ pub struct Table {
     pub permissions: Vec<String>,
     /// Database ID.
     #[serde(rename = "databaseId")]
+    #[serde(default = "default_database_id")]
     pub database_id: String,
     /// Table name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Table enabled. Can be 'enabled' or 'disabled'. When disabled, the table is
     /// inaccessible to users, but remains accessible to Server SDKs using API
     /// keys.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Whether row-level permissions are enabled. [Learn more about
     /// permissions](https://appwrite.io/docs/permissions).
     #[serde(rename = "rowSecurity")]
+    #[serde(default = "default_row_security")]
     pub row_security: bool,
     /// Table columns.
     #[serde(rename = "columns")]
@@ -42,10 +49,48 @@ pub struct Table {
     pub indexes: Vec<crate::models::ColumnIndex>,
     /// Maximum row size in bytes. Returns 0 when no limit applies.
     #[serde(rename = "bytesMax")]
+    #[serde(default = "default_bytes_max")]
     pub bytes_max: i64,
     /// Currently used row size in bytes based on defined columns.
     #[serde(rename = "bytesUsed")]
+    #[serde(default = "default_bytes_used")]
     pub bytes_used: i64,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_database_id() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    true
+}
+
+fn default_row_security() -> bool {
+    false
+}
+
+fn default_bytes_max() -> i64 {
+    0
+}
+
+fn default_bytes_used() -> i64 {
+    0
 }
 
 impl Table {

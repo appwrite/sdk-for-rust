@@ -105,6 +105,8 @@ pub enum BuildRuntime {
     Dart311,
     #[serde(rename = "dart-3.12")]
     Dart312,
+    #[serde(rename = "dart-3.13")]
+    Dart313,
     #[serde(rename = "dotnet-6.0")]
     Dotnet60,
     #[serde(rename = "dotnet-7.0")]
@@ -189,6 +191,8 @@ pub enum BuildRuntime {
     Flutter341,
     #[serde(rename = "flutter-3.44")]
     Flutter344,
+    #[serde(rename = "flutter-3.47")]
+    Flutter347,
 }
 
 impl BuildRuntime {
@@ -246,6 +250,7 @@ impl BuildRuntime {
             BuildRuntime::Dart310 => "dart-3.10",
             BuildRuntime::Dart311 => "dart-3.11",
             BuildRuntime::Dart312 => "dart-3.12",
+            BuildRuntime::Dart313 => "dart-3.13",
             BuildRuntime::Dotnet60 => "dotnet-6.0",
             BuildRuntime::Dotnet70 => "dotnet-7.0",
             BuildRuntime::Dotnet80 => "dotnet-8.0",
@@ -288,6 +293,7 @@ impl BuildRuntime {
             BuildRuntime::Flutter338 => "flutter-3.38",
             BuildRuntime::Flutter341 => "flutter-3.41",
             BuildRuntime::Flutter344 => "flutter-3.44",
+            BuildRuntime::Flutter347 => "flutter-3.47",
         }
     }
 }
