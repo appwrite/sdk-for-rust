@@ -8,21 +8,46 @@ use serde::{Deserialize, Serialize};
 pub struct AppScope {
     /// Scope value as requested by apps.
     #[serde(rename = "value")]
+    #[serde(default = "default_value")]
     pub value: String,
     /// Human-readable description of what the scope grants.
     #[serde(rename = "description")]
+    #[serde(default = "default_description")]
     pub description: String,
     /// What the scope grants access to. One of `account`, `project`, or
     /// `organization`. Only `project` and `organization` scopes are installable.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Scope category, used to group scopes on consent and installation screens.
     #[serde(rename = "category")]
+    #[serde(default = "default_category")]
     pub category: String,
     /// Whether the scope is deprecated. Deprecated scopes can still be requested
     /// but should not be offered for new grants.
     #[serde(rename = "deprecated")]
+    #[serde(default = "default_deprecated")]
     pub deprecated: bool,
+}
+
+fn default_value() -> String {
+    "".to_string()
+}
+
+fn default_description() -> String {
+    "".to_string()
+}
+
+fn default_type() -> String {
+    "".to_string()
+}
+
+fn default_category() -> String {
+    "".to_string()
+}
+
+fn default_deprecated() -> bool {
+    false
 }
 
 impl AppScope {

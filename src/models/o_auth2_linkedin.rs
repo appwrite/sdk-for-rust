@@ -8,16 +8,36 @@ use serde::{Deserialize, Serialize};
 pub struct OAuth2Linkedin {
     /// OAuth2 provider ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// OAuth2 provider is active and can be used to create sessions.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// LinkedIn OAuth2 client ID.
     #[serde(rename = "clientId")]
+    #[serde(default = "default_client_id")]
     pub client_id: String,
     /// LinkedIn OAuth2 primary client secret.
     #[serde(rename = "primaryClientSecret")]
+    #[serde(default = "default_primary_client_secret")]
     pub primary_client_secret: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    false
+}
+
+fn default_client_id() -> String {
+    "".to_string()
+}
+
+fn default_primary_client_secret() -> String {
+    "".to_string()
 }
 
 impl OAuth2Linkedin {

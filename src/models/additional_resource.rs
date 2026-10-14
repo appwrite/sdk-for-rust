@@ -8,22 +8,52 @@ use serde::{Deserialize, Serialize};
 pub struct AdditionalResource {
     /// Resource name
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Resource unit
     #[serde(rename = "unit")]
+    #[serde(default = "default_unit")]
     pub unit: String,
     /// Price currency
     #[serde(rename = "currency")]
+    #[serde(default = "default_currency")]
     pub currency: String,
     /// Price
     #[serde(rename = "price")]
+    #[serde(default = "default_price")]
     pub price: f64,
     /// Resource value
     #[serde(rename = "value")]
+    #[serde(default = "default_value")]
     pub value: i64,
     /// Description on invoice
     #[serde(rename = "invoiceDesc")]
+    #[serde(default = "default_invoice_desc")]
     pub invoice_desc: String,
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_unit() -> String {
+    "".to_string()
+}
+
+fn default_currency() -> String {
+    "".to_string()
+}
+
+fn default_price() -> f64 {
+    0.0
+}
+
+fn default_value() -> i64 {
+    0
+}
+
+fn default_invoice_desc() -> String {
+    "".to_string()
 }
 
 impl AdditionalResource {

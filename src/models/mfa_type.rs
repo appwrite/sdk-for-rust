@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct MfaType {
     /// Secret token used for TOTP factor.
     #[serde(rename = "secret")]
+    #[serde(default = "default_secret")]
     pub secret: String,
     /// URI for authenticator apps.
     #[serde(rename = "uri")]
+    #[serde(default = "default_uri")]
     pub uri: String,
+}
+
+fn default_secret() -> String {
+    "".to_string()
+}
+
+fn default_uri() -> String {
+    "".to_string()
 }
 
 impl MfaType {

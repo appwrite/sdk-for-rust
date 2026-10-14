@@ -8,39 +8,93 @@ use serde::{Deserialize, Serialize};
 pub struct Identity {
     /// Identity ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Identity creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Identity update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// User ID.
     #[serde(rename = "userId")]
+    #[serde(default = "default_user_id")]
     pub user_id: String,
     /// Identity Provider.
     #[serde(rename = "provider")]
+    #[serde(default = "default_provider")]
     pub provider: String,
     /// ID of the User in the Identity Provider.
     #[serde(rename = "providerUid")]
+    #[serde(default = "default_provider_uid")]
     pub provider_uid: String,
     /// Email of the User in the Identity Provider.
     #[serde(rename = "providerEmail")]
+    #[serde(default = "default_provider_email")]
     pub provider_email: String,
     /// Identity Provider Access Token.
     #[serde(rename = "providerAccessToken")]
+    #[serde(default = "default_provider_access_token")]
     pub provider_access_token: String,
     /// The date of when the access token expires in ISO 8601 format.
     #[serde(rename = "providerAccessTokenExpiry")]
+    #[serde(default = "default_provider_access_token_expiry")]
     pub provider_access_token_expiry: String,
     /// Identity Provider Refresh Token.
     #[serde(rename = "providerRefreshToken")]
+    #[serde(default = "default_provider_refresh_token")]
     pub provider_refresh_token: String,
     /// Identity Provider ID token (JWT) from the most recent native sign-in. Empty
     /// for identities created through the browser OAuth2 flow.
     #[serde(rename = "providerIdToken")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub provider_id_token: Option<String>,
+    #[serde(default = "default_provider_id_token")]
+    pub provider_id_token: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_user_id() -> String {
+    "".to_string()
+}
+
+fn default_provider() -> String {
+    "".to_string()
+}
+
+fn default_provider_uid() -> String {
+    "".to_string()
+}
+
+fn default_provider_email() -> String {
+    "".to_string()
+}
+
+fn default_provider_access_token() -> String {
+    "".to_string()
+}
+
+fn default_provider_access_token_expiry() -> String {
+    "".to_string()
+}
+
+fn default_provider_refresh_token() -> String {
+    "".to_string()
+}
+
+fn default_provider_id_token() -> String {
+    "".to_string()
 }
 
 impl Identity {
@@ -94,15 +148,9 @@ impl Identity {
         &self.provider_refresh_token
     }
 
-    /// Set provider_id_token
-    pub fn set_provider_id_token(mut self, provider_id_token: String) -> Self {
-        self.provider_id_token = Some(provider_id_token);
-        self
-    }
-
     /// Get provider_id_token
-    pub fn provider_id_token(&self) -> Option<&String> {
-        self.provider_id_token.as_ref()
+    pub fn provider_id_token(&self) -> &String {
+        &self.provider_id_token
     }
 }
 
@@ -123,6 +171,7 @@ mod tests {
         let _ = _model.provider_access_token();
         let _ = _model.provider_access_token_expiry();
         let _ = _model.provider_refresh_token();
+        let _ = _model.provider_id_token();
     }
 
     #[test]

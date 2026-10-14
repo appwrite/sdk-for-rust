@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct RuntimeList {
     /// Total number of runtimes that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of runtimes.
     #[serde(rename = "runtimes")]
+    #[serde(default = "default_runtimes")]
     pub runtimes: Vec<crate::models::Runtime>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_runtimes() -> Vec<crate::models::Runtime> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl RuntimeList {

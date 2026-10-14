@@ -8,13 +8,28 @@ use serde::{Deserialize, Serialize};
 pub struct Language {
     /// Language name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Language two-character ISO 639-1 codes.
     #[serde(rename = "code")]
+    #[serde(default = "default_code")]
     pub code: String,
     /// Language native name.
     #[serde(rename = "nativeName")]
+    #[serde(default = "default_native_name")]
     pub native_name: String,
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_code() -> String {
+    "".to_string()
+}
+
+fn default_native_name() -> String {
+    "".to_string()
 }
 
 impl Language {

@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct LanguageList {
     /// Total number of languages that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of languages.
     #[serde(rename = "languages")]
+    #[serde(default = "default_languages")]
     pub languages: Vec<crate::models::Language>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_languages() -> Vec<crate::models::Language> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl LanguageList {

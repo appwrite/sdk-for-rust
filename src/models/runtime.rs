@@ -8,28 +8,68 @@ use serde::{Deserialize, Serialize};
 pub struct Runtime {
     /// Runtime ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Parent runtime key.
     #[serde(rename = "key")]
+    #[serde(default = "default_key")]
     pub key: String,
     /// Runtime Name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Runtime version.
     #[serde(rename = "version")]
+    #[serde(default = "default_version")]
     pub version: String,
     /// Base Docker image used to build the runtime.
     #[serde(rename = "base")]
+    #[serde(default = "default_base")]
     pub base: String,
     /// Image name of Docker Hub.
     #[serde(rename = "image")]
+    #[serde(default = "default_image")]
     pub image: String,
     /// Name of the logo image.
     #[serde(rename = "logo")]
+    #[serde(default = "default_logo")]
     pub logo: String,
     /// List of supported architectures.
     #[serde(rename = "supports")]
+    #[serde(default = "default_supports")]
     pub supports: Vec<String>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_key() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_version() -> String {
+    "".to_string()
+}
+
+fn default_base() -> String {
+    "".to_string()
+}
+
+fn default_image() -> String {
+    "".to_string()
+}
+
+fn default_logo() -> String {
+    "".to_string()
+}
+
+fn default_supports() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl Runtime {

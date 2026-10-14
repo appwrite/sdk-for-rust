@@ -8,9 +8,11 @@ use serde::{Deserialize, Serialize};
 pub struct AttributeText {
     /// Attribute Key.
     #[serde(rename = "key")]
+    #[serde(default = "default_key")]
     pub key: String,
     /// Attribute type.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Attribute status. Possible values: `available`, `processing`, `deleting`,
     /// `stuck`, or `failed`
@@ -19,9 +21,11 @@ pub struct AttributeText {
     /// Error message. Displays error generated on failure of creating or deleting
     /// an attribute.
     #[serde(rename = "error")]
+    #[serde(default = "default_error")]
     pub error: String,
     /// Is attribute required?
     #[serde(rename = "required")]
+    #[serde(default = "default_required")]
     pub required: bool,
     /// Is attribute an array?
     #[serde(rename = "array")]
@@ -29,9 +33,11 @@ pub struct AttributeText {
     pub array: Option<bool>,
     /// Attribute creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Attribute update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Default value for attribute when not provided. Cannot be set when attribute
     /// is required.
@@ -42,6 +48,30 @@ pub struct AttributeText {
     #[serde(rename = "encrypt")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub encrypt: Option<bool>,
+}
+
+fn default_key() -> String {
+    "".to_string()
+}
+
+fn default_type() -> String {
+    "".to_string()
+}
+
+fn default_error() -> String {
+    "".to_string()
+}
+
+fn default_required() -> bool {
+    false
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
 }
 
 impl AttributeText {

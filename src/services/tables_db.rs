@@ -92,8 +92,8 @@ impl TablesDB {
     }
 
     /// List the dedicated database specifications available on the current plan.
-    /// Each specification reports its resource limits, pricing, and whether it is
-    /// enabled for the organization.
+    /// Each specification reports its resource limits, its own prices and overage
+    /// rates, and whether it is enabled for the organization.
     pub async fn list_specifications(
         &self,
     ) -> crate::error::Result<crate::models::DedicatedDatabaseSpecificationList> {
@@ -163,9 +163,19 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let transaction_id = transaction_id.into();
+        if transaction_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"transactionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id.into().to_string());
+            .replace("{transactionId}", &transaction_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -190,9 +200,19 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let transaction_id = transaction_id.into();
+        if transaction_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"transactionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id.into().to_string());
+            .replace("{transactionId}", &transaction_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -207,10 +227,21 @@ impl TablesDB {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let transaction_id = transaction_id.into();
+        if transaction_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"transactionId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/tablesdb/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id.into().to_string());
+            .replace("{transactionId}", &transaction_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -231,9 +262,19 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let transaction_id = transaction_id.into();
+        if transaction_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"transactionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/transactions/{transactionId}/operations"
             .to_string()
-            .replace("{transactionId}", &transaction_id.into().to_string());
+            .replace("{transactionId}", &transaction_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -250,9 +291,19 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -289,9 +340,19 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -304,10 +365,21 @@ impl TablesDB {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/tablesdb/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -336,9 +408,19 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/failovers"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -355,9 +437,19 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/migrations"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -382,9 +474,19 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/migrations"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -401,10 +503,30 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let migration_id = migration_id.into();
+        if migration_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"migrationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/migrations/{migrationId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{migrationId}", &migration_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{migrationId}", &migration_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -417,16 +539,36 @@ impl TablesDB {
         &self,
         database_id: impl Into<String>,
         migration_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    ) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let migration_id = migration_id.into();
+        if migration_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"migrationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/migrations/{migrationId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{migrationId}", &migration_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{migrationId}", &migration_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -449,10 +591,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let migration_id = migration_id.into();
+        if migration_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"migrationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/migrations/{migrationId}/cutovers"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{migrationId}", &migration_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{migrationId}", &migration_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -483,9 +645,19 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/operations"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -502,9 +674,19 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/replicas"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -522,9 +704,19 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/status"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -556,9 +748,19 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -606,9 +808,19 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -626,10 +838,30 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -671,10 +903,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -691,11 +943,32 @@ impl TablesDB {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -723,10 +996,30 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -766,10 +1059,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/bigint"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -808,11 +1121,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/bigint/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -842,10 +1185,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/boolean"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -875,11 +1238,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/boolean/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -909,10 +1302,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/datetime"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -942,11 +1355,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/datetime/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -976,10 +1419,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/email"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1009,11 +1472,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/email/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1053,10 +1546,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/enum"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1095,11 +1608,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/enum/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1139,10 +1682,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/float"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1181,11 +1744,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/float/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1225,10 +1818,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/integer"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1267,11 +1880,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/integer/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1301,10 +1944,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/ip"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1334,11 +1997,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/ip/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1364,10 +2057,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/line"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1397,11 +2110,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/line/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1436,10 +2179,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/longtext"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1469,11 +2232,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/longtext/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1508,10 +2301,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1541,11 +2354,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1571,10 +2414,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/point"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1604,11 +2467,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/point/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1634,10 +2527,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/polygon"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1667,11 +2580,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/polygon/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1711,13 +2654,95 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/relationship"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update relationship column. [Learn more about relationship
+    /// columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
+    pub async fn update_relationship_column(
+        &self,
+        database_id: impl Into<String>,
+        table_id: impl Into<String>,
+        key: impl Into<String>,
+        on_delete: Option<crate::enums::RelationMutate>,
+        new_key: Option<&str>,
+    ) -> crate::error::Result<crate::models::ColumnRelationship> {
+        let mut params = HashMap::new();
+        if let Some(value) = on_delete {
+            params.insert("onDelete".to_string(), json!(value));
+        }
+        if let Some(value) = new_key {
+            params.insert("newKey".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/relationship/{key}"
+            .to_string()
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
             .await
     }
 
@@ -1751,10 +2776,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/string"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1789,11 +2834,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/string/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1828,10 +2903,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/text"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1861,11 +2956,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/text/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1895,10 +3020,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/url"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1928,11 +3073,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/url/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1969,10 +3144,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/varchar"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2007,11 +3202,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/varchar/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2029,11 +3254,41 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2050,47 +3305,46 @@ impl TablesDB {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
-            .await
-    }
-
-    /// Update relationship column. [Learn more about relationship
-    /// columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
-    pub async fn update_relationship_column(
-        &self,
-        database_id: impl Into<String>,
-        table_id: impl Into<String>,
-        key: impl Into<String>,
-        on_delete: Option<crate::enums::RelationMutate>,
-        new_key: Option<&str>,
-    ) -> crate::error::Result<crate::models::ColumnRelationship> {
-        let mut params = HashMap::new();
-        if let Some(value) = on_delete {
-            params.insert("onDelete".to_string(), json!(value));
-        }
-        if let Some(value) = new_key {
-            params.insert("newKey".to_string(), json!(value));
-        }
-        let mut api_headers = HashMap::new();
-        api_headers.insert("content-type".to_string(), "application/json".to_string());
-        api_headers.insert("accept".to_string(), "application/json".to_string());
-
-        let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/{key}/relationship"
-            .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
-
-        self.client
-            .call(Method::PATCH, &path, Some(api_headers), Some(params))
             .await
     }
 
@@ -2115,10 +3369,30 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2127,7 +3401,9 @@ impl TablesDB {
 
     /// Creates an index on the columns listed. Your index should include all the
     /// columns you will query in a single request.
-    /// Type can be `key`, `fulltext`, or `unique`.
+    /// Type can be `key`, `fulltext`, `unique`, `spatial`, or `trigram`. `trigram`
+    /// is only available on PostgreSQL and lets `contains`, `startsWith`, and
+    /// `endsWith` queries on string columns use an index.
     #[allow(clippy::too_many_arguments)]
     pub async fn create_index(
         &self,
@@ -2159,10 +3435,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2180,11 +3476,41 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2201,12 +3527,43 @@ impl TablesDB {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -2243,10 +3600,30 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2282,10 +3659,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2312,10 +3709,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2342,10 +3759,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2379,10 +3816,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2412,10 +3869,30 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -2445,11 +3922,41 @@ impl TablesDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let row_id = row_id.into();
+        if row_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"rowId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{rowId}", &row_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{rowId}", &row_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2486,11 +3993,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let row_id = row_id.into();
+        if row_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"rowId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{rowId}", &row_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{rowId}", &row_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2525,11 +4062,41 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let row_id = row_id.into();
+        if row_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"rowId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{rowId}", &row_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{rowId}", &row_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2550,12 +4117,43 @@ impl TablesDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let row_id = row_id.into();
+        if row_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"rowId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{rowId}", &row_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{rowId}", &row_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -2588,12 +4186,52 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let row_id = row_id.into();
+        if row_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"rowId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let column = column.into();
+        if column.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"column\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/decrement"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{rowId}", &row_id.into().to_string())
-            .replace("{column}", &column.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{rowId}", &row_id)
+            .replace("{column}", &column);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2626,12 +4264,52 @@ impl TablesDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let row_id = row_id.into();
+        if row_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"rowId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let column = column.into();
+        if column.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"column\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/increment"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{tableId}", &table_id.into().to_string())
-            .replace("{rowId}", &row_id.into().to_string())
-            .replace("{column}", &column.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id)
+            .replace("{rowId}", &row_id)
+            .replace("{column}", &column);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))

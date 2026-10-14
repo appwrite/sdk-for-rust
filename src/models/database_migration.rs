@@ -8,61 +8,146 @@ use serde::{Deserialize, Serialize};
 pub struct DatabaseMigration {
     /// Database migration ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Migration creation time in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Migration update time in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Project ID that owns the migrating database.
     #[serde(rename = "projectId")]
+    #[serde(default = "default_project_id")]
     pub project_id: String,
     /// Logical database ID being migrated.
     #[serde(rename = "databaseId")]
+    #[serde(default = "default_database_id")]
     pub database_id: String,
     /// Dedicated compute specification provisioned for the migration target.
     #[serde(rename = "specification")]
+    #[serde(default = "default_specification")]
     pub specification: String,
     /// Migration phase. Possible values: pending, provisioned, capturing,
     /// backfilling, catching_up, verifying, ready_to_cutover, cutover, soaking,
     /// done, failed, rolled_back.
     #[serde(rename = "phase")]
+    #[serde(default = "default_phase")]
     pub phase: String,
     /// Number of times a migration step has failed and been recorded.
     #[serde(rename = "attempt")]
+    #[serde(default = "default_attempt")]
     pub attempt: i64,
     /// Reason the most recent migration step failed, empty while none has.
     #[serde(rename = "lastError")]
+    #[serde(default = "default_last_error")]
     pub last_error: String,
     /// Number of documents still pending replication to the target.
     #[serde(rename = "lagDocuments")]
+    #[serde(default = "default_lag_documents")]
     pub lag_documents: i64,
     /// Highest source changelog sequence applied to the target so far.
     #[serde(rename = "changelogWatermark")]
+    #[serde(default = "default_changelog_watermark")]
     pub changelog_watermark: i64,
     /// Time the migrated data was verified against the source in ISO 8601 format.
     #[serde(rename = "verifiedAt")]
+    #[serde(default = "default_verified_at")]
     pub verified_at: String,
     /// Time routing was flipped to the target in ISO 8601 format.
     #[serde(rename = "cutoverAt")]
+    #[serde(default = "default_cutover_at")]
     pub cutover_at: String,
     /// Time the post-cutover soak window ends in ISO 8601 format.
     #[serde(rename = "soakUntil")]
+    #[serde(default = "default_soak_until")]
     pub soak_until: String,
     /// Whether the migration cuts over automatically once ready. Set when the
     /// migration is created and never changed afterwards, so it always reports
     /// what was asked for.
     #[serde(rename = "autoCutover")]
+    #[serde(default = "default_auto_cutover")]
     pub auto_cutover: bool,
     /// Whether a cutover has been requested and not yet attempted. Set by the
     /// cutover endpoint and cleared when the attempt is made, so a cutover that
     /// fails a check parks the migration again rather than retrying on its own.
     #[serde(rename = "cutoverRequested")]
+    #[serde(default = "default_cutover_requested")]
     pub cutover_requested: bool,
     /// Whether the migration is paused.
     #[serde(rename = "paused")]
+    #[serde(default = "default_paused")]
     pub paused: bool,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_project_id() -> String {
+    "".to_string()
+}
+
+fn default_database_id() -> String {
+    "".to_string()
+}
+
+fn default_specification() -> String {
+    "".to_string()
+}
+
+fn default_phase() -> String {
+    "pending".to_string()
+}
+
+fn default_attempt() -> i64 {
+    0
+}
+
+fn default_last_error() -> String {
+    "".to_string()
+}
+
+fn default_lag_documents() -> i64 {
+    0
+}
+
+fn default_changelog_watermark() -> i64 {
+    0
+}
+
+fn default_verified_at() -> String {
+    "".to_string()
+}
+
+fn default_cutover_at() -> String {
+    "".to_string()
+}
+
+fn default_soak_until() -> String {
+    "".to_string()
+}
+
+fn default_auto_cutover() -> bool {
+    true
+}
+
+fn default_cutover_requested() -> bool {
+    false
+}
+
+fn default_paused() -> bool {
+    false
 }
 
 impl DatabaseMigration {

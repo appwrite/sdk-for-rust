@@ -8,16 +8,36 @@ use serde::{Deserialize, Serialize};
 pub struct PostgresExtension {
     /// Extension key used with CREATE EXTENSION.
     #[serde(rename = "key")]
+    #[serde(default = "default_key")]
     pub key: String,
     /// Human-readable extension name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Short description of what the extension provides.
     #[serde(rename = "description")]
+    #[serde(default = "default_description")]
     pub description: String,
     /// Category the extension belongs to.
     #[serde(rename = "category")]
+    #[serde(default = "default_category")]
     pub category: String,
+}
+
+fn default_key() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_description() -> String {
+    "".to_string()
+}
+
+fn default_category() -> String {
+    "".to_string()
 }
 
 impl PostgresExtension {

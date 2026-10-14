@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct MessageList {
     /// Total number of messages that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of messages.
     #[serde(rename = "messages")]
+    #[serde(default = "default_messages")]
     pub messages: Vec<crate::models::Message>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_messages() -> Vec<crate::models::Message> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl MessageList {

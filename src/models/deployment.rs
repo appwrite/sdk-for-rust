@@ -8,45 +8,59 @@ use serde::{Deserialize, Serialize};
 pub struct Deployment {
     /// Deployment ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Deployment creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Deployment update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Type of deployment.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Resource ID.
     #[serde(rename = "resourceId")]
+    #[serde(default = "default_resource_id")]
     pub resource_id: String,
     /// Resource type.
     #[serde(rename = "resourceType")]
+    #[serde(default = "default_resource_type")]
     pub resource_type: String,
     /// The entrypoint file to use to execute the deployment code.
     #[serde(rename = "entrypoint")]
+    #[serde(default = "default_entrypoint")]
     pub entrypoint: String,
     /// The code size in bytes.
     #[serde(rename = "sourceSize")]
+    #[serde(default = "default_source_size")]
     pub source_size: i64,
     /// The build output size in bytes.
     #[serde(rename = "buildSize")]
+    #[serde(default = "default_build_size")]
     pub build_size: i64,
     /// The total size in bytes (source and build output).
     #[serde(rename = "totalSize")]
+    #[serde(default = "default_total_size")]
     pub total_size: i64,
     /// The current build ID.
     #[serde(rename = "buildId")]
+    #[serde(default = "default_build_id")]
     pub build_id: String,
     /// Whether the deployment should be automatically activated.
     #[serde(rename = "activate")]
+    #[serde(default = "default_activate")]
     pub activate: bool,
     /// Screenshot with light theme preference file ID.
     #[serde(rename = "screenshotLight")]
+    #[serde(default = "default_screenshot_light")]
     pub screenshot_light: String,
     /// Screenshot with dark theme preference file ID.
     #[serde(rename = "screenshotDark")]
+    #[serde(default = "default_screenshot_dark")]
     pub screenshot_dark: String,
     /// The deployment status. Possible values are "waiting", "processing",
     /// "building", "ready", "canceled" and "failed".
@@ -54,40 +68,156 @@ pub struct Deployment {
     pub status: crate::enums::DeploymentStatus,
     /// The build logs.
     #[serde(rename = "buildLogs")]
+    #[serde(default = "default_build_logs")]
     pub build_logs: String,
     /// The current build time in seconds.
     #[serde(rename = "buildDuration")]
+    #[serde(default = "default_build_duration")]
     pub build_duration: i64,
     /// The name of the vcs provider repository
     #[serde(rename = "providerRepositoryName")]
+    #[serde(default = "default_provider_repository_name")]
     pub provider_repository_name: String,
     /// The name of the vcs provider repository owner
     #[serde(rename = "providerRepositoryOwner")]
+    #[serde(default = "default_provider_repository_owner")]
     pub provider_repository_owner: String,
     /// The url of the vcs provider repository
     #[serde(rename = "providerRepositoryUrl")]
+    #[serde(default = "default_provider_repository_url")]
     pub provider_repository_url: String,
     /// The commit hash of the vcs commit
     #[serde(rename = "providerCommitHash")]
+    #[serde(default = "default_provider_commit_hash")]
     pub provider_commit_hash: String,
     /// The url of vcs commit author
     #[serde(rename = "providerCommitAuthorUrl")]
+    #[serde(default = "default_provider_commit_author_url")]
     pub provider_commit_author_url: String,
     /// The name of vcs commit author
     #[serde(rename = "providerCommitAuthor")]
+    #[serde(default = "default_provider_commit_author")]
     pub provider_commit_author: String,
     /// The commit message
     #[serde(rename = "providerCommitMessage")]
+    #[serde(default = "default_provider_commit_message")]
     pub provider_commit_message: String,
     /// The url of the vcs commit
     #[serde(rename = "providerCommitUrl")]
+    #[serde(default = "default_provider_commit_url")]
     pub provider_commit_url: String,
     /// The branch of the vcs repository
     #[serde(rename = "providerBranch")]
+    #[serde(default = "default_provider_branch")]
     pub provider_branch: String,
     /// The branch of the vcs repository
     #[serde(rename = "providerBranchUrl")]
+    #[serde(default = "default_provider_branch_url")]
     pub provider_branch_url: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_type() -> String {
+    "".to_string()
+}
+
+fn default_resource_id() -> String {
+    "".to_string()
+}
+
+fn default_resource_type() -> String {
+    "".to_string()
+}
+
+fn default_entrypoint() -> String {
+    "".to_string()
+}
+
+fn default_source_size() -> i64 {
+    0
+}
+
+fn default_build_size() -> i64 {
+    0
+}
+
+fn default_total_size() -> i64 {
+    0
+}
+
+fn default_build_id() -> String {
+    "".to_string()
+}
+
+fn default_activate() -> bool {
+    false
+}
+
+fn default_screenshot_light() -> String {
+    "".to_string()
+}
+
+fn default_screenshot_dark() -> String {
+    "".to_string()
+}
+
+fn default_build_logs() -> String {
+    "".to_string()
+}
+
+fn default_build_duration() -> i64 {
+    0
+}
+
+fn default_provider_repository_name() -> String {
+    "".to_string()
+}
+
+fn default_provider_repository_owner() -> String {
+    "".to_string()
+}
+
+fn default_provider_repository_url() -> String {
+    "".to_string()
+}
+
+fn default_provider_commit_hash() -> String {
+    "".to_string()
+}
+
+fn default_provider_commit_author_url() -> String {
+    "".to_string()
+}
+
+fn default_provider_commit_author() -> String {
+    "".to_string()
+}
+
+fn default_provider_commit_message() -> String {
+    "".to_string()
+}
+
+fn default_provider_commit_url() -> String {
+    "".to_string()
+}
+
+fn default_provider_branch() -> String {
+    "".to_string()
+}
+
+fn default_provider_branch_url() -> String {
+    "".to_string()
 }
 
 impl Deployment {

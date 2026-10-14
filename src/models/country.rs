@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct Country {
     /// Country name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Country two-character ISO 3166-1 alpha code.
     #[serde(rename = "code")]
+    #[serde(default = "default_code")]
     pub code: String,
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_code() -> String {
+    "".to_string()
 }
 
 impl Country {

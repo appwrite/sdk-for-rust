@@ -8,7 +8,12 @@ use serde::{Deserialize, Serialize};
 pub struct MfaRecoveryCodes {
     /// Recovery codes.
     #[serde(rename = "recoveryCodes")]
+    #[serde(default = "default_recovery_codes")]
     pub recovery_codes: Vec<String>,
+}
+
+fn default_recovery_codes() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl MfaRecoveryCodes {

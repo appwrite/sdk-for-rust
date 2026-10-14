@@ -11,7 +11,12 @@ pub struct ProjectAuthMethod {
     pub id: crate::enums::ProjectAuthMethodId,
     /// Auth method status.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
+}
+
+fn default_enabled() -> bool {
+    true
 }
 
 impl ProjectAuthMethod {

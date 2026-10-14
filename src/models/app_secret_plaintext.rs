@@ -8,34 +8,74 @@ use serde::{Deserialize, Serialize};
 pub struct AppSecretPlaintext {
     /// Secret ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Secret creation time in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Secret update time in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Application ID this secret belongs to.
     #[serde(rename = "appId")]
+    #[serde(default = "default_app_id")]
     pub app_id: String,
     /// Application client secret. Returned only when the secret is created;
     /// subsequent reads always return an empty value.
     #[serde(rename = "secret")]
+    #[serde(default = "default_secret")]
     pub secret: String,
     /// Last few characters of the client secret, used to help identify it.
     #[serde(rename = "hint")]
+    #[serde(default = "default_hint")]
     pub hint: String,
     /// ID of the user who created the secret.
     #[serde(rename = "createdById")]
+    #[serde(default = "default_created_by_id")]
     pub created_by_id: String,
     /// Name of the user who created the secret.
     #[serde(rename = "createdByName")]
+    #[serde(default = "default_created_by_name")]
     pub created_by_name: String,
     /// Time the secret was last used for authentication in ISO 8601 format. Null
     /// if never used.
     #[serde(rename = "lastAccessedAt")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub last_accessed_at: Option<String>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_app_id() -> String {
+    "".to_string()
+}
+
+fn default_secret() -> String {
+    "".to_string()
+}
+
+fn default_hint() -> String {
+    "".to_string()
+}
+
+fn default_created_by_id() -> String {
+    "".to_string()
+}
+
+fn default_created_by_name() -> String {
+    "".to_string()
 }
 
 impl AppSecretPlaintext {

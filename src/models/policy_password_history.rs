@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct PolicyPasswordHistory {
     /// Policy ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Password history length. A value of 0 means the policy is disabled.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl PolicyPasswordHistory {

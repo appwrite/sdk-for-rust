@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct PolicyPasswordPersonalData {
     /// Policy ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Whether password personal data policy is enabled.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    false
 }
 
 impl PolicyPasswordPersonalData {

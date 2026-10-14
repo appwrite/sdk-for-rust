@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct WebhookList {
     /// Total number of webhooks that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of webhooks.
     #[serde(rename = "webhooks")]
+    #[serde(default = "default_webhooks")]
     pub webhooks: Vec<crate::models::Webhook>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_webhooks() -> Vec<crate::models::Webhook> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl WebhookList {

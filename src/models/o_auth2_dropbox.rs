@@ -8,16 +8,36 @@ use serde::{Deserialize, Serialize};
 pub struct OAuth2Dropbox {
     /// OAuth2 provider ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// OAuth2 provider is active and can be used to create sessions.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Dropbox OAuth2 app key.
     #[serde(rename = "appKey")]
+    #[serde(default = "default_app_key")]
     pub app_key: String,
     /// Dropbox OAuth2 app secret.
     #[serde(rename = "appSecret")]
+    #[serde(default = "default_app_secret")]
     pub app_secret: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    false
+}
+
+fn default_app_key() -> String {
+    "".to_string()
+}
+
+fn default_app_secret() -> String {
+    "".to_string()
 }
 
 impl OAuth2Dropbox {

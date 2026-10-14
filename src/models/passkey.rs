@@ -8,20 +8,45 @@ use serde::{Deserialize, Serialize};
 pub struct Passkey {
     /// Passkey ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Passkey creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Passkey update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Passkey name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Most recent sign-in with this passkey in ISO 8601 format. Empty until the
     /// passkey is used to sign in.
     #[serde(rename = "accessedAt")]
+    #[serde(default = "default_accessed_at")]
     pub accessed_at: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_accessed_at() -> String {
+    "".to_string()
 }
 
 impl Passkey {

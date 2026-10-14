@@ -64,9 +64,19 @@ impl Presences {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let presence_id = presence_id.into();
+        if presence_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"presenceId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/presences/{presenceId}"
             .to_string()
-            .replace("{presenceId}", &presence_id.into().to_string());
+            .replace("{presenceId}", &presence_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -102,9 +112,19 @@ impl Presences {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let presence_id = presence_id.into();
+        if presence_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"presenceId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/presences/{presenceId}"
             .to_string()
-            .replace("{presenceId}", &presence_id.into().to_string());
+            .replace("{presenceId}", &presence_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -148,9 +168,19 @@ impl Presences {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let presence_id = presence_id.into();
+        if presence_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"presenceId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/presences/{presenceId}"
             .to_string()
-            .replace("{presenceId}", &presence_id.into().to_string());
+            .replace("{presenceId}", &presence_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -162,10 +192,21 @@ impl Presences {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let presence_id = presence_id.into();
+        if presence_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"presenceId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/presences/{presenceId}"
             .to_string()
-            .replace("{presenceId}", &presence_id.into().to_string());
+            .replace("{presenceId}", &presence_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

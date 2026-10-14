@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct IdentityList {
     /// Total number of identities that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of identities.
     #[serde(rename = "identities")]
+    #[serde(default = "default_identities")]
     pub identities: Vec<crate::models::Identity>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_identities() -> Vec<crate::models::Identity> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl IdentityList {

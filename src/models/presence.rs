@@ -8,19 +8,24 @@ use serde::{Deserialize, Serialize};
 pub struct Presence {
     /// Presence ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Presence creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Presence update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Presence permissions. [Learn more about
     /// permissions](https://appwrite.io/docs/permissions).
     #[serde(rename = "$permissions")]
+    #[serde(default = "default_permissions")]
     pub permissions: Vec<String>,
     /// User ID.
     #[serde(rename = "userId")]
+    #[serde(default = "default_user_id")]
     pub user_id: String,
     /// Presence status.
     #[serde(rename = "status")]
@@ -28,6 +33,7 @@ pub struct Presence {
     pub status: Option<String>,
     /// Presence source.
     #[serde(rename = "source")]
+    #[serde(default = "default_source")]
     pub source: String,
     /// Presence expiry date in ISO 8601 format.
     #[serde(rename = "expiresAt")]
@@ -37,6 +43,30 @@ pub struct Presence {
     #[serde(rename = "metadata")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub metadata: Option<serde_json::Value>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_permissions() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_user_id() -> String {
+    "".to_string()
+}
+
+fn default_source() -> String {
+    "".to_string()
 }
 
 impl Presence {

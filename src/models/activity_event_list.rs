@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct ActivityEventList {
     /// Total number of events that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of events.
     #[serde(rename = "events")]
+    #[serde(default = "default_events")]
     pub events: Vec<crate::models::ActivityEvent>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_events() -> Vec<crate::models::ActivityEvent> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl ActivityEventList {
