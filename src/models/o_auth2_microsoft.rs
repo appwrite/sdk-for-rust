@@ -18,6 +18,10 @@ pub struct OAuth2Microsoft {
     /// Microsoft OAuth2 application secret.
     #[serde(rename = "applicationSecret")]
     pub application_secret: String,
+    /// Microsoft OAuth2 prompt values.
+    #[serde(rename = "prompt")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub prompt: Option<Vec<crate::enums::OAuth2MicrosoftPrompt>>,
     /// Microsoft Entra ID tenant identifier. Use 'common', 'organizations',
     /// 'consumers' or a specific tenant ID.
     #[serde(rename = "tenant")]
@@ -43,6 +47,17 @@ impl OAuth2Microsoft {
     /// Get application_secret
     pub fn application_secret(&self) -> &String {
         &self.application_secret
+    }
+
+    /// Set prompt
+    pub fn set_prompt(mut self, prompt: Vec<crate::enums::OAuth2MicrosoftPrompt>) -> Self {
+        self.prompt = Some(prompt);
+        self
+    }
+
+    /// Get prompt
+    pub fn prompt(&self) -> Option<&Vec<crate::enums::OAuth2MicrosoftPrompt>> {
+        self.prompt.as_ref()
     }
 
     /// Get tenant

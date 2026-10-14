@@ -174,8 +174,14 @@ impl Functions {
     }
 
     /// Get a list of all runtimes that are currently active on your instance.
-    pub async fn list_runtimes(&self) -> crate::error::Result<crate::models::RuntimeList> {
-        let params = HashMap::new();
+    pub async fn list_runtimes(
+        &self,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::RuntimeList> {
+        let mut params = HashMap::new();
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
@@ -190,10 +196,14 @@ impl Functions {
     pub async fn list_specifications(
         &self,
         r#type: Option<&str>,
+        total: Option<bool>,
     ) -> crate::error::Result<crate::models::SpecificationList> {
         let mut params = HashMap::new();
         if let Some(value) = r#type {
             params.insert("type".to_string(), json!(value));
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());

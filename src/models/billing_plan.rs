@@ -46,6 +46,11 @@ pub struct BillingPlan {
     /// Maximum WAF rules per project
     #[serde(rename = "wafRules")]
     pub waf_rules: i64,
+    /// Maximum environments per project. 0 when the plan does not offer
+    /// environments.
+    #[serde(rename = "environments")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub environments: Option<i64>,
     /// Projects
     #[serde(rename = "projects")]
     pub projects: i64,
@@ -154,6 +159,11 @@ pub struct BillingPlan {
     /// Does plan require billing address
     #[serde(rename = "requiresBillingAddress")]
     pub requires_billing_address: bool,
+    /// ISO country codes eligible for this regional plan. Empty means no
+    /// restriction.
+    #[serde(rename = "eligibleCountries")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub eligible_countries: Option<Vec<String>>,
     /// Is the billing plan available
     #[serde(rename = "isAvailable")]
     pub is_available: bool,
@@ -311,6 +321,17 @@ impl BillingPlan {
     /// Get waf_rules
     pub fn waf_rules(&self) -> &i64 {
         &self.waf_rules
+    }
+
+    /// Set environments
+    pub fn set_environments(mut self, environments: i64) -> Self {
+        self.environments = Some(environments);
+        self
+    }
+
+    /// Get environments
+    pub fn environments(&self) -> Option<&i64> {
+        self.environments.as_ref()
     }
 
     /// Get projects
@@ -502,6 +523,17 @@ impl BillingPlan {
     /// Get requires_billing_address
     pub fn requires_billing_address(&self) -> &bool {
         &self.requires_billing_address
+    }
+
+    /// Set eligible_countries
+    pub fn set_eligible_countries(mut self, eligible_countries: Vec<String>) -> Self {
+        self.eligible_countries = Some(eligible_countries);
+        self
+    }
+
+    /// Get eligible_countries
+    pub fn eligible_countries(&self) -> Option<&Vec<String>> {
+        self.eligible_countries.as_ref()
     }
 
     /// Get is_available

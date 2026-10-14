@@ -36,6 +36,11 @@ pub struct Identity {
     /// Identity Provider Refresh Token.
     #[serde(rename = "providerRefreshToken")]
     pub provider_refresh_token: String,
+    /// Identity Provider ID token (JWT) from the most recent native sign-in. Empty
+    /// for identities created through the browser OAuth2 flow.
+    #[serde(rename = "providerIdToken")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub provider_id_token: Option<String>,
 }
 
 impl Identity {
@@ -87,6 +92,17 @@ impl Identity {
     /// Get provider_refresh_token
     pub fn provider_refresh_token(&self) -> &String {
         &self.provider_refresh_token
+    }
+
+    /// Set provider_id_token
+    pub fn set_provider_id_token(mut self, provider_id_token: String) -> Self {
+        self.provider_id_token = Some(provider_id_token);
+        self
+    }
+
+    /// Get provider_id_token
+    pub fn provider_id_token(&self) -> Option<&String> {
+        self.provider_id_token.as_ref()
     }
 }
 

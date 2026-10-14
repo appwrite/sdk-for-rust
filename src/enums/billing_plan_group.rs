@@ -5,6 +5,10 @@ pub enum BillingPlanGroup {
     #[serde(rename = "starter")]
     #[default]
     Starter,
+    #[serde(rename = "free")]
+    Free,
+    #[serde(rename = "start")]
+    Start,
     #[serde(rename = "pro")]
     Pro,
     #[serde(rename = "scale")]
@@ -16,6 +20,8 @@ impl BillingPlanGroup {
     pub fn as_str(&self) -> &str {
         match self {
             BillingPlanGroup::Starter => "starter",
+            BillingPlanGroup::Free => "free",
+            BillingPlanGroup::Start => "start",
             BillingPlanGroup::Pro => "pro",
             BillingPlanGroup::Scale => "scale",
         }

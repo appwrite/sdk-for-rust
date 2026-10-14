@@ -11,6 +11,8 @@ pub enum DatabasesIndexType {
     Unique,
     #[serde(rename = "spatial")]
     Spatial,
+    #[serde(rename = "trigram")]
+    Trigram,
 }
 
 impl DatabasesIndexType {
@@ -21,6 +23,7 @@ impl DatabasesIndexType {
             DatabasesIndexType::Fulltext => "fulltext",
             DatabasesIndexType::Unique => "unique",
             DatabasesIndexType::Spatial => "spatial",
+            DatabasesIndexType::Trigram => "trigram",
         }
     }
 }

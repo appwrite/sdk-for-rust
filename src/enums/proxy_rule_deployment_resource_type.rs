@@ -7,6 +7,8 @@ pub enum ProxyRuleDeploymentResourceType {
     Function,
     #[serde(rename = "site")]
     Site,
+    #[serde(rename = "dedicatedDatabase")]
+    DedicatedDatabase,
 }
 
 impl ProxyRuleDeploymentResourceType {
@@ -15,6 +17,7 @@ impl ProxyRuleDeploymentResourceType {
         match self {
             ProxyRuleDeploymentResourceType::Function => "function",
             ProxyRuleDeploymentResourceType::Site => "site",
+            ProxyRuleDeploymentResourceType::DedicatedDatabase => "dedicatedDatabase",
         }
     }
 }

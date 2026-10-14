@@ -15,6 +15,22 @@ pub struct DedicatedDatabaseSpecification {
     /// Monthly price of the specification in USD.
     #[serde(rename = "price")]
     pub price: f64,
+    /// Price per GB of storage above the included amount, per month, in USD.
+    #[serde(rename = "storageOverageRate")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub storage_overage_rate: Option<f64>,
+    /// Price per GB of bandwidth above the included amount, per month, in USD.
+    #[serde(rename = "bandwidthOverageRate")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bandwidth_overage_rate: Option<f64>,
+    /// High availability replica price as a fraction of the specification price.
+    #[serde(rename = "replicaRate")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub replica_rate: Option<f64>,
+    /// Point-in-time recovery price as a fraction of the specification price.
+    #[serde(rename = "pitrRate")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pitr_rate: Option<f64>,
     /// Allocated CPU in millicores.
     #[serde(rename = "cpu")]
     pub cpu: i64,
@@ -49,6 +65,50 @@ impl DedicatedDatabaseSpecification {
     /// Get price
     pub fn price(&self) -> &f64 {
         &self.price
+    }
+
+    /// Set storage_overage_rate
+    pub fn set_storage_overage_rate(mut self, storage_overage_rate: f64) -> Self {
+        self.storage_overage_rate = Some(storage_overage_rate);
+        self
+    }
+
+    /// Get storage_overage_rate
+    pub fn storage_overage_rate(&self) -> Option<&f64> {
+        self.storage_overage_rate.as_ref()
+    }
+
+    /// Set bandwidth_overage_rate
+    pub fn set_bandwidth_overage_rate(mut self, bandwidth_overage_rate: f64) -> Self {
+        self.bandwidth_overage_rate = Some(bandwidth_overage_rate);
+        self
+    }
+
+    /// Get bandwidth_overage_rate
+    pub fn bandwidth_overage_rate(&self) -> Option<&f64> {
+        self.bandwidth_overage_rate.as_ref()
+    }
+
+    /// Set replica_rate
+    pub fn set_replica_rate(mut self, replica_rate: f64) -> Self {
+        self.replica_rate = Some(replica_rate);
+        self
+    }
+
+    /// Get replica_rate
+    pub fn replica_rate(&self) -> Option<&f64> {
+        self.replica_rate.as_ref()
+    }
+
+    /// Set pitr_rate
+    pub fn set_pitr_rate(mut self, pitr_rate: f64) -> Self {
+        self.pitr_rate = Some(pitr_rate);
+        self
+    }
+
+    /// Get pitr_rate
+    pub fn pitr_rate(&self) -> Option<&f64> {
+        self.pitr_rate.as_ref()
     }
 
     /// Get cpu

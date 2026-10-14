@@ -15,7 +15,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("<APPLICATION_ID>"), // optional
         Some("<APPLICATION_SECRET>"), // optional
         Some("<TENANT>"), // optional
-        Some(false) // optional
+        Some(false), // optional
+        Some(vec![appwrite::enums::ProjectOAuth2MicrosoftPrompt::None]) // optional
     ).await?;
 
     let _ = result;

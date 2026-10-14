@@ -18,7 +18,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("<USER_ID>"), // optional
         Some("+12065550100"), // optional
         Some("https://example.com"), // optional
-        Some("<NAME>") // optional
+        Some("<NAME>"), // optional
+        Some("<MEMBERSHIP_ID>") // optional
     ).await?;
 
     let _ = result;

@@ -70,6 +70,143 @@ impl Project {
             .await
     }
 
+    /// Get a list of all environments of the project. You can use the query params
+    /// to filter your results.
+    pub async fn list_environments(
+        &self,
+        queries: Option<Vec<String>>,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::ProjectList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/environments".to_string();
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Create a new environment of the project. An environment is a separate
+    /// project in the same organization and region, with its own resources and
+    /// users. Its usage is billed under the project it belongs to.
+    pub async fn create_environment(
+        &self,
+        environment_id: impl Into<String>,
+        name: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Project> {
+        let mut params = HashMap::new();
+        params.insert("environmentId".to_string(), json!(environment_id.into()));
+        params.insert("name".to_string(), json!(name.into()));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/environments".to_string();
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Get an environment of the project by its unique ID.
+    pub async fn get_environment(
+        &self,
+        environment_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Project> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let environment_id = environment_id.into();
+        if environment_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"environmentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/project/environments/{environmentId}"
+            .to_string()
+            .replace("{environmentId}", &environment_id);
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update the name of an environment of the project.
+    pub async fn update_environment(
+        &self,
+        environment_id: impl Into<String>,
+        name: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Project> {
+        let mut params = HashMap::new();
+        params.insert("name".to_string(), json!(name.into()));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let environment_id = environment_id.into();
+        if environment_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"environmentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/project/environments/{environmentId}"
+            .to_string()
+            .replace("{environmentId}", &environment_id);
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Delete an environment of the project, with all of its resources and users.
+    pub async fn delete_environment(
+        &self,
+        environment_id: impl Into<String>,
+    ) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let environment_id = environment_id.into();
+        if environment_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"environmentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/project/environments/{environmentId}"
+            .to_string()
+            .replace("{environmentId}", &environment_id);
+
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Get a list of all API keys from the current project.
     pub async fn list_keys(
         &self,
@@ -461,6 +598,7 @@ impl Project {
     }
 
     /// Update the project OAuth2 Apple configuration.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_o_auth2_apple(
         &self,
         service_id: Option<&str>,
@@ -468,6 +606,8 @@ impl Project {
         team_id: Option<&str>,
         p8_file: Option<&str>,
         enabled: Option<bool>,
+        native_client_ids: Option<Vec<String>>,
+        native_enabled: Option<bool>,
     ) -> crate::error::Result<crate::models::OAuth2Apple> {
         let mut params = HashMap::new();
         if let Some(value) = service_id {
@@ -484,6 +624,15 @@ impl Project {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = native_client_ids {
+            params.insert(
+                "nativeClientIds".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
+        if let Some(value) = native_enabled {
+            params.insert("nativeEnabled".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -531,6 +680,7 @@ impl Project {
         client_secret: Option<&str>,
         endpoint: Option<&str>,
         enabled: Option<bool>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2Auth0Prompt>>,
     ) -> crate::error::Result<crate::models::OAuth2Auth0> {
         let mut params = HashMap::new();
         if let Some(value) = client_id {
@@ -544,6 +694,9 @@ impl Project {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -762,6 +915,7 @@ impl Project {
         client_id: Option<&str>,
         client_secret: Option<&str>,
         enabled: Option<bool>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2DiscordPrompt>>,
     ) -> crate::error::Result<crate::models::OAuth2Discord> {
         let mut params = HashMap::new();
         if let Some(value) = client_id {
@@ -772,6 +926,9 @@ impl Project {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -962,6 +1119,7 @@ impl Project {
         client_id: Option<&str>,
         client_secret: Option<&str>,
         enabled: Option<bool>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2GitHubPrompt>>,
     ) -> crate::error::Result<crate::models::OAuth2Github> {
         let mut params = HashMap::new();
         if let Some(value) = client_id {
@@ -972,6 +1130,9 @@ impl Project {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1023,6 +1184,8 @@ impl Project {
         client_secret: Option<&str>,
         prompt: Option<Vec<crate::enums::ProjectOAuth2GooglePrompt>>,
         enabled: Option<bool>,
+        native_client_ids: Option<Vec<String>>,
+        native_enabled: Option<bool>,
     ) -> crate::error::Result<crate::models::OAuth2Google> {
         let mut params = HashMap::new();
         if let Some(value) = client_id {
@@ -1036,6 +1199,15 @@ impl Project {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = native_client_ids {
+            params.insert(
+                "nativeClientIds".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
+        if let Some(value) = native_enabled {
+            params.insert("nativeEnabled".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1070,6 +1242,38 @@ impl Project {
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/huggingface".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update the project OAuth2 Kakao configuration.
+    pub async fn update_o_auth2_kakao(
+        &self,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2KakaoPrompt>>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::OAuth2Kakao> {
+        let mut params = HashMap::new();
+        if let Some(value) = client_id {
+            params.insert("clientId".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/oauth2/kakao".to_string();
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1175,6 +1379,7 @@ impl Project {
         application_secret: Option<&str>,
         tenant: Option<&str>,
         enabled: Option<bool>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2MicrosoftPrompt>>,
     ) -> crate::error::Result<crate::models::OAuth2Microsoft> {
         let mut params = HashMap::new();
         if let Some(value) = application_id {
@@ -1188,6 +1393,9 @@ impl Project {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1289,6 +1497,7 @@ impl Project {
         domain: Option<&str>,
         authorization_server_id: Option<&str>,
         enabled: Option<bool>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2OktaPrompt>>,
     ) -> crate::error::Result<crate::models::OAuth2Okta> {
         let mut params = HashMap::new();
         if let Some(value) = client_id {
@@ -1305,6 +1514,9 @@ impl Project {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1435,6 +1647,7 @@ impl Project {
         customer_key: Option<&str>,
         customer_secret: Option<&str>,
         enabled: Option<bool>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2SalesforcePrompt>>,
     ) -> crate::error::Result<crate::models::OAuth2Salesforce> {
         let mut params = HashMap::new();
         if let Some(value) = customer_key {
@@ -1445,6 +1658,9 @@ impl Project {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1541,6 +1757,34 @@ impl Project {
             .await
     }
 
+    /// Update the project OAuth2 TikTok configuration.
+    pub async fn update_o_auth2_tik_tok(
+        &self,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::OAuth2TikTok> {
+        let mut params = HashMap::new();
+        if let Some(value) = client_id {
+            params.insert("clientId".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/oauth2/tiktok".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Update the project OAuth2 Tradeshift configuration.
     pub async fn update_o_auth2_tradeshift(
         &self,
@@ -1619,6 +1863,34 @@ impl Project {
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/oauth2/twitch".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update the project OAuth2 Webflow configuration.
+    pub async fn update_o_auth2_webflow(
+        &self,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::OAuth2Webflow> {
+        let mut params = HashMap::new();
+        if let Some(value) = client_id {
+            params.insert("clientId".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/oauth2/webflow".to_string();
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1743,6 +2015,7 @@ impl Project {
         client_id: Option<&str>,
         client_secret: Option<&str>,
         enabled: Option<bool>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2ZohoPrompt>>,
     ) -> crate::error::Result<crate::models::OAuth2Zoho> {
         let mut params = HashMap::new();
         if let Some(value) = client_id {
@@ -1753,6 +2026,9 @@ impl Project {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1847,11 +2123,18 @@ impl Project {
         platform_id: impl Into<String>,
         name: impl Into<String>,
         application_id: impl Into<String>,
+        fingerprints: Option<Vec<String>>,
     ) -> crate::error::Result<crate::models::PlatformAndroid> {
         let mut params = HashMap::new();
         params.insert("platformId".to_string(), json!(platform_id.into()));
         params.insert("name".to_string(), json!(name.into()));
         params.insert("applicationId".to_string(), json!(application_id.into()));
+        if let Some(value) = fingerprints {
+            params.insert(
+                "fingerprints".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -1870,10 +2153,17 @@ impl Project {
         platform_id: impl Into<String>,
         name: impl Into<String>,
         application_id: impl Into<String>,
+        fingerprints: Option<Vec<String>>,
     ) -> crate::error::Result<crate::models::PlatformAndroid> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
         params.insert("applicationId".to_string(), json!(application_id.into()));
+        if let Some(value) = fingerprints {
+            params.insert(
+                "fingerprints".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -2395,6 +2685,67 @@ impl Project {
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/password-personal-data".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Updating this policy allows you to control if passwords are checked against
+    /// the Have I Been Pwned breach database. When enabled, every password a user
+    /// signs up, signs in or resets with is checked and the result is recorded on
+    /// the user as `passwordPwned`. On its own the policy only records. Enable
+    /// `users` to reject a breached password when a user signs up or sets a new
+    /// password, and `sessions` to refuse a sign-in with a breached password until
+    /// it is reset. Only the first five characters of the password hash are ever
+    /// shared with the service. Options left out keep their current value.
+    pub async fn update_password_pwned_policy(
+        &self,
+        enabled: Option<bool>,
+        sessions: Option<bool>,
+        users: Option<bool>,
+    ) -> crate::error::Result<crate::models::Project> {
+        let mut params = HashMap::new();
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = sessions {
+            params.insert("sessions".to_string(), json!(value));
+        }
+        if let Some(value) = users {
+            params.insert("users".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/policies/password-pwned".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Require a password reset when an email/password sign-in uses a password
+    /// older than the configured maximum age. Options left out keep their current
+    /// value.
+    pub async fn update_password_rotation_policy(
+        &self,
+        enabled: Option<bool>,
+        max_age: Option<i64>,
+    ) -> crate::error::Result<crate::models::Project> {
+        let mut params = HashMap::new();
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = max_age {
+            params.insert("maxAge".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/policies/password-rotation".to_string();
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))

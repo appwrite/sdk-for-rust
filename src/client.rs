@@ -95,7 +95,7 @@ impl Client {
         headers.insert(
             "user-agent",
             format!(
-                "AppwriteRustSDK/0.18.0 ({}; {})",
+                "AppwriteRustSDK/0.19.0 ({}; {})",
                 std::env::consts::OS,
                 std::env::consts::ARCH
             )
@@ -105,7 +105,7 @@ impl Client {
         headers.insert("x-sdk-name", "Rust".parse().unwrap());
         headers.insert("x-sdk-platform", "server".parse().unwrap());
         headers.insert("x-sdk-language", "rust".parse().unwrap());
-        headers.insert("x-sdk-version", "0.18.0".parse().unwrap());
+        headers.insert("x-sdk-version", "0.19.0".parse().unwrap());
 
         let config = Config {
             endpoint: "https://cloud.appwrite.io/v1".to_string(),
@@ -554,6 +554,34 @@ impl Client {
         headers: Option<HashMap<String, String>>,
         params: Option<HashMap<String, Value>>,
     ) -> Result<T> {
+        let response = self.request(method, path, headers, params).await?;
+        self.handle_response(response).await
+    }
+
+    /// Make an API call that returns a plain-text body as a UTF-8 string
+    pub async fn call_text(
+        &self,
+        method: Method,
+        path: &str,
+        headers: Option<HashMap<String, String>>,
+        params: Option<HashMap<String, Value>>,
+    ) -> Result<String> {
+        let response = self.request(method, path, headers, params).await?;
+        if response.status().is_success() {
+            return Ok(response.text().await?);
+        }
+        self.handle_response::<Value>(response)
+            .await
+            .map(|_| String::new())
+    }
+
+    async fn request(
+        &self,
+        method: Method,
+        path: &str,
+        headers: Option<HashMap<String, String>>,
+        params: Option<HashMap<String, Value>>,
+    ) -> Result<Response> {
         let state = self.state.load_full();
         let url = format!("{}{}", state.config.endpoint, path);
         let mut request_builder;
@@ -586,8 +614,7 @@ impl Client {
             }
         }
 
-        let response = request_builder.send().await?;
-        self.handle_response(response).await
+        Ok(request_builder.send().await?)
     }
 
     /// Make an API call that returns a location/redirect URL (for webAuth endpoints)
@@ -784,7 +811,32 @@ impl Client {
         input_file: InputFile,
         upload_id: Option<String>,
     ) -> Result<T> {
-        self.file_upload_with_progress(
+        self.upload(
+            Method::POST,
+            path,
+            headers,
+            params,
+            param_name,
+            input_file,
+            upload_id,
+        )
+        .await
+    }
+
+    /// Upload a file with the endpoint's HTTP method
+    #[allow(clippy::too_many_arguments)]
+    pub async fn upload<T: DeserializeOwned>(
+        &self,
+        method: Method,
+        path: &str,
+        headers: Option<HashMap<String, String>>,
+        params: HashMap<String, Value>,
+        param_name: &str,
+        input_file: InputFile,
+        upload_id: Option<String>,
+    ) -> Result<T> {
+        self.upload_with_progress(
+            method,
             path,
             headers,
             params,
@@ -812,6 +864,33 @@ impl Client {
     where
         F: Fn(UploadProgress),
     {
+        self.upload_with_progress(
+            Method::POST,
+            path,
+            headers,
+            params,
+            param_name,
+            input_file,
+            options,
+        )
+        .await
+    }
+
+    /// Upload a file with the endpoint's HTTP method and a progress callback
+    #[allow(clippy::too_many_arguments)]
+    pub async fn upload_with_progress<T: DeserializeOwned, F>(
+        &self,
+        method: Method,
+        path: &str,
+        headers: Option<HashMap<String, String>>,
+        params: HashMap<String, Value>,
+        param_name: &str,
+        input_file: InputFile,
+        options: UploadOptions<F>,
+    ) -> Result<T>
+    where
+        F: Fn(UploadProgress),
+    {
         let file_size = input_file.size().await?;
         let chunk_size = {
             let state = self.state.load();
@@ -823,7 +902,7 @@ impl Client {
             let url = format!("{}{}", state.config.endpoint, path);
 
             let result = self
-                .single_file_upload(&url, headers, params, param_name, &input_file)
+                .single_file_upload(method, &url, headers, params, param_name, &input_file)
                 .await?;
 
             if let Some(callback) = &options.on_progress {
@@ -839,6 +918,7 @@ impl Client {
         }
 
         self.chunked_file_upload_with_progress(
+            method,
             path,
             headers,
             params,
@@ -851,6 +931,7 @@ impl Client {
 
     async fn single_file_upload<T: DeserializeOwned>(
         &self,
+        method: Method,
         url: &str,
         headers: Option<HashMap<String, String>>,
         params: HashMap<String, Value>,
@@ -884,7 +965,10 @@ impl Client {
             form = form.text(key, value_str);
         }
 
-        let mut request_builder = state.http.post(url).headers(state.config.headers.clone());
+        let mut request_builder = state
+            .http
+            .request(method, url)
+            .headers(state.config.headers.clone());
 
         if let Some(custom_headers) = headers {
             for (key, value) in custom_headers {
@@ -900,8 +984,10 @@ impl Client {
         self.handle_response(response).await
     }
 
+    #[allow(clippy::too_many_arguments)]
     async fn chunked_file_upload_with_progress<T: DeserializeOwned, F>(
         &self,
+        method: Method,
         path: &str,
         headers: Option<HashMap<String, String>>,
         params: HashMap<String, Value>,
@@ -956,6 +1042,7 @@ impl Client {
         if next_chunk == 0 {
             let result = self
                 .upload_file_chunk(
+                    method.clone(),
                     path,
                     headers.clone(),
                     params.clone(),
@@ -1003,10 +1090,12 @@ impl Client {
             let input_file = input_file.clone();
             let upload_id = current_upload_id.clone();
             let chunk_index = next_chunk;
+            let method = method.clone();
 
             tasks.spawn(async move {
                 let result = client
                     .upload_file_chunk(
+                        method,
                         &path,
                         headers,
                         params,
@@ -1062,10 +1151,12 @@ impl Client {
                 let input_file = input_file.clone();
                 let upload_id = current_upload_id.clone();
                 let chunk_index = next_chunk;
+                let method = method.clone();
 
                 tasks.spawn(async move {
                     let result = client
                         .upload_file_chunk(
+                            method,
                             &path,
                             headers,
                             params,
@@ -1092,6 +1183,7 @@ impl Client {
 
     async fn upload_file_chunk(
         &self,
+        method: Method,
         path: &str,
         headers: Option<HashMap<String, String>>,
         params: HashMap<String, Value>,
@@ -1147,7 +1239,10 @@ impl Client {
         }
 
         let url = format!("{}{}", state.config.endpoint, path);
-        let mut request_builder = state.http.post(url).headers(state.config.headers.clone());
+        let mut request_builder = state
+            .http
+            .request(method, url)
+            .headers(state.config.headers.clone());
 
         if let Some(custom_headers) = headers {
             for (key, value) in custom_headers {

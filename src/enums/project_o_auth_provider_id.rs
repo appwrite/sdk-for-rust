@@ -47,6 +47,8 @@ pub enum ProjectOAuthProviderId {
     Google,
     #[serde(rename = "huggingface")]
     Huggingface,
+    #[serde(rename = "kakao")]
+    Kakao,
     #[serde(rename = "keycloak")]
     Keycloak,
     #[serde(rename = "kick")]
@@ -77,12 +79,16 @@ pub enum ProjectOAuthProviderId {
     Spotify,
     #[serde(rename = "stripe")]
     Stripe,
+    #[serde(rename = "tiktok")]
+    Tiktok,
     #[serde(rename = "tradeshift")]
     Tradeshift,
     #[serde(rename = "tradeshiftBox")]
     TradeshiftBox,
     #[serde(rename = "twitch")]
     Twitch,
+    #[serde(rename = "webflow")]
+    Webflow,
     #[serde(rename = "wordpress")]
     Wordpress,
     #[serde(rename = "x")]
@@ -125,6 +131,7 @@ impl ProjectOAuthProviderId {
             ProjectOAuthProviderId::Gitlab => "gitlab",
             ProjectOAuthProviderId::Google => "google",
             ProjectOAuthProviderId::Huggingface => "huggingface",
+            ProjectOAuthProviderId::Kakao => "kakao",
             ProjectOAuthProviderId::Keycloak => "keycloak",
             ProjectOAuthProviderId::Kick => "kick",
             ProjectOAuthProviderId::Linkedin => "linkedin",
@@ -140,9 +147,11 @@ impl ProjectOAuthProviderId {
             ProjectOAuthProviderId::Slack => "slack",
             ProjectOAuthProviderId::Spotify => "spotify",
             ProjectOAuthProviderId::Stripe => "stripe",
+            ProjectOAuthProviderId::Tiktok => "tiktok",
             ProjectOAuthProviderId::Tradeshift => "tradeshift",
             ProjectOAuthProviderId::TradeshiftBox => "tradeshiftBox",
             ProjectOAuthProviderId::Twitch => "twitch",
+            ProjectOAuthProviderId::Webflow => "webflow",
             ProjectOAuthProviderId::Wordpress => "wordpress",
             ProjectOAuthProviderId::X => "x",
             ProjectOAuthProviderId::Yahoo => "yahoo",

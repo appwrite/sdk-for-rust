@@ -18,6 +18,10 @@ pub struct OAuth2Zoho {
     /// Zoho OAuth2 client secret.
     #[serde(rename = "clientSecret")]
     pub client_secret: String,
+    /// Zoho OAuth2 prompt values.
+    #[serde(rename = "prompt")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub prompt: Option<Vec<crate::enums::OAuth2ZohoPrompt>>,
 }
 
 impl OAuth2Zoho {
@@ -39,6 +43,17 @@ impl OAuth2Zoho {
     /// Get client_secret
     pub fn client_secret(&self) -> &String {
         &self.client_secret
+    }
+
+    /// Set prompt
+    pub fn set_prompt(mut self, prompt: Vec<crate::enums::OAuth2ZohoPrompt>) -> Self {
+        self.prompt = Some(prompt);
+        self
+    }
+
+    /// Get prompt
+    pub fn prompt(&self) -> Option<&Vec<crate::enums::OAuth2ZohoPrompt>> {
+        self.prompt.as_ref()
     }
 }
 

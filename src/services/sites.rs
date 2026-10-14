@@ -167,8 +167,14 @@ impl Sites {
 
     /// Get a list of all frameworks that are currently available on the server
     /// instance.
-    pub async fn list_frameworks(&self) -> crate::error::Result<crate::models::FrameworkList> {
-        let params = HashMap::new();
+    pub async fn list_frameworks(
+        &self,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::FrameworkList> {
+        let mut params = HashMap::new();
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
@@ -183,10 +189,14 @@ impl Sites {
     pub async fn list_specifications(
         &self,
         r#type: Option<&str>,
+        total: Option<bool>,
     ) -> crate::error::Result<crate::models::SpecificationList> {
         let mut params = HashMap::new();
         if let Some(value) = r#type {
             params.insert("type".to_string(), json!(value));
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());

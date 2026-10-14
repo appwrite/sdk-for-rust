@@ -18,6 +18,10 @@ pub struct OAuth2Okta {
     /// Okta OAuth2 client secret.
     #[serde(rename = "clientSecret")]
     pub client_secret: String,
+    /// Okta OAuth2 prompt values.
+    #[serde(rename = "prompt")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub prompt: Option<Vec<crate::enums::OAuth2OktaPrompt>>,
     /// Okta OAuth2 domain.
     #[serde(rename = "domain")]
     pub domain: String,
@@ -45,6 +49,17 @@ impl OAuth2Okta {
     /// Get client_secret
     pub fn client_secret(&self) -> &String {
         &self.client_secret
+    }
+
+    /// Set prompt
+    pub fn set_prompt(mut self, prompt: Vec<crate::enums::OAuth2OktaPrompt>) -> Self {
+        self.prompt = Some(prompt);
+        self
+    }
+
+    /// Get prompt
+    pub fn prompt(&self) -> Option<&Vec<crate::enums::OAuth2OktaPrompt>> {
+        self.prompt.as_ref()
     }
 
     /// Get domain

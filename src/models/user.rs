@@ -71,6 +71,11 @@ pub struct User {
     #[serde(rename = "emailIsCanonical")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub email_is_canonical: Option<bool>,
+    /// Whether the password was found in a known data breach the last time it was
+    /// checked. Null when the password has never been checked.
+    #[serde(rename = "passwordPwned")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub password_pwned: Option<bool>,
     /// Phone verification status.
     #[serde(rename = "phoneVerification")]
     pub phone_verification: bool,
@@ -243,6 +248,17 @@ impl User {
     /// Get email_is_canonical
     pub fn email_is_canonical(&self) -> Option<&bool> {
         self.email_is_canonical.as_ref()
+    }
+
+    /// Set password_pwned
+    pub fn set_password_pwned(mut self, password_pwned: bool) -> Self {
+        self.password_pwned = Some(password_pwned);
+        self
+    }
+
+    /// Get password_pwned
+    pub fn password_pwned(&self) -> Option<&bool> {
+        self.password_pwned.as_ref()
     }
 
     /// Get phone_verification

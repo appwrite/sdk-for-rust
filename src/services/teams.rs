@@ -333,6 +333,7 @@ impl Teams {
         phone: Option<&str>,
         url: Option<&str>,
         name: Option<&str>,
+        membership_id: Option<&str>,
     ) -> crate::error::Result<crate::models::Membership> {
         let mut params = HashMap::new();
         if let Some(value) = email {
@@ -353,6 +354,9 @@ impl Teams {
         }
         if let Some(value) = name {
             params.insert("name".to_string(), json!(value));
+        }
+        if let Some(value) = membership_id {
+            params.insert("membershipId".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
