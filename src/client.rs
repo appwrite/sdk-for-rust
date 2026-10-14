@@ -929,6 +929,22 @@ impl Client {
         .await
     }
 
+    /// Upload a file in one request, whatever the configured chunk size, for
+    /// endpoints that do not accept chunked uploads
+    pub(crate) async fn single_upload<T: DeserializeOwned>(
+        &self,
+        method: Method,
+        path: &str,
+        headers: Option<HashMap<String, String>>,
+        params: HashMap<String, Value>,
+        param_name: &str,
+        input_file: InputFile,
+    ) -> Result<T> {
+        let url = format!("{}{}", self.state.load_full().config.endpoint, path);
+        self.single_file_upload(method, &url, headers, params, param_name, &input_file)
+            .await
+    }
+
     async fn single_file_upload<T: DeserializeOwned>(
         &self,
         method: Method,

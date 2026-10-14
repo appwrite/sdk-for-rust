@@ -317,15 +317,7 @@ impl Avatars {
         let path = "/avatars/photo".to_string();
 
         self.client
-            .upload(
-                Method::PUT,
-                &path,
-                Some(api_headers),
-                params,
-                "file",
-                file,
-                None,
-            )
+            .single_upload(Method::PUT, &path, Some(api_headers), params, "file", file)
             .await
     }
 
@@ -490,6 +482,27 @@ impl crate::services::Service for Avatars {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[tokio::test]
+    async fn test_update_photo_sends_one_request_whatever_the_chunk_size() {
+        use wiremock::matchers::{method, path};
+        use wiremock::{Mock, MockServer, ResponseTemplate};
+
+        let server = MockServer::start().await;
+        Mock::given(method("PUT"))
+            .and(path("/avatars/photo"))
+            .respond_with(ResponseTemplate::new(500))
+            .mount(&server)
+            .await;
+
+        let client = Client::new().set_endpoint(server.uri()).set_chunk_size(1);
+        let file = InputFile::from_bytes(vec![0u8; 10], "photo.png", Some("image/png"));
+        let _ = Avatars::new(&client).update_photo(file).await;
+
+        let requests = server.received_requests().await.unwrap();
+        assert_eq!(requests.len(), 1);
+        assert!(requests[0].headers.get("content-range").is_none());
+    }
 
     #[test]
     fn test_avatars_creation() {
