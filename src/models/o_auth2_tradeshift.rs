@@ -8,16 +8,36 @@ use serde::{Deserialize, Serialize};
 pub struct OAuth2Tradeshift {
     /// OAuth2 provider ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// OAuth2 provider is active and can be used to create sessions.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Tradeshift OAuth2 client ID.
     #[serde(rename = "oauth2ClientId")]
+    #[serde(default = "default_oauth2_client_id")]
     pub oauth2_client_id: String,
     /// Tradeshift OAuth2 client secret.
     #[serde(rename = "oauth2ClientSecret")]
+    #[serde(default = "default_oauth2_client_secret")]
     pub oauth2_client_secret: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    false
+}
+
+fn default_oauth2_client_id() -> String {
+    "".to_string()
+}
+
+fn default_oauth2_client_secret() -> String {
+    "".to_string()
 }
 
 impl OAuth2Tradeshift {

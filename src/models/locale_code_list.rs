@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct LocaleCodeList {
     /// Total number of localeCodes that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of localeCodes.
     #[serde(rename = "localeCodes")]
+    #[serde(default = "default_locale_codes")]
     pub locale_codes: Vec<crate::models::LocaleCode>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_locale_codes() -> Vec<crate::models::LocaleCode> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl LocaleCodeList {

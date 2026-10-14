@@ -46,10 +46,30 @@ impl Tokens {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let bucket_id = bucket_id.into();
+        if bucket_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"bucketId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let file_id = file_id.into();
+        if file_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"fileId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tokens/buckets/{bucketId}/files/{fileId}"
             .to_string()
-            .replace("{bucketId}", &bucket_id.into().to_string())
-            .replace("{fileId}", &file_id.into().to_string());
+            .replace("{bucketId}", &bucket_id)
+            .replace("{fileId}", &file_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -72,10 +92,30 @@ impl Tokens {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let bucket_id = bucket_id.into();
+        if bucket_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"bucketId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let file_id = file_id.into();
+        if file_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"fileId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tokens/buckets/{bucketId}/files/{fileId}"
             .to_string()
-            .replace("{bucketId}", &bucket_id.into().to_string())
-            .replace("{fileId}", &file_id.into().to_string());
+            .replace("{bucketId}", &bucket_id)
+            .replace("{fileId}", &file_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -91,9 +131,19 @@ impl Tokens {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let token_id = token_id.into();
+        if token_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tokenId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tokens/{tokenId}"
             .to_string()
-            .replace("{tokenId}", &token_id.into().to_string());
+            .replace("{tokenId}", &token_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -115,9 +165,19 @@ impl Tokens {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let token_id = token_id.into();
+        if token_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tokenId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/tokens/{tokenId}"
             .to_string()
-            .replace("{tokenId}", &token_id.into().to_string());
+            .replace("{tokenId}", &token_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -129,10 +189,21 @@ impl Tokens {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let token_id = token_id.into();
+        if token_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tokenId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/tokens/{tokenId}"
             .to_string()
-            .replace("{tokenId}", &token_id.into().to_string());
+            .replace("{tokenId}", &token_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

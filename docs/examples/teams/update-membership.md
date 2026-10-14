@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = teams.update_membership(
         "<TEAM_ID>",
         "<MEMBERSHIP_ID>",
-        vec![]
+        vec!["editor".into()]
     ).await?;
 
     let _ = result;

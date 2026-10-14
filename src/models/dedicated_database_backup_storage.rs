@@ -9,19 +9,44 @@ pub struct DedicatedDatabaseBackupStorage {
     /// Storage provider. Possible values: s3 (Amazon S3 or S3-compatible), gcs
     /// (Google Cloud Storage), azure (Azure Blob Storage).
     #[serde(rename = "provider")]
+    #[serde(default = "default_provider")]
     pub provider: String,
     /// Storage bucket or container name.
     #[serde(rename = "bucket")]
+    #[serde(default = "default_bucket")]
     pub bucket: String,
     /// Storage region.
     #[serde(rename = "region")]
+    #[serde(default = "default_region")]
     pub region: String,
     /// Object key prefix for backups.
     #[serde(rename = "prefix")]
+    #[serde(default = "default_prefix")]
     pub prefix: String,
     /// Custom endpoint for S3-compatible storage.
     #[serde(rename = "endpoint")]
+    #[serde(default = "default_endpoint")]
     pub endpoint: String,
+}
+
+fn default_provider() -> String {
+    "".to_string()
+}
+
+fn default_bucket() -> String {
+    "".to_string()
+}
+
+fn default_region() -> String {
+    "".to_string()
+}
+
+fn default_prefix() -> String {
+    "backups/".to_string()
+}
+
+fn default_endpoint() -> String {
+    "".to_string()
 }
 
 impl DedicatedDatabaseBackupStorage {

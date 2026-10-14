@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct UserList {
     /// Total number of users that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of users.
     #[serde(rename = "users")]
+    #[serde(default = "default_users")]
     pub users: Vec<crate::models::User>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_users() -> Vec<crate::models::User> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl UserList {

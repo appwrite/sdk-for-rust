@@ -11,12 +11,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let tables_db = TablesDB::new(&client);
 
-    let result = tables_db.delete_migration(
+    tables_db.delete_migration(
         "<DATABASE_ID>",
         "<MIGRATION_ID>"
     ).await?;
-
-    let _ = result;
 
     Ok(())
 }

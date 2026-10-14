@@ -8,22 +8,52 @@ use serde::{Deserialize, Serialize};
 pub struct Oauth2DeviceAuthorization {
     /// Device verification code used by the client to poll the token endpoint.
     #[serde(rename = "device_code")]
+    #[serde(default = "default_device_code")]
     pub device_code: String,
     /// Short code the end user enters on the verification page.
     #[serde(rename = "user_code")]
+    #[serde(default = "default_user_code")]
     pub user_code: String,
     /// URL where the end user enters the user code.
     #[serde(rename = "verification_uri")]
+    #[serde(default = "default_verification_uri")]
     pub verification_uri: String,
     /// Verification URL with the user code prefilled as a query parameter.
     #[serde(rename = "verification_uri_complete")]
+    #[serde(default = "default_verification_uri_complete")]
     pub verification_uri_complete: String,
     /// Lifetime of the device code and user code in seconds.
     #[serde(rename = "expires_in")]
+    #[serde(default = "default_expires_in")]
     pub expires_in: i64,
     /// Minimum polling interval for the token endpoint in seconds.
     #[serde(rename = "interval")]
+    #[serde(default = "default_interval")]
     pub interval: i64,
+}
+
+fn default_device_code() -> String {
+    "".to_string()
+}
+
+fn default_user_code() -> String {
+    "".to_string()
+}
+
+fn default_verification_uri() -> String {
+    "".to_string()
+}
+
+fn default_verification_uri_complete() -> String {
+    "".to_string()
+}
+
+fn default_expires_in() -> i64 {
+    0
+}
+
+fn default_interval() -> i64 {
+    0
 }
 
 impl Oauth2DeviceAuthorization {

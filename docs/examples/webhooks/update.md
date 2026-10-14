@@ -15,7 +15,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<WEBHOOK_ID>",
         "<NAME>",
         "https://example.com/webhook",
-        vec![],
+        vec!["users.*.create".into()],
         Some(false), // optional
         Some(false), // optional
         Some("<AUTH_USERNAME>"), // optional

@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct DocumentList {
     /// Total number of documents that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of documents.
     #[serde(rename = "documents")]
+    #[serde(default = "default_documents")]
     pub documents: Vec<crate::models::Document>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_documents() -> Vec<crate::models::Document> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl DocumentList {

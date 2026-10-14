@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct EmailTemplateList {
     /// Total number of templates that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of templates.
     #[serde(rename = "templates")]
+    #[serde(default = "default_templates")]
     pub templates: Vec<crate::models::EmailTemplate>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_templates() -> Vec<crate::models::EmailTemplate> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl EmailTemplateList {

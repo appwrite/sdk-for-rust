@@ -54,8 +54,6 @@ pub mod message_priority;
 pub use message_priority::MessagePriority;
 pub mod smtp_encryption;
 pub use smtp_encryption::SmtpEncryption;
-pub mod organization_key_scopes;
-pub use organization_key_scopes::OrganizationKeyScopes;
 pub mod region;
 pub use region::Region;
 pub mod project_auth_method_id;

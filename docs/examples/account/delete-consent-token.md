@@ -11,12 +11,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let account = Account::new(&client);
 
-    let result = account.delete_consent_token(
+    account.delete_consent_token(
         "<CONSENT_ID>",
         "<TOKEN_ID>"
     ).await?;
-
-    let _ = result;
 
     Ok(())
 }

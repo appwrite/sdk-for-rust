@@ -8,24 +8,53 @@ use serde::{Deserialize, Serialize};
 pub struct OAuth2Microsoft {
     /// OAuth2 provider ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// OAuth2 provider is active and can be used to create sessions.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Microsoft OAuth2 application ID.
     #[serde(rename = "applicationId")]
+    #[serde(default = "default_application_id")]
     pub application_id: String,
     /// Microsoft OAuth2 application secret.
     #[serde(rename = "applicationSecret")]
+    #[serde(default = "default_application_secret")]
     pub application_secret: String,
     /// Microsoft OAuth2 prompt values.
     #[serde(rename = "prompt")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub prompt: Option<Vec<crate::enums::OAuth2MicrosoftPrompt>>,
+    #[serde(default = "default_prompt")]
+    pub prompt: Vec<crate::enums::OAuth2MicrosoftPrompt>,
     /// Microsoft Entra ID tenant identifier. Use 'common', 'organizations',
     /// 'consumers' or a specific tenant ID.
     #[serde(rename = "tenant")]
+    #[serde(default = "default_tenant")]
     pub tenant: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    false
+}
+
+fn default_application_id() -> String {
+    "".to_string()
+}
+
+fn default_application_secret() -> String {
+    "".to_string()
+}
+
+fn default_prompt() -> Vec<crate::enums::OAuth2MicrosoftPrompt> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_tenant() -> String {
+    "".to_string()
 }
 
 impl OAuth2Microsoft {
@@ -49,15 +78,9 @@ impl OAuth2Microsoft {
         &self.application_secret
     }
 
-    /// Set prompt
-    pub fn set_prompt(mut self, prompt: Vec<crate::enums::OAuth2MicrosoftPrompt>) -> Self {
-        self.prompt = Some(prompt);
-        self
-    }
-
     /// Get prompt
-    pub fn prompt(&self) -> Option<&Vec<crate::enums::OAuth2MicrosoftPrompt>> {
-        self.prompt.as_ref()
+    pub fn prompt(&self) -> &Vec<crate::enums::OAuth2MicrosoftPrompt> {
+        &self.prompt
     }
 
     /// Get tenant
@@ -77,6 +100,7 @@ mod tests {
         let _ = _model.enabled();
         let _ = _model.application_id();
         let _ = _model.application_secret();
+        let _ = _model.prompt();
         let _ = _model.tenant();
     }
 

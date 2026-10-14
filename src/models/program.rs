@@ -8,31 +8,76 @@ use serde::{Deserialize, Serialize};
 pub struct Program {
     /// Program ID
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Program title
     #[serde(rename = "title")]
+    #[serde(default = "default_title")]
     pub title: String,
     /// Program description
     #[serde(rename = "description")]
+    #[serde(default = "default_description")]
     pub description: String,
     /// Program tag for highlighting on console
     #[serde(rename = "tag")]
+    #[serde(default = "default_tag")]
     pub tag: String,
     /// Program icon for highlighting on console
     #[serde(rename = "icon")]
+    #[serde(default = "default_icon")]
     pub icon: String,
     /// URL for more information on this program
     #[serde(rename = "url")]
+    #[serde(default = "default_url")]
     pub url: String,
     /// Whether this program is active
     #[serde(rename = "active")]
+    #[serde(default = "default_active")]
     pub active: bool,
     /// Whether this program is external
     #[serde(rename = "external")]
+    #[serde(default = "default_external")]
     pub external: bool,
     /// Billing plan ID that this is program is associated with.
     #[serde(rename = "billingPlanId")]
+    #[serde(default = "default_billing_plan_id")]
     pub billing_plan_id: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_title() -> String {
+    "".to_string()
+}
+
+fn default_description() -> String {
+    "".to_string()
+}
+
+fn default_tag() -> String {
+    "".to_string()
+}
+
+fn default_icon() -> String {
+    "".to_string()
+}
+
+fn default_url() -> String {
+    "".to_string()
+}
+
+fn default_active() -> bool {
+    true
+}
+
+fn default_external() -> bool {
+    true
+}
+
+fn default_billing_plan_id() -> String {
+    "".to_string()
 }
 
 impl Program {

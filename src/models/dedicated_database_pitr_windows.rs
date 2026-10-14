@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct DedicatedDatabasePITRWindows {
     /// Earliest available recovery point.
     #[serde(rename = "earliest")]
+    #[serde(default = "default_earliest")]
     pub earliest: String,
     /// Latest available recovery point.
     #[serde(rename = "latest")]
+    #[serde(default = "default_latest")]
     pub latest: String,
+}
+
+fn default_earliest() -> String {
+    "".to_string()
+}
+
+fn default_latest() -> String {
+    "".to_string()
 }
 
 impl DedicatedDatabasePITRWindows {

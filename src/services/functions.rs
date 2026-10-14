@@ -224,9 +224,19 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string());
+            .replace("{functionId}", &function_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -342,9 +352,19 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string());
+            .replace("{functionId}", &function_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -356,10 +376,21 @@ impl Functions {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/functions/{functionId}"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string());
+            .replace("{functionId}", &function_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -379,9 +410,19 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/deployment"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string());
+            .replace("{functionId}", &function_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -413,9 +454,19 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/deployments"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string());
+            .replace("{functionId}", &function_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -455,12 +506,30 @@ impl Functions {
         );
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/deployments"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string());
+            .replace("{functionId}", &function_id);
 
         self.client
-            .file_upload(&path, Some(api_headers), params, "code", code, None)
+            .upload(
+                Method::POST,
+                &path,
+                Some(api_headers),
+                params,
+                "code",
+                code,
+                None,
+            )
             .await
     }
 
@@ -484,9 +553,19 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/deployments/duplicate"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string());
+            .replace("{functionId}", &function_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -522,9 +601,19 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/deployments/template"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string());
+            .replace("{functionId}", &function_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -551,9 +640,19 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/deployments/vcs"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string());
+            .replace("{functionId}", &function_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -570,10 +669,30 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let deployment_id = deployment_id.into();
+        if deployment_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"deploymentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/deployments/{deploymentId}"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string())
-            .replace("{deploymentId}", &deployment_id.into().to_string());
+            .replace("{functionId}", &function_id)
+            .replace("{deploymentId}", &deployment_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -589,11 +708,32 @@ impl Functions {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let deployment_id = deployment_id.into();
+        if deployment_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"deploymentId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/functions/{functionId}/deployments/{deploymentId}"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string())
-            .replace("{deploymentId}", &deployment_id.into().to_string());
+            .replace("{functionId}", &function_id)
+            .replace("{deploymentId}", &deployment_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -620,10 +760,30 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "*/*".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let deployment_id = deployment_id.into();
+        if deployment_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"deploymentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/deployments/{deploymentId}/download"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string())
-            .replace("{deploymentId}", &deployment_id.into().to_string());
+            .replace("{functionId}", &function_id)
+            .replace("{deploymentId}", &deployment_id);
 
         self.client
             .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
@@ -645,10 +805,30 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let deployment_id = deployment_id.into();
+        if deployment_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"deploymentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/deployments/{deploymentId}/status"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string())
-            .replace("{deploymentId}", &deployment_id.into().to_string());
+            .replace("{functionId}", &function_id)
+            .replace("{deploymentId}", &deployment_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -676,9 +856,19 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/executions"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string());
+            .replace("{functionId}", &function_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -723,9 +913,19 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/executions"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string());
+            .replace("{functionId}", &function_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -742,10 +942,30 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let execution_id = execution_id.into();
+        if execution_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"executionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/executions/{executionId}"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string())
-            .replace("{executionId}", &execution_id.into().to_string());
+            .replace("{functionId}", &function_id)
+            .replace("{executionId}", &execution_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -761,11 +981,32 @@ impl Functions {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let execution_id = execution_id.into();
+        if execution_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"executionId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/functions/{functionId}/executions/{executionId}"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string())
-            .replace("{executionId}", &execution_id.into().to_string());
+            .replace("{functionId}", &function_id)
+            .replace("{executionId}", &execution_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -792,9 +1033,19 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/variables"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string());
+            .replace("{functionId}", &function_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -822,9 +1073,19 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/variables"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string());
+            .replace("{functionId}", &function_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -841,10 +1102,30 @@ impl Functions {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let variable_id = variable_id.into();
+        if variable_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"variableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/variables/{variableId}"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string())
-            .replace("{variableId}", &variable_id.into().to_string());
+            .replace("{functionId}", &function_id)
+            .replace("{variableId}", &variable_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -874,10 +1155,30 @@ impl Functions {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let variable_id = variable_id.into();
+        if variable_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"variableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/functions/{functionId}/variables/{variableId}"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string())
-            .replace("{variableId}", &variable_id.into().to_string());
+            .replace("{functionId}", &function_id)
+            .replace("{variableId}", &variable_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -893,11 +1194,32 @@ impl Functions {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let function_id = function_id.into();
+        if function_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"functionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let variable_id = variable_id.into();
+        if variable_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"variableId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/functions/{functionId}/variables/{variableId}"
             .to_string()
-            .replace("{functionId}", &function_id.into().to_string())
-            .replace("{variableId}", &variable_id.into().to_string());
+            .replace("{functionId}", &function_id)
+            .replace("{variableId}", &variable_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

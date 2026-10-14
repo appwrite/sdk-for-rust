@@ -8,19 +8,44 @@ use serde::{Deserialize, Serialize};
 pub struct AlgoScrypt {
     /// Algo type.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// CPU complexity of computed hash.
     #[serde(rename = "costCpu")]
+    #[serde(default = "default_cost_cpu")]
     pub cost_cpu: i64,
     /// Memory complexity of computed hash.
     #[serde(rename = "costMemory")]
+    #[serde(default = "default_cost_memory")]
     pub cost_memory: i64,
     /// Parallelization of computed hash.
     #[serde(rename = "costParallel")]
+    #[serde(default = "default_cost_parallel")]
     pub cost_parallel: i64,
     /// Length used to compute hash.
     #[serde(rename = "length")]
+    #[serde(default = "default_length")]
     pub length: i64,
+}
+
+fn default_type() -> String {
+    "scrypt".to_string()
+}
+
+fn default_cost_cpu() -> i64 {
+    8
+}
+
+fn default_cost_memory() -> i64 {
+    14
+}
+
+fn default_cost_parallel() -> i64 {
+    1
+}
+
+fn default_length() -> i64 {
+    64
 }
 
 impl AlgoScrypt {

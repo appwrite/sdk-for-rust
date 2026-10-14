@@ -8,40 +8,85 @@ use serde::{Deserialize, Serialize};
 pub struct AppInstallation {
     /// Installation ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Installation creation time in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Installation update time in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// ID of the installed application.
     #[serde(rename = "appId")]
+    #[serde(default = "default_app_id")]
     pub app_id: String,
     /// ID of the team the application is installed on.
     #[serde(rename = "teamId")]
+    #[serde(default = "default_team_id")]
     pub team_id: String,
     /// Scopes granted to the application. Snapshot of the application's
     /// installation scopes taken when the installation was created or last
     /// updated.
     #[serde(rename = "scopes")]
+    #[serde(default = "default_scopes")]
     pub scopes: Vec<String>,
     /// Authorization details granted to the application. Rich authorization
     /// request (RFC 9396) style entries; the Appwrite Console stores authorized
     /// project IDs here.
     #[serde(rename = "authorizationDetails")]
+    #[serde(default = "default_authorization_details")]
     pub authorization_details: Vec<serde_json::Value>,
     /// ID of the user who created the installation.
     #[serde(rename = "createdById")]
+    #[serde(default = "default_created_by_id")]
     pub created_by_id: String,
     /// Name of the user who created the installation.
     #[serde(rename = "createdByName")]
+    #[serde(default = "default_created_by_name")]
     pub created_by_name: String,
     /// Time an access token was last issued for the installation in ISO 8601
     /// format. Null if never used.
     #[serde(rename = "lastAccessedAt")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub last_accessed_at: Option<String>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_app_id() -> String {
+    "".to_string()
+}
+
+fn default_team_id() -> String {
+    "".to_string()
+}
+
+fn default_scopes() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_authorization_details() -> Vec<serde_json::Value> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_created_by_id() -> String {
+    "".to_string()
+}
+
+fn default_created_by_name() -> String {
+    "".to_string()
 }
 
 impl AppInstallation {

@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct DedicatedDatabaseRestorationList {
     /// Total number of restorations that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of restorations.
     #[serde(rename = "restorations")]
+    #[serde(default = "default_restorations")]
     pub restorations: Vec<crate::models::DedicatedDatabaseRestoration>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_restorations() -> Vec<crate::models::DedicatedDatabaseRestoration> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl DedicatedDatabaseRestorationList {

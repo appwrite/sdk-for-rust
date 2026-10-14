@@ -8,18 +8,23 @@ use serde::{Deserialize, Serialize};
 pub struct Organization {
     /// Team ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Team creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Team update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Team name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Total number of team members.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// Team preferences as a key-value object
     #[serde(rename = "prefs")]
@@ -30,44 +35,55 @@ pub struct Organization {
     pub billing_budget: Option<i64>,
     /// Project budget limit
     #[serde(rename = "budgetAlerts")]
+    #[serde(default = "default_budget_alerts")]
     pub budget_alerts: Vec<i64>,
     /// Organization's billing plan ID.
     #[serde(rename = "billingPlan")]
+    #[serde(default = "default_billing_plan")]
     pub billing_plan: String,
     /// Organization's billing plan ID.
     #[serde(rename = "billingPlanId")]
+    #[serde(default = "default_billing_plan_id")]
     pub billing_plan_id: String,
     /// Organization's billing plan.
     #[serde(rename = "billingPlanDetails")]
     pub billing_plan_details: crate::models::BillingPlan,
     /// Billing email set for the organization.
     #[serde(rename = "billingEmail")]
+    #[serde(default = "default_billing_email")]
     pub billing_email: String,
     /// Billing cycle start date.
     #[serde(rename = "billingStartDate")]
-    pub billing_start_date: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub billing_start_date: Option<String>,
     /// Current invoice cycle start date.
     #[serde(rename = "billingCurrentInvoiceDate")]
-    pub billing_current_invoice_date: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub billing_current_invoice_date: Option<String>,
     /// Next invoice cycle start date.
     #[serde(rename = "billingNextInvoiceDate")]
-    pub billing_next_invoice_date: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub billing_next_invoice_date: Option<String>,
     /// Start date of trial.
     #[serde(rename = "billingTrialStartDate")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub billing_trial_start_date: Option<String>,
     /// Number of trial days.
     #[serde(rename = "billingTrialDays")]
-    pub billing_trial_days: i64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub billing_trial_days: Option<i64>,
     /// Current active aggregation id.
     #[serde(rename = "billingAggregationId")]
-    pub billing_aggregation_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub billing_aggregation_id: Option<String>,
     /// Current active aggregation id.
     #[serde(rename = "billingInvoiceId")]
-    pub billing_invoice_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub billing_invoice_id: Option<String>,
     /// Default payment method.
     #[serde(rename = "paymentMethodId")]
-    pub payment_method_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub payment_method_id: Option<String>,
     /// Default payment method.
     #[serde(rename = "billingAddressId")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -78,6 +94,7 @@ pub struct Organization {
     pub backup_payment_method_id: Option<String>,
     /// Team status.
     #[serde(rename = "status")]
+    #[serde(default = "default_status")]
     pub status: String,
     /// Remarks on team status.
     #[serde(rename = "remarks")]
@@ -117,13 +134,68 @@ pub struct Organization {
     pub billing_tax_id: Option<String>,
     /// Marked for deletion
     #[serde(rename = "markedForDeletion")]
+    #[serde(default = "default_marked_for_deletion")]
     pub marked_for_deletion: bool,
     /// Product with which the organization is associated (appwrite or imagine)
     #[serde(rename = "platform")]
+    #[serde(default = "default_platform")]
     pub platform: String,
     /// Selected projects
     #[serde(rename = "projects")]
+    #[serde(default = "default_projects")]
     pub projects: Vec<String>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_budget_alerts() -> Vec<i64> {
+    serde_json::from_value(serde_json::json!([75])).unwrap()
+}
+
+fn default_billing_plan() -> String {
+    "tier-0".to_string()
+}
+
+fn default_billing_plan_id() -> String {
+    "tier-0".to_string()
+}
+
+fn default_billing_email() -> String {
+    "".to_string()
+}
+
+fn default_status() -> String {
+    "draft".to_string()
+}
+
+fn default_marked_for_deletion() -> bool {
+    false
+}
+
+fn default_platform() -> String {
+    "appwrite".to_string()
+}
+
+fn default_projects() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl Organization {
@@ -193,19 +265,40 @@ impl Organization {
         &self.billing_email
     }
 
+    /// Set billing_start_date
+    pub fn set_billing_start_date(mut self, billing_start_date: String) -> Self {
+        self.billing_start_date = Some(billing_start_date);
+        self
+    }
+
     /// Get billing_start_date
-    pub fn billing_start_date(&self) -> &String {
-        &self.billing_start_date
+    pub fn billing_start_date(&self) -> Option<&String> {
+        self.billing_start_date.as_ref()
+    }
+
+    /// Set billing_current_invoice_date
+    pub fn set_billing_current_invoice_date(
+        mut self,
+        billing_current_invoice_date: String,
+    ) -> Self {
+        self.billing_current_invoice_date = Some(billing_current_invoice_date);
+        self
     }
 
     /// Get billing_current_invoice_date
-    pub fn billing_current_invoice_date(&self) -> &String {
-        &self.billing_current_invoice_date
+    pub fn billing_current_invoice_date(&self) -> Option<&String> {
+        self.billing_current_invoice_date.as_ref()
+    }
+
+    /// Set billing_next_invoice_date
+    pub fn set_billing_next_invoice_date(mut self, billing_next_invoice_date: String) -> Self {
+        self.billing_next_invoice_date = Some(billing_next_invoice_date);
+        self
     }
 
     /// Get billing_next_invoice_date
-    pub fn billing_next_invoice_date(&self) -> &String {
-        &self.billing_next_invoice_date
+    pub fn billing_next_invoice_date(&self) -> Option<&String> {
+        self.billing_next_invoice_date.as_ref()
     }
 
     /// Set billing_trial_start_date
@@ -219,24 +312,48 @@ impl Organization {
         self.billing_trial_start_date.as_ref()
     }
 
+    /// Set billing_trial_days
+    pub fn set_billing_trial_days(mut self, billing_trial_days: i64) -> Self {
+        self.billing_trial_days = Some(billing_trial_days);
+        self
+    }
+
     /// Get billing_trial_days
-    pub fn billing_trial_days(&self) -> &i64 {
-        &self.billing_trial_days
+    pub fn billing_trial_days(&self) -> Option<&i64> {
+        self.billing_trial_days.as_ref()
+    }
+
+    /// Set billing_aggregation_id
+    pub fn set_billing_aggregation_id(mut self, billing_aggregation_id: String) -> Self {
+        self.billing_aggregation_id = Some(billing_aggregation_id);
+        self
     }
 
     /// Get billing_aggregation_id
-    pub fn billing_aggregation_id(&self) -> &String {
-        &self.billing_aggregation_id
+    pub fn billing_aggregation_id(&self) -> Option<&String> {
+        self.billing_aggregation_id.as_ref()
+    }
+
+    /// Set billing_invoice_id
+    pub fn set_billing_invoice_id(mut self, billing_invoice_id: String) -> Self {
+        self.billing_invoice_id = Some(billing_invoice_id);
+        self
     }
 
     /// Get billing_invoice_id
-    pub fn billing_invoice_id(&self) -> &String {
-        &self.billing_invoice_id
+    pub fn billing_invoice_id(&self) -> Option<&String> {
+        self.billing_invoice_id.as_ref()
+    }
+
+    /// Set payment_method_id
+    pub fn set_payment_method_id(mut self, payment_method_id: String) -> Self {
+        self.payment_method_id = Some(payment_method_id);
+        self
     }
 
     /// Get payment_method_id
-    pub fn payment_method_id(&self) -> &String {
-        &self.payment_method_id
+    pub fn payment_method_id(&self) -> Option<&String> {
+        self.payment_method_id.as_ref()
     }
 
     /// Set billing_address_id
@@ -402,13 +519,6 @@ mod tests {
         let _ = _model.billing_plan_id();
         let _ = _model.billing_plan_details();
         let _ = _model.billing_email();
-        let _ = _model.billing_start_date();
-        let _ = _model.billing_current_invoice_date();
-        let _ = _model.billing_next_invoice_date();
-        let _ = _model.billing_trial_days();
-        let _ = _model.billing_aggregation_id();
-        let _ = _model.billing_invoice_id();
-        let _ = _model.payment_method_id();
         let _ = _model.status();
         let _ = _model.marked_for_deletion();
         let _ = _model.platform();

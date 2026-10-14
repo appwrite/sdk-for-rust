@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct DeploymentList {
     /// Total number of deployments that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of deployments.
     #[serde(rename = "deployments")]
+    #[serde(default = "default_deployments")]
     pub deployments: Vec<crate::models::Deployment>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_deployments() -> Vec<crate::models::Deployment> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl DeploymentList {

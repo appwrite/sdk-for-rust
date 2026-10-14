@@ -8,7 +8,12 @@ use serde::{Deserialize, Serialize};
 pub struct Jwt {
     /// JWT encoded string.
     #[serde(rename = "jwt")]
+    #[serde(default = "default_jwt")]
     pub jwt: String,
+}
+
+fn default_jwt() -> String {
+    "".to_string()
 }
 
 impl Jwt {

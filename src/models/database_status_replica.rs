@@ -9,15 +9,18 @@ pub struct DatabaseStatusReplica {
     /// Member index within the database. Read `role` for which member accepts
     /// writes: a failover moves the primary without renumbering the indexes.
     #[serde(rename = "index")]
+    #[serde(default = "default_index")]
     pub index: i64,
     /// Member role. Possible values: primary (accepts reads and writes), replica
     /// (read-only follower), unknown (placement not established; reported while a
     /// transition is moving or restarting the topology, so no member can be named
     /// the write target).
     #[serde(rename = "role")]
+    #[serde(default = "default_role")]
     pub role: String,
     /// Whether the replica is healthy.
     #[serde(rename = "healthy")]
+    #[serde(default = "default_healthy")]
     pub healthy: bool,
     /// Whether the engine reports this member's replication stream as up. Null
     /// when no reading was taken: a primary has no stream to report, and a member
@@ -33,6 +36,18 @@ pub struct DatabaseStatusReplica {
     #[serde(rename = "lagSeconds")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub lag_seconds: Option<f64>,
+}
+
+fn default_index() -> i64 {
+    0
+}
+
+fn default_role() -> String {
+    "unknown".to_string()
+}
+
+fn default_healthy() -> bool {
+    false
 }
 
 impl DatabaseStatusReplica {

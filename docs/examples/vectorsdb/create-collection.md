@@ -17,7 +17,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
         "<NAME>",
-        1,
+        4,
         Some(vec![Permission::read(Role::any()).to_string()]), // optional
         Some(false), // optional
         Some(false) // optional

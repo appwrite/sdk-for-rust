@@ -8,43 +8,103 @@ use serde::{Deserialize, Serialize};
 pub struct Oauth2Grant {
     /// Grant ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Grant creation time in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Grant update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// ID of the user the grant belongs to.
     #[serde(rename = "userId")]
+    #[serde(default = "default_user_id")]
     pub user_id: String,
     /// ID of the OAuth2 client (app) the grant was requested for.
     #[serde(rename = "appId")]
+    #[serde(default = "default_app_id")]
     pub app_id: String,
     /// Requested OAuth2 scopes the user is being asked to consent to.
     #[serde(rename = "scopes")]
+    #[serde(default = "default_scopes")]
     pub scopes: Vec<String>,
     /// Requested RFC 8707 resource indicators the user is being asked to consent
     /// to.
     #[serde(rename = "resources")]
+    #[serde(default = "default_resources")]
     pub resources: Vec<String>,
     /// Requested authorization_details the user is being asked to consent to, as a
     /// JSON string. Each entry has a `type` plus project-defined fields.
     #[serde(rename = "authorizationDetails")]
+    #[serde(default = "default_authorization_details")]
     pub authorization_details: String,
     /// OIDC prompt directive the consent screen should honor. Space-separated list
     /// of: login, consent, select_account.
     #[serde(rename = "prompt")]
+    #[serde(default = "default_prompt")]
     pub prompt: String,
     /// Redirect URI the user will be sent to after the flow completes.
     #[serde(rename = "redirectUri")]
+    #[serde(default = "default_redirect_uri")]
     pub redirect_uri: String,
     /// Unix timestamp of when the user last authenticated.
     #[serde(rename = "authTime")]
+    #[serde(default = "default_auth_time")]
     pub auth_time: i64,
     /// Grant expiration time in ISO 8601 format.
     #[serde(rename = "expire")]
+    #[serde(default = "default_expire")]
     pub expire: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_user_id() -> String {
+    "".to_string()
+}
+
+fn default_app_id() -> String {
+    "".to_string()
+}
+
+fn default_scopes() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_resources() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_authorization_details() -> String {
+    "[]".to_string()
+}
+
+fn default_prompt() -> String {
+    "".to_string()
+}
+
+fn default_redirect_uri() -> String {
+    "".to_string()
+}
+
+fn default_auth_time() -> i64 {
+    0
+}
+
+fn default_expire() -> String {
+    "".to_string()
 }
 
 impl Oauth2Grant {

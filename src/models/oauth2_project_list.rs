@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct Oauth2ProjectList {
     /// Total number of projects that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of projects.
     #[serde(rename = "projects")]
+    #[serde(default = "default_projects")]
     pub projects: Vec<crate::models::Oauth2Project>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_projects() -> Vec<crate::models::Oauth2Project> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl Oauth2ProjectList {

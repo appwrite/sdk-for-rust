@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct PresenceList {
     /// Total number of presences that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of presences.
     #[serde(rename = "presences")]
+    #[serde(default = "default_presences")]
     pub presences: Vec<crate::models::Presence>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_presences() -> Vec<crate::models::Presence> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl PresenceList {

@@ -27,11 +27,13 @@ impl Project {
     /// Get a project.
     pub async fn get(&self) -> crate::error::Result<crate::models::Project> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project".to_string();
 
         self.client
-            .call(Method::GET, &path, None, Some(params))
+            .call(Method::GET, &path, Some(api_headers), Some(params))
             .await
     }
 
@@ -40,6 +42,7 @@ impl Project {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project".to_string();
 
@@ -266,9 +269,19 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let key_id = key_id.into();
+        if key_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"keyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/keys/{keyId}"
             .to_string()
-            .replace("{keyId}", &key_id.into().to_string());
+            .replace("{keyId}", &key_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -294,9 +307,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let key_id = key_id.into();
+        if key_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"keyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/keys/{keyId}"
             .to_string()
-            .replace("{keyId}", &key_id.into().to_string());
+            .replace("{keyId}", &key_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -309,10 +332,21 @@ impl Project {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let key_id = key_id.into();
+        if key_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"keyId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/project/keys/{keyId}"
             .to_string()
-            .replace("{keyId}", &key_id.into().to_string());
+            .replace("{keyId}", &key_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -402,9 +436,19 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let number = number.into();
+        if number.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"number\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/mock-phones/{number}"
             .to_string()
-            .replace("{number}", &number.into().to_string());
+            .replace("{number}", &number);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -424,9 +468,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let number = number.into();
+        if number.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"number\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/mock-phones/{number}"
             .to_string()
-            .replace("{number}", &number.into().to_string());
+            .replace("{number}", &number);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -439,10 +493,21 @@ impl Project {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let number = number.into();
+        if number.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"number\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/project/mock-phones/{number}"
             .to_string()
-            .replace("{number}", &number.into().to_string());
+            .replace("{number}", &number);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1253,8 +1318,8 @@ impl Project {
         &self,
         client_id: Option<&str>,
         client_secret: Option<&str>,
-        prompt: Option<Vec<crate::enums::ProjectOAuth2KakaoPrompt>>,
         enabled: Option<bool>,
+        prompt: Option<Vec<crate::enums::ProjectOAuth2KakaoPrompt>>,
     ) -> crate::error::Result<crate::models::OAuth2Kakao> {
         let mut params = HashMap::new();
         if let Some(value) = client_id {
@@ -1263,11 +1328,11 @@ impl Project {
         if let Some(value) = client_secret {
             params.insert("clientSecret".to_string(), json!(value));
         }
-        if let Some(value) = prompt {
-            params.insert("prompt".to_string(), json!(value));
-        }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = prompt {
+            params.insert("prompt".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2147,7 +2212,7 @@ impl Project {
     }
 
     /// Update an Android platform by its unique ID. Use this endpoint to update
-    /// the platform's name or application ID.
+    /// the platform's name, application ID or signing certificate fingerprints.
     pub async fn update_android_platform(
         &self,
         platform_id: impl Into<String>,
@@ -2168,9 +2233,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/platforms/android/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2222,9 +2297,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/platforms/apple/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2270,9 +2355,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/platforms/linux/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2318,9 +2413,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/platforms/web/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2372,9 +2477,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/platforms/windows/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2391,9 +2506,19 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/platforms/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2409,10 +2534,21 @@ impl Project {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let platform_id = platform_id.into();
+        if platform_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"platformId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/project/platforms/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id.into().to_string());
+            .replace("{platformId}", &platform_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -3027,6 +3163,7 @@ impl Project {
         );
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/smtp/tests".to_string();
 
@@ -3197,9 +3334,19 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let variable_id = variable_id.into();
+        if variable_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"variableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/variables/{variableId}"
             .to_string()
-            .replace("{variableId}", &variable_id.into().to_string());
+            .replace("{variableId}", &variable_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -3228,9 +3375,19 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let variable_id = variable_id.into();
+        if variable_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"variableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/project/variables/{variableId}"
             .to_string()
-            .replace("{variableId}", &variable_id.into().to_string());
+            .replace("{variableId}", &variable_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -3245,10 +3402,21 @@ impl Project {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let variable_id = variable_id.into();
+        if variable_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"variableId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/project/variables/{variableId}"
             .to_string()
-            .replace("{variableId}", &variable_id.into().to_string());
+            .replace("{variableId}", &variable_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

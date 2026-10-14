@@ -12,7 +12,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let project = Project::new(&client);
 
     let result = project.update_labels(
-        vec![]
+        vec!["production".into()]
     ).await?;
 
     let _ = result;

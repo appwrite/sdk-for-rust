@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct ExecutionList {
     /// Total number of executions that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of executions.
     #[serde(rename = "executions")]
+    #[serde(default = "default_executions")]
     pub executions: Vec<crate::models::Execution>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_executions() -> Vec<crate::models::Execution> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl ExecutionList {

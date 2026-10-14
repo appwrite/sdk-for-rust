@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct Continent {
     /// Continent name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Continent two letter code.
     #[serde(rename = "code")]
+    #[serde(default = "default_code")]
     pub code: String,
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_code() -> String {
+    "".to_string()
 }
 
 impl Continent {

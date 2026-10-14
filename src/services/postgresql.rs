@@ -121,8 +121,8 @@ impl Postgresql {
     }
 
     /// List the dedicated database specifications available on the current plan.
-    /// Each specification reports its resource limits, pricing, and whether it is
-    /// enabled for the organization.
+    /// Each specification reports its resource limits, its own prices and overage
+    /// rates, and whether it is enabled for the organization.
     pub async fn list_specifications(
         &self,
     ) -> crate::error::Result<crate::models::DedicatedDatabaseSpecificationList> {
@@ -147,9 +147,19 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -259,9 +269,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -272,18 +292,25 @@ impl Postgresql {
     /// status will be set to 'deleting' and all resources will be cleaned up.
     /// Deletion is allowed from any state, and repeating the call re-dispatches
     /// the cleanup.
-    pub async fn delete(
-        &self,
-        database_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    pub async fn delete(&self, database_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -307,9 +334,19 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/backups"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -331,9 +368,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/backups"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -356,9 +403,19 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/backups/policies"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -392,9 +449,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/backups/policies"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -411,10 +478,30 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let policy_id = policy_id.into();
+        if policy_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"policyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/backups/policies/{policyId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{policyId}", &policy_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{policyId}", &policy_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -448,10 +535,30 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let policy_id = policy_id.into();
+        if policy_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"policyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/backups/policies/{policyId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{policyId}", &policy_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{policyId}", &policy_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -464,16 +571,36 @@ impl Postgresql {
         &self,
         database_id: impl Into<String>,
         policy_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    ) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let policy_id = policy_id.into();
+        if policy_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"policyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/backups/policies/{policyId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{policyId}", &policy_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{policyId}", &policy_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -513,9 +640,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/backups/storage"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -533,10 +670,30 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let backup_id = backup_id.into();
+        if backup_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"backupId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/backups/{backupId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{backupId}", &backup_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{backupId}", &backup_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -549,16 +706,36 @@ impl Postgresql {
         &self,
         database_id: impl Into<String>,
         backup_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    ) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let backup_id = backup_id.into();
+        if backup_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"backupId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/backups/{backupId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{backupId}", &backup_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{backupId}", &backup_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -575,9 +752,19 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/branches"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -606,9 +793,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/branches"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -628,10 +825,30 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let branch_id = branch_id.into();
+        if branch_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"branchId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/branches/{branchId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{branchId}", &branch_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{branchId}", &branch_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -651,9 +868,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/credentials"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -688,9 +915,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/executions"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -706,9 +943,19 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/extensions"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -728,9 +975,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/extensions"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -749,10 +1006,30 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let extension_name = extension_name.into();
+        if extension_name.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"extensionName\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/extensions/{extensionName}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{extensionName}", &extension_name.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{extensionName}", &extension_name);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -781,9 +1058,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/failovers"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -806,9 +1093,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/maintenance"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -834,9 +1131,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/migrations"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -867,9 +1174,19 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/operations"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -886,9 +1203,19 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/pitr"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -905,9 +1232,19 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/pooler"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -958,9 +1295,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/pooler"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -977,9 +1324,19 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/replicas"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1012,9 +1369,19 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/restorations"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1050,9 +1417,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/restorations"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1070,10 +1447,30 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let restoration_id = restoration_id.into();
+        if restoration_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"restorationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/restorations/{restorationId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{restorationId}", &restoration_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{restorationId}", &restoration_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1091,9 +1488,19 @@ impl Postgresql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/status"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1113,9 +1520,19 @@ impl Postgresql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/postgresql/{databaseId}/upgrades"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))

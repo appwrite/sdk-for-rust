@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.16.0] - TBD
+## [0.20.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
-- Full support for Appwrite API 2.0.0
+- Full support for Appwrite API 2.5.0
 - Async/await support with tokio runtime
 - Built-in error handling with custom error types
 - File upload support with automatic chunking
@@ -22,25 +22,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automatic JSON serialization/deserialization
 
 ### Features
-- Account service with 59 methods
+- Account service with 71 methods
 - Activities service with 2 methods
 - Apps service with 22 methods
-- Avatars service with 9 methods
+- Avatars service with 11 methods
 - Backups service with 12 methods
 - Databases service with 71 methods
 - DocumentsDB service with 37 methods
+- Domains service with 47 methods
 - Embeddings service with 1 methods
 - Functions service with 26 methods
 - Graphql service with 2 methods
 - Locale service with 8 methods
-- Messaging service with 54 methods
+- Messaging service with 56 methods
 - Mongo service with 31 methods
 - Mysql service with 34 methods
-- Oauth2 service with 12 methods
+- Oauth2 service with 13 methods
 - Organization service with 23 methods
 - Postgresql service with 37 methods
 - Presences service with 5 methods
-- Project service with 105 methods
+- Project service with 116 methods
 - Proxy service with 9 methods
 - Advisor service with 5 methods
 - Sites service with 25 methods
@@ -48,8 +49,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TablesDB service with 81 methods
 - Teams service with 18 methods
 - Tokens service with 5 methods
-- Users service with 50 methods
+- Users service with 53 methods
 - VectorsDB service with 36 methods
+- Waf service with 13 methods
 - Webhooks service with 6 methods
 
 ### Services
@@ -68,7 +70,6 @@ This endpoint can also be used to convert an anonymous account to a normal one, 
 
 - `list_identities()` - Get the list of identities for the currently logged in user.
 - `delete_identity()` - Delete an identity by its unique ID.
-- `list_logs()` - Get the list of latest security activity logs for the currently logged in user. Each log returns user IP address, location and date and time of log.
 - `update_mfa()` - Enable or disable MFA on an account.
 - `create_mfa_authenticator()` - Add an authenticator app to be used as an MFA factor. Verify the authenticator using the [verify authenticator](/docs/references/cloud/client-web/account#updateMfaAuthenticator) method.
 - `create_mfa_authenticator()` - Add an authenticator app to be used as an MFA factor. Verify the authenticator using the [verify authenticator](/docs/references/cloud/client-web/account#updateMfaAuthenticator) method.
@@ -89,6 +90,12 @@ This endpoint can also be used to convert an anonymous account to a normal one, 
 - `update_mfa_recovery_codes()` - Regenerate recovery codes that can be used as backup for MFA flow. Before regenerating codes, they must be first generated using [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes) method. An OTP challenge is required to regenreate recovery codes.
 - `update_mfa_recovery_codes()` - Regenerate recovery codes that can be used as backup for MFA flow. Before regenerating codes, they must be first generated using [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes) method. An OTP challenge is required to regenreate recovery codes.
 - `update_name()` - Update currently logged in user account name.
+- `list_passkeys()` - Get the list of verified passkeys registered by the currently logged in user.
+- `create_passkey()` - Start registering a passkey for the currently logged in user. The session must have signed in or completed an MFA challenge within the last 10 minutes. Pass the returned `publicKey` options to `navigator.credentials.create()`, then complete the registration with [Update passkey verification](/docs/references/cloud/client-web/account#updatePasskeyVerification). The passkey stays pending until verified, and the challenge expires after 5 minutes.
+- `get_passkey()` - Get a verified passkey of the currently logged in user by its unique ID.
+- `update_passkey()` - Rename a passkey of the currently logged in user.
+- `delete_passkey()` - Delete a passkey from the currently logged in user. The passkey can no longer be used to sign in, although it may remain stored on the user&#039;s device. The session must have signed in or completed an MFA challenge within the last 10 minutes.
+- `update_passkey_verification()` - Complete a passkey registration started with [Create passkey](/docs/references/cloud/client-web/account#createPasskey). Pass the JSON form of the credential returned by `navigator.credentials.create()`, for example `credential.toJSON()`. Each registration can be verified once; a failed attempt requires starting it again.
 - `update_password()` - Update currently logged in user password. For validation, user is required to pass in the new password, and the old password. For users created with OAuth, Team Invites and Magic URL, oldPassword is optional.
 - `update_phone()` - Update the currently logged in user&#039;s phone number. After updating the phone number, the phone verification status will be reset. A confirmation SMS is not sent automatically, however you can use the [POST /account/verification/phone](https://appwrite.io/docs/references/cloud/client-web/account#createPhoneVerification) endpoint to send a confirmation SMS.
 - `get_prefs()` - Get the preferences as a key-value object for the currently logged in user.
@@ -97,12 +104,30 @@ This endpoint can also be used to convert an anonymous account to a normal one, 
 - `update_recovery()` - Use this endpoint to complete the user account password reset. Both the **userId** and **secret** arguments will be passed as query parameters to the redirect URL you have provided when sending your request to the [POST /account/recovery](https://appwrite.io/docs/references/cloud/client-web/account#createRecovery) endpoint.
 
 Please note that in order to avoid a [Redirect Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md) the only valid redirect URLs are the ones from domains you have set when adding your platforms in the console interface.
+- `create_recovery_otp()` - Use this endpoint to send a 6-digit password recovery code to the user&#039;s email address. Unlike [createRecovery](https://appwrite.io/docs/references/cloud/client-web/account#createRecovery), this method requires no redirect URL, which makes it suitable for mobile and desktop apps that cannot host a recovery page. Learn more about how to [complete the recovery process](https://appwrite.io/docs/references/cloud/client-web/account#updateRecoveryOTP). The code sent to the user&#039;s email address is valid for 15 minutes.
+
+Enable the **phrase** parameter to include a randomly generated security phrase in both the email and the response. Showing that phrase in your app lets the user confirm the email genuinely came from your request, which helps protect against phishing.
+
+- `update_recovery_otp()` - Use this endpoint to complete the user password recovery process using the 6-digit code that was emailed by [createRecoveryOTP](https://appwrite.io/docs/references/cloud/client-web/account#createRecoveryOTP). Pass the **userId** of the user along with the **secret** code from the email and the new **password** to set. If confirmed, this route will return a 200 status code, the code is consumed and the user&#039;s password is updated.
+
 - `list_sessions()` - Get the list of active sessions across different devices for the currently logged in user.
-- `delete_sessions()` - Delete all sessions from the user account and remove any sessions cookies from the end client.
+- `delete_sessions()` - Delete all sessions from the user account and remove any sessions cookies from the end client. Pass `current` as false to keep the session making the request and sign out of every other session.
 - `create_anonymous_session()` - Use this endpoint to allow a new user to register an anonymous account in your project. This route will also create a new session for the user. To allow the new user to convert an anonymous account to a normal account, you need to update its [email and password](https://appwrite.io/docs/references/cloud/client-web/account#updateEmail) or create an [OAuth2 session](https://appwrite.io/docs/references/cloud/client-web/account#CreateOAuth2Session).
-- `create_email_password_session()` - Allow the user to login into their account by providing a valid email and password combination. This route will create a new session for the user.
+- `create_email_password_session()` - Allow the user to login into their account by providing a valid email and password combination. This route will create a new session for the user. Use the optional `duration` parameter to create a shorter session, for example when the user doesn&#039;t choose &quot;remember me&quot;. It must be at least 60 seconds and cannot exceed the project maximum session length.
 
 A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
+- `create_id_token_session()` - Allow the user to login to their account using an OpenID Connect ID token obtained natively from the OAuth2 provider, for example via Google Credential Manager on Android or Sign in with Apple on iOS. No browser or redirect is involved: the ID token is verified against the provider&#039;s published signing keys and a session is created in a single request.
+
+Native sign-in is switched on per provider with its nativeEnabled setting. It is independent of the browser-based flow&#039;s enabled setting, which has no effect on this endpoint. The token&#039;s audience must match the provider&#039;s configured client ID or one of its native client IDs; tokens issued for any other client ID are rejected. For Sign in with Apple, register your app&#039;s bundle ID as a native client ID. For Google, the web client ID used by Credential Manager is usually the configured client ID; add your Android and iOS client IDs as native client IDs if your app requests tokens for them.
+
+Pass the raw nonce used when requesting the ID token so it can be validated against the token&#039;s nonce claim. When signing in with Apple, the nonce is required: hash it with SHA-256 before passing it to the Apple SDK, and send the raw value here - Apple tokens requested without a nonce are rejected. For Google the nonce is optional: it is validated whenever the token carries one, and ignored when the provider issued the token without one. Apple only returns the user&#039;s name on the first authorization, and never inside the ID token - capture it on the client and pass it via the name parameter.
+
+If there is already an active session, the new session will be attached to the logged-in account. If there are no active sessions, the server will attempt to look for a user with the same email address as the verified email received from the provider and attach the new session to the existing user. If no matching user is found - the server will create a new user.
+
+This flow does not return provider refresh tokens. You may pass an access token the provider handed your client, along with its lifetime, to store it on the session - but Appwrite cannot renew it once it expires. If your app needs long-lived access to provider APIs, use the browser-based OAuth2 flow instead.
+
+A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
+
 - `update_magic_url_session()` - Use this endpoint to create a session from token. Provide the **userId** and **secret** parameters from the successful response of authentication flows initiated by token creation. For example, magic URL and phone login.
 - `update_phone_session()` - Use this endpoint to create a session from token. Provide the **userId** and **secret** parameters from the successful response of authentication flows initiated by token creation. For example, magic URL and phone login.
 - `create_session()` - Use this endpoint to create a session from token. Provide the **userId** and **secret** parameters from the successful response of authentication flows initiated by token creation. For example, magic URL and phone login.
@@ -122,7 +147,11 @@ A user is limited to 10 active sessions at a time by default. [Learn more about 
 
 If authentication succeeds, `userId` and `secret` of a token will be appended to the success URL as query parameters. These can be used to create a new session using the [Create session](https://appwrite.io/docs/references/cloud/client-web/account#createSession) endpoint.
 
+If there is already an active session, the OAuth2 identity is attached to the logged-in account and that session stays active until the token is exchanged for a new one.
+
 A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
+- `create_passkey_token()` - Start signing in with a passkey. No email or user ID is needed: pass the returned `publicKey` options to `navigator.credentials.get()` and the user picks one of their passkeys. Then call [Update passkey token](/docs/references/cloud/client-web/account#updatePasskeyToken) with the credential to receive a token, and exchange it with [Create session](/docs/references/cloud/client-web/account#createSession). The challenge expires after 5 minutes.
+- `update_passkey_token()` - Complete a passkey sign-in started with [Create passkey token](/docs/references/cloud/client-web/account#createPasskeyToken). Pass the challenge ID and the JSON form of the credential returned by `navigator.credentials.get()`, for example `credential.toJSON()`. The returned token includes its secret and expires after 1 minute: exchange it for a session with [Create session](/docs/references/cloud/client-web/account#createSession). Passkeys require user verification, so the session also satisfies MFA. Each challenge can only be used once.
 - `create_phone_token()` - Sends the user an SMS with a secret key for creating a session. If the provided user ID has not be registered, a new user will be created. Use the returned user ID and secret and submit a request to the [POST /v1/account/sessions/token](https://appwrite.io/docs/references/cloud/client-web/account#createSession) endpoint to complete the login process. The secret sent to the user&#039;s phone is valid for 15 minutes.
 
 A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
@@ -136,6 +165,12 @@ Please note that in order to avoid a [Redirect Attack](https://github.com/OWASP/
 
 - `update_email_verification()` - Use this endpoint to complete the user email verification process. Use both the **userId** and **secret** parameters that were attached to your app URL to verify the user email ownership. If confirmed this route will return a 200 status code.
 - `update_verification()` - Use this endpoint to complete the user email verification process. Use both the **userId** and **secret** parameters that were attached to your app URL to verify the user email ownership. If confirmed this route will return a 200 status code.
+- `create_email_verification_otp()` - Use this endpoint to send a 6-digit verification code to the currently logged in user&#039;s email address. Unlike [createEmailVerification](https://appwrite.io/docs/references/cloud/client-web/account#createEmailVerification), this method requires no redirect URL, which makes it suitable for mobile and desktop apps that cannot host a verification page. Learn more about how to [complete the verification process](https://appwrite.io/docs/references/cloud/client-web/account#updateEmailVerificationOTP). The code sent to the user&#039;s email address is valid for 15 minutes.
+
+Enable the **phrase** parameter to include a randomly generated security phrase in both the email and the response. Showing that phrase in your app lets the user confirm the email genuinely came from your request, which helps protect against phishing.
+
+- `update_email_verification_otp()` - Use this endpoint to complete the user email verification process using the 6-digit code that was emailed by [createEmailVerificationOTP](https://appwrite.io/docs/references/cloud/client-web/account#createEmailVerificationOTP). Pass the **userId** of the user being verified along with the **secret** code from the email. If confirmed, this route will return a 200 status code and the code is consumed.
+
 - `create_phone_verification()` - Use this endpoint to send a verification SMS to the currently logged in user. This endpoint is meant for use after updating a user&#039;s phone number using the [accountUpdatePhone](https://appwrite.io/docs/references/cloud/client-web/account#updatePhone) endpoint. Learn more about how to [complete the verification process](https://appwrite.io/docs/references/cloud/client-web/account#updatePhoneVerification). The verification code sent to the user&#039;s phone number is valid for 15 minutes.
 - `update_phone_verification()` - Use this endpoint to complete the user phone verification process. Use the **userId** and **secret** that were sent to your user&#039;s phone number to verify the user email ownership. If confirmed this route will return a 200 status code.
 
@@ -197,9 +232,11 @@ You can use the color and background params to change the avatar colors. By defa
 
 When one dimension is specified and the other is 0, the image is scaled with preserved aspect ratio. If both dimensions are 0, the API provides an image at source quality. If dimensions are not specified, the default size of image returned is 100x100px.
 
-- `get_photo()` - Returns the best available profile photo for a user. The endpoint tries each source in priority order and returns the first successful result: OAuth2 identity photo, Gravatar, Libravatar, Appwrite Initials, built-in static fallback.
+- `get_photo()` - Returns the best available profile photo for a user. The endpoint tries each source in priority order and returns the first successful result: a custom uploaded photo (see avatars.updatePhoto), OAuth2 identity photo, Gravatar, Libravatar, Appwrite Initials, built-in static fallback.
 
 Passing `userId` — `current()` for the authenticated user — resolves the photo from everything known about that user: identity photos, email, and name. An explicit `emailHash` or `name` then overrides just that value, and the user&#039;s remaining sources stay in the chain. Without `userId`, passing `emailHash` and/or `name` resolves the avatar from those values alone: the hash is looked up on Gravatar and Libravatar, the name is rendered as initials, and the session user stays out of the chain so their own photo never shadows the avatar being asked for. When nothing is passed, the photo resolves for the currently authenticated user. Emails are only ever accepted pre-hashed, so no address ends up in a URL.
+- `update_photo()` - Update the profile photo of the currently authenticated user. The uploaded image takes priority over every other photo source, including OAuth2 identity photos, Gravatar, and Libravatar. Updating an already customized photo replaces it. The image must be at most 5MB and is sent in a single request.
+- `delete_photo()` - Delete the profile photo of the currently authenticated user and store the built-in static placeholder in its place. The placeholder is the user&#039;s photo from then on, so it takes priority over every other photo source — OAuth2 identity photos, Gravatar, Libravatar, and initials — until a new photo is uploaded with avatars.updatePhoto.
 - `get_qr()` - Converts a given plain text to a QR code image. You can use the query parameters to change the size and style of the resulting image.
 
 - `get_screenshot()` - Use this endpoint to capture a screenshot of any website URL. This endpoint uses a headless browser to render the webpage and capture it as an image.
@@ -332,7 +369,7 @@ The Databases service allows you to create structured collections of documents, 
 - `increment_document_attribute()` - Increment a specific attribute of a document by a given value.
 - `list_indexes()` - List indexes in the collection.
 - `create_index()` - Creates an index on the attributes listed. Your index should include all the attributes you will query in a single request.
-Attributes can be `key`, `fulltext`, and `unique`.
+Attributes can be `key`, `fulltext`, `unique`, `spatial`, and `trigram`. `trigram` is only available on PostgreSQL and lets `contains`, `startsWith`, and `endsWith` queries on string attributes use an index.
 - `get_index()` - Get an index by its unique ID.
 - `delete_index()` - Delete an index.
 
@@ -341,7 +378,7 @@ Attributes can be `key`, `fulltext`, and `unique`.
 - `list()` - Get a list of all databases from the current Appwrite project. You can use the search parameter to filter your results.
 - `create()` - Create a new Database.
 
-- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, pricing, and whether it is enabled for the organization.
+- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, its own prices and overage rates, and whether it is enabled for the organization.
 - `list_transactions()` - List transactions across all databases.
 - `create_transaction()` - Create a new transaction.
 - `get_transaction()` - Get a transaction by its unique ID.
@@ -378,6 +415,127 @@ Attributes can be `key`, `fulltext`, and `unique`.
 - `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
 - `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
 - `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
+
+#### Domains
+
+- `list()` - List all domains registered for this project. This endpoint supports pagination.
+- `create()` - Create a new domain. Before creating a domain, you need to ensure that your DNS provider is properly configured. After creating the domain, you can use the verification endpoint to check if the domain is ready to be used.
+- `get_price()` - Get the registration price for a domain name.
+- `list_prices()` - Check availability and get the requested registration price for one or more domain names. Availability is resolved for all domains in a single registrar lookup. Unavailable domains have a null price for new registrations, but can still be priced for renewal, transfer, or trade. Every priced domain also carries its renewal price for the same period, so a separate renewal lookup is not needed. A domain whose price could not be resolved, for example because its TLD is not supported, is returned with a null price.
+- `get()` - Get a domain by its unique ID.
+- `delete()` - Delete a domain by its unique ID. This endpoint can be used to delete a domain from your project.
+Once deleted, the domain will no longer be available for use and all associated resources will be removed.
+- `update_nameservers()` - Update the registrar nameservers for the given domain. When nameservers are not provided,
+the domain will be updated to use Appwrite nameservers.
+- `verify_nameservers()` - Verify which NS records are used and update the domain accordingly. This will check the domain&#039;s
+nameservers and update the domain&#039;s status based on whether the nameservers match the expected
+Appwrite nameservers.
+- `get_preset_google_workspace()` - List Google Workspace DNS records.
+- `create_preset_google_workspace()` - Add Google Workspace DNS records to the domain. This will create the required MX records 
+for Google Workspace email hosting.
+- `get_preset_i_cloud()` - List iCloud DNS records.
+- `create_preset_i_cloud()` - Add iCloud DNS records to the domain. This will create the required MX and SPF records
+for using iCloud email services with your domain.
+- `get_preset_mailgun()` - List Mailgun DNS records.
+- `create_preset_mailgun()` - Add Mailgun DNS records to the domain. This endpoint will create the required DNS records 
+for Mailgun in the specified domain.
+- `get_preset_outlook()` - List Outlook DNS records.
+- `create_preset_outlook()` - Add Outlook DNS records to the domain. This will create the required MX records
+for setting up Outlook email hosting for your domain.
+- `get_preset_proton_mail()` - List ProtonMail DNS records.
+- `create_preset_proton_mail()` - Add ProtonMail DNS records to the domain. This will create the required MX records
+for using ProtonMail with your custom domain.
+- `get_preset_zoho()` - List Zoho DNS records.
+- `create_preset_zoho()` - Add Zoho Mail DNS records to the domain. This will create the required MX records
+for setting up Zoho Mail on your domain.
+- `list_records()` - List DNS records for a given domain. You can use this endpoint to list all the DNS records
+associated with your domain.
+- `create_record_a()` - Create a new A record for the given domain. A records are used to point a domain name 
+to an IPv4 address. The record value should be a valid IPv4 address.
+- `update_record_a()` - Update an existing A record for the given domain. This endpoint allows you to modify 
+the properties of an A record including its name (subdomain), IPv4 address, TTL, 
+and optional comment.
+- `create_record_aaaa()` - Create a new AAAA record for the given domain. This endpoint allows you to add a new IPv6 DNS record 
+to your domain. The record will be used to point a hostname to an IPv6 address.
+- `update_record_aaaa()` - Update an existing AAAA record for the given domain. This endpoint allows you to modify
+the properties of an existing AAAA record, including its name (subdomain), IPv6 address,
+TTL, and optional comment.
+- `create_record_alias()` - Create a new ALIAS record for the given domain. This record type can be used to point your domain 
+to another domain name that will serve as an alias. This is particularly useful when you want to 
+map your domain to a target domain that may change its IP address.
+- `update_record_alias()` - Update an existing ALIAS record for the specified domain. This endpoint allows you to modify
+the properties of an existing ALIAS record including its name, target domain, TTL, and comment.
+    
+The ALIAS record type is similar to a CNAME record but can be used at the zone apex (root domain).
+It provides a way to map one domain name to another.
+- `create_record_caa()` - Create a new CAA record for the given domain. CAA records are used to specify which 
+Certificate Authorities (CAs) are allowed to issue SSL/TLS certificates for your domain.
+- `update_record_caa()` - Update an existing CAA record for the given domain. A CAA (Certification Authority Authorization) 
+record is used to specify which certificate authorities (CAs) are authorized to issue certificates 
+for a domain.
+- `create_record_cname()` - Create a new CNAME record for the given domain.
+    
+A CNAME record maps a subdomain to another domain name, allowing you to create aliases 
+for your domain. For example, you can create a CNAME record to point &#039;blog.example.com&#039; 
+to &#039;example.wordpress.com&#039;.
+- `update_record_cname()` - Update an existing CNAME record for the given domain.
+- `create_record_https()` - Create a new HTTPS record for the given domain. This record is used to configure HTTPS 
+settings for your domain, enabling secure communication over SSL/TLS.
+- `update_record_https()` - Update an existing HTTPS record for the given domain. This endpoint allows you to modify 
+the properties of an HTTPS record associated with your domain, including the name (subdomain), 
+target value, TTL, and optional comment.
+- `create_record_mx()` - Create a new MX record for the given domain. MX records are used to define the mail servers responsible 
+for accepting email messages for the domain. Multiple MX records can be created with different priorities.
+The priority parameter determines the order in which mail servers are used, with lower values indicating 
+higher priority.
+- `update_record_mx()` - Update an existing MX record for the given domain.
+- `create_record_ns()` - Create a new NS record for the given domain. NS records specify the nameservers that are used 
+to resolve the domain name to IP addresses. Each domain can have multiple NS records.
+- `update_record_ns()` - Update an existing NS record for the given domain. This endpoint allows you to modify 
+the properties of an NS (nameserver) record associated with your domain. You can update 
+the record name (subdomain), target nameserver value, TTL, and add or modify comments 
+for better record management.
+- `create_record_srv()` - Create a new SRV record for the given domain. SRV records are used to define the location 
+of servers for specific services. For example, they can be used to specify which server 
+handles a specific service like SIP or XMPP for the domain.
+- `update_record_srv()` - Update an existing SRV record for the given domain.
+    
+Required parameters:
+- domainId: Domain unique ID
+- recordId: DNS record unique ID
+- name: Record name (service name)
+- value: Target hostname for this SRV record
+- ttl: Time to live, in seconds
+- priority: Record priority
+- weight: Record weight
+- port: Port number for the service
+    
+Optional parameters:
+- comment: A comment for this record
+- `create_record_txt()` - Create a new TXT record for the given domain. TXT records can be used 
+to provide additional information about your domain, such as domain 
+verification records, SPF records, or DKIM records.
+- `update_record_txt()` - Update an existing TXT record for the given domain.
+    
+Update the TXT record details for a specific domain by providing the domain ID,
+record ID, and the new record configuration including name, value, TTL, and an optional comment.
+- `get_record()` - Get a single DNS record for a given domain by record ID.
+    
+This endpoint allows you to retrieve a specific DNS record associated with a domain
+using its unique identifier. The record contains information about the DNS configuration
+such as type, value, and TTL settings.
+- `delete_record()` - Delete a DNS record for the given domain. This endpoint allows you to delete an existing DNS record 
+from a specific domain.
+- `update_team()` - Update the team ID for a specific domain. The caller must administer the current
+team and be an owner of the destination team.
+
+Updating the team ID will transfer ownership and access control of the domain
+and all its DNS records to the new team.
+- `get_transfer_status()` - Retrieve the current transfer status for a domain. Returns the status, an optional reason, and a timestamp of the last status change.
+- `get_zone()` - Retrieve the DNS zone file for the given domain. This endpoint will return the DNS
+zone file in a standardized format that can be used to configure DNS servers.
+- `update_zone()` - Update the DNS zone for the given domain using the provided zone file content.
+All parsed records are imported and then the main domain document is returned.
 
 #### Embeddings
 
@@ -463,6 +621,8 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 - `create_apns_provider()` - Create a new Apple Push Notification service provider.
 - `update_apns_provider()` - Update a Apple Push Notification service provider by its unique ID.
 - `update_apns_provider()` - Update a Apple Push Notification service provider by its unique ID.
+- `create_appwrite_provider()` - Create a new Appwrite push provider.
+- `update_appwrite_provider()` - Update an Appwrite push provider by its unique ID.
 - `create_fcm_provider()` - Create a new Firebase Cloud Messaging provider.
 - `create_fcm_provider()` - Create a new Firebase Cloud Messaging provider.
 - `update_fcm_provider()` - Update a Firebase Cloud Messaging provider by its unique ID.
@@ -509,7 +669,7 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 
 - `list()` - List all dedicated databases. Results support pagination.
 - `create()` - Create a new dedicated database with the chosen engine and configuration. Status will be &#039;provisioning&#039; until the database is ready.
-- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, pricing, and whether it is enabled for the organization.
+- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, its own prices and overage rates, and whether it is enabled for the organization.
 - `get()` - Get a dedicated database by its unique ID. Returns the database configuration and current status.
 - `update()` - Update a dedicated database configuration. All changes are applied with zero downtime. Specification changes (cpu, memory, storage) are handled via rolling cutover. Storage expansion is done online. All other settings are applied in-place.
 - `delete()` - Delete a dedicated database. This action is irreversible. The database status will be set to &#039;deleting&#039; and all resources will be cleaned up. Deletion is allowed from any state, and repeating the call re-dispatches the cleanup.
@@ -543,7 +703,7 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 
 - `list()` - List all dedicated databases. Results support pagination.
 - `create()` - Create a new dedicated database with the chosen engine and configuration. Status will be &#039;provisioning&#039; until the database is ready.
-- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, pricing, and whether it is enabled for the organization.
+- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, its own prices and overage rates, and whether it is enabled for the organization.
 - `get()` - Get a dedicated database by its unique ID. Returns the database configuration and current status.
 - `update()` - Update a dedicated database configuration. All changes are applied with zero downtime. Specification changes (cpu, memory, storage) are handled via rolling cutover. Storage expansion is done online. All other settings are applied in-place.
 - `delete()` - Delete a dedicated database. This action is irreversible. The database status will be set to &#039;deleting&#039; and all resources will be cleaned up. Deletion is allowed from any state, and repeating the call re-dispatches the cleanup.
@@ -584,6 +744,7 @@ The OAuth2 service allows you to authorize apps and issue standards-based OAuth2
 - `create_device_authorization()` - Start the OAuth2 Device Authorization Grant. Returns the device code, user code, verification URL, expiration, and polling interval.
 - `create_grant()` - Exchange a device flow user code for an OAuth2 grant. The authenticated user is bound to the pending grant. Pass the returned grant ID to the get grant endpoint to render the consent screen, then to the approve or reject endpoint to complete the flow.
 - `get_grant()` - Get an OAuth2 grant by its ID. Used by the consent screen to display the details of the authorization the user is being asked to approve. A grant can only be read by the user it belongs to, or by server SDK.
+- `introspect()` - Introspect an OAuth2 access token or refresh token. Authenticate with an API key holding the `oauth2.introspect` scope to introspect any token in the project, or with the client credentials of the app the token was issued to.
 - `list_organizations()` - List the organizations the OAuth2 access token can access. Resolves the token&#039;s `organization` authorization details, expanding the `*` wildcard into the concrete set of organizations the user can see.
 - `create_par()` - Store an OAuth2 authorization request server-side and receive a short-lived request_uri handle for the authorize endpoint.
 - `list_projects()` - List the projects the OAuth2 access token can access. Resolves the token&#039;s `project` authorization details, expanding the `*` wildcard into the concrete set of projects the user can see.
@@ -601,11 +762,6 @@ The Organization service allows you to manage organization-level projects.
 - `get_installation()` - Get an app installation on the organization by its unique ID. Any organization member can read installations.
 - `update_installation()` - Update an app installation on the organization. Only organization members with the owner role can update installations. The installation&#039;s granted scopes are refreshed to the scopes the app currently requests; previously issued installation access tokens are revoked.
 - `delete_installation()` - Uninstall an app from the organization by its installation ID. Only organization members with the owner role can remove installations. Previously issued installation access tokens are revoked.
-- `list_keys()` - Get a list of all API keys from the current organization.
-- `create_key()` - Create a new organization API key.
-- `get_key()` - Get a key by its unique ID. This endpoint returns details about a specific API key in your organization including its scopes.
-- `update_key()` - Update a key by its unique ID. Use this endpoint to update the name, scopes, or expiration time of an API key.
-- `delete_key()` - Delete a key by its unique ID. Once deleted, the key can no longer be used to authenticate API calls.
 - `list_memberships()` - Get a list of all memberships from the current organization.
 - `create_membership()` - Invite a new member to join the current organization. An email with a link to join the organization will be sent to the new member&#039;s email address. If member doesn&#039;t exist in the project it will be automatically created.
 - `get_membership()` - Get a membership from the current organization by its unique ID.
@@ -616,12 +772,19 @@ The Organization service allows you to manage organization-level projects.
 - `get_project()` - Get a project.
 - `update_project()` - Update a project by its unique ID.
 - `delete_project()` - Delete a project by its unique ID.
+- `list_project_keys()` - Get a list of all API keys of a project in your organization.
+- `create_ephemeral_project_key()` - Create a new ephemeral API key for a project in your organization. It&#039;s recommended to have multiple API keys with strict scopes for separate functions within your project.
+
+You can also create a standard API key if you need a longer-lived key instead.
+- `get_project_key()` - Get a project key by its unique ID.
+- `update_project_key()` - Update a project key by its unique ID. Use this endpoint to update the name, scopes, or expiration time of an API key.
+- `delete_project_key()` - Delete a project key by its unique ID. Once deleted, the key can no longer be used to authenticate API calls.
 
 #### Postgresql
 
 - `list()` - List all dedicated databases. Results support pagination.
 - `create()` - Create a new dedicated database with the chosen engine and configuration. Status will be &#039;provisioning&#039; until the database is ready.
-- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, pricing, and whether it is enabled for the organization.
+- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, its own prices and overage rates, and whether it is enabled for the organization.
 - `get()` - Get a dedicated database by its unique ID. Returns the database configuration and current status.
 - `update()` - Update a dedicated database configuration. All changes are applied with zero downtime. Specification changes (cpu, memory, storage) are handled via rolling cutover. Storage expansion is done online. All other settings are applied in-place.
 - `delete()` - Delete a dedicated database. This action is irreversible. The database status will be set to &#039;deleting&#039; and all resources will be cleaned up. Deletion is allowed from any state, and repeating the call re-dispatches the cleanup.
@@ -675,6 +838,11 @@ The Project service allows you to manage all the projects in your Appwrite serve
 - `get()` - Get a project.
 - `delete()` - Delete a project.
 - `update_auth_method()` - Update properties of a specific auth method. Use this endpoint to enable or disable a method in your project. 
+- `list_environments()` - Get a list of all environments of the project. You can use the query params to filter your results.
+- `create_environment()` - Create a new environment of the project. An environment is a separate project in the same organization and region, with its own resources and users. Its usage is billed under the project it belongs to.
+- `get_environment()` - Get an environment of the project by its unique ID.
+- `update_environment()` - Update the name of an environment of the project.
+- `delete_environment()` - Delete an environment of the project, with all of its resources and users.
 - `list_keys()` - Get a list of all API keys from the current project.
 - `create_ephemeral_key()` - Create a new ephemeral API key. It&#039;s recommended to have multiple API keys with strict scopes for separate functions within your project.
 
@@ -712,6 +880,7 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_o_auth2_gitlab()` - Update the project OAuth2 Gitlab configuration.
 - `update_o_auth2_google()` - Update the project OAuth2 Google configuration.
 - `update_o_auth2_hugging_face()` - Update the project OAuth2 Hugging Face configuration.
+- `update_o_auth2_kakao()` - Update the project OAuth2 Kakao configuration.
 - `update_o_auth2_keycloak()` - Update the project OAuth2 Keycloak configuration.
 - `update_o_auth2_kick()` - Update the project OAuth2 Kick configuration.
 - `update_o_auth2_linkedin()` - Update the project OAuth2 Linkedin configuration.
@@ -727,9 +896,11 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_o_auth2_slack()` - Update the project OAuth2 Slack configuration.
 - `update_o_auth2_spotify()` - Update the project OAuth2 Spotify configuration.
 - `update_o_auth2_stripe()` - Update the project OAuth2 Stripe configuration.
+- `update_o_auth2_tik_tok()` - Update the project OAuth2 TikTok configuration.
 - `update_o_auth2_tradeshift()` - Update the project OAuth2 Tradeshift configuration.
 - `update_o_auth2_tradeshift_sandbox()` - Update the project OAuth2 Tradeshift Sandbox configuration.
 - `update_o_auth2_twitch()` - Update the project OAuth2 Twitch configuration.
+- `update_o_auth2_webflow()` - Update the project OAuth2 Webflow configuration.
 - `update_o_auth2_word_press()` - Update the project OAuth2 WordPress configuration.
 - `update_o_auth2_x()` - Update the project OAuth2 X configuration.
 - `update_o_auth2_yahoo()` - Update the project OAuth2 Yahoo configuration.
@@ -739,7 +910,7 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `get_o_auth2_provider()` - Get a single OAuth2 provider configuration. Credential fields (client secret, p8 file, key/team IDs) are write-only and always returned empty.
 - `list_platforms()` - Get a list of all platforms in the project. This endpoint returns an array of all platforms and their configurations.
 - `create_android_platform()` - Create a new Android platform for your project. Use this endpoint to register a new Android platform where your users will run your application which will interact with the Appwrite API.
-- `update_android_platform()` - Update an Android platform by its unique ID. Use this endpoint to update the platform&#039;s name or application ID.
+- `update_android_platform()` - Update an Android platform by its unique ID. Use this endpoint to update the platform&#039;s name, application ID or signing certificate fingerprints.
 - `create_apple_platform()` - Create a new Apple platform for your project. Use this endpoint to register a new Apple platform where your users will run your application which will interact with the Appwrite API.
 - `update_apple_platform()` - Update an Apple platform by its unique ID. Use this endpoint to update the platform&#039;s name or bundle identifier.
 - `create_linux_platform()` - Create a new Linux platform for your project. Use this endpoint to register a new Linux platform where your users will run your application which will interact with the Appwrite API.
@@ -757,11 +928,14 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_deny_free_email_policy()` - Configures if emails from free providers such as Gmail or Yahoo are denied during new users sign-ups and email updates.
 - `update_membership_privacy_policy()` - Updating this policy allows you to control if team members can see other members information. When enabled, all team members can see ID, name, email, phone number, and MFA status of other members..
 - `update_mfa_factors_policy()` - Updating this policy allows you to control which factors users can use to complete an MFA challenge. Disabled factors cannot be used to create a challenge and are reported as unavailable when listing factors. The custom factor is disabled by default; enable it to deliver challenge codes through your own channel. Recovery codes always remain available as a fallback.
+- `update_passkey_policy()` - Set the relying party ID passkeys are bound to: the domain of your application. Passkeys work on the project&#039;s web platforms on that domain or its subdomains, and on the domain itself for Apple apps. A localhost web platform enables passkeys for local development without a relying party ID. The relying party ID cannot change while users have passkeys, and any change invalidates ceremonies in progress.
 - `update_password_dictionary_policy()` - Updating this policy allows you to control if new passwords are checked against most common passwords dictionary. When enabled, and user changes their password, password must not be contained in the dictionary.
 - `update_password_history_policy()` - Updates one of password strength policies. Based on total length configured, previous password hashes are stored, and users cannot choose a new password that is already stored in the passwird history list, when updating an user password, or setting new one through password recovery.
 
 Keep in mind, while password history policy is disabled, the history is not being stored. Enabling the policy will not have any history on existing users, and it will only start to collect and enforce the policy on password changes since the policy is enabled.
 - `update_password_personal_data_policy()` - Updating this policy allows you to control if password strength is checked against personal data. When enabled, and user sets or changes their password, the password must not contain user ID, name, email or phone number.
+- `update_password_pwned_policy()` - Updating this policy allows you to control if passwords are checked against the Have I Been Pwned breach database. When enabled, every password a user signs up, signs in or resets with is checked and the result is recorded on the user as `passwordPwned`. On its own the policy only records. Enable `users` to reject a breached password when a user signs up or sets a new password, and `sessions` to refuse a sign-in with a breached password until it is reset. Only the first five characters of the password hash are ever shared with the service. Options left out keep their current value.
+- `update_password_rotation_policy()` - Require a password reset when an email/password sign-in uses a password older than the configured maximum age. Options left out keep their current value.
 - `update_password_strength_policy()` - Update the password strength requirements for users in the project.
 - `update_session_alert_policy()` - Updating this policy allows you to control if email alert is sent upon session creation. When enabled, and user signs into their account, they will be sent an email notification. There is an exception, the first session after a new sign up does not trigger an alert, even if the policy is enabled.
 - `update_session_duration_policy()` - Update maximum duration how long sessions created within a project should stay active for.
@@ -787,6 +961,8 @@ The Proxy Service allows you to configure actions for your domains beyond DNS co
 - `create_invalidation()` - Create a new CDN cache invalidation for a domain. Executes a hard purge of cached content.
 
 Depending on type, the invalidation purges a single cache tag, a single URL path, or all cached content for the domain.
+
+Domains that route to a function do not support cache invalidation.
 - `list_rules()` - Get a list of all the proxy rules. You can use the query params to filter your results.
 - `create_api_rule()` - Create a new proxy rule for serving Appwrite&#039;s API on custom domain.
 
@@ -877,7 +1053,7 @@ The TablesDB service allows you to create structured tables of columns, query an
 - `list()` - Get a list of all databases from the current Appwrite project. You can use the search parameter to filter your results.
 - `create()` - Create a new Database.
 
-- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, pricing, and whether it is enabled for the organization.
+- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, its own prices and overage rates, and whether it is enabled for the organization.
 - `list_transactions()` - List transactions across all databases.
 - `create_transaction()` - Create a new transaction.
 - `get_transaction()` - Get a transaction by its unique ID.
@@ -946,6 +1122,8 @@ The TablesDB service allows you to create structured tables of columns, query an
 - `update_polygon_column()` - Update a polygon column. Changing the `default` value will not update already existing rows.
 - `create_relationship_column()` - Create relationship column. [Learn more about relationship columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
 
+- `update_relationship_column()` - Update relationship column. [Learn more about relationship columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
+
 - `create_string_column()` - Create a string column.
 
 - `update_string_column()` - Update a string column. Changing the `default` value will not update already existing rows.
@@ -964,11 +1142,9 @@ The TablesDB service allows you to create structured tables of columns, query an
 
 - `get_column()` - Get column by ID.
 - `delete_column()` - Deletes a column.
-- `update_relationship_column()` - Update relationship column. [Learn more about relationship columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
-
 - `list_indexes()` - List indexes on the table.
 - `create_index()` - Creates an index on the columns listed. Your index should include all the columns you will query in a single request.
-Type can be `key`, `fulltext`, or `unique`.
+Type can be `key`, `fulltext`, `unique`, `spatial`, or `trigram`. `trigram` is only available on PostgreSQL and lets `contains`, `startsWith`, and `endsWith` queries on string columns use an index.
 - `get_index()` - Get index by ID.
 - `delete_index()` - Delete an index.
 - `list_rows()` - Get a list of all the user&#039;s rows in a given table. You can use the query params to filter your results.
@@ -1041,13 +1217,12 @@ The Users service allows you to manage your project users.
 - `get()` - Get a user by its unique ID.
 - `delete()` - Delete a user by its unique ID, thereby releasing it&#039;s ID. Since ID is released and can be reused, all user-related resources like documents or storage files should be deleted before user deletion. If you want to keep ID reserved, use the [updateStatus](https://appwrite.io/docs/server/users#usersUpdateStatus) endpoint instead.
 - `update_email()` - Update the user email by its unique ID.
-- `update_impersonator()` - Enable or disable whether a user can impersonate other users. When impersonation headers are used, the request runs as the target user for API behavior, while internal audit logs still attribute the action to the original impersonator and store the impersonated target details only in internal audit payload data.
+- `update_impersonator()` - Enable or disable whether a user can impersonate other users. When impersonation headers are used, the request runs as the target user for API behavior, while internal audit logs still attribute the action to the original impersonator and store the impersonated target details only in internal audit payload data. Account endpoints are read-only while impersonating: they report the target&#039;s account, and anything that would change it is refused, so an impersonator cannot alter the target&#039;s credentials or delete their account.
 
 - `create_jwt()` - Use this endpoint to create a JSON Web Token for user by its unique ID. You can use the resulting JWT to authenticate on behalf of the user. The JWT secret will become invalid if the session it uses gets deleted.
 - `update_labels()` - Update the user labels by its unique ID. 
 
 Labels can be used to grant access to resources. While teams are a way for user&#039;s to share access to a resource, labels can be defined by the developer to grant access without an invitation. See the [Permissions docs](https://appwrite.io/docs/permissions) for more info.
-- `list_logs()` - Get the user activity logs list by its unique ID.
 - `list_memberships()` - Get the user membership list by its unique ID.
 - `update_mfa()` - Enable or disable MFA on a user account.
 - `update_mfa()` - Enable or disable MFA on a user account.
@@ -1063,6 +1238,10 @@ Labels can be used to grant access to resources. While teams are a way for user&
 - `create_mfa_recovery_codes()` - Generate recovery codes used as backup for MFA flow for User ID. Recovery codes can be used as a MFA verification type in [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge) method by client SDK.
 - `create_mfa_recovery_codes()` - Generate recovery codes used as backup for MFA flow for User ID. Recovery codes can be used as a MFA verification type in [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge) method by client SDK.
 - `update_name()` - Update the user name by its unique ID.
+- `list_passkeys()` - Get the list of verified passkeys registered by a user.
+- `get_passkey()` - Get a verified passkey of a user by its unique ID.
+- `update_passkey()` - Rename a passkey of a user.
+- `delete_passkey()` - Delete a passkey from a user, for example when a device is lost. The passkey can no longer be used to sign in.
 - `update_password()` - Update the user password by its unique ID.
 - `update_phone()` - Update the user phone by its unique ID.
 - `get_prefs()` - Get the user preferences by its unique ID.
@@ -1089,7 +1268,7 @@ If you want to generate a token for a custom authentication flow, use the [POST 
 - `list()` - Get a list of all databases from the current Appwrite project. You can use the search parameter to filter your results.
 - `create()` - Create a new Database.
 
-- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, pricing, and whether it is enabled for the organization.
+- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, its own prices and overage rates, and whether it is enabled for the organization.
 - `list_transactions()` - List transactions across all databases.
 - `create_transaction()` - Create a new transaction.
 - `get_transaction()` - Get a transaction by its unique ID.
@@ -1127,6 +1306,35 @@ Attributes can be `key`, `fulltext`, and `unique`.
 - `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
 - `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
 
+#### Waf
+
+- `list_rules()` - List WAF rules for the current project.
+
+- `create_bypass_rule()` - Create a bypass WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+
+- `update_bypass_rule()` - Update a bypass WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+
+- `create_challenge_rule()` - Create a challenge WAF rule. Use `difficulty` (1 easiest to 5 hardest) to tune the client-side proof-of-work cost, and `ttl` to control how long, in seconds, a visitor stays cleared after passing the challenge before being challenged again. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+
+- `update_challenge_rule()` - Update a challenge WAF rule. Use `difficulty` (1 easiest to 5 hardest) to tune the client-side proof-of-work cost, and `ttl` to control how long, in seconds, a visitor stays cleared after passing the challenge before being challenged again. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+
+- `create_deny_rule()` - Create a deny WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+
+- `update_deny_rule()` - Update a deny WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+
+- `create_rate_limit_rule()` - Create a rate limit WAF rule. Use `key` to choose the counter: `ip` limits per client IP, while `userId` limits per authenticated user (requests without an authenticated user skip `userId` rules). Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+
+- `update_rate_limit_rule()` - Update a rate limit WAF rule. Use `key` to choose the counter: `ip` limits per client IP, while `userId` limits per authenticated user (requests without an authenticated user skip `userId` rules). Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+
+- `create_redirect_rule()` - Create a redirect WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+
+- `update_redirect_rule()` - Update a redirect WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+
+- `get_rule()` - Get a WAF rule by its ID.
+
+- `delete_rule()` - Delete a WAF rule.
+
+
 #### Webhooks
 The Webhooks service allows you to manage your project webhooks.
 - `list()` - Get a list of all webhooks belonging to the project. You can use the query params to filter your results.
@@ -1149,7 +1357,6 @@ The Webhooks service allows you to manage your project webhooks.
 - `UserList` - Users List
 - `SessionList` - Sessions List
 - `IdentityList` - Identities List
-- `LogList` - Logs List
 - `FileList` - Files List
 - `BucketList` - Buckets List
 - `ResourceTokenList` - Resource Tokens List
@@ -1236,7 +1443,6 @@ The Webhooks service allows you to manage your project webhooks.
 - `Row` - Row
 - `Document` - Document
 - `Presence` - Presence
-- `Log` - Log
 - `User` - User
 - `AlgoMd5` - AlgoMD5
 - `AlgoSha` - AlgoSHA
@@ -1245,6 +1451,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `AlgoScrypt` - AlgoScrypt
 - `AlgoScryptModified` - AlgoScryptModified
 - `AlgoArgon2` - AlgoArgon2
+- `Account` - Account
 - `Preferences` - Preferences
 - `Session` - Session
 - `Identity` - Identity
@@ -1271,7 +1478,6 @@ The Webhooks service allows you to manage your project webhooks.
 - `Webhook` - Webhook
 - `Key` - Key
 - `EphemeralKey` - Ephemeral Key
-- `DevKey` - DevKey
 - `MockNumber` - Mock Number
 - `OAuth2Github` - OAuth2GitHub
 - `OAuth2Discord` - OAuth2Discord
@@ -1288,6 +1494,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `OAuth2Yandex` - OAuth2Yandex
 - `OAuth2X` - OAuth2X
 - `OAuth2WordPress` - OAuth2WordPress
+- `OAuth2Webflow` - OAuth2Webflow
 - `OAuth2Twitch` - OAuth2Twitch
 - `OAuth2Stripe` - OAuth2Stripe
 - `OAuth2Spotify` - OAuth2Spotify
@@ -1317,11 +1524,15 @@ The Webhooks service allows you to manage your project webhooks.
 - `OAuth2Apple` - OAuth2Apple
 - `OAuth2Microsoft` - OAuth2Microsoft
 - `OAuth2Resend` - OAuth2Resend
+- `OAuth2TikTok` - OAuth2TikTok
+- `OAuth2Kakao` - OAuth2Kakao
 - `OAuth2ProviderList` - OAuth2 Providers List
 - `PolicyPasswordDictionary` - Policy Password Dictionary
 - `PolicyPasswordHistory` - Policy Password History
 - `PolicyPasswordStrength` - Policy Password Strength
 - `PolicyPasswordPersonalData` - Policy Password Personal Data
+- `PolicyPasswordPwned` - Policy Password Pwned
+- `PolicyPasswordRotation` - Policy Password Rotation
 - `PolicySessionAlert` - Policy Session Alert
 - `PolicySessionDuration` - Policy Session Duration
 - `PolicySessionInvalidation` - Policy Session Invalidation
@@ -1329,6 +1540,11 @@ The Webhooks service allows you to manage your project webhooks.
 - `PolicyUserLimit` - Policy User Limit
 - `PolicyMembershipPrivacy` - Policy Membership Privacy
 - `PolicyMfaFactors` - Policy MFA Factors
+- `PolicyPasskey` - Policy Passkey
+- `PolicyDenyAliasedEmail` - Policy Deny Aliased Email
+- `PolicyDenyDisposableEmail` - Policy Deny Disposable Email
+- `PolicyDenyFreeEmail` - Policy Deny Free Email
+- `PolicyDenyCorporateEmail` - Policy Deny Corporate Email
 - `PlatformWeb` - Platform Web
 - `PlatformApple` - Platform Apple
 - `PlatformAndroid` - Platform Android
@@ -1347,6 +1563,10 @@ The Webhooks service allows you to manage your project webhooks.
 - `EmailTemplate` - EmailTemplate
 - `MfaChallenge` - MFA Challenge
 - `MfaChallengeSecret` - MFA Challenge Secret
+- `TokenSecret` - Token Secret
+- `Passkey` - Passkey
+- `PasskeyChallenge` - Passkey Challenge
+- `PasskeyList` - Passkeys List
 - `MfaRecoveryCodes` - MFA Recovery Codes
 - `MfaType` - MFAType
 - `MfaFactors` - MFAFactors
@@ -1381,6 +1601,10 @@ The Webhooks service allows you to manage your project webhooks.
 - `DedicatedDatabaseExecutionColumn` - ExecutionColumn
 - `DedicatedDatabaseRestoration` - Restoration
 - `DatabaseStatus` - Status
+- `DnsRecord` - DNSRecord
+- `Domain` - Domain
+- `DomainPrice` - DomainPrice
+- `DomainTransferStatus` - domainTransferStatus
 - `DedicatedDatabaseExtensions` - Extensions
 - `DedicatedDatabaseMember` - Member
 - `DedicatedDatabaseOperation` - Operation
@@ -1390,10 +1614,6 @@ The Webhooks service allows you to manage your project webhooks.
 - `Organization` - Organization
 - `DedicatedDatabasePITRWindows` - PITRWindows
 - `BackupPolicy` - backup
-- `PolicyDenyAliasedEmail` - Policy Deny Aliased Email
-- `PolicyDenyDisposableEmail` - Policy Deny Disposable Email
-- `PolicyDenyFreeEmail` - Policy Deny Free Email
-- `PolicyDenyCorporateEmail` - Policy Deny Corporate Email
 - `DedicatedDatabasePooler` - PoolerConfig
 - `PostgresExtension` - Postgres extension
 - `Program` - Program
@@ -1401,7 +1621,6 @@ The Webhooks service allows you to manage your project webhooks.
 - `DedicatedDatabaseRestorationList` - Dedicated database restorations list
 - `DedicatedDatabaseSpecification` - Specification
 - `DedicatedDatabaseSpecificationList` - SpecificationList
-- `DedicatedDatabaseSpecificationPricing` - SpecificationPricing
 - `DatabaseStatusConnections` - Connections
 - `DatabaseStatusReplica` - Replica
 - `DatabaseStatusVolume` - Volume
@@ -1419,8 +1638,15 @@ The Webhooks service allows you to manage your project webhooks.
 - `Oauth2DeviceAuthorization` - OAuth2 Device Authorization
 - `Oauth2PAR` - OAuth2 PAR
 - `Oauth2Token` - OAuth2 Token
+- `Oauth2Introspection` - OAuth2 Introspection
 - `Oauth2Consent` - OAuth2 Consent
 - `Oauth2ConsentToken` - OAuth2 Consent Token
+- `WafRuleBypass` - WafRuleBypass
+- `WafRuleDeny` - WafRuleDeny
+- `WafRuleChallenge` - WafRuleChallenge
+- `WafRuleRateLimit` - WafRuleRateLimit
+- `WafRuleRedirect` - WafRuleRedirect
+- `WafRuleList` - WAF rule list
 - `Oauth2Project` - OAuth2 Project
 - `Oauth2Organization` - OAuth2 Organization
 - `Oauth2ProjectList` - OAuth2 accessible projects list
@@ -1433,6 +1659,9 @@ The Webhooks service allows you to manage your project webhooks.
 - `BackupRestorationList` - Backup restoration list
 - `DatabaseMigrationList` - Database Migrations List
 - `DedicatedDatabaseList` - Dedicated databases list
+- `DnsRecordsList` - DNS records list
+- `DomainPricesList` - Domain prices list
+- `DomainsList` - Domains list
 - `AppsList` - Apps list
 - `AppSecretList` - App secrets list
 - `AppScopeList` - App scopes list
@@ -1453,4 +1682,4 @@ The Webhooks service allows you to manage your project webhooks.
 - File upload examples
 - Query builder documentation
 
-[0.16.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.16.0
+[0.20.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.20.0

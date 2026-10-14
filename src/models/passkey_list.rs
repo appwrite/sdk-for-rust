@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct PasskeyList {
     /// Total number of passkeys that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of passkeys.
     #[serde(rename = "passkeys")]
+    #[serde(default = "default_passkeys")]
     pub passkeys: Vec<crate::models::Passkey>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_passkeys() -> Vec<crate::models::Passkey> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl PasskeyList {

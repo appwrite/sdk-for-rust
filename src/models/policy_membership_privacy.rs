@@ -8,25 +8,60 @@ use serde::{Deserialize, Serialize};
 pub struct PolicyMembershipPrivacy {
     /// Policy ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Whether user ID is visible in memberships.
     #[serde(rename = "userId")]
+    #[serde(default = "default_user_id")]
     pub user_id: bool,
     /// Whether user email is visible in memberships.
     #[serde(rename = "userEmail")]
+    #[serde(default = "default_user_email")]
     pub user_email: bool,
     /// Whether user phone is visible in memberships.
     #[serde(rename = "userPhone")]
+    #[serde(default = "default_user_phone")]
     pub user_phone: bool,
     /// Whether user name is visible in memberships.
     #[serde(rename = "userName")]
+    #[serde(default = "default_user_name")]
     pub user_name: bool,
     /// Whether user MFA status is visible in memberships.
     #[serde(rename = "userMFA")]
+    #[serde(default = "default_user_mfa")]
     pub user_mfa: bool,
     /// Whether user last access time is visible in memberships.
     #[serde(rename = "userAccessedAt")]
+    #[serde(default = "default_user_accessed_at")]
     pub user_accessed_at: bool,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_user_id() -> bool {
+    false
+}
+
+fn default_user_email() -> bool {
+    false
+}
+
+fn default_user_phone() -> bool {
+    false
+}
+
+fn default_user_name() -> bool {
+    false
+}
+
+fn default_user_mfa() -> bool {
+    false
+}
+
+fn default_user_accessed_at() -> bool {
+    false
 }
 
 impl PolicyMembershipPrivacy {

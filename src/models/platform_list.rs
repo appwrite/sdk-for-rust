@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct PlatformList {
     /// Total number of platforms in the given project.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of platforms.
     #[serde(rename = "platforms")]
+    #[serde(default = "default_platforms")]
     pub platforms: Vec<serde_json::Value>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_platforms() -> Vec<serde_json::Value> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl PlatformList {

@@ -8,15 +8,19 @@ use serde::{Deserialize, Serialize};
 pub struct BillingPlanAddonDetails {
     /// Is the addon supported in the plan?
     #[serde(rename = "supported")]
+    #[serde(default = "default_supported")]
     pub supported: bool,
     /// Addon plan included value
     #[serde(rename = "planIncluded")]
+    #[serde(default = "default_plan_included")]
     pub plan_included: i64,
     /// Addon limit
     #[serde(rename = "limit")]
+    #[serde(default = "default_limit")]
     pub limit: i64,
     /// Addon type
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Price currency
     #[serde(rename = "currency")]
@@ -24,13 +28,44 @@ pub struct BillingPlanAddonDetails {
     pub currency: Option<String>,
     /// Price
     #[serde(rename = "price")]
+    #[serde(default = "default_price")]
     pub price: f64,
     /// Resource value
     #[serde(rename = "value")]
+    #[serde(default = "default_value")]
     pub value: i64,
     /// Description on invoice
     #[serde(rename = "invoiceDesc")]
+    #[serde(default = "default_invoice_desc")]
     pub invoice_desc: String,
+}
+
+fn default_supported() -> bool {
+    false
+}
+
+fn default_plan_included() -> i64 {
+    0
+}
+
+fn default_limit() -> i64 {
+    0
+}
+
+fn default_type() -> String {
+    "numeric".to_string()
+}
+
+fn default_price() -> f64 {
+    0.0
+}
+
+fn default_value() -> i64 {
+    0
+}
+
+fn default_invoice_desc() -> String {
+    "".to_string()
 }
 
 impl BillingPlanAddonDetails {

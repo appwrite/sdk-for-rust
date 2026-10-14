@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = tables_db.delete_rows(
         "<DATABASE_ID>",
         "<TABLE_ID>",
-        Some(vec![]), // optional
+        Some(vec!["{\"method\":\"equal\", \"attribute\":\"$id\", \"values\":[\"<ROW_ID>\"]}".into()]), // optional
         Some("<TRANSACTION_ID>") // optional
     ).await?;
 
