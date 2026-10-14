@@ -11,6 +11,10 @@ pub enum ProjectPolicyId {
     PasswordStrength,
     #[serde(rename = "password-personal-data")]
     PasswordPersonalData,
+    #[serde(rename = "password-pwned")]
+    PasswordPwned,
+    #[serde(rename = "password-rotation")]
+    PasswordRotation,
     #[serde(rename = "session-alert")]
     SessionAlert,
     #[serde(rename = "session-duration")]
@@ -45,6 +49,8 @@ impl ProjectPolicyId {
             ProjectPolicyId::PasswordHistory => "password-history",
             ProjectPolicyId::PasswordStrength => "password-strength",
             ProjectPolicyId::PasswordPersonalData => "password-personal-data",
+            ProjectPolicyId::PasswordPwned => "password-pwned",
+            ProjectPolicyId::PasswordRotation => "password-rotation",
             ProjectPolicyId::SessionAlert => "session-alert",
             ProjectPolicyId::SessionDuration => "session-duration",
             ProjectPolicyId::SessionInvalidation => "session-invalidation",

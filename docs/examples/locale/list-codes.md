@@ -11,7 +11,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let locale = Locale::new(&client);
 
-    let result = locale.list_codes().await?;
+    let result = locale.list_codes(
+        Some(false) // optional
+    ).await?;
 
     let _ = result;
 

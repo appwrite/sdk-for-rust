@@ -336,6 +336,47 @@ impl Oauth2 {
             .await
     }
 
+    /// Introspect an OAuth2 access token or refresh token. Authenticate with an
+    /// API key holding the `oauth2.introspect` scope to introspect any token in
+    /// the project, or with the client credentials of the app the token was issued
+    /// to.
+    pub async fn introspect(
+        &self,
+        token: impl Into<String>,
+        token_type_hint: Option<&str>,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+    ) -> crate::error::Result<crate::models::Oauth2Introspection> {
+        let mut params = HashMap::new();
+        params.insert("token".to_string(), json!(token.into()));
+        if let Some(value) = token_type_hint {
+            params.insert("token_type_hint".to_string(), json!(value));
+        }
+        if let Some(value) = client_id {
+            params.insert("client_id".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("client_secret".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/oauth2/{project_id}/introspect".to_string().replace(
+            "{project_id}",
+            &self
+                .client
+                .get_headers()
+                .get("x-appwrite-project")
+                .cloned()
+                .unwrap_or_default(),
+        );
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// List the organizations the OAuth2 access token can access. Resolves the
     /// token's `organization` authorization details, expanding the `*` wildcard
     /// into the concrete set of organizations the user can see.

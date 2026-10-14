@@ -24,6 +24,11 @@ pub struct PlatformAndroid {
     /// Android application ID.
     #[serde(rename = "applicationId")]
     pub application_id: String,
+    /// SHA-256 fingerprints of the certificates the app is signed with. Passkeys
+    /// created in the app are accepted when its signature matches one.
+    #[serde(rename = "fingerprints")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fingerprints: Option<Vec<String>>,
 }
 
 impl PlatformAndroid {
@@ -55,6 +60,17 @@ impl PlatformAndroid {
     /// Get application_id
     pub fn application_id(&self) -> &String {
         &self.application_id
+    }
+
+    /// Set fingerprints
+    pub fn set_fingerprints(mut self, fingerprints: Vec<String>) -> Self {
+        self.fingerprints = Some(fingerprints);
+        self
+    }
+
+    /// Get fingerprints
+    pub fn fingerprints(&self) -> Option<&Vec<String>> {
+        self.fingerprints.as_ref()
     }
 }
 

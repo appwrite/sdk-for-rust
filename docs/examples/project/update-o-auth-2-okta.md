@@ -16,7 +16,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("<CLIENT_SECRET>"), // optional
         Some("example.com"), // optional
         Some("<AUTHORIZATION_SERVER_ID>"), // optional
-        Some(false) // optional
+        Some(false), // optional
+        Some(vec![appwrite::enums::ProjectOAuth2OktaPrompt::None]) // optional
     ).await?;
 
     let _ = result;

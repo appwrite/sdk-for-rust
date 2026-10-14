@@ -14,6 +14,8 @@ pub mod databases;
 pub use databases::Databases;
 pub mod documents_db;
 pub use documents_db::DocumentsDB;
+pub mod domains;
+pub use domains::Domains;
 pub mod embeddings;
 pub use embeddings::Embeddings;
 pub mod functions;
@@ -56,6 +58,8 @@ pub mod users;
 pub use users::Users;
 pub mod vectors_db;
 pub use vectors_db::VectorsDB;
+pub mod waf;
+pub use waf::Waf;
 pub mod webhooks;
 pub use webhooks::Webhooks;
 
@@ -77,6 +81,7 @@ pub struct Services {
     backups: Backups,
     databases: Databases,
     documents_db: DocumentsDB,
+    domains: Domains,
     embeddings: Embeddings,
     functions: Functions,
     graphql: Graphql,
@@ -98,6 +103,7 @@ pub struct Services {
     tokens: Tokens,
     users: Users,
     vectors_db: VectorsDB,
+    waf: Waf,
     webhooks: Webhooks,
 }
 
@@ -112,6 +118,7 @@ impl Services {
             backups: Backups::new(&client),
             databases: Databases::new(&client),
             documents_db: DocumentsDB::new(&client),
+            domains: Domains::new(&client),
             embeddings: Embeddings::new(&client),
             functions: Functions::new(&client),
             graphql: Graphql::new(&client),
@@ -133,6 +140,7 @@ impl Services {
             tokens: Tokens::new(&client),
             users: Users::new(&client),
             vectors_db: VectorsDB::new(&client),
+            waf: Waf::new(&client),
             webhooks: Webhooks::new(&client),
             client,
         }
@@ -170,6 +178,10 @@ impl Services {
     /// Get DocumentsDB service
     pub fn documents_db(&self) -> &DocumentsDB {
         &self.documents_db
+    }
+    /// Get Domains service
+    pub fn domains(&self) -> &Domains {
+        &self.domains
     }
     /// Get Embeddings service
     pub fn embeddings(&self) -> &Embeddings {
@@ -254,6 +266,10 @@ impl Services {
     /// Get VectorsDB service
     pub fn vectors_db(&self) -> &VectorsDB {
         &self.vectors_db
+    }
+    /// Get Waf service
+    pub fn waf(&self) -> &Waf {
+        &self.waf
     }
     /// Get Webhooks service
     pub fn webhooks(&self) -> &Webhooks {

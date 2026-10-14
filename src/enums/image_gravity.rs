@@ -21,6 +21,8 @@ pub enum ImageGravity {
     Bottom,
     #[serde(rename = "bottom-right")]
     BottomRight,
+    #[serde(rename = "auto")]
+    Auto,
 }
 
 impl ImageGravity {
@@ -36,6 +38,7 @@ impl ImageGravity {
             ImageGravity::BottomLeft => "bottom-left",
             ImageGravity::Bottom => "bottom",
             ImageGravity::BottomRight => "bottom-right",
+            ImageGravity::Auto => "auto",
         }
     }
 }

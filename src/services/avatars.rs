@@ -1,7 +1,7 @@
 //! Avatars service for Appwrite SDK
 
 use crate::client::Client;
-
+use crate::input_file::InputFile;
 use reqwest::Method;
 use serde_json::json;
 use std::collections::HashMap;
@@ -297,6 +297,48 @@ impl Avatars {
             .await
     }
 
+    /// Update the profile photo of the currently authenticated user. The uploaded
+    /// image takes priority over every other photo source, including OAuth2
+    /// identity photos, Gravatar, and Libravatar. Updating an already customized
+    /// photo replaces it. The image must be at most 5MB and is sent in a single
+    /// request.
+    pub async fn update_photo(
+        &self,
+        file: InputFile,
+    ) -> crate::error::Result<crate::models::Account> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert(
+            "content-type".to_string(),
+            "multipart/form-data".to_string(),
+        );
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/avatars/photo".to_string();
+
+        self.client
+            .single_upload(Method::PUT, &path, Some(api_headers), params, "file", file)
+            .await
+    }
+
+    /// Delete the profile photo of the currently authenticated user and store the
+    /// built-in static placeholder in its place. The placeholder is the user's
+    /// photo from then on, so it takes priority over every other photo source —
+    /// OAuth2 identity photos, Gravatar, Libravatar, and initials — until a new
+    /// photo is uploaded with avatars.updatePhoto.
+    pub async fn delete_photo(&self) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/avatars/photo".to_string();
+
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Converts a given plain text to a QR code image. You can use the query
     /// parameters to change the size and style of the resulting image.
     pub async fn get_qr(
@@ -440,6 +482,27 @@ impl crate::services::Service for Avatars {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[tokio::test]
+    async fn test_update_photo_sends_one_request_whatever_the_chunk_size() {
+        use wiremock::matchers::{method, path};
+        use wiremock::{Mock, MockServer, ResponseTemplate};
+
+        let server = MockServer::start().await;
+        Mock::given(method("PUT"))
+            .and(path("/avatars/photo"))
+            .respond_with(ResponseTemplate::new(500))
+            .mount(&server)
+            .await;
+
+        let client = Client::new().set_endpoint(server.uri()).set_chunk_size(1);
+        let file = InputFile::from_bytes(vec![0u8; 10], "photo.png", Some("image/png"));
+        let _ = Avatars::new(&client).update_photo(file).await;
+
+        let requests = server.received_requests().await.unwrap();
+        assert_eq!(requests.len(), 1);
+        assert!(requests[0].headers.get("content-range").is_none());
+    }
 
     #[test]
     fn test_avatars_creation() {

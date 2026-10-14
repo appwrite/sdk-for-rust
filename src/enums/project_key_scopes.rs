@@ -183,6 +183,8 @@ pub enum ProjectKeyScopes {
     LocaleRead,
     #[serde(rename = "avatars.read")]
     AvatarsRead,
+    #[serde(rename = "avatars.write")]
+    AvatarsWrite,
     #[serde(rename = "health.read")]
     HealthRead,
     #[serde(rename = "assistant.read")]
@@ -211,6 +213,8 @@ pub enum ProjectKeyScopes {
     PresencesRead,
     #[serde(rename = "presences.write")]
     PresencesWrite,
+    #[serde(rename = "dedicatedDatabases.execute")]
+    DedicatedDatabasesExecute,
     #[serde(rename = "backups.policies.read")]
     BackupsPoliciesRead,
     #[serde(rename = "backups.policies.write")]
@@ -245,6 +249,10 @@ pub enum ProjectKeyScopes {
     Oauth2Write,
     #[serde(rename = "oauth2.introspect")]
     Oauth2Introspect,
+    #[serde(rename = "analytics.read")]
+    AnalyticsRead,
+    #[serde(rename = "analytics.write")]
+    AnalyticsWrite,
 }
 
 impl ProjectKeyScopes {
@@ -341,6 +349,7 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::WebhooksWrite => "webhooks.write",
             ProjectKeyScopes::LocaleRead => "locale.read",
             ProjectKeyScopes::AvatarsRead => "avatars.read",
+            ProjectKeyScopes::AvatarsWrite => "avatars.write",
             ProjectKeyScopes::HealthRead => "health.read",
             ProjectKeyScopes::AssistantRead => "assistant.read",
             ProjectKeyScopes::MigrationsRead => "migrations.read",
@@ -355,6 +364,7 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::ReportsWrite => "reports.write",
             ProjectKeyScopes::PresencesRead => "presences.read",
             ProjectKeyScopes::PresencesWrite => "presences.write",
+            ProjectKeyScopes::DedicatedDatabasesExecute => "dedicatedDatabases.execute",
             ProjectKeyScopes::BackupsPoliciesRead => "backups.policies.read",
             ProjectKeyScopes::BackupsPoliciesWrite => "backups.policies.write",
             ProjectKeyScopes::ArchivesRead => "archives.read",
@@ -372,6 +382,8 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::Oauth2Read => "oauth2.read",
             ProjectKeyScopes::Oauth2Write => "oauth2.write",
             ProjectKeyScopes::Oauth2Introspect => "oauth2.introspect",
+            ProjectKeyScopes::AnalyticsRead => "analytics.read",
+            ProjectKeyScopes::AnalyticsWrite => "analytics.write",
         }
     }
 }

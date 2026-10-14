@@ -30,6 +30,15 @@ pub struct Topic {
     /// Subscribe permissions.
     #[serde(rename = "subscribe")]
     pub subscribe: Vec<String>,
+    /// MQTT QoS for delivery on this topic. Null lets the subscriber choose their
+    /// level.
+    #[serde(rename = "qos")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub qos: Option<i64>,
+    /// Message retention in seconds for offline delivery.
+    #[serde(rename = "expiry")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub expiry: Option<i64>,
 }
 
 impl Topic {
@@ -71,6 +80,28 @@ impl Topic {
     /// Get subscribe
     pub fn subscribe(&self) -> &Vec<String> {
         &self.subscribe
+    }
+
+    /// Set qos
+    pub fn set_qos(mut self, qos: i64) -> Self {
+        self.qos = Some(qos);
+        self
+    }
+
+    /// Get qos
+    pub fn qos(&self) -> Option<&i64> {
+        self.qos.as_ref()
+    }
+
+    /// Set expiry
+    pub fn set_expiry(mut self, expiry: i64) -> Self {
+        self.expiry = Some(expiry);
+        self
+    }
+
+    /// Get expiry
+    pub fn expiry(&self) -> Option<&i64> {
+        self.expiry.as_ref()
     }
 }
 

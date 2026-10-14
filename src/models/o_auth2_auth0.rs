@@ -18,6 +18,10 @@ pub struct OAuth2Auth0 {
     /// Auth0 OAuth2 client secret.
     #[serde(rename = "clientSecret")]
     pub client_secret: String,
+    /// Auth0 OAuth2 prompt values.
+    #[serde(rename = "prompt")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub prompt: Option<Vec<crate::enums::OAuth2Auth0Prompt>>,
     /// Auth0 OAuth2 endpoint domain.
     #[serde(rename = "endpoint")]
     pub endpoint: String,
@@ -42,6 +46,17 @@ impl OAuth2Auth0 {
     /// Get client_secret
     pub fn client_secret(&self) -> &String {
         &self.client_secret
+    }
+
+    /// Set prompt
+    pub fn set_prompt(mut self, prompt: Vec<crate::enums::OAuth2Auth0Prompt>) -> Self {
+        self.prompt = Some(prompt);
+        self
+    }
+
+    /// Get prompt
+    pub fn prompt(&self) -> Option<&Vec<crate::enums::OAuth2Auth0Prompt>> {
+        self.prompt.as_ref()
     }
 
     /// Get endpoint

@@ -70,6 +70,8 @@ impl Messaging {
         draft: Option<bool>,
         html: Option<bool>,
         scheduled_at: Option<&str>,
+        reply_to_email: Option<&str>,
+        reply_to_name: Option<&str>,
     ) -> crate::error::Result<crate::models::Message> {
         let mut params = HashMap::new();
         params.insert("messageId".to_string(), json!(message_id.into()));
@@ -120,6 +122,12 @@ impl Messaging {
         if let Some(value) = scheduled_at {
             params.insert("scheduledAt".to_string(), json!(value));
         }
+        if let Some(value) = reply_to_email {
+            params.insert("replyToEmail".to_string(), json!(value));
+        }
+        if let Some(value) = reply_to_name {
+            params.insert("replyToName".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -149,6 +157,8 @@ impl Messaging {
         bcc: Option<Vec<String>>,
         scheduled_at: Option<&str>,
         attachments: Option<Vec<String>>,
+        reply_to_email: Option<&str>,
+        reply_to_name: Option<&str>,
     ) -> crate::error::Result<crate::models::Message> {
         let mut params = HashMap::new();
         if let Some(value) = topics {
@@ -202,6 +212,12 @@ impl Messaging {
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
         }
+        if let Some(value) = reply_to_email {
+            params.insert("replyToEmail".to_string(), json!(value));
+        }
+        if let Some(value) = reply_to_name {
+            params.insert("replyToName".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -238,6 +254,7 @@ impl Messaging {
         content_available: Option<bool>,
         critical: Option<bool>,
         priority: Option<crate::enums::MessagePriority>,
+        channel_id: Option<&str>,
     ) -> crate::error::Result<crate::models::Message> {
         let mut params = HashMap::new();
         params.insert("messageId".to_string(), json!(message_id.into()));
@@ -304,6 +321,9 @@ impl Messaging {
         if let Some(value) = priority {
             params.insert("priority".to_string(), json!(value));
         }
+        if let Some(value) = channel_id {
+            params.insert("channelId".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -340,6 +360,7 @@ impl Messaging {
         content_available: Option<bool>,
         critical: Option<bool>,
         priority: Option<crate::enums::MessagePriority>,
+        channel_id: Option<&str>,
     ) -> crate::error::Result<crate::models::Message> {
         let mut params = HashMap::new();
         if let Some(value) = topics {
@@ -404,6 +425,9 @@ impl Messaging {
         }
         if let Some(value) = priority {
             params.insert("priority".to_string(), json!(value));
+        }
+        if let Some(value) = channel_id {
+            params.insert("channelId".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -703,6 +727,83 @@ impl Messaging {
         let path = "/messaging/providers/apns/{providerId}"
             .to_string()
             .replace("{providerId}", &provider_id.into().to_string());
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Create a new Appwrite push provider.
+    pub async fn create_appwrite_provider(
+        &self,
+        provider_id: impl Into<String>,
+        name: impl Into<String>,
+        enabled: Option<bool>,
+        qos: Option<i64>,
+        expiry: Option<i64>,
+    ) -> crate::error::Result<crate::models::Provider> {
+        let mut params = HashMap::new();
+        params.insert("providerId".to_string(), json!(provider_id.into()));
+        params.insert("name".to_string(), json!(name.into()));
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = qos {
+            params.insert("qos".to_string(), json!(value));
+        }
+        if let Some(value) = expiry {
+            params.insert("expiry".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/messaging/providers/appwrite".to_string();
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update an Appwrite push provider by its unique ID.
+    pub async fn update_appwrite_provider(
+        &self,
+        provider_id: impl Into<String>,
+        name: Option<&str>,
+        enabled: Option<bool>,
+        qos: Option<i64>,
+        expiry: Option<i64>,
+    ) -> crate::error::Result<crate::models::Provider> {
+        let mut params = HashMap::new();
+        if let Some(value) = name {
+            params.insert("name".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = qos {
+            params.insert("qos".to_string(), json!(value));
+        }
+        if let Some(value) = expiry {
+            params.insert("expiry".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/messaging/providers/appwrite/{providerId}"
+            .to_string()
+            .replace("{providerId}", &provider_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1758,6 +1859,8 @@ impl Messaging {
         topic_id: impl Into<String>,
         name: impl Into<String>,
         subscribe: Option<Vec<String>>,
+        qos: Option<i64>,
+        expiry: Option<i64>,
     ) -> crate::error::Result<crate::models::Topic> {
         let mut params = HashMap::new();
         params.insert("topicId".to_string(), json!(topic_id.into()));
@@ -1767,6 +1870,12 @@ impl Messaging {
                 "subscribe".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = qos {
+            params.insert("qos".to_string(), json!(value));
+        }
+        if let Some(value) = expiry {
+            params.insert("expiry".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1803,6 +1912,8 @@ impl Messaging {
         topic_id: impl Into<String>,
         name: Option<&str>,
         subscribe: Option<Vec<String>>,
+        qos: Option<i64>,
+        expiry: Option<i64>,
     ) -> crate::error::Result<crate::models::Topic> {
         let mut params = HashMap::new();
         if let Some(value) = name {
@@ -1813,6 +1924,12 @@ impl Messaging {
                 "subscribe".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = qos {
+            params.insert("qos".to_string(), json!(value));
+        }
+        if let Some(value) = expiry {
+            params.insert("expiry".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

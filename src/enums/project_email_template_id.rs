@@ -17,6 +17,10 @@ pub enum ProjectEmailTemplateId {
     SessionAlert,
     #[serde(rename = "otpSession")]
     OtpSession,
+    #[serde(rename = "otpVerification")]
+    OtpVerification,
+    #[serde(rename = "otpRecovery")]
+    OtpRecovery,
 }
 
 impl ProjectEmailTemplateId {
@@ -30,6 +34,8 @@ impl ProjectEmailTemplateId {
             ProjectEmailTemplateId::MfaChallenge => "mfaChallenge",
             ProjectEmailTemplateId::SessionAlert => "sessionAlert",
             ProjectEmailTemplateId::OtpSession => "otpSession",
+            ProjectEmailTemplateId::OtpVerification => "otpVerification",
+            ProjectEmailTemplateId::OtpRecovery => "otpRecovery",
         }
     }
 }

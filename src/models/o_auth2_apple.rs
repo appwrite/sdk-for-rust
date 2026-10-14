@@ -25,6 +25,17 @@ pub struct OAuth2Apple {
     /// PEM markers is 200 characters long.
     #[serde(rename = "p8File")]
     pub p8_file: String,
+    /// Native Sign in with Apple is active and can be used to create sessions from
+    /// an ID token. Independent of enabled, which only controls the browser-based
+    /// flow.
+    #[serde(rename = "nativeEnabled")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub native_enabled: Option<bool>,
+    /// App bundle IDs accepted as ID token audiences for native Sign in with
+    /// Apple, next to the Services ID.
+    #[serde(rename = "nativeClientIds")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub native_client_ids: Option<Vec<String>>,
 }
 
 impl OAuth2Apple {
@@ -56,6 +67,28 @@ impl OAuth2Apple {
     /// Get p8_file
     pub fn p8_file(&self) -> &String {
         &self.p8_file
+    }
+
+    /// Set native_enabled
+    pub fn set_native_enabled(mut self, native_enabled: bool) -> Self {
+        self.native_enabled = Some(native_enabled);
+        self
+    }
+
+    /// Get native_enabled
+    pub fn native_enabled(&self) -> Option<&bool> {
+        self.native_enabled.as_ref()
+    }
+
+    /// Set native_client_ids
+    pub fn set_native_client_ids(mut self, native_client_ids: Vec<String>) -> Self {
+        self.native_client_ids = Some(native_client_ids);
+        self
+    }
+
+    /// Get native_client_ids
+    pub fn native_client_ids(&self) -> Option<&Vec<String>> {
+        self.native_client_ids.as_ref()
     }
 }
 

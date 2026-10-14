@@ -106,6 +106,7 @@ impl DocumentsDB {
     pub async fn list_transactions(
         &self,
         queries: Option<Vec<String>>,
+        total: Option<bool>,
     ) -> crate::error::Result<crate::models::TransactionList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
@@ -113,6 +114,9 @@ impl DocumentsDB {
                 "queries".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());

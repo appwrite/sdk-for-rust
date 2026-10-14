@@ -94,10 +94,25 @@ pub struct Project {
     #[serde(rename = "wafEnabled")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub waf_enabled: Option<bool>,
+    /// ID of the project this environment belongs to. Null when the project is not
+    /// an environment.
+    #[serde(rename = "parentId")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub parent_id: Option<String>,
     /// Billing limits reached
     #[serde(rename = "billingLimits")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub billing_limits: Option<crate::models::BillingLimits>,
+    /// First time the project received a non-console API request. Empty until the
+    /// project is used.
+    #[serde(rename = "firstAccessedAt")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub first_accessed_at: Option<String>,
+    /// Last time the project was accessed through the MCP server. Empty if it was
+    /// never accessed via MCP.
+    #[serde(rename = "mcpAccessedAt")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mcp_accessed_at: Option<String>,
     /// OAuth2 server status
     #[serde(rename = "oAuth2ServerEnabled")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -324,6 +339,17 @@ impl Project {
         self.waf_enabled.as_ref()
     }
 
+    /// Set parent_id
+    pub fn set_parent_id(mut self, parent_id: String) -> Self {
+        self.parent_id = Some(parent_id);
+        self
+    }
+
+    /// Get parent_id
+    pub fn parent_id(&self) -> Option<&String> {
+        self.parent_id.as_ref()
+    }
+
     /// Set billing_limits
     pub fn set_billing_limits(mut self, billing_limits: crate::models::BillingLimits) -> Self {
         self.billing_limits = Some(billing_limits);
@@ -333,6 +359,28 @@ impl Project {
     /// Get billing_limits
     pub fn billing_limits(&self) -> Option<&crate::models::BillingLimits> {
         self.billing_limits.as_ref()
+    }
+
+    /// Set first_accessed_at
+    pub fn set_first_accessed_at(mut self, first_accessed_at: String) -> Self {
+        self.first_accessed_at = Some(first_accessed_at);
+        self
+    }
+
+    /// Get first_accessed_at
+    pub fn first_accessed_at(&self) -> Option<&String> {
+        self.first_accessed_at.as_ref()
+    }
+
+    /// Set mcp_accessed_at
+    pub fn set_mcp_accessed_at(mut self, mcp_accessed_at: String) -> Self {
+        self.mcp_accessed_at = Some(mcp_accessed_at);
+        self
+    }
+
+    /// Get mcp_accessed_at
+    pub fn mcp_accessed_at(&self) -> Option<&String> {
+        self.mcp_accessed_at.as_ref()
     }
 
     /// Set o_auth2_server_enabled

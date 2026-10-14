@@ -14,7 +14,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = messaging.update_topic(
         "<TOPIC_ID>",
         Some("<NAME>"), // optional
-        Some(vec!["any".into()]) // optional
+        Some(vec!["any".into()]), // optional
+        Some(0), // optional
+        Some(0) // optional
     ).await?;
 
     let _ = result;

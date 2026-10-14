@@ -27,6 +27,8 @@ pub enum Framework {
     Lynx,
     #[serde(rename = "flutter")]
     Flutter,
+    #[serde(rename = "jaspr")]
+    Jaspr,
     #[serde(rename = "react-native")]
     ReactNative,
     #[serde(rename = "vite")]
@@ -51,6 +53,7 @@ impl Framework {
             Framework::Remix => "remix",
             Framework::Lynx => "lynx",
             Framework::Flutter => "flutter",
+            Framework::Jaspr => "jaspr",
             Framework::ReactNative => "react-native",
             Framework::Vite => "vite",
             Framework::Other => "other",

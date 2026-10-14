@@ -95,6 +95,20 @@ pub struct DedicatedDatabase {
     /// Storage allocated in GB.
     #[serde(rename = "storage")]
     pub storage: i64,
+    /// Storage resize status. Possible values: idle (no resize in flight),
+    /// resizing (the volume is growing towards storageTargetGb).
+    #[serde(rename = "storageStatus")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub storage_status: Option<String>,
+    /// Size in GB the volume is growing towards while storageStatus is resizing. 0
+    /// when no resize is in flight.
+    #[serde(rename = "storageTargetGb")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub storage_target_gb: Option<i64>,
+    /// Time the in-flight storage resize started, in ISO 8601 format.
+    #[serde(rename = "storageResizeStartedAt")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub storage_resize_started_at: Option<String>,
     /// Storage class. Currently always 'ssd'; DigitalOcean exposes a single
     /// block-storage class.
     #[serde(rename = "storageClass")]
@@ -319,6 +333,39 @@ impl DedicatedDatabase {
     /// Get storage
     pub fn storage(&self) -> &i64 {
         &self.storage
+    }
+
+    /// Set storage_status
+    pub fn set_storage_status(mut self, storage_status: String) -> Self {
+        self.storage_status = Some(storage_status);
+        self
+    }
+
+    /// Get storage_status
+    pub fn storage_status(&self) -> Option<&String> {
+        self.storage_status.as_ref()
+    }
+
+    /// Set storage_target_gb
+    pub fn set_storage_target_gb(mut self, storage_target_gb: i64) -> Self {
+        self.storage_target_gb = Some(storage_target_gb);
+        self
+    }
+
+    /// Get storage_target_gb
+    pub fn storage_target_gb(&self) -> Option<&i64> {
+        self.storage_target_gb.as_ref()
+    }
+
+    /// Set storage_resize_started_at
+    pub fn set_storage_resize_started_at(mut self, storage_resize_started_at: String) -> Self {
+        self.storage_resize_started_at = Some(storage_resize_started_at);
+        self
+    }
+
+    /// Get storage_resize_started_at
+    pub fn storage_resize_started_at(&self) -> Option<&String> {
+        self.storage_resize_started_at.as_ref()
     }
 
     /// Get storage_class

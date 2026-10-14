@@ -14,7 +14,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = project.update_o_auth2_git_hub(
         Some("<CLIENT_ID>"), // optional
         Some("<CLIENT_SECRET>"), // optional
-        Some(false) // optional
+        Some(false), // optional
+        Some(vec![appwrite::enums::ProjectOAuth2GitHubPrompt::SelectAccount]) // optional
     ).await?;
 
     let _ = result;

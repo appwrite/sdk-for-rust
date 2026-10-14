@@ -16,7 +16,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<FILE_ID>",
         Some(0), // optional
         Some(0), // optional
-        Some(appwrite::enums::ImageGravity::Center), // optional
+        Some(appwrite::enums::ImageGravity::Auto), // optional
         Some(-1), // optional
         Some(0), // optional
         Some("FFFFFF"), // optional

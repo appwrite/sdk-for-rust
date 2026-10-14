@@ -11,7 +11,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let account = Account::new(&client);
 
-    account.delete_sessions().await?;
+    account.delete_sessions(
+        Some(false) // optional
+    ).await?;
 
     Ok(())
 }

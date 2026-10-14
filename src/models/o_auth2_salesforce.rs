@@ -18,6 +18,10 @@ pub struct OAuth2Salesforce {
     /// Salesforce OAuth2 consumer secret.
     #[serde(rename = "customerSecret")]
     pub customer_secret: String,
+    /// Salesforce OAuth2 prompt values.
+    #[serde(rename = "prompt")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub prompt: Option<Vec<crate::enums::OAuth2SalesforcePrompt>>,
 }
 
 impl OAuth2Salesforce {
@@ -39,6 +43,17 @@ impl OAuth2Salesforce {
     /// Get customer_secret
     pub fn customer_secret(&self) -> &String {
         &self.customer_secret
+    }
+
+    /// Set prompt
+    pub fn set_prompt(mut self, prompt: Vec<crate::enums::OAuth2SalesforcePrompt>) -> Self {
+        self.prompt = Some(prompt);
+        self
+    }
+
+    /// Get prompt
+    pub fn prompt(&self) -> Option<&Vec<crate::enums::OAuth2SalesforcePrompt>> {
+        self.prompt.as_ref()
     }
 }
 
