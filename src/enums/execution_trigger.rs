@@ -9,6 +9,8 @@ pub enum ExecutionTrigger {
     Schedule,
     #[serde(rename = "event")]
     Event,
+    #[serde(rename = "email")]
+    Email,
 }
 
 impl ExecutionTrigger {
@@ -18,6 +20,7 @@ impl ExecutionTrigger {
             ExecutionTrigger::Http => "http",
             ExecutionTrigger::Schedule => "schedule",
             ExecutionTrigger::Event => "event",
+            ExecutionTrigger::Email => "email",
         }
     }
 }

@@ -8,56 +8,128 @@ use serde::{Deserialize, Serialize};
 pub struct ProxyRule {
     /// Rule ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Rule creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Rule update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Domain name.
     #[serde(rename = "domain")]
+    #[serde(default = "default_domain")]
     pub domain: String,
     /// Action definition for the rule. Possible values are "api", "deployment", or
     /// "redirect"
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Defines how the rule was created. Possible values are "manual" or
     /// "deployment"
     #[serde(rename = "trigger")]
+    #[serde(default = "default_trigger")]
     pub trigger: String,
     /// URL to redirect to. Used if type is "redirect"
     #[serde(rename = "redirectUrl")]
+    #[serde(default = "default_redirect_url")]
     pub redirect_url: String,
     /// Status code to apply during redirect. Used if type is "redirect"
     #[serde(rename = "redirectStatusCode")]
+    #[serde(default = "default_redirect_status_code")]
     pub redirect_status_code: i64,
     /// ID of deployment. Used if type is "deployment"
     #[serde(rename = "deploymentId")]
+    #[serde(default = "default_deployment_id")]
     pub deployment_id: String,
-    /// Type of deployment. Possible values are "function", "site". Used if rule's
-    /// type is "deployment".
+    /// Type of deployment resource: function, site, or dedicatedDatabase.
     #[serde(rename = "deploymentResourceType")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub deployment_resource_type: Option<crate::enums::ProxyRuleDeploymentResourceType>,
     /// ID of deployment's resource (site or function ID). Used if type is
     /// "deployment"
     #[serde(rename = "deploymentResourceId")]
+    #[serde(default = "default_deployment_resource_id")]
     pub deployment_resource_id: String,
     /// Name of Git branch that updates rule. Used if type is "deployment"
     #[serde(rename = "deploymentVcsProviderBranch")]
+    #[serde(default = "default_deployment_vcs_provider_branch")]
     pub deployment_vcs_provider_branch: String,
     /// Domain verification status. Possible values are "unverified", "verifying",
     /// "verified"
     #[serde(rename = "status")]
+    #[serde(default = "default_status")]
     pub status: crate::enums::ProxyRuleStatus,
     /// Logs from rule verification or certificate generation. Certificate
     /// generation logs are prioritized if both are available.
     #[serde(rename = "logs")]
+    #[serde(default = "default_logs")]
     pub logs: String,
     /// Certificate auto-renewal date in ISO 8601 format.
     #[serde(rename = "renewAt")]
     pub renew_at: String,
+    /// Ingress protocol for the rule.
+    #[serde(rename = "protocol")]
+    #[serde(default = "default_protocol")]
+    pub protocol: crate::enums::ProxyRuleProtocol,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_domain() -> String {
+    "".to_string()
+}
+
+fn default_type() -> String {
+    "".to_string()
+}
+
+fn default_trigger() -> String {
+    "".to_string()
+}
+
+fn default_redirect_url() -> String {
+    "".to_string()
+}
+
+fn default_redirect_status_code() -> i64 {
+    301
+}
+
+fn default_deployment_id() -> String {
+    "".to_string()
+}
+
+fn default_deployment_resource_id() -> String {
+    "".to_string()
+}
+
+fn default_deployment_vcs_provider_branch() -> String {
+    "".to_string()
+}
+
+fn default_status() -> crate::enums::ProxyRuleStatus {
+    serde_json::from_value(serde_json::json!("unverified")).unwrap()
+}
+
+fn default_logs() -> String {
+    "".to_string()
+}
+
+fn default_protocol() -> crate::enums::ProxyRuleProtocol {
+    serde_json::from_value(serde_json::json!("http")).unwrap()
 }
 
 impl ProxyRule {
@@ -146,6 +218,11 @@ impl ProxyRule {
     pub fn renew_at(&self) -> &String {
         &self.renew_at
     }
+
+    /// Get protocol
+    pub fn protocol(&self) -> &crate::enums::ProxyRuleProtocol {
+        &self.protocol
+    }
 }
 
 #[cfg(test)]
@@ -169,6 +246,7 @@ mod tests {
         let _ = _model.status();
         let _ = _model.logs();
         let _ = _model.renew_at();
+        let _ = _model.protocol();
     }
 
     #[test]

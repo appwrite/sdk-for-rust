@@ -16,7 +16,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<TABLE_ID>",
         "<KEY>",
         appwrite::enums::TablesDBIndexType::Key,
-        vec![],
+        vec!["username".into()],
         Some(vec![appwrite::enums::OrderBy::Asc]), // optional
         Some(vec![]) // optional
     ).await?;

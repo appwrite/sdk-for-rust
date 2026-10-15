@@ -8,18 +8,23 @@ use serde::{Deserialize, Serialize};
 pub struct Oauth2Token {
     /// OAuth2 access token.
     #[serde(rename = "access_token")]
+    #[serde(default = "default_access_token")]
     pub access_token: String,
     /// OAuth2 token type.
     #[serde(rename = "token_type")]
+    #[serde(default = "default_token_type")]
     pub token_type: String,
     /// Access token lifetime in seconds.
     #[serde(rename = "expires_in")]
+    #[serde(default = "default_expires_in")]
     pub expires_in: i64,
     /// OAuth2 refresh token.
     #[serde(rename = "refresh_token")]
+    #[serde(default = "default_refresh_token")]
     pub refresh_token: String,
     /// Space-separated scopes granted to the access token.
     #[serde(rename = "scope")]
+    #[serde(default = "default_scope")]
     pub scope: String,
     /// Granted RFC 9396 authorization details as a JSON string.
     #[serde(rename = "authorization_details")]
@@ -29,6 +34,26 @@ pub struct Oauth2Token {
     #[serde(rename = "id_token")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub id_token: Option<String>,
+}
+
+fn default_access_token() -> String {
+    "".to_string()
+}
+
+fn default_token_type() -> String {
+    "Bearer".to_string()
+}
+
+fn default_expires_in() -> i64 {
+    0
+}
+
+fn default_refresh_token() -> String {
+    "".to_string()
+}
+
+fn default_scope() -> String {
+    "".to_string()
 }
 
 impl Oauth2Token {

@@ -11,11 +11,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let organization = Organization::new(&client);
 
-    let result = organization.delete_installation(
+    organization.delete_installation(
         "<INSTALLATION_ID>"
     ).await?;
-
-    let _ = result;
 
     Ok(())
 }

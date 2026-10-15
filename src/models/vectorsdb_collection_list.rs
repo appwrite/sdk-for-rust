@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct VectorsdbCollectionList {
     /// Total number of collections that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of collections.
     #[serde(rename = "collections")]
+    #[serde(default = "default_collections")]
     pub collections: Vec<crate::models::VectorsdbCollection>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_collections() -> Vec<crate::models::VectorsdbCollection> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl VectorsdbCollectionList {

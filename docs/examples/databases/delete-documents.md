@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = databases.delete_documents(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        Some(vec![]), // optional
+        Some(vec!["{\"method\":\"equal\", \"attribute\":\"$id\", \"values\":[\"<DOCUMENT_ID>\"]}".into()]), // optional
         Some("<TRANSACTION_ID>") // optional
     ).await?;
 

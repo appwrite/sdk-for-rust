@@ -8,30 +8,63 @@ use serde::{Deserialize, Serialize};
 pub struct OAuth2Google {
     /// OAuth2 provider ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// OAuth2 provider is active and can be used to create sessions.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Google OAuth2 client ID.
     #[serde(rename = "clientId")]
+    #[serde(default = "default_client_id")]
     pub client_id: String,
     /// Google OAuth2 client secret.
     #[serde(rename = "clientSecret")]
+    #[serde(default = "default_client_secret")]
     pub client_secret: String,
     /// Google OAuth2 prompt values.
     #[serde(rename = "prompt")]
+    #[serde(default = "default_prompt")]
     pub prompt: Vec<crate::enums::OAuth2GooglePrompt>,
     /// Native Google sign-in is active and can be used to create sessions from an
     /// ID token. Independent of enabled, which only controls the browser-based
     /// flow.
     #[serde(rename = "nativeEnabled")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub native_enabled: Option<bool>,
+    #[serde(default = "default_native_enabled")]
+    pub native_enabled: bool,
     /// Additional OAuth2 client IDs accepted as ID token audiences for native
     /// sign-in, next to the client ID.
     #[serde(rename = "nativeClientIds")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub native_client_ids: Option<Vec<String>>,
+    #[serde(default = "default_native_client_ids")]
+    pub native_client_ids: Vec<String>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    false
+}
+
+fn default_client_id() -> String {
+    "".to_string()
+}
+
+fn default_client_secret() -> String {
+    "".to_string()
+}
+
+fn default_prompt() -> Vec<crate::enums::OAuth2GooglePrompt> {
+    serde_json::from_value(serde_json::json!(["consent"])).unwrap()
+}
+
+fn default_native_enabled() -> bool {
+    false
+}
+
+fn default_native_client_ids() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl OAuth2Google {
@@ -60,26 +93,14 @@ impl OAuth2Google {
         &self.prompt
     }
 
-    /// Set native_enabled
-    pub fn set_native_enabled(mut self, native_enabled: bool) -> Self {
-        self.native_enabled = Some(native_enabled);
-        self
-    }
-
     /// Get native_enabled
-    pub fn native_enabled(&self) -> Option<&bool> {
-        self.native_enabled.as_ref()
-    }
-
-    /// Set native_client_ids
-    pub fn set_native_client_ids(mut self, native_client_ids: Vec<String>) -> Self {
-        self.native_client_ids = Some(native_client_ids);
-        self
+    pub fn native_enabled(&self) -> &bool {
+        &self.native_enabled
     }
 
     /// Get native_client_ids
-    pub fn native_client_ids(&self) -> Option<&Vec<String>> {
-        self.native_client_ids.as_ref()
+    pub fn native_client_ids(&self) -> &Vec<String> {
+        &self.native_client_ids
     }
 }
 
@@ -95,6 +116,8 @@ mod tests {
         let _ = _model.client_id();
         let _ = _model.client_secret();
         let _ = _model.prompt();
+        let _ = _model.native_enabled();
+        let _ = _model.native_client_ids();
     }
 
     #[test]

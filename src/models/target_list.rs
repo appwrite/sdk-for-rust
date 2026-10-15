@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct TargetList {
     /// Total number of targets that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of targets.
     #[serde(rename = "targets")]
+    #[serde(default = "default_targets")]
     pub targets: Vec<crate::models::Target>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_targets() -> Vec<crate::models::Target> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl TargetList {

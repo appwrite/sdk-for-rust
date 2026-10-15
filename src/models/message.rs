@@ -8,24 +8,31 @@ use serde::{Deserialize, Serialize};
 pub struct Message {
     /// Message ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Message creation time in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Message update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Message provider type.
     #[serde(rename = "providerType")]
+    #[serde(default = "default_provider_type")]
     pub provider_type: String,
     /// Topic IDs set as recipients.
     #[serde(rename = "topics")]
+    #[serde(default = "default_topics")]
     pub topics: Vec<String>,
     /// User IDs set as recipients.
     #[serde(rename = "users")]
+    #[serde(default = "default_users")]
     pub users: Vec<String>,
     /// Target IDs set as recipients.
     #[serde(rename = "targets")]
+    #[serde(default = "default_targets")]
     pub targets: Vec<String>,
     /// The scheduled time for message.
     #[serde(rename = "scheduledAt")]
@@ -41,13 +48,56 @@ pub struct Message {
     pub delivery_errors: Option<Vec<String>>,
     /// Number of recipients the message was delivered to.
     #[serde(rename = "deliveredTotal")]
+    #[serde(default = "default_delivered_total")]
     pub delivered_total: i64,
     /// Data of the message.
     #[serde(rename = "data")]
+    #[serde(default = "default_data")]
     pub data: serde_json::Value,
     /// Status of delivery.
     #[serde(rename = "status")]
+    #[serde(default = "default_status")]
     pub status: crate::enums::MessageStatus,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_provider_type() -> String {
+    "".to_string()
+}
+
+fn default_topics() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_users() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_targets() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_delivered_total() -> i64 {
+    0
+}
+
+fn default_data() -> serde_json::Value {
+    serde_json::json!({})
+}
+
+fn default_status() -> crate::enums::MessageStatus {
+    serde_json::from_value(serde_json::json!("draft")).unwrap()
 }
 
 impl Message {

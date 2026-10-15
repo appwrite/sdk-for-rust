@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct ProxyRuleList {
     /// Total number of rules that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of rules.
     #[serde(rename = "rules")]
+    #[serde(default = "default_rules")]
     pub rules: Vec<crate::models::ProxyRule>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_rules() -> Vec<crate::models::ProxyRule> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl ProxyRuleList {

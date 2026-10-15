@@ -8,7 +8,12 @@ use serde::{Deserialize, Serialize};
 pub struct AlgoMd5 {
     /// Algo type.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
+}
+
+fn default_type() -> String {
+    "md5".to_string()
 }
 
 impl AlgoMd5 {

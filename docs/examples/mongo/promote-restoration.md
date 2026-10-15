@@ -1,6 +1,6 @@
 ```rust
 use appwrite::Client;
-use appwrite::services::Organization;
+use appwrite::services::Mongo;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -9,11 +9,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     client.set_project("<YOUR_PROJECT_ID>"); // Your project ID
     client.set_key("<YOUR_API_KEY>"); // Your secret API key
 
-    let organization = Organization::new(&client);
+    let mongo = Mongo::new(&client);
 
-    let result = organization.list_keys(
-        Some(vec![]), // optional
-        Some(false) // optional
+    let result = mongo.promote_restoration(
+        "<DATABASE_ID>",
+        "<RESTORATION_ID>"
     ).await?;
 
     let _ = result;

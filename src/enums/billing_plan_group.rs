@@ -2,10 +2,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, Default)]
 pub enum BillingPlanGroup {
-    #[serde(rename = "starter")]
-    #[default]
-    Starter,
     #[serde(rename = "free")]
+    #[default]
     Free,
     #[serde(rename = "start")]
     Start,
@@ -19,7 +17,6 @@ impl BillingPlanGroup {
     /// Get the string value of the enum
     pub fn as_str(&self) -> &str {
         match self {
-            BillingPlanGroup::Starter => "starter",
             BillingPlanGroup::Free => "free",
             BillingPlanGroup::Start => "start",
             BillingPlanGroup::Pro => "pro",

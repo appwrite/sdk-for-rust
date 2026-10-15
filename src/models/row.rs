@@ -9,29 +9,64 @@ use std::collections::HashMap;
 pub struct Row {
     /// Row ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Row sequence ID.
     #[serde(rename = "$sequence")]
+    #[serde(default = "default_sequence")]
     pub sequence: String,
     /// Table ID.
     #[serde(rename = "$tableId")]
+    #[serde(default = "default_table_id")]
     pub table_id: String,
     /// Database ID.
     #[serde(rename = "$databaseId")]
+    #[serde(default = "default_database_id")]
     pub database_id: String,
     /// Row creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Row update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Row permissions. [Learn more about
     /// permissions](https://appwrite.io/docs/permissions).
     #[serde(rename = "$permissions")]
+    #[serde(default = "default_permissions")]
     pub permissions: Vec<String>,
 
     #[serde(flatten)]
     pub data: HashMap<String, serde_json::Value>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_sequence() -> String {
+    "".to_string()
+}
+
+fn default_table_id() -> String {
+    "".to_string()
+}
+
+fn default_database_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_permissions() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl Row {

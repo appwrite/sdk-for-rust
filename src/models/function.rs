@@ -8,66 +8,85 @@ use serde::{Deserialize, Serialize};
 pub struct Function {
     /// Function ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Function creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Function update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Execution permissions.
     #[serde(rename = "execute")]
+    #[serde(default = "default_execute")]
     pub execute: Vec<String>,
     /// Function name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Function enabled.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Is the function deployed with the latest configuration? This is set to
     /// false if you've changed an environment variables, entrypoint, commands, or
     /// other settings that needs redeploy to be applied. When the value is false,
     /// redeploy the function to update it with the latest configuration.
     #[serde(rename = "live")]
+    #[serde(default = "default_live")]
     pub live: bool,
     /// When disabled, executions will exclude logs and errors, and will be
     /// slightly faster.
     #[serde(rename = "logging")]
+    #[serde(default = "default_logging")]
     pub logging: bool,
     /// Function execution and build runtime.
     #[serde(rename = "runtime")]
+    #[serde(default = "default_runtime")]
     pub runtime: String,
     /// How many days to keep the non-active deployments before they will be
     /// automatically deleted.
     #[serde(rename = "deploymentRetention")]
+    #[serde(default = "default_deployment_retention")]
     pub deployment_retention: i64,
     /// Function's active deployment ID.
     #[serde(rename = "deploymentId")]
+    #[serde(default = "default_deployment_id")]
     pub deployment_id: String,
     /// Active deployment creation date in ISO 8601 format.
     #[serde(rename = "deploymentCreatedAt")]
+    #[serde(default = "default_deployment_created_at")]
     pub deployment_created_at: String,
     /// Function's latest deployment ID.
     #[serde(rename = "latestDeploymentId")]
+    #[serde(default = "default_latest_deployment_id")]
     pub latest_deployment_id: String,
     /// Latest deployment creation date in ISO 8601 format.
     #[serde(rename = "latestDeploymentCreatedAt")]
+    #[serde(default = "default_latest_deployment_created_at")]
     pub latest_deployment_created_at: String,
     /// Status of latest deployment. Possible values are "waiting", "processing",
     /// "building", "ready", and "failed".
     #[serde(rename = "latestDeploymentStatus")]
+    #[serde(default = "default_latest_deployment_status")]
     pub latest_deployment_status: String,
     /// Allowed permission scopes.
     #[serde(rename = "scopes")]
+    #[serde(default = "default_scopes")]
     pub scopes: Vec<String>,
     /// Function variables.
     #[serde(rename = "vars")]
+    #[serde(default = "default_vars")]
     pub vars: Vec<crate::models::Variable>,
     /// Function trigger events.
     #[serde(rename = "events")]
+    #[serde(default = "default_events")]
     pub events: Vec<String>,
     /// Function execution schedule in CRON format.
     #[serde(rename = "schedule")]
+    #[serde(default = "default_schedule")]
     pub schedule: String,
     /// Minutes between scheduled executions. 0 when the function has no interval.
     #[serde(rename = "interval")]
@@ -75,47 +94,193 @@ pub struct Function {
     pub interval: Option<i64>,
     /// Function execution timeout in seconds.
     #[serde(rename = "timeout")]
+    #[serde(default = "default_timeout")]
     pub timeout: i64,
     /// The entrypoint file used to execute the deployment.
     #[serde(rename = "entrypoint")]
+    #[serde(default = "default_entrypoint")]
     pub entrypoint: String,
     /// The build command used to build the deployment.
     #[serde(rename = "commands")]
+    #[serde(default = "default_commands")]
     pub commands: String,
     /// Version of Open Runtimes used for the function.
     #[serde(rename = "version")]
+    #[serde(default = "default_version")]
     pub version: String,
     /// Function VCS (Version Control System) installation id.
     #[serde(rename = "installationId")]
+    #[serde(default = "default_installation_id")]
     pub installation_id: String,
     /// VCS (Version Control System) Repository ID
     #[serde(rename = "providerRepositoryId")]
+    #[serde(default = "default_provider_repository_id")]
     pub provider_repository_id: String,
     /// VCS (Version Control System) branch name
     #[serde(rename = "providerBranch")]
+    #[serde(default = "default_provider_branch")]
     pub provider_branch: String,
     /// Path to function in VCS (Version Control System) repository
     #[serde(rename = "providerRootDirectory")]
+    #[serde(default = "default_provider_root_directory")]
     pub provider_root_directory: String,
     /// Is VCS (Version Control System) connection is in silent mode? When in
     /// silence mode, no comments will be posted on the repository pull or merge
     /// requests
     #[serde(rename = "providerSilentMode")]
+    #[serde(default = "default_provider_silent_mode")]
     pub provider_silent_mode: bool,
     /// List of branch name patterns that trigger automatic deployments. Supports
     /// glob wildcards. Empty list deploys on all branches.
     #[serde(rename = "providerBranches")]
+    #[serde(default = "default_provider_branches")]
     pub provider_branches: Vec<String>,
     /// List of file path patterns that trigger automatic deployments. Supports
     /// glob wildcards. Empty list deploys on all file changes.
     #[serde(rename = "providerPaths")]
+    #[serde(default = "default_provider_paths")]
     pub provider_paths: Vec<String>,
     /// Machine specification for deployment builds.
     #[serde(rename = "buildSpecification")]
+    #[serde(default = "default_build_specification")]
     pub build_specification: String,
     /// Machine specification for executions.
     #[serde(rename = "runtimeSpecification")]
+    #[serde(default = "default_runtime_specification")]
     pub runtime_specification: String,
+    /// Whether inbound email (SMTP) may trigger this function. Opt-in; default is
+    /// false. When disabled, recipients for this function are rejected.
+    #[serde(rename = "emailEnabled")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub email_enabled: Option<bool>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_execute() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    true
+}
+
+fn default_live() -> bool {
+    true
+}
+
+fn default_logging() -> bool {
+    true
+}
+
+fn default_runtime() -> String {
+    "".to_string()
+}
+
+fn default_deployment_retention() -> i64 {
+    0
+}
+
+fn default_deployment_id() -> String {
+    "".to_string()
+}
+
+fn default_deployment_created_at() -> String {
+    "".to_string()
+}
+
+fn default_latest_deployment_id() -> String {
+    "".to_string()
+}
+
+fn default_latest_deployment_created_at() -> String {
+    "".to_string()
+}
+
+fn default_latest_deployment_status() -> String {
+    "".to_string()
+}
+
+fn default_scopes() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_vars() -> Vec<crate::models::Variable> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_events() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_schedule() -> String {
+    "".to_string()
+}
+
+fn default_timeout() -> i64 {
+    15
+}
+
+fn default_entrypoint() -> String {
+    "".to_string()
+}
+
+fn default_commands() -> String {
+    "".to_string()
+}
+
+fn default_version() -> String {
+    "v5".to_string()
+}
+
+fn default_installation_id() -> String {
+    "".to_string()
+}
+
+fn default_provider_repository_id() -> String {
+    "".to_string()
+}
+
+fn default_provider_branch() -> String {
+    "".to_string()
+}
+
+fn default_provider_root_directory() -> String {
+    "".to_string()
+}
+
+fn default_provider_silent_mode() -> bool {
+    false
+}
+
+fn default_provider_branches() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_provider_paths() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_build_specification() -> String {
+    "s-1vcpu-512mb".to_string()
+}
+
+fn default_runtime_specification() -> String {
+    "s-1vcpu-512mb".to_string()
 }
 
 impl Function {
@@ -288,6 +453,17 @@ impl Function {
     /// Get runtime_specification
     pub fn runtime_specification(&self) -> &String {
         &self.runtime_specification
+    }
+
+    /// Set email_enabled
+    pub fn set_email_enabled(mut self, email_enabled: bool) -> Self {
+        self.email_enabled = Some(email_enabled);
+        self
+    }
+
+    /// Get email_enabled
+    pub fn email_enabled(&self) -> Option<&bool> {
+        self.email_enabled.as_ref()
     }
 }
 

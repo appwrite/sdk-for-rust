@@ -1,0 +1,158 @@
+//! Topic builder for Appwrite Push, level by level.
+//!
+//! ```
+//! use appwrite::topic;
+//!
+//! # fn main() -> Result<(), topic::TopicError> {
+//! assert_eq!(topic::path(&["user", "123", "notification"])?.to_string(), "user/123/notification");
+//! assert_eq!(topic::path(&["org", "42"])?.path(&["logs"])?.to_string(), "org/42/logs");
+//! # Ok(())
+//! # }
+//! ```
+
+use std::fmt;
+
+/// Error returned by [`path`] and [`Topic::path`] for invalid levels.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct TopicError {
+    message: String,
+}
+
+impl TopicError {
+    fn new(message: impl Into<String>) -> Self {
+        Self {
+            message: message.into(),
+        }
+    }
+
+    /// The error message
+    pub fn message(&self) -> &str {
+        &self.message
+    }
+}
+
+impl fmt::Display for TopicError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(&self.message)
+    }
+}
+
+impl std::error::Error for TopicError {}
+
+/// A topic being built. Start one with [`path`].
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Topic {
+    levels: Vec<String>,
+}
+
+/// Start a topic with the given levels, e.g. `topic::path(&["user", user_id])`.
+pub fn path<S: AsRef<str>>(levels: &[S]) -> Result<Topic, TopicError> {
+    Ok(Topic {
+        levels: levels_of(levels)?,
+    })
+}
+
+impl Topic {
+    /// Append the given levels.
+    pub fn path<S: AsRef<str>>(mut self, levels: &[S]) -> Result<Topic, TopicError> {
+        self.levels.extend(levels_of(levels)?);
+        Ok(self)
+    }
+}
+
+impl fmt::Display for Topic {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(&self.levels.join("/"))
+    }
+}
+
+/// Validate the levels passed to `path()`: a non-empty list of non-empty strings, none holding
+/// the level separator `/` or the MQTT wildcards `+` and `#`.
+fn levels_of<S: AsRef<str>>(levels: &[S]) -> Result<Vec<String>, TopicError> {
+    if levels.is_empty() {
+        return Err(TopicError::new("path() needs at least one level"));
+    }
+    levels
+        .iter()
+        .enumerate()
+        .map(|(index, level)| {
+            let level = level.as_ref();
+            if level.is_empty() {
+                return Err(TopicError::new(format!("empty level at index {}", index)));
+            }
+            if level.contains('/') {
+                let parts = level
+                    .split('/')
+                    .map(|part| format!("'{}'", part))
+                    .collect::<Vec<_>>()
+                    .join(", ");
+                return Err(TopicError::new(format!(
+                    "\"{}\" contains \"/\", split it: path([{}])",
+                    level, parts
+                )));
+            }
+            if level.contains('+') {
+                return Err(TopicError::new(format!(
+                    "\"{}\" contains \"+\", not allowed in a topic",
+                    level
+                )));
+            }
+            if level.contains('#') {
+                return Err(TopicError::new(format!(
+                    "\"{}\" contains \"#\", not allowed in a topic",
+                    level
+                )));
+            }
+            if level.contains('\0') {
+                return Err(TopicError::new(format!(
+                    "level at index {} contains a NUL character",
+                    index
+                )));
+            }
+            Ok(level.to_string())
+        })
+        .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_paths() {
+        assert_eq!(
+            path(&["user", "123", "notification"]).unwrap().to_string(),
+            "user/123/notification"
+        );
+        assert_eq!(
+            path(&["org", "42", "user", "123"])
+                .unwrap()
+                .path(&["notification"])
+                .unwrap()
+                .to_string(),
+            "org/42/user/123/notification"
+        );
+        assert_eq!(
+            path(&[String::from("user"), String::from("123")])
+                .unwrap()
+                .to_string(),
+            "user/123"
+        );
+    }
+
+    #[test]
+    fn test_errors() {
+        let invalid: [&[&str]; 7] = [
+            &[],
+            &["user", ""],
+            &["user/123"],
+            &["user", "+"],
+            &["user", "a+b"],
+            &["user", "#"],
+            &["user", "a#b"],
+        ];
+        for levels in invalid {
+            assert!(path(levels).is_err(), "{:?}", levels);
+        }
+    }
+}

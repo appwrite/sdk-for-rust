@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct EmbeddingList {
     /// Total number of embeddings that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of embeddings.
     #[serde(rename = "embeddings")]
+    #[serde(default = "default_embeddings")]
     pub embeddings: Vec<crate::models::Embedding>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_embeddings() -> Vec<crate::models::Embedding> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl EmbeddingList {

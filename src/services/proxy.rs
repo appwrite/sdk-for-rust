@@ -29,6 +29,8 @@ impl Proxy {
     ///
     /// Depending on type, the invalidation purges a single cache tag, a single URL
     /// path, or all cached content for the domain.
+    ///
+    /// Domains that route to a function do not support cache invalidation.
     pub async fn create_invalidation(
         &self,
         domain: impl Into<String>,
@@ -184,6 +186,31 @@ impl Proxy {
             .await
     }
 
+    /// Create an SMTP ingress rule that asynchronously executes an Appwrite
+    /// Function for incoming email.
+    pub async fn create_smtp_rule(
+        &self,
+        domain: impl Into<String>,
+        function_id: impl Into<String>,
+        branch: Option<&str>,
+    ) -> crate::error::Result<crate::models::ProxyRule> {
+        let mut params = HashMap::new();
+        params.insert("domain".to_string(), json!(domain.into()));
+        params.insert("functionId".to_string(), json!(function_id.into()));
+        if let Some(value) = branch {
+            params.insert("branch".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/proxy/rules/smtp".to_string();
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Get a proxy rule by its unique ID.
     pub async fn get_rule(
         &self,
@@ -193,9 +220,19 @@ impl Proxy {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let rule_id = rule_id.into();
+        if rule_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"ruleId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/proxy/rules/{ruleId}"
             .to_string()
-            .replace("{ruleId}", &rule_id.into().to_string());
+            .replace("{ruleId}", &rule_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -207,10 +244,21 @@ impl Proxy {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let rule_id = rule_id.into();
+        if rule_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"ruleId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/proxy/rules/{ruleId}"
             .to_string()
-            .replace("{ruleId}", &rule_id.into().to_string());
+            .replace("{ruleId}", &rule_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -230,9 +278,19 @@ impl Proxy {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let rule_id = rule_id.into();
+        if rule_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"ruleId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/proxy/rules/{ruleId}/status"
             .to_string()
-            .replace("{ruleId}", &rule_id.into().to_string());
+            .replace("{ruleId}", &rule_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))

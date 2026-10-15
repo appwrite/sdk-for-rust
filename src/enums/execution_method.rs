@@ -3,9 +3,9 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, Default)]
 pub enum ExecutionMethod {
     #[serde(rename = "GET")]
-    #[default]
     GET,
     #[serde(rename = "POST")]
+    #[default]
     POST,
     #[serde(rename = "PUT")]
     PUT,

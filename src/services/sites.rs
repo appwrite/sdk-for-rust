@@ -217,9 +217,17 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}"
-            .to_string()
-            .replace("{siteId}", &site_id.into().to_string());
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/sites/{siteId}".to_string().replace("{siteId}", &site_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -331,9 +339,17 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}"
-            .to_string()
-            .replace("{siteId}", &site_id.into().to_string());
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/sites/{siteId}".to_string().replace("{siteId}", &site_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -345,10 +361,19 @@ impl Sites {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/sites/{siteId}"
-            .to_string()
-            .replace("{siteId}", &site_id.into().to_string());
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/sites/{siteId}".to_string().replace("{siteId}", &site_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -368,9 +393,19 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/deployment"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string());
+            .replace("{siteId}", &site_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -402,9 +437,19 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/deployments"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string());
+            .replace("{siteId}", &site_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -443,12 +488,30 @@ impl Sites {
         );
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/deployments"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string());
+            .replace("{siteId}", &site_id);
 
         self.client
-            .file_upload(&path, Some(api_headers), params, "code", code, None)
+            .upload(
+                Method::POST,
+                &path,
+                Some(api_headers),
+                params,
+                "code",
+                code,
+                None,
+            )
             .await
     }
 
@@ -468,9 +531,19 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/deployments/duplicate"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string());
+            .replace("{siteId}", &site_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -506,9 +579,19 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/deployments/template"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string());
+            .replace("{siteId}", &site_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -535,9 +618,19 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/deployments/vcs"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string());
+            .replace("{siteId}", &site_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -554,10 +647,30 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let deployment_id = deployment_id.into();
+        if deployment_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"deploymentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/deployments/{deploymentId}"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string())
-            .replace("{deploymentId}", &deployment_id.into().to_string());
+            .replace("{siteId}", &site_id)
+            .replace("{deploymentId}", &deployment_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -573,11 +686,32 @@ impl Sites {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let deployment_id = deployment_id.into();
+        if deployment_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"deploymentId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/sites/{siteId}/deployments/{deploymentId}"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string())
-            .replace("{deploymentId}", &deployment_id.into().to_string());
+            .replace("{siteId}", &site_id)
+            .replace("{deploymentId}", &deployment_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -604,10 +738,30 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "*/*".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let deployment_id = deployment_id.into();
+        if deployment_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"deploymentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/deployments/{deploymentId}/download"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string())
-            .replace("{deploymentId}", &deployment_id.into().to_string());
+            .replace("{siteId}", &site_id)
+            .replace("{deploymentId}", &deployment_id);
 
         self.client
             .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
@@ -629,10 +783,30 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let deployment_id = deployment_id.into();
+        if deployment_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"deploymentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/deployments/{deploymentId}/status"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string())
-            .replace("{deploymentId}", &deployment_id.into().to_string());
+            .replace("{siteId}", &site_id)
+            .replace("{deploymentId}", &deployment_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -660,9 +834,19 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/logs"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string());
+            .replace("{siteId}", &site_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -679,10 +863,30 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let log_id = log_id.into();
+        if log_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"logId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/logs/{logId}"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string())
-            .replace("{logId}", &log_id.into().to_string());
+            .replace("{siteId}", &site_id)
+            .replace("{logId}", &log_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -694,16 +898,36 @@ impl Sites {
         &self,
         site_id: impl Into<String>,
         log_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    ) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let log_id = log_id.into();
+        if log_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"logId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/logs/{logId}"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string())
-            .replace("{logId}", &log_id.into().to_string());
+            .replace("{siteId}", &site_id)
+            .replace("{logId}", &log_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -730,9 +954,19 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/variables"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string());
+            .replace("{siteId}", &site_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -760,9 +994,19 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/variables"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string());
+            .replace("{siteId}", &site_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -779,10 +1023,30 @@ impl Sites {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let variable_id = variable_id.into();
+        if variable_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"variableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/variables/{variableId}"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string())
-            .replace("{variableId}", &variable_id.into().to_string());
+            .replace("{siteId}", &site_id)
+            .replace("{variableId}", &variable_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -812,10 +1076,30 @@ impl Sites {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let variable_id = variable_id.into();
+        if variable_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"variableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/sites/{siteId}/variables/{variableId}"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string())
-            .replace("{variableId}", &variable_id.into().to_string());
+            .replace("{siteId}", &site_id)
+            .replace("{variableId}", &variable_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -831,11 +1115,32 @@ impl Sites {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let variable_id = variable_id.into();
+        if variable_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"variableId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/sites/{siteId}/variables/{variableId}"
             .to_string()
-            .replace("{siteId}", &site_id.into().to_string())
-            .replace("{variableId}", &variable_id.into().to_string());
+            .replace("{siteId}", &site_id)
+            .replace("{variableId}", &variable_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

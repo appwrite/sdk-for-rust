@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct FrameworkList {
     /// Total number of frameworks that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of frameworks.
     #[serde(rename = "frameworks")]
+    #[serde(default = "default_frameworks")]
     pub frameworks: Vec<crate::models::Framework>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_frameworks() -> Vec<crate::models::Framework> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl FrameworkList {

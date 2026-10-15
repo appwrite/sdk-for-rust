@@ -12,7 +12,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let embeddings = Embeddings::new(&client);
 
     let result = embeddings.create_text_embeddings(
-        vec![],
+        vec!["Appwrite helps developers build applications.".into(), "Find documents with semantic search.".into()],
         Some(appwrite::enums::EmbeddingModel::NomicEmbedText) // optional
     ).await?;
 

@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct Oauth2ConsentList {
     /// Total number of consents that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of consents.
     #[serde(rename = "consents")]
+    #[serde(default = "default_consents")]
     pub consents: Vec<crate::models::Oauth2Consent>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_consents() -> Vec<crate::models::Oauth2Consent> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl Oauth2ConsentList {

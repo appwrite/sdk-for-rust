@@ -9,24 +9,54 @@ pub struct DedicatedDatabaseExecution {
     /// Result rows as a list of column-name => value maps. Empty for non-returning
     /// statements.
     #[serde(rename = "rows")]
+    #[serde(default = "default_rows")]
     pub rows: Vec<serde_json::Value>,
     /// Number of rows returned (for SELECT) or affected (for
     /// INSERT/UPDATE/DELETE).
     #[serde(rename = "rowCount")]
+    #[serde(default = "default_row_count")]
     pub row_count: i64,
     /// Column metadata in result-set order.
     #[serde(rename = "columns")]
+    #[serde(default = "default_columns")]
     pub columns: Vec<crate::models::DedicatedDatabaseExecutionColumn>,
     /// Server-side execution time in milliseconds.
     #[serde(rename = "durationMs")]
+    #[serde(default = "default_duration_ms")]
     pub duration_ms: i64,
     /// True when the configured row or byte cap was hit and the result was
     /// truncated.
     #[serde(rename = "truncated")]
+    #[serde(default = "default_truncated")]
     pub truncated: bool,
     /// Serialised payload size in bytes.
     #[serde(rename = "bytes")]
+    #[serde(default = "default_bytes")]
     pub bytes: i64,
+}
+
+fn default_rows() -> Vec<serde_json::Value> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_row_count() -> i64 {
+    0
+}
+
+fn default_columns() -> Vec<crate::models::DedicatedDatabaseExecutionColumn> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_duration_ms() -> i64 {
+    0
+}
+
+fn default_truncated() -> bool {
+    false
+}
+
+fn default_bytes() -> i64 {
+    0
 }
 
 impl DedicatedDatabaseExecution {

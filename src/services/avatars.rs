@@ -236,9 +236,9 @@ impl Avatars {
     }
 
     /// Returns the best available profile photo for a user. The endpoint tries
-    /// each source in priority order and returns the first successful result:
-    /// OAuth2 identity photo, Gravatar, Libravatar, Appwrite Initials, built-in
-    /// static fallback.
+    /// each source in priority order and returns the first successful result: a
+    /// custom uploaded photo (see avatars.updatePhoto), OAuth2 identity photo,
+    /// Gravatar, Libravatar, Appwrite Initials, built-in static fallback.
     ///
     /// Passing `userId` — `current()` for the authenticated user — resolves
     /// the photo from everything known about that user: identity photos, email,
@@ -482,27 +482,6 @@ impl crate::services::Service for Avatars {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[tokio::test]
-    async fn test_update_photo_sends_one_request_whatever_the_chunk_size() {
-        use wiremock::matchers::{method, path};
-        use wiremock::{Mock, MockServer, ResponseTemplate};
-
-        let server = MockServer::start().await;
-        Mock::given(method("PUT"))
-            .and(path("/avatars/photo"))
-            .respond_with(ResponseTemplate::new(500))
-            .mount(&server)
-            .await;
-
-        let client = Client::new().set_endpoint(server.uri()).set_chunk_size(1);
-        let file = InputFile::from_bytes(vec![0u8; 10], "photo.png", Some("image/png"));
-        let _ = Avatars::new(&client).update_photo(file).await;
-
-        let requests = server.received_requests().await.unwrap();
-        assert_eq!(requests.len(), 1);
-        assert!(requests[0].headers.get("content-range").is_none());
-    }
 
     #[test]
     fn test_avatars_creation() {

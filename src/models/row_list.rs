@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct RowList {
     /// Total number of rows that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of rows.
     #[serde(rename = "rows")]
+    #[serde(default = "default_rows")]
     pub rows: Vec<crate::models::Row>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_rows() -> Vec<crate::models::Row> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl RowList {

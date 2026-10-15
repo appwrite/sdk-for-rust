@@ -10,11 +10,21 @@ pub struct Oauth2Authorize {
     /// the approve or reject endpoint. Empty when a redirect URL is returned
     /// instead.
     #[serde(rename = "grantId")]
+    #[serde(default = "default_grant_id")]
     pub grant_id: String,
     /// URL the end user should be redirected to when the flow can complete without
     /// consent. Empty when consent is still required.
     #[serde(rename = "redirectUrl")]
+    #[serde(default = "default_redirect_url")]
     pub redirect_url: String,
+}
+
+fn default_grant_id() -> String {
+    "".to_string()
+}
+
+fn default_redirect_url() -> String {
+    "".to_string()
 }
 
 impl Oauth2Authorize {

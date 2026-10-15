@@ -8,26 +8,61 @@ use serde::{Deserialize, Serialize};
 pub struct ResourceToken {
     /// Token ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Token creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Resource ID.
     #[serde(rename = "resourceId")]
+    #[serde(default = "default_resource_id")]
     pub resource_id: String,
     /// Resource type.
     #[serde(rename = "resourceType")]
+    #[serde(default = "default_resource_type")]
     pub resource_type: String,
     /// Token expiration date in ISO 8601 format.
     #[serde(rename = "expire")]
+    #[serde(default = "default_expire")]
     pub expire: String,
     /// JWT encoded string.
     #[serde(rename = "secret")]
+    #[serde(default = "default_secret")]
     pub secret: String,
     /// Most recent access date in ISO 8601 format. This attribute is only updated
     /// again after 24 hours.
     #[serde(rename = "accessedAt")]
+    #[serde(default = "default_accessed_at")]
     pub accessed_at: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_resource_id() -> String {
+    "".to_string()
+}
+
+fn default_resource_type() -> String {
+    "".to_string()
+}
+
+fn default_expire() -> String {
+    "".to_string()
+}
+
+fn default_secret() -> String {
+    "".to_string()
+}
+
+fn default_accessed_at() -> String {
+    "".to_string()
 }
 
 impl ResourceToken {

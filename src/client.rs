@@ -59,6 +59,12 @@ impl<F> Default for UploadOptions<F> {
     }
 }
 
+#[derive(Debug, Clone, Copy)]
+enum ResponseFormat {
+    Json,
+    Text,
+}
+
 /// Appwrite client for making API requests
 #[derive(Debug, Clone)]
 pub struct Client {
@@ -91,11 +97,11 @@ impl Client {
     /// Create a new Appwrite client
     pub fn new() -> Self {
         let mut headers = HeaderMap::new();
-        headers.insert("X-Appwrite-Response-Format", "2.0.0".parse().unwrap());
+        headers.insert("X-Appwrite-Response-Format", "2.5.0".parse().unwrap());
         headers.insert(
             "user-agent",
             format!(
-                "AppwriteRustSDK/0.19.0 ({}; {})",
+                "AppwriteRustSDK/0.20.0 ({}; {})",
                 std::env::consts::OS,
                 std::env::consts::ARCH
             )
@@ -105,7 +111,7 @@ impl Client {
         headers.insert("x-sdk-name", "Rust".parse().unwrap());
         headers.insert("x-sdk-platform", "server".parse().unwrap());
         headers.insert("x-sdk-language", "rust".parse().unwrap());
-        headers.insert("x-sdk-version", "0.19.0".parse().unwrap());
+        headers.insert("x-sdk-version", "0.20.0".parse().unwrap());
 
         let config = Config {
             endpoint: "https://cloud.appwrite.io/v1".to_string(),
@@ -284,21 +290,6 @@ impl Client {
             next.config
                 .headers
                 .insert("x-forwarded-user-agent", value.clone().parse().unwrap());
-            Arc::new(next)
-        });
-        self.clone()
-    }
-
-    /// Set DevKey
-    ///
-    /// Your secret dev API key
-    pub fn set_dev_key<S: Into<String>>(&self, value: S) -> Self {
-        let value = value.into();
-        self.state.rcu(|state| {
-            let mut next = (**state).clone();
-            next.config
-                .headers
-                .insert("x-appwrite-dev-key", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()
@@ -554,36 +545,27 @@ impl Client {
         headers: Option<HashMap<String, String>>,
         params: Option<HashMap<String, Value>>,
     ) -> Result<T> {
-        let response = self.request(method, path, headers, params).await?;
-        self.handle_response(response).await
-    }
-
-    /// Make an API call that returns a plain-text body as a UTF-8 string
-    pub async fn call_text(
-        &self,
-        method: Method,
-        path: &str,
-        headers: Option<HashMap<String, String>>,
-        params: Option<HashMap<String, Value>>,
-    ) -> Result<String> {
-        let response = self.request(method, path, headers, params).await?;
-        if response.status().is_success() {
-            return Ok(response.text().await?);
-        }
-        self.handle_response::<Value>(response)
+        self.send(method, path, headers, params, ResponseFormat::Json)
             .await
-            .map(|_| String::new())
     }
 
-    async fn request(
+    async fn send<T: DeserializeOwned>(
         &self,
         method: Method,
         path: &str,
         headers: Option<HashMap<String, String>>,
         params: Option<HashMap<String, Value>>,
-    ) -> Result<Response> {
+        format: ResponseFormat,
+    ) -> Result<T> {
         let state = self.state.load_full();
         let url = format!("{}{}", state.config.endpoint, path);
+        let is_multipart = method != Method::GET
+            && headers.as_ref().is_some_and(|headers| {
+                headers.iter().any(|(key, value)| {
+                    key.eq_ignore_ascii_case("content-type")
+                        && value.eq_ignore_ascii_case("multipart/form-data")
+                })
+            });
         let mut request_builder;
 
         if let Some(params) = params {
@@ -600,21 +582,36 @@ impl Client {
                 request_builder = state.http.request(method.clone(), url_with_params);
             } else {
                 request_builder = state.http.request(method.clone(), &url);
-                request_builder = request_builder.json(&params);
+                if is_multipart {
+                    let mut form = multipart::Form::new();
+                    for (key, value) in Self::flatten_multipart_params(&params, "") {
+                        form = form.text(key, value);
+                    }
+                    request_builder = request_builder.multipart(form);
+                } else {
+                    request_builder = request_builder.json(&params);
+                }
             }
         } else {
             request_builder = state.http.request(method.clone(), &url);
         }
 
-        request_builder = request_builder.headers(state.config.headers.clone());
+        let mut default_headers = state.config.headers.clone();
+        if is_multipart {
+            default_headers.remove("content-type");
+        }
+        request_builder = request_builder.headers(default_headers);
 
         if let Some(custom_headers) = headers {
             for (key, value) in custom_headers {
-                request_builder = request_builder.header(key, value);
+                if !is_multipart || !key.eq_ignore_ascii_case("content-type") {
+                    request_builder = request_builder.header(key, value);
+                }
             }
         }
 
-        Ok(request_builder.send().await?)
+        let response = request_builder.send().await?;
+        self.handle_response(response, format).await
     }
 
     /// Make an API call that returns a location/redirect URL (for webAuth endpoints)
@@ -801,7 +798,19 @@ impl Client {
         }
     }
 
-    /// Upload a file
+    /// Make an API call that returns a plain-text body as a UTF-8 string
+    pub async fn call_text(
+        &self,
+        method: Method,
+        path: &str,
+        headers: Option<HashMap<String, String>>,
+        params: Option<HashMap<String, Value>>,
+    ) -> Result<String> {
+        self.send(method, path, headers, params, ResponseFormat::Text)
+            .await
+    }
+
+    /// Upload a file with POST
     pub async fn file_upload<T: DeserializeOwned>(
         &self,
         path: &str,
@@ -824,7 +833,6 @@ impl Client {
     }
 
     /// Upload a file with the endpoint's HTTP method
-    #[allow(clippy::too_many_arguments)]
     pub async fn upload<T: DeserializeOwned>(
         &self,
         method: Method,
@@ -851,7 +859,69 @@ impl Client {
         .await
     }
 
-    /// Upload a file with progress callback
+    /// Upload a file in one request whatever the configured chunk size, for
+    /// endpoints that do not accept chunked uploads
+    pub async fn single_upload<T: DeserializeOwned>(
+        &self,
+        method: Method,
+        path: &str,
+        headers: Option<HashMap<String, String>>,
+        params: HashMap<String, Value>,
+        param_name: &str,
+        input_file: InputFile,
+    ) -> Result<T> {
+        let url = format!("{}{}", self.state.load().config.endpoint, path);
+
+        self.single_file_upload(
+            method,
+            &url,
+            headers,
+            params,
+            param_name,
+            &input_file,
+            ResponseFormat::Json,
+        )
+        .await
+    }
+
+    /// Upload a file with POST and return the plain-text response body
+    pub async fn file_upload_text(
+        &self,
+        path: &str,
+        headers: Option<HashMap<String, String>>,
+        params: HashMap<String, Value>,
+        param_name: &str,
+        input_file: InputFile,
+    ) -> Result<String> {
+        self.upload_text(Method::POST, path, headers, params, param_name, input_file)
+            .await
+    }
+
+    /// Upload a file with the endpoint's HTTP method and return the plain-text response body
+    pub async fn upload_text(
+        &self,
+        method: Method,
+        path: &str,
+        headers: Option<HashMap<String, String>>,
+        params: HashMap<String, Value>,
+        param_name: &str,
+        input_file: InputFile,
+    ) -> Result<String> {
+        let url = format!("{}{}", self.state.load().config.endpoint, path);
+
+        self.single_file_upload(
+            method,
+            &url,
+            headers,
+            params,
+            param_name,
+            &input_file,
+            ResponseFormat::Text,
+        )
+        .await
+    }
+
+    /// Upload a file with POST and a progress callback
     pub async fn file_upload_with_progress<T: DeserializeOwned, F>(
         &self,
         path: &str,
@@ -877,7 +947,6 @@ impl Client {
     }
 
     /// Upload a file with the endpoint's HTTP method and a progress callback
-    #[allow(clippy::too_many_arguments)]
     pub async fn upload_with_progress<T: DeserializeOwned, F>(
         &self,
         method: Method,
@@ -902,7 +971,15 @@ impl Client {
             let url = format!("{}{}", state.config.endpoint, path);
 
             let result = self
-                .single_file_upload(method, &url, headers, params, param_name, &input_file)
+                .single_file_upload(
+                    method,
+                    &url,
+                    headers,
+                    params,
+                    param_name,
+                    &input_file,
+                    ResponseFormat::Json,
+                )
                 .await?;
 
             if let Some(callback) = &options.on_progress {
@@ -929,22 +1006,6 @@ impl Client {
         .await
     }
 
-    /// Upload a file in one request, whatever the configured chunk size, for
-    /// endpoints that do not accept chunked uploads
-    pub(crate) async fn single_upload<T: DeserializeOwned>(
-        &self,
-        method: Method,
-        path: &str,
-        headers: Option<HashMap<String, String>>,
-        params: HashMap<String, Value>,
-        param_name: &str,
-        input_file: InputFile,
-    ) -> Result<T> {
-        let url = format!("{}{}", self.state.load_full().config.endpoint, path);
-        self.single_file_upload(method, &url, headers, params, param_name, &input_file)
-            .await
-    }
-
     async fn single_file_upload<T: DeserializeOwned>(
         &self,
         method: Method,
@@ -953,6 +1014,7 @@ impl Client {
         params: HashMap<String, Value>,
         param_name: &str,
         input_file: &InputFile,
+        format: ResponseFormat,
     ) -> Result<T> {
         let state = self.state.load_full();
         let mut form = multipart::Form::new();
@@ -997,10 +1059,9 @@ impl Client {
 
         let response = request_builder.multipart(form).send().await?;
 
-        self.handle_response(response).await
+        self.handle_response(response, format).await
     }
 
-    #[allow(clippy::too_many_arguments)]
     async fn chunked_file_upload_with_progress<T: DeserializeOwned, F>(
         &self,
         method: Method,
@@ -1099,6 +1160,7 @@ impl Client {
 
         while tasks.len() < max_concurrency && next_chunk < total_chunks {
             let client = self.clone();
+            let method = method.clone();
             let path = path.to_string();
             let headers = headers.clone();
             let params = params.clone();
@@ -1106,7 +1168,6 @@ impl Client {
             let input_file = input_file.clone();
             let upload_id = current_upload_id.clone();
             let chunk_index = next_chunk;
-            let method = method.clone();
 
             tasks.spawn(async move {
                 let result = client
@@ -1160,6 +1221,7 @@ impl Client {
 
             while tasks.len() < max_concurrency && next_chunk < total_chunks {
                 let client = self.clone();
+                let method = method.clone();
                 let path = path.to_string();
                 let headers = headers.clone();
                 let params = params.clone();
@@ -1167,7 +1229,6 @@ impl Client {
                 let input_file = input_file.clone();
                 let upload_id = current_upload_id.clone();
                 let chunk_index = next_chunk;
-                let method = method.clone();
 
                 tasks.spawn(async move {
                     let result = client
@@ -1279,10 +1340,14 @@ impl Client {
 
         let response = request_builder.multipart(form).send().await?;
 
-        self.handle_response(response).await
+        self.handle_response(response, ResponseFormat::Json).await
     }
 
-    async fn handle_response<T: DeserializeOwned>(&self, response: Response) -> Result<T> {
+    async fn handle_response<T: DeserializeOwned>(
+        &self,
+        response: Response,
+        format: ResponseFormat,
+    ) -> Result<T> {
         let status = response.status();
         let content_type = response
             .headers()
@@ -1294,6 +1359,19 @@ impl Client {
 
         if status.is_success() {
             let bytes = response.bytes().await?;
+
+            if let ResponseFormat::Text = format {
+                let text = String::from_utf8(bytes.to_vec()).map_err(|e| {
+                    AppwriteError::new(
+                        0,
+                        format!("Invalid UTF-8 response: {}", e),
+                        None,
+                        String::from_utf8_lossy(e.as_bytes()).to_string(),
+                    )
+                })?;
+
+                return Ok(serde_json::from_value(Value::String(text))?);
+            }
 
             if !content_type.is_empty()
                 && !content_type.starts_with("application/json")
@@ -1350,6 +1428,7 @@ impl Client {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::query::Query;
 
     #[test]
     fn test_client_creation() {
@@ -1365,5 +1444,61 @@ mod tests {
             .set_key("test-key");
 
         assert_eq!(client.endpoint(), "https://custom.example.com/v1");
+    }
+
+    async fn mock_server() -> wiremock::MockServer {
+        let server = wiremock::MockServer::start().await;
+        wiremock::Mock::given(wiremock::matchers::any())
+            .respond_with(wiremock::ResponseTemplate::new(200).set_body_json(serde_json::json!({})))
+            .mount(&server)
+            .await;
+        server
+    }
+
+    fn params() -> HashMap<String, Value> {
+        HashMap::from([
+            ("values".to_string(), serde_json::json!([["a", "b"]])),
+            (
+                "queries".to_string(),
+                serde_json::json!(Query::builder().limit(1)),
+            ),
+        ])
+    }
+
+    #[tokio::test]
+    async fn json_body_keeps_nested_string_arrays() {
+        let server = mock_server().await;
+        let client = Client::new().set_endpoint(server.uri());
+        let headers = HashMap::from([("content-type".to_string(), "application/json".to_string())]);
+
+        let _: Value = client
+            .call(Method::POST, "/", Some(headers), Some(params()))
+            .await
+            .unwrap();
+
+        let requests = server.received_requests().await.unwrap();
+        let body: Value = serde_json::from_slice(&requests[0].body).unwrap();
+        assert_eq!(body["values"], serde_json::json!([["a", "b"]]));
+        assert_eq!(
+            body["queries"],
+            serde_json::json!([Query::limit(1).to_string()])
+        );
+    }
+
+    #[tokio::test]
+    async fn query_string_keeps_nested_string_arrays() {
+        let server = mock_server().await;
+        let client = Client::new().set_endpoint(server.uri());
+
+        let _: Value = client
+            .call(Method::GET, "/", None, Some(params()))
+            .await
+            .unwrap();
+
+        let requests = server.received_requests().await.unwrap();
+        let pairs: Vec<(String, String)> = requests[0].url.query_pairs().into_owned().collect();
+        assert!(pairs.contains(&("values[]".to_string(), "[\"a\",\"b\"]".to_string())));
+        assert!(pairs.contains(&("queries[]".to_string(), Query::limit(1).to_string())));
+        assert_eq!(pairs.len(), 2);
     }
 }

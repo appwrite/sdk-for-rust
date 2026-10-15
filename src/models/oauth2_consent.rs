@@ -8,38 +8,88 @@ use serde::{Deserialize, Serialize};
 pub struct Oauth2Consent {
     /// Consent ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Consent creation time in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Consent update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// ID of the user the consent belongs to.
     #[serde(rename = "userId")]
+    #[serde(default = "default_user_id")]
     pub user_id: String,
     /// ID of the registered app the consent was given to. Empty for URL-form
     /// (CIMD) clients.
     #[serde(rename = "appId")]
+    #[serde(default = "default_app_id")]
     pub app_id: String,
     /// Client ID metadata document URL of the client the consent was given to.
     /// Empty for registered apps.
     #[serde(rename = "cimdUrl")]
+    #[serde(default = "default_cimd_url")]
     pub cimd_url: String,
     /// OAuth2 scopes the user consented to.
     #[serde(rename = "scopes")]
+    #[serde(default = "default_scopes")]
     pub scopes: Vec<String>,
     /// RFC 8707 resource indicators the user consented to.
     #[serde(rename = "resources")]
+    #[serde(default = "default_resources")]
     pub resources: Vec<String>,
     /// Authorization details the user consented to, as a JSON string. Each entry
     /// has a `type` plus project-defined fields.
     #[serde(rename = "authorizationDetails")]
+    #[serde(default = "default_authorization_details")]
     pub authorization_details: String,
     /// Consent expiration time in ISO 8601 format. Empty when the consent has no
     /// token-bound expiry yet.
     #[serde(rename = "expire")]
+    #[serde(default = "default_expire")]
     pub expire: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_user_id() -> String {
+    "".to_string()
+}
+
+fn default_app_id() -> String {
+    "".to_string()
+}
+
+fn default_cimd_url() -> String {
+    "".to_string()
+}
+
+fn default_scopes() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_resources() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_authorization_details() -> String {
+    "[]".to_string()
+}
+
+fn default_expire() -> String {
+    "".to_string()
 }
 
 impl Oauth2Consent {

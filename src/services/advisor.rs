@@ -61,9 +61,19 @@ impl Advisor {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let report_id = report_id.into();
+        if report_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"reportId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/reports/{reportId}"
             .to_string()
-            .replace("{reportId}", &report_id.into().to_string());
+            .replace("{reportId}", &report_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -76,10 +86,21 @@ impl Advisor {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let report_id = report_id.into();
+        if report_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"reportId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/reports/{reportId}"
             .to_string()
-            .replace("{reportId}", &report_id.into().to_string());
+            .replace("{reportId}", &report_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -107,9 +128,19 @@ impl Advisor {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let report_id = report_id.into();
+        if report_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"reportId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/reports/{reportId}/insights"
             .to_string()
-            .replace("{reportId}", &report_id.into().to_string());
+            .replace("{reportId}", &report_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -126,10 +157,30 @@ impl Advisor {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let report_id = report_id.into();
+        if report_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"reportId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let insight_id = insight_id.into();
+        if insight_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"insightId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/reports/{reportId}/insights/{insightId}"
             .to_string()
-            .replace("{reportId}", &report_id.into().to_string())
-            .replace("{insightId}", &insight_id.into().to_string());
+            .replace("{reportId}", &report_id)
+            .replace("{insightId}", &insight_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))

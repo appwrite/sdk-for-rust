@@ -8,22 +8,47 @@ use serde::{Deserialize, Serialize};
 pub struct Team {
     /// Team ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Team creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Team update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Team name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Total number of team members.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// Team preferences as a key-value object
     #[serde(rename = "prefs")]
     pub prefs: crate::models::Preferences,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_total() -> i64 {
+    0
 }
 
 impl Team {

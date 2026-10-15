@@ -8,14 +8,29 @@ use serde::{Deserialize, Serialize};
 pub struct Oauth2Project {
     /// Project ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Region ID the project is deployed in.
     #[serde(rename = "region")]
+    #[serde(default = "default_region")]
     pub region: String,
     /// API endpoint of the region the project is deployed in. Empty when the
     /// region has no public hostname configured.
     #[serde(rename = "endpoint")]
+    #[serde(default = "default_endpoint")]
     pub endpoint: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_region() -> String {
+    "".to_string()
+}
+
+fn default_endpoint() -> String {
+    "".to_string()
 }
 
 impl Oauth2Project {

@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct MockNumberList {
     /// Total number of mockNumbers that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of mockNumbers.
     #[serde(rename = "mockNumbers")]
+    #[serde(default = "default_mock_numbers")]
     pub mock_numbers: Vec<crate::models::MockNumber>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_mock_numbers() -> Vec<crate::models::MockNumber> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl MockNumberList {

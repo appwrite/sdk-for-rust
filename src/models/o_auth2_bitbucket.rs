@@ -8,16 +8,36 @@ use serde::{Deserialize, Serialize};
 pub struct OAuth2Bitbucket {
     /// OAuth2 provider ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// OAuth2 provider is active and can be used to create sessions.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Bitbucket OAuth2 key.
     #[serde(rename = "key")]
+    #[serde(default = "default_key")]
     pub key: String,
     /// Bitbucket OAuth2 secret.
     #[serde(rename = "secret")]
+    #[serde(default = "default_secret")]
     pub secret: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    false
+}
+
+fn default_key() -> String {
+    "".to_string()
+}
+
+fn default_secret() -> String {
+    "".to_string()
 }
 
 impl OAuth2Bitbucket {

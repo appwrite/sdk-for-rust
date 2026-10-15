@@ -13,7 +13,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = teams.create_membership(
         "<TEAM_ID>",
-        vec![],
+        vec!["editor".into()],
         Some("email@example.com"), // optional
         Some("<USER_ID>"), // optional
         Some("+12065550100"), // optional

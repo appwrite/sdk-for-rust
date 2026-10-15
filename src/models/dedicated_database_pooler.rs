@@ -8,47 +8,97 @@ use serde::{Deserialize, Serialize};
 pub struct DedicatedDatabasePooler {
     /// Whether connection pooling is enabled.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Connection pool mode. Possible values: transaction (releases connections
     /// back to pool after each transaction), session (holds connections for the
     /// entire client session).
     #[serde(rename = "mode")]
+    #[serde(default = "default_mode")]
     pub mode: String,
     /// Client-connection ceiling the pooler accepts. Enforced on MySQL and
     /// MariaDB; on PostgreSQL the pooler has no client cap, so this reports the
     /// database's advertised networkMaxConnections and cannot be set here.
     #[serde(rename = "maxConnections")]
+    #[serde(default = "default_max_connections")]
     pub max_connections: i64,
     /// Default pool size per user.
     #[serde(rename = "defaultPoolSize")]
+    #[serde(default = "default_default_pool_size")]
     pub default_pool_size: i64,
     /// Pooler listening port.
     #[serde(rename = "port")]
+    #[serde(default = "default_port")]
     pub port: i64,
     /// Whether SELECTs are routed to HA replicas while writes and locked reads
     /// stay on the primary. Active only when HA is enabled.
     #[serde(rename = "readWriteSplitting")]
+    #[serde(default = "default_read_write_splitting")]
     pub read_write_splitting: bool,
     /// Effective CPU request applied to the pooler sidecar container (Kubernetes
     /// quantity). Returns the proportional default (5% of DB CPU, floor 100m)
     /// unless overridden.
     #[serde(rename = "poolerCpuRequest")]
+    #[serde(default = "default_pooler_cpu_request")]
     pub pooler_cpu_request: String,
     /// Effective CPU limit applied to the pooler sidecar container (Kubernetes
     /// quantity). Returns the proportional default (10% of DB CPU, floor 200m)
     /// unless overridden.
     #[serde(rename = "poolerCpuLimit")]
+    #[serde(default = "default_pooler_cpu_limit")]
     pub pooler_cpu_limit: String,
     /// Effective memory request applied to the pooler sidecar container
     /// (Kubernetes quantity). Returns the proportional default (7.5% of DB memory,
     /// floor 64Mi) unless overridden.
     #[serde(rename = "poolerMemoryRequest")]
+    #[serde(default = "default_pooler_memory_request")]
     pub pooler_memory_request: String,
     /// Effective memory limit applied to the pooler sidecar container (Kubernetes
     /// quantity). Returns the proportional default (15% of DB memory, floor 128Mi)
     /// unless overridden.
     #[serde(rename = "poolerMemoryLimit")]
+    #[serde(default = "default_pooler_memory_limit")]
     pub pooler_memory_limit: String,
+}
+
+fn default_enabled() -> bool {
+    false
+}
+
+fn default_mode() -> String {
+    "transaction".to_string()
+}
+
+fn default_max_connections() -> i64 {
+    100
+}
+
+fn default_default_pool_size() -> i64 {
+    20
+}
+
+fn default_port() -> i64 {
+    6432
+}
+
+fn default_read_write_splitting() -> bool {
+    false
+}
+
+fn default_pooler_cpu_request() -> String {
+    "".to_string()
+}
+
+fn default_pooler_cpu_limit() -> String {
+    "".to_string()
+}
+
+fn default_pooler_memory_request() -> String {
+    "".to_string()
+}
+
+fn default_pooler_memory_limit() -> String {
+    "".to_string()
 }
 
 impl DedicatedDatabasePooler {

@@ -8,9 +8,11 @@ use serde::{Deserialize, Serialize};
 pub struct ColumnRelationship {
     /// Column Key.
     #[serde(rename = "key")]
+    #[serde(default = "default_key")]
     pub key: String,
     /// Column type.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Column status. Possible values: `available`, `processing`, `deleting`,
     /// `stuck`, or `failed`
@@ -19,9 +21,11 @@ pub struct ColumnRelationship {
     /// Error message. Displays error generated on failure of creating or deleting
     /// an column.
     #[serde(rename = "error")]
+    #[serde(default = "default_error")]
     pub error: String,
     /// Is column required?
     #[serde(rename = "required")]
+    #[serde(default = "default_required")]
     pub required: bool,
     /// Is column an array?
     #[serde(rename = "array")]
@@ -29,28 +33,79 @@ pub struct ColumnRelationship {
     pub array: Option<bool>,
     /// Column creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Column update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// The ID of the related table.
     #[serde(rename = "relatedTable")]
     pub related_table: String,
     /// The type of the relationship.
     #[serde(rename = "relationType")]
+    #[serde(default = "default_relation_type")]
     pub relation_type: String,
     /// Is the relationship two-way?
     #[serde(rename = "twoWay")]
+    #[serde(default = "default_two_way")]
     pub two_way: bool,
     /// The key of the two-way relationship.
     #[serde(rename = "twoWayKey")]
+    #[serde(default = "default_two_way_key")]
     pub two_way_key: String,
     /// How deleting the parent document will propagate to child documents.
     #[serde(rename = "onDelete")]
+    #[serde(default = "default_on_delete")]
     pub on_delete: String,
     /// Whether this is the parent or child side of the relationship
     #[serde(rename = "side")]
+    #[serde(default = "default_side")]
     pub side: String,
+}
+
+fn default_key() -> String {
+    "".to_string()
+}
+
+fn default_type() -> String {
+    "".to_string()
+}
+
+fn default_error() -> String {
+    "".to_string()
+}
+
+fn default_required() -> bool {
+    false
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_relation_type() -> String {
+    "".to_string()
+}
+
+fn default_two_way() -> bool {
+    false
+}
+
+fn default_two_way_key() -> String {
+    "".to_string()
+}
+
+fn default_on_delete() -> String {
+    "restrict".to_string()
+}
+
+fn default_side() -> String {
+    "".to_string()
 }
 
 impl ColumnRelationship {

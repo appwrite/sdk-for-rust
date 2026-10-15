@@ -8,19 +8,44 @@ use serde::{Deserialize, Serialize};
 pub struct PolicyMfaFactors {
     /// Policy ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Whether TOTP can be used to complete an MFA challenge.
     #[serde(rename = "totp")]
+    #[serde(default = "default_totp")]
     pub totp: bool,
     /// Whether email can be used to complete an MFA challenge.
     #[serde(rename = "email")]
+    #[serde(default = "default_email")]
     pub email: bool,
     /// Whether phone (SMS) can be used to complete an MFA challenge.
     #[serde(rename = "phone")]
+    #[serde(default = "default_phone")]
     pub phone: bool,
     /// Whether the custom factor can be used to complete an MFA challenge.
     #[serde(rename = "custom")]
+    #[serde(default = "default_custom")]
     pub custom: bool,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_totp() -> bool {
+    true
+}
+
+fn default_email() -> bool {
+    true
+}
+
+fn default_phone() -> bool {
+    true
+}
+
+fn default_custom() -> bool {
+    false
 }
 
 impl PolicyMfaFactors {

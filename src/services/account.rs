@@ -105,9 +105,19 @@ impl Account {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let consent_id = consent_id.into();
+        if consent_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"consentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/account/consents/{consentId}"
             .to_string()
-            .replace("{consentId}", &consent_id.into().to_string());
+            .replace("{consentId}", &consent_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -117,18 +127,25 @@ impl Account {
     /// Delete an OAuth2 consent by its unique ID. All token families issued under
     /// the consent are revoked, and the app must ask for consent again to regain
     /// access.
-    pub async fn delete_consent(
-        &self,
-        consent_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    pub async fn delete_consent(&self, consent_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let consent_id = consent_id.into();
+        if consent_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"consentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/account/consents/{consentId}"
             .to_string()
-            .replace("{consentId}", &consent_id.into().to_string());
+            .replace("{consentId}", &consent_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -157,9 +174,19 @@ impl Account {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let consent_id = consent_id.into();
+        if consent_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"consentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/account/consents/{consentId}/tokens"
             .to_string()
-            .replace("{consentId}", &consent_id.into().to_string());
+            .replace("{consentId}", &consent_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -177,10 +204,30 @@ impl Account {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let consent_id = consent_id.into();
+        if consent_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"consentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let token_id = token_id.into();
+        if token_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tokenId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/account/consents/{consentId}/tokens/{tokenId}"
             .to_string()
-            .replace("{consentId}", &consent_id.into().to_string())
-            .replace("{tokenId}", &token_id.into().to_string());
+            .replace("{consentId}", &consent_id)
+            .replace("{tokenId}", &token_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -194,16 +241,36 @@ impl Account {
         &self,
         consent_id: impl Into<String>,
         token_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    ) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let consent_id = consent_id.into();
+        if consent_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"consentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let token_id = token_id.into();
+        if token_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tokenId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/account/consents/{consentId}/tokens/{tokenId}"
             .to_string()
-            .replace("{consentId}", &consent_id.into().to_string())
-            .replace("{tokenId}", &token_id.into().to_string());
+            .replace("{consentId}", &consent_id)
+            .replace("{tokenId}", &token_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -270,40 +337,24 @@ impl Account {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let identity_id = identity_id.into();
+        if identity_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"identityId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/account/identities/{identityId}"
             .to_string()
-            .replace("{identityId}", &identity_id.into().to_string());
+            .replace("{identityId}", &identity_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
-            .await
-    }
-
-    /// Get the list of latest security activity logs for the currently logged in
-    /// user. Each log returns user IP address, location and date and time of log.
-    pub async fn list_logs(
-        &self,
-        queries: Option<Vec<String>>,
-        total: Option<bool>,
-    ) -> crate::error::Result<crate::models::LogList> {
-        let mut params = HashMap::new();
-        if let Some(value) = queries {
-            params.insert(
-                "queries".to_string(),
-                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
-            );
-        }
-        if let Some(value) = total {
-            params.insert("total".to_string(), json!(value));
-        }
-        let mut api_headers = HashMap::new();
-        api_headers.insert("accept".to_string(), "application/json".to_string());
-
-        let path = "/account/logs".to_string();
-
-        self.client
-            .call(Method::GET, &path, Some(api_headers), Some(params))
             .await
     }
 
@@ -375,6 +426,7 @@ impl Account {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/mfa/authenticators/{type}"
             .to_string()
@@ -928,6 +980,7 @@ impl Account {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/account/sessions".to_string();
 
@@ -958,6 +1011,9 @@ impl Account {
 
     /// Allow the user to login into their account by providing a valid email and
     /// password combination. This route will create a new session for the user.
+    /// Use the optional `duration` parameter to create a shorter session, for
+    /// example when the user doesn't choose "remember me". It must be at least 60
+    /// seconds and cannot exceed the project maximum session length.
     ///
     /// A user is limited to 10 active sessions at a time by default. [Learn more
     /// about session
@@ -1137,9 +1193,19 @@ impl Account {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let session_id = session_id.into();
+        if session_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"sessionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/account/sessions/{sessionId}"
             .to_string()
-            .replace("{sessionId}", &session_id.into().to_string());
+            .replace("{sessionId}", &session_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1158,9 +1224,19 @@ impl Account {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let session_id = session_id.into();
+        if session_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"sessionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/account/sessions/{sessionId}"
             .to_string()
-            .replace("{sessionId}", &session_id.into().to_string());
+            .replace("{sessionId}", &session_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1176,10 +1252,21 @@ impl Account {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let session_id = session_id.into();
+        if session_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"sessionId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/account/sessions/{sessionId}"
             .to_string()
-            .replace("{sessionId}", &session_id.into().to_string());
+            .replace("{sessionId}", &session_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1288,6 +1375,10 @@ impl Account {
     /// create a new session using the [Create
     /// session](https://appwrite.io/docs/references/cloud/client-web/account#createSession)
     /// endpoint.
+    ///
+    /// If there is already an active session, the OAuth2 identity is attached to
+    /// the logged-in account and that session stays active until the token is
+    /// exchanged for a new one.
     ///
     /// A user is limited to 10 active sessions at a time by default. [Learn more
     /// about session

@@ -8,91 +8,236 @@ use serde::{Deserialize, Serialize};
 pub struct ActivityEvent {
     /// Event ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Actor type.
     #[serde(rename = "actorType")]
+    #[serde(default = "default_actor_type")]
     pub actor_type: String,
     /// Actor ID.
     #[serde(rename = "actorId")]
+    #[serde(default = "default_actor_id")]
     pub actor_id: String,
     /// Actor Email.
     #[serde(rename = "actorEmail")]
+    #[serde(default = "default_actor_email")]
     pub actor_email: String,
     /// Actor Name.
     #[serde(rename = "actorName")]
+    #[serde(default = "default_actor_name")]
     pub actor_name: String,
     /// Resource parent.
     #[serde(rename = "resourceParent")]
+    #[serde(default = "default_resource_parent")]
     pub resource_parent: String,
     /// Resource type.
     #[serde(rename = "resourceType")]
+    #[serde(default = "default_resource_type")]
     pub resource_type: String,
     /// Resource ID.
     #[serde(rename = "resourceId")]
+    #[serde(default = "default_resource_id")]
     pub resource_id: String,
     /// Resource.
     #[serde(rename = "resource")]
+    #[serde(default = "default_resource")]
     pub resource: String,
     /// Event name.
     #[serde(rename = "event")]
+    #[serde(default = "default_event")]
     pub event: String,
     /// User agent.
     #[serde(rename = "userAgent")]
+    #[serde(default = "default_user_agent")]
     pub user_agent: String,
     /// IP address.
     #[serde(rename = "ip")]
+    #[serde(default = "default_ip")]
     pub ip: String,
     /// API mode when event triggered.
     #[serde(rename = "mode")]
+    #[serde(default = "default_mode")]
     pub mode: String,
     /// Location.
     #[serde(rename = "country")]
+    #[serde(default = "default_country")]
     pub country: String,
     /// Continent code.
     #[serde(rename = "continentCode")]
+    #[serde(default = "default_continent_code")]
     pub continent_code: String,
     /// City name.
     #[serde(rename = "city")]
+    #[serde(default = "default_city")]
     pub city: String,
     /// Region/state chain.
     #[serde(rename = "subdivisions")]
+    #[serde(default = "default_subdivisions")]
     pub subdivisions: String,
     /// Internet service provider.
     #[serde(rename = "isp")]
+    #[serde(default = "default_isp")]
     pub isp: String,
     /// Autonomous System Number (ASN).
     #[serde(rename = "autonomousSystemNumber")]
+    #[serde(default = "default_autonomous_system_number")]
     pub autonomous_system_number: String,
     /// Organization that owns the ASN.
     #[serde(rename = "autonomousSystemOrganization")]
+    #[serde(default = "default_autonomous_system_organization")]
     pub autonomous_system_organization: String,
     /// Connection type (e.g. cable, cellular, corporate).
     #[serde(rename = "connectionType")]
+    #[serde(default = "default_connection_type")]
     pub connection_type: String,
     /// User type (e.g. residential, business, hosting).
     #[serde(rename = "connectionUsageType")]
+    #[serde(default = "default_connection_usage_type")]
     pub connection_usage_type: String,
     /// Registered organization of the IP.
     #[serde(rename = "connectionOrganization")]
+    #[serde(default = "default_connection_organization")]
     pub connection_organization: String,
     /// Log creation date in ISO 8601 format.
     #[serde(rename = "time")]
+    #[serde(default = "default_time")]
     pub time: String,
     /// Project ID.
     #[serde(rename = "projectId")]
+    #[serde(default = "default_project_id")]
     pub project_id: String,
     /// Team ID.
     #[serde(rename = "teamId")]
+    #[serde(default = "default_team_id")]
     pub team_id: String,
     /// Hostname.
     #[serde(rename = "hostname")]
+    #[serde(default = "default_hostname")]
     pub hostname: String,
     /// Name of the SDK that triggered the event.
     #[serde(rename = "sdk")]
+    #[serde(default = "default_sdk")]
     pub sdk: String,
     /// Version of the SDK that triggered the event.
     #[serde(rename = "sdkVersion")]
+    #[serde(default = "default_sdk_version")]
     pub sdk_version: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_actor_type() -> String {
+    "".to_string()
+}
+
+fn default_actor_id() -> String {
+    "".to_string()
+}
+
+fn default_actor_email() -> String {
+    "".to_string()
+}
+
+fn default_actor_name() -> String {
+    "".to_string()
+}
+
+fn default_resource_parent() -> String {
+    "".to_string()
+}
+
+fn default_resource_type() -> String {
+    "".to_string()
+}
+
+fn default_resource_id() -> String {
+    "".to_string()
+}
+
+fn default_resource() -> String {
+    "".to_string()
+}
+
+fn default_event() -> String {
+    "".to_string()
+}
+
+fn default_user_agent() -> String {
+    "".to_string()
+}
+
+fn default_ip() -> String {
+    "".to_string()
+}
+
+fn default_mode() -> String {
+    "".to_string()
+}
+
+fn default_country() -> String {
+    "".to_string()
+}
+
+fn default_continent_code() -> String {
+    "".to_string()
+}
+
+fn default_city() -> String {
+    "".to_string()
+}
+
+fn default_subdivisions() -> String {
+    "".to_string()
+}
+
+fn default_isp() -> String {
+    "".to_string()
+}
+
+fn default_autonomous_system_number() -> String {
+    "".to_string()
+}
+
+fn default_autonomous_system_organization() -> String {
+    "".to_string()
+}
+
+fn default_connection_type() -> String {
+    "".to_string()
+}
+
+fn default_connection_usage_type() -> String {
+    "".to_string()
+}
+
+fn default_connection_organization() -> String {
+    "".to_string()
+}
+
+fn default_time() -> String {
+    "".to_string()
+}
+
+fn default_project_id() -> String {
+    "".to_string()
+}
+
+fn default_team_id() -> String {
+    "".to_string()
+}
+
+fn default_hostname() -> String {
+    "".to_string()
+}
+
+fn default_sdk() -> String {
+    "".to_string()
+}
+
+fn default_sdk_version() -> String {
+    "".to_string()
 }
 
 impl ActivityEvent {

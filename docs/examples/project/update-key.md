@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = project.update_key(
         "<KEY_ID>",
         "<NAME>",
-        vec![appwrite::enums::ProjectKeyScopes::ProjectRead],
+        vec![appwrite::enums::ProjectKeyScopes::UsersRead],
         Some("2020-10-15T06:38:00.000+00:00") // optional
     ).await?;
 

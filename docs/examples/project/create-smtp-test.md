@@ -12,7 +12,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let project = Project::new(&client);
 
     project.create_smtp_test(
-        vec![]
+        vec!["recipient@example.com".into()]
     ).await?;
 
     Ok(())

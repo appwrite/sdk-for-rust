@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = messaging.create_twilio_provider(
         "<PROVIDER_ID>",
         "<NAME>",
-        Some("+12065550100"), // optional
+        Some("<FROM>"), // optional
         Some("<ACCOUNT_SID>"), // optional
         Some("<AUTH_TOKEN>"), // optional
         Some(false) // optional

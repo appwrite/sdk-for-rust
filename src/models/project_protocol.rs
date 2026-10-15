@@ -11,7 +11,12 @@ pub struct ProjectProtocol {
     pub id: crate::enums::ProjectProtocolId,
     /// Protocol status.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
+}
+
+fn default_enabled() -> bool {
+    true
 }
 
 impl ProjectProtocol {
