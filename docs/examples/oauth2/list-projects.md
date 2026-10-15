@@ -6,8 +6,8 @@ use appwrite::services::Oauth2;
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let client = Client::new();
     client.set_endpoint("https://<REGION>.cloud.appwrite.io/v1"); // Your API Endpoint
-    client.set_session(""); // The user session to authenticate with
     client.set_project("<YOUR_PROJECT_ID>"); // Your project ID
+    client.set_session(""); // The user session to authenticate with
 
     let oauth2 = Oauth2::new(&client);
 

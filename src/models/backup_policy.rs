@@ -8,21 +8,27 @@ use serde::{Deserialize, Serialize};
 pub struct BackupPolicy {
     /// Backup policy ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Backup policy name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Policy creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Policy update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// The services that are backed up by this policy.
     #[serde(rename = "services")]
+    #[serde(default = "default_services")]
     pub services: Vec<String>,
     /// The resources that are backed up by this policy.
     #[serde(rename = "resources")]
+    #[serde(default = "default_resources")]
     pub resources: Vec<String>,
     /// The resource ID to backup. Set only if this policy should backup a single
     /// resource.
@@ -36,17 +42,61 @@ pub struct BackupPolicy {
     pub resource_type: Option<String>,
     /// How many days to keep the backup before it will be automatically deleted.
     #[serde(rename = "retention")]
+    #[serde(default = "default_retention")]
     pub retention: i64,
     /// Policy backup schedule in CRON format.
     #[serde(rename = "schedule")]
+    #[serde(default = "default_schedule")]
     pub schedule: String,
     /// Backup type. Possible values: full (complete database snapshot),
     /// incremental (changes since last backup).
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Is this policy enabled.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_services() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_resources() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_retention() -> i64 {
+    1
+}
+
+fn default_schedule() -> String {
+    "0 * * * *".to_string()
+}
+
+fn default_type() -> String {
+    "full".to_string()
+}
+
+fn default_enabled() -> bool {
+    false
 }
 
 impl BackupPolicy {

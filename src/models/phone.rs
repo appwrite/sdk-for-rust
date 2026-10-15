@@ -8,13 +8,28 @@ use serde::{Deserialize, Serialize};
 pub struct Phone {
     /// Phone code.
     #[serde(rename = "code")]
+    #[serde(default = "default_code")]
     pub code: String,
     /// Country two-character ISO 3166-1 alpha code.
     #[serde(rename = "countryCode")]
+    #[serde(default = "default_country_code")]
     pub country_code: String,
     /// Country name.
     #[serde(rename = "countryName")]
+    #[serde(default = "default_country_name")]
     pub country_name: String,
+}
+
+fn default_code() -> String {
+    "".to_string()
+}
+
+fn default_country_code() -> String {
+    "".to_string()
+}
+
+fn default_country_name() -> String {
+    "".to_string()
 }
 
 impl Phone {

@@ -16,7 +16,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<COLLECTION_ID>",
         "<KEY>",
         appwrite::enums::VectorsDBIndexType::HnswEuclidean,
-        vec![],
+        vec!["embeddings".into()],
         Some(vec![appwrite::enums::OrderBy::Asc]), // optional
         Some(vec![]) // optional
     ).await?;

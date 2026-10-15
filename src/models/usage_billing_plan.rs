@@ -8,36 +8,44 @@ use serde::{Deserialize, Serialize};
 pub struct UsageBillingPlan {
     /// Bandwidth additional resources
     #[serde(rename = "bandwidth")]
-    pub bandwidth: crate::models::AdditionalResource,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bandwidth: Option<crate::models::AdditionalResource>,
     /// Executions additional resources
     #[serde(rename = "executions")]
-    pub executions: crate::models::AdditionalResource,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub executions: Option<crate::models::AdditionalResource>,
     /// Member additional resources
     #[serde(rename = "member")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub member: Option<crate::models::AdditionalResource>,
     /// Realtime additional resources
     #[serde(rename = "realtime")]
-    pub realtime: crate::models::AdditionalResource,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub realtime: Option<crate::models::AdditionalResource>,
     /// Realtime messages additional resources
     #[serde(rename = "realtimeMessages")]
-    pub realtime_messages: crate::models::AdditionalResource,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub realtime_messages: Option<crate::models::AdditionalResource>,
     /// Realtime bandwidth additional resources
     #[serde(rename = "realtimeBandwidth")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub realtime_bandwidth: Option<crate::models::AdditionalResource>,
     /// Storage additional resources
     #[serde(rename = "storage")]
-    pub storage: crate::models::AdditionalResource,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub storage: Option<crate::models::AdditionalResource>,
     /// User additional resources
     #[serde(rename = "users")]
-    pub users: crate::models::AdditionalResource,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub users: Option<crate::models::AdditionalResource>,
     /// GBHour additional resources
     #[serde(rename = "GBHours")]
-    pub gb_hours: crate::models::AdditionalResource,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub gb_hours: Option<crate::models::AdditionalResource>,
     /// Image transformation additional resources
     #[serde(rename = "imageTransformations")]
-    pub image_transformations: crate::models::AdditionalResource,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub image_transformations: Option<crate::models::AdditionalResource>,
     /// Credits additional resources
     #[serde(rename = "credits")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -45,14 +53,26 @@ pub struct UsageBillingPlan {
 }
 
 impl UsageBillingPlan {
+    /// Set bandwidth
+    pub fn set_bandwidth(mut self, bandwidth: crate::models::AdditionalResource) -> Self {
+        self.bandwidth = Some(bandwidth);
+        self
+    }
+
     /// Get bandwidth
-    pub fn bandwidth(&self) -> &crate::models::AdditionalResource {
-        &self.bandwidth
+    pub fn bandwidth(&self) -> Option<&crate::models::AdditionalResource> {
+        self.bandwidth.as_ref()
+    }
+
+    /// Set executions
+    pub fn set_executions(mut self, executions: crate::models::AdditionalResource) -> Self {
+        self.executions = Some(executions);
+        self
     }
 
     /// Get executions
-    pub fn executions(&self) -> &crate::models::AdditionalResource {
-        &self.executions
+    pub fn executions(&self) -> Option<&crate::models::AdditionalResource> {
+        self.executions.as_ref()
     }
 
     /// Set member
@@ -66,14 +86,29 @@ impl UsageBillingPlan {
         self.member.as_ref()
     }
 
+    /// Set realtime
+    pub fn set_realtime(mut self, realtime: crate::models::AdditionalResource) -> Self {
+        self.realtime = Some(realtime);
+        self
+    }
+
     /// Get realtime
-    pub fn realtime(&self) -> &crate::models::AdditionalResource {
-        &self.realtime
+    pub fn realtime(&self) -> Option<&crate::models::AdditionalResource> {
+        self.realtime.as_ref()
+    }
+
+    /// Set realtime_messages
+    pub fn set_realtime_messages(
+        mut self,
+        realtime_messages: crate::models::AdditionalResource,
+    ) -> Self {
+        self.realtime_messages = Some(realtime_messages);
+        self
     }
 
     /// Get realtime_messages
-    pub fn realtime_messages(&self) -> &crate::models::AdditionalResource {
-        &self.realtime_messages
+    pub fn realtime_messages(&self) -> Option<&crate::models::AdditionalResource> {
+        self.realtime_messages.as_ref()
     }
 
     /// Set realtime_bandwidth
@@ -90,24 +125,51 @@ impl UsageBillingPlan {
         self.realtime_bandwidth.as_ref()
     }
 
+    /// Set storage
+    pub fn set_storage(mut self, storage: crate::models::AdditionalResource) -> Self {
+        self.storage = Some(storage);
+        self
+    }
+
     /// Get storage
-    pub fn storage(&self) -> &crate::models::AdditionalResource {
-        &self.storage
+    pub fn storage(&self) -> Option<&crate::models::AdditionalResource> {
+        self.storage.as_ref()
+    }
+
+    /// Set users
+    pub fn set_users(mut self, users: crate::models::AdditionalResource) -> Self {
+        self.users = Some(users);
+        self
     }
 
     /// Get users
-    pub fn users(&self) -> &crate::models::AdditionalResource {
-        &self.users
+    pub fn users(&self) -> Option<&crate::models::AdditionalResource> {
+        self.users.as_ref()
+    }
+
+    /// Set gb_hours
+    pub fn set_gb_hours(mut self, gb_hours: crate::models::AdditionalResource) -> Self {
+        self.gb_hours = Some(gb_hours);
+        self
     }
 
     /// Get gb_hours
-    pub fn gb_hours(&self) -> &crate::models::AdditionalResource {
-        &self.gb_hours
+    pub fn gb_hours(&self) -> Option<&crate::models::AdditionalResource> {
+        self.gb_hours.as_ref()
+    }
+
+    /// Set image_transformations
+    pub fn set_image_transformations(
+        mut self,
+        image_transformations: crate::models::AdditionalResource,
+    ) -> Self {
+        self.image_transformations = Some(image_transformations);
+        self
     }
 
     /// Get image_transformations
-    pub fn image_transformations(&self) -> &crate::models::AdditionalResource {
-        &self.image_transformations
+    pub fn image_transformations(&self) -> Option<&crate::models::AdditionalResource> {
+        self.image_transformations.as_ref()
     }
 
     /// Set credits
@@ -129,14 +191,6 @@ mod tests {
     #[test]
     fn test_usage_billing_plan_creation() {
         let _model = <UsageBillingPlan as Default>::default();
-        let _ = _model.bandwidth();
-        let _ = _model.executions();
-        let _ = _model.realtime();
-        let _ = _model.realtime_messages();
-        let _ = _model.storage();
-        let _ = _model.users();
-        let _ = _model.gb_hours();
-        let _ = _model.image_transformations();
     }
 
     #[test]

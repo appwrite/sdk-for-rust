@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct ProviderList {
     /// Total number of providers that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of providers.
     #[serde(rename = "providers")]
+    #[serde(default = "default_providers")]
     pub providers: Vec<crate::models::Provider>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_providers() -> Vec<crate::models::Provider> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl ProviderList {

@@ -8,23 +8,53 @@ use serde::{Deserialize, Serialize};
 pub struct Transaction {
     /// Transaction ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Transaction creation time in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Transaction update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Current status of the transaction. One of: pending, committing, committed,
     /// rolled_back, failed.
     #[serde(rename = "status")]
+    #[serde(default = "default_status")]
     pub status: String,
     /// Number of operations in the transaction.
     #[serde(rename = "operations")]
+    #[serde(default = "default_operations")]
     pub operations: i64,
     /// Expiration time in ISO 8601 format.
     #[serde(rename = "expiresAt")]
+    #[serde(default = "default_expires_at")]
     pub expires_at: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_status() -> String {
+    "pending".to_string()
+}
+
+fn default_operations() -> i64 {
+    0
+}
+
+fn default_expires_at() -> String {
+    "".to_string()
 }
 
 impl Transaction {

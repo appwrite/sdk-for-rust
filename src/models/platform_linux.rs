@@ -8,22 +8,47 @@ use serde::{Deserialize, Serialize};
 pub struct PlatformLinux {
     /// Platform ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Platform creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Platform update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Platform name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Platform type. Possible values are: windows, apple, android, linux, web.
     #[serde(rename = "type")]
     pub r#type: crate::enums::PlatformType,
     /// Linux package name.
     #[serde(rename = "packageName")]
+    #[serde(default = "default_package_name")]
     pub package_name: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_package_name() -> String {
+    "".to_string()
 }
 
 impl PlatformLinux {

@@ -8,23 +8,29 @@ use serde::{Deserialize, Serialize};
 pub struct Database {
     /// Database ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Database name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Database creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Database update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// If database is enabled. Can be 'enabled' or 'disabled'. When disabled, the
     /// database is inaccessible to users, but remains accessible to Server SDKs
     /// using API keys.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Database type.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: crate::enums::DatabaseType,
     /// Dedicated database lifecycle status. Null when the database has no valid
     /// dedicated backing.
@@ -53,8 +59,9 @@ pub struct Database {
     #[serde(rename = "error")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub error: Option<String>,
-    /// Container status of the dedicated backing: active or inactive. Null when
-    /// the database has no dedicated backing or the runtime has not reported one.
+    /// Container status of the dedicated backing: active, inactive, or failed (a
+    /// wake was declined because the backing namespace is gone). Null when the
+    /// database has no dedicated backing or the runtime has not reported one.
     #[serde(rename = "containerStatus")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub container_status: Option<String>,
@@ -72,6 +79,30 @@ pub struct Database {
     #[serde(rename = "archives")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub archives: Option<Vec<crate::models::BackupArchive>>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    true
+}
+
+fn default_type() -> crate::enums::DatabaseType {
+    serde_json::from_value(serde_json::json!("legacy")).unwrap()
 }
 
 impl Database {

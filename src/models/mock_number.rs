@@ -9,16 +9,36 @@ pub struct MockNumber {
     /// Mock phone number for testing phone authentication. Useful for testing
     /// phone authentication without sending an SMS.
     #[serde(rename = "number")]
+    #[serde(default = "default_number")]
     pub number: String,
     /// Mock OTP for the number.
     #[serde(rename = "otp")]
+    #[serde(default = "default_otp")]
     pub otp: String,
     /// Attribute creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Attribute update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
+}
+
+fn default_number() -> String {
+    "".to_string()
+}
+
+fn default_otp() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
 }
 
 impl MockNumber {

@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct Oauth2PAR {
     /// Authorization request handle to pass to the authorize endpoint.
     #[serde(rename = "request_uri")]
+    #[serde(default = "default_request_uri")]
     pub request_uri: String,
     /// Lifetime of the authorization request handle in seconds.
     #[serde(rename = "expires_in")]
+    #[serde(default = "default_expires_in")]
     pub expires_in: i64,
+}
+
+fn default_request_uri() -> String {
+    "".to_string()
+}
+
+fn default_expires_in() -> i64 {
+    0
 }
 
 impl Oauth2PAR {

@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct MembershipList {
     /// Total number of memberships that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of memberships.
     #[serde(rename = "memberships")]
+    #[serde(default = "default_memberships")]
     pub memberships: Vec<crate::models::Membership>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_memberships() -> Vec<crate::models::Membership> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl MembershipList {

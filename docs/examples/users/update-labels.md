@@ -13,7 +13,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = users.update_labels(
         "<USER_ID>",
-        vec![]
+        vec!["subscriber".into()]
     ).await?;
 
     let _ = result;

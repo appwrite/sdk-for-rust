@@ -93,9 +93,17 @@ impl Teams {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}"
-            .to_string()
-            .replace("{teamId}", &team_id.into().to_string());
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/teams/{teamId}".to_string().replace("{teamId}", &team_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -114,9 +122,17 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}"
-            .to_string()
-            .replace("{teamId}", &team_id.into().to_string());
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/teams/{teamId}".to_string().replace("{teamId}", &team_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -129,10 +145,19 @@ impl Teams {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/teams/{teamId}"
-            .to_string()
-            .replace("{teamId}", &team_id.into().to_string());
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/teams/{teamId}".to_string().replace("{teamId}", &team_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -159,9 +184,19 @@ impl Teams {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/teams/{teamId}/installations"
             .to_string()
-            .replace("{teamId}", &team_id.into().to_string());
+            .replace("{teamId}", &team_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -187,9 +222,19 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/teams/{teamId}/installations"
             .to_string()
-            .replace("{teamId}", &team_id.into().to_string());
+            .replace("{teamId}", &team_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -207,10 +252,30 @@ impl Teams {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let installation_id = installation_id.into();
+        if installation_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"installationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/teams/{teamId}/installations/{installationId}"
             .to_string()
-            .replace("{teamId}", &team_id.into().to_string())
-            .replace("{installationId}", &installation_id.into().to_string());
+            .replace("{teamId}", &team_id)
+            .replace("{installationId}", &installation_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -235,10 +300,30 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let installation_id = installation_id.into();
+        if installation_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"installationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/teams/{teamId}/installations/{installationId}"
             .to_string()
-            .replace("{teamId}", &team_id.into().to_string())
-            .replace("{installationId}", &installation_id.into().to_string());
+            .replace("{teamId}", &team_id)
+            .replace("{installationId}", &installation_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -252,16 +337,36 @@ impl Teams {
         &self,
         team_id: impl Into<String>,
         installation_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    ) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let installation_id = installation_id.into();
+        if installation_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"installationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/teams/{teamId}/installations/{installationId}"
             .to_string()
-            .replace("{teamId}", &team_id.into().to_string())
-            .replace("{installationId}", &installation_id.into().to_string());
+            .replace("{teamId}", &team_id)
+            .replace("{installationId}", &installation_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -294,9 +399,19 @@ impl Teams {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/teams/{teamId}/memberships"
             .to_string()
-            .replace("{teamId}", &team_id.into().to_string());
+            .replace("{teamId}", &team_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -362,9 +477,19 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/teams/{teamId}/memberships"
             .to_string()
-            .replace("{teamId}", &team_id.into().to_string());
+            .replace("{teamId}", &team_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -383,10 +508,30 @@ impl Teams {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let membership_id = membership_id.into();
+        if membership_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"membershipId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/teams/{teamId}/memberships/{membershipId}"
             .to_string()
-            .replace("{teamId}", &team_id.into().to_string())
-            .replace("{membershipId}", &membership_id.into().to_string());
+            .replace("{teamId}", &team_id)
+            .replace("{membershipId}", &membership_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -411,10 +556,30 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let membership_id = membership_id.into();
+        if membership_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"membershipId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/teams/{teamId}/memberships/{membershipId}"
             .to_string()
-            .replace("{teamId}", &team_id.into().to_string())
-            .replace("{membershipId}", &membership_id.into().to_string());
+            .replace("{teamId}", &team_id)
+            .replace("{membershipId}", &membership_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -432,11 +597,32 @@ impl Teams {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let membership_id = membership_id.into();
+        if membership_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"membershipId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/teams/{teamId}/memberships/{membershipId}"
             .to_string()
-            .replace("{teamId}", &team_id.into().to_string())
-            .replace("{membershipId}", &membership_id.into().to_string());
+            .replace("{teamId}", &team_id)
+            .replace("{membershipId}", &membership_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -463,10 +649,30 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let membership_id = membership_id.into();
+        if membership_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"membershipId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/teams/{teamId}/memberships/{membershipId}/status"
             .to_string()
-            .replace("{teamId}", &team_id.into().to_string())
-            .replace("{membershipId}", &membership_id.into().to_string());
+            .replace("{teamId}", &team_id)
+            .replace("{membershipId}", &membership_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -484,9 +690,19 @@ impl Teams {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/teams/{teamId}/prefs"
             .to_string()
-            .replace("{teamId}", &team_id.into().to_string());
+            .replace("{teamId}", &team_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -507,9 +723,19 @@ impl Teams {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let team_id = team_id.into();
+        if team_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"teamId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/teams/{teamId}/prefs"
             .to_string()
-            .replace("{teamId}", &team_id.into().to_string());
+            .replace("{teamId}", &team_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))

@@ -8,19 +8,44 @@ use serde::{Deserialize, Serialize};
 pub struct MfaChallengeSecret {
     /// Token ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Token creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// User ID.
     #[serde(rename = "userId")]
+    #[serde(default = "default_user_id")]
     pub user_id: String,
     /// Token expiration date in ISO 8601 format.
     #[serde(rename = "expire")]
+    #[serde(default = "default_expire")]
     pub expire: String,
     /// Challenge code to be delivered to the end user through a custom channel.
     #[serde(rename = "code")]
+    #[serde(default = "default_code")]
     pub code: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_user_id() -> String {
+    "".to_string()
+}
+
+fn default_expire() -> String {
+    "".to_string()
+}
+
+fn default_code() -> String {
+    "".to_string()
 }
 
 impl MfaChallengeSecret {

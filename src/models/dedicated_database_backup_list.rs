@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct DedicatedDatabaseBackupList {
     /// Total number of backups.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of backups.
     #[serde(rename = "backups")]
+    #[serde(default = "default_backups")]
     pub backups: Vec<crate::models::DedicatedDatabaseBackup>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_backups() -> Vec<crate::models::DedicatedDatabaseBackup> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl DedicatedDatabaseBackupList {

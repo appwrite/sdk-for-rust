@@ -8,47 +8,112 @@ use serde::{Deserialize, Serialize};
 pub struct VectorsdbCollection {
     /// Collection ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Collection creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Collection update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Collection permissions. [Learn more about
     /// permissions](https://appwrite.io/docs/permissions).
     #[serde(rename = "$permissions")]
+    #[serde(default = "default_permissions")]
     pub permissions: Vec<String>,
     /// Database ID.
     #[serde(rename = "databaseId")]
+    #[serde(default = "default_database_id")]
     pub database_id: String,
     /// Collection name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Collection enabled. Can be 'enabled' or 'disabled'. When disabled, the
     /// collection is inaccessible to users, but remains accessible to Server SDKs
     /// using API keys.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Whether document-level permissions are enabled. [Learn more about
     /// permissions](https://appwrite.io/docs/permissions).
     #[serde(rename = "documentSecurity")]
+    #[serde(default = "default_document_security")]
     pub document_security: bool,
     /// Collection attributes.
     #[serde(rename = "attributes")]
+    #[serde(default = "default_attributes")]
     pub attributes: Vec<serde_json::Value>,
     /// Collection indexes.
     #[serde(rename = "indexes")]
+    #[serde(default = "default_indexes")]
     pub indexes: Vec<crate::models::Index>,
     /// Maximum document size in bytes. Returns 0 when no limit applies.
     #[serde(rename = "bytesMax")]
+    #[serde(default = "default_bytes_max")]
     pub bytes_max: i64,
     /// Currently used document size in bytes based on defined attributes.
     #[serde(rename = "bytesUsed")]
+    #[serde(default = "default_bytes_used")]
     pub bytes_used: i64,
     /// Embedding dimension.
     #[serde(rename = "dimension")]
+    #[serde(default = "default_dimension")]
     pub dimension: i64,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_permissions() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_database_id() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    true
+}
+
+fn default_document_security() -> bool {
+    false
+}
+
+fn default_attributes() -> Vec<serde_json::Value> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_indexes() -> Vec<crate::models::Index> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_bytes_max() -> i64 {
+    0
+}
+
+fn default_bytes_used() -> i64 {
+    0
+}
+
+fn default_dimension() -> i64 {
+    0
 }
 
 impl VectorsdbCollection {

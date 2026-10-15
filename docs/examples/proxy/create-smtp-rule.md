@@ -1,6 +1,6 @@
 ```rust
 use appwrite::Client;
-use appwrite::services::Organization;
+use appwrite::services::Proxy;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -9,10 +9,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     client.set_project("<YOUR_PROJECT_ID>"); // Your project ID
     client.set_key("<YOUR_API_KEY>"); // Your secret API key
 
-    let organization = Organization::new(&client);
+    let proxy = Proxy::new(&client);
 
-    let result = organization.get_key(
-        "<KEY_ID>"
+    let result = proxy.create_smtp_rule(
+        "example.com",
+        "<FUNCTION_ID>",
+        Some("<BRANCH>") // optional
     ).await?;
 
     let _ = result;

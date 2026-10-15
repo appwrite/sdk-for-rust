@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct OAuth2ProviderList {
     /// Total number of OAuth2 providers in the given project.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of OAuth2 providers.
     #[serde(rename = "providers")]
+    #[serde(default = "default_providers")]
     pub providers: Vec<serde_json::Value>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_providers() -> Vec<serde_json::Value> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl OAuth2ProviderList {

@@ -112,9 +112,19 @@ impl Webhooks {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let webhook_id = webhook_id.into();
+        if webhook_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"webhookId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/webhooks/{webhookId}"
             .to_string()
-            .replace("{webhookId}", &webhook_id.into().to_string());
+            .replace("{webhookId}", &webhook_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -161,9 +171,19 @@ impl Webhooks {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let webhook_id = webhook_id.into();
+        if webhook_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"webhookId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/webhooks/{webhookId}"
             .to_string()
-            .replace("{webhookId}", &webhook_id.into().to_string());
+            .replace("{webhookId}", &webhook_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -176,10 +196,21 @@ impl Webhooks {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let webhook_id = webhook_id.into();
+        if webhook_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"webhookId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/webhooks/{webhookId}"
             .to_string()
-            .replace("{webhookId}", &webhook_id.into().to_string());
+            .replace("{webhookId}", &webhook_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -202,9 +233,19 @@ impl Webhooks {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let webhook_id = webhook_id.into();
+        if webhook_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"webhookId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/webhooks/{webhookId}/secret"
             .to_string()
-            .replace("{webhookId}", &webhook_id.into().to_string());
+            .replace("{webhookId}", &webhook_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))

@@ -8,22 +8,52 @@ use serde::{Deserialize, Serialize};
 pub struct PolicyPasswordStrength {
     /// Policy ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Minimum password length required for user passwords.
     #[serde(rename = "min")]
+    #[serde(default = "default_min")]
     pub min: i64,
     /// Whether passwords must include at least one uppercase letter.
     #[serde(rename = "uppercase")]
+    #[serde(default = "default_uppercase")]
     pub uppercase: bool,
     /// Whether passwords must include at least one lowercase letter.
     #[serde(rename = "lowercase")]
+    #[serde(default = "default_lowercase")]
     pub lowercase: bool,
     /// Whether passwords must include at least one number.
     #[serde(rename = "number")]
+    #[serde(default = "default_number")]
     pub number: bool,
     /// Whether passwords must include at least one symbol.
     #[serde(rename = "symbols")]
+    #[serde(default = "default_symbols")]
     pub symbols: bool,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_min() -> i64 {
+    8
+}
+
+fn default_uppercase() -> bool {
+    false
+}
+
+fn default_lowercase() -> bool {
+    false
+}
+
+fn default_number() -> bool {
+    false
+}
+
+fn default_symbols() -> bool {
+    false
 }
 
 impl PolicyPasswordStrength {

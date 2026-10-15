@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct TopicList {
     /// Total number of topics that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of topics.
     #[serde(rename = "topics")]
+    #[serde(default = "default_topics")]
     pub topics: Vec<crate::models::Topic>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_topics() -> Vec<crate::models::Topic> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl TopicList {

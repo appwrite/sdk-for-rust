@@ -11,11 +11,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mongo = Mongo::new(&client);
 
-    let result = mongo.delete(
+    mongo.delete(
         "<DATABASE_ID>"
     ).await?;
-
-    let _ = result;
 
     Ok(())
 }

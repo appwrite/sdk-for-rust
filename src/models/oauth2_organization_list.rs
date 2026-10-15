@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct Oauth2OrganizationList {
     /// Total number of organizations that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of organizations.
     #[serde(rename = "organizations")]
+    #[serde(default = "default_organizations")]
     pub organizations: Vec<crate::models::Oauth2Organization>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_organizations() -> Vec<crate::models::Oauth2Organization> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl Oauth2OrganizationList {

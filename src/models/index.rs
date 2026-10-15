@@ -8,18 +8,23 @@ use serde::{Deserialize, Serialize};
 pub struct Index {
     /// Index ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Index creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Index update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Index key.
     #[serde(rename = "key")]
+    #[serde(default = "default_key")]
     pub key: String,
     /// Index type.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Index status. Possible values: `available`, `processing`, `deleting`,
     /// `stuck`, or `failed`
@@ -28,17 +33,52 @@ pub struct Index {
     /// Error message. Displays error generated on failure of creating or deleting
     /// an index.
     #[serde(rename = "error")]
+    #[serde(default = "default_error")]
     pub error: String,
     /// Index attributes.
     #[serde(rename = "attributes")]
+    #[serde(default = "default_attributes")]
     pub attributes: Vec<String>,
     /// Index attributes length.
     #[serde(rename = "lengths")]
+    #[serde(default = "default_lengths")]
     pub lengths: Vec<i64>,
     /// Index orders.
     #[serde(rename = "orders")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub orders: Option<Vec<String>>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_key() -> String {
+    "".to_string()
+}
+
+fn default_type() -> String {
+    "".to_string()
+}
+
+fn default_error() -> String {
+    "".to_string()
+}
+
+fn default_attributes() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_lengths() -> Vec<i64> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl Index {

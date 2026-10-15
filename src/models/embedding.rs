@@ -8,16 +8,36 @@ use serde::{Deserialize, Serialize};
 pub struct Embedding {
     /// Embedding model used to generate embeddings.
     #[serde(rename = "model")]
+    #[serde(default = "default_model")]
     pub model: String,
     /// Number of dimensions for each embedding vector.
     #[serde(rename = "dimension")]
+    #[serde(default = "default_dimension")]
     pub dimension: i64,
     /// Embedding vector values. If an error occurs, this will be an empty array.
     #[serde(rename = "embedding")]
+    #[serde(default = "default_embedding")]
     pub embedding: Vec<f64>,
     /// Error message if embedding generation fails. Empty string if no error.
     #[serde(rename = "error")]
+    #[serde(default = "default_error")]
     pub error: String,
+}
+
+fn default_model() -> String {
+    "".to_string()
+}
+
+fn default_dimension() -> i64 {
+    0
+}
+
+fn default_embedding() -> Vec<f64> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_error() -> String {
+    "".to_string()
 }
 
 impl Embedding {

@@ -8,37 +8,79 @@ use serde::{Deserialize, Serialize};
 pub struct Topic {
     /// Topic ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Topic creation time in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Topic update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// The name of the topic.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Total count of email subscribers subscribed to the topic.
     #[serde(rename = "emailTotal")]
+    #[serde(default = "default_email_total")]
     pub email_total: i64,
     /// Total count of SMS subscribers subscribed to the topic.
     #[serde(rename = "smsTotal")]
+    #[serde(default = "default_sms_total")]
     pub sms_total: i64,
     /// Total count of push subscribers subscribed to the topic.
     #[serde(rename = "pushTotal")]
+    #[serde(default = "default_push_total")]
     pub push_total: i64,
     /// Subscribe permissions.
     #[serde(rename = "subscribe")]
+    #[serde(default = "default_subscribe")]
     pub subscribe: Vec<String>,
     /// MQTT QoS for delivery on this topic. Null lets the subscriber choose their
     /// level.
     #[serde(rename = "qos")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub qos: Option<i64>,
-    /// Message retention in seconds for offline delivery.
+    /// Message retention in seconds for offline delivery. Null inherits the lowest
+    /// expiry of the project's enabled Appwrite providers, or the 7-day ledger
+    /// window if none sets one.
     #[serde(rename = "expiry")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub expiry: Option<i64>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_email_total() -> i64 {
+    0
+}
+
+fn default_sms_total() -> i64 {
+    0
+}
+
+fn default_push_total() -> i64 {
+    0
+}
+
+fn default_subscribe() -> Vec<String> {
+    serde_json::from_value(serde_json::json!(["users"])).unwrap()
 }
 
 impl Topic {

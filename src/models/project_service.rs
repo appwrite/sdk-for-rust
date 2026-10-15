@@ -11,7 +11,12 @@ pub struct ProjectService {
     pub id: crate::enums::ProjectServiceId,
     /// Service status.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
+}
+
+fn default_enabled() -> bool {
+    true
 }
 
 impl ProjectService {

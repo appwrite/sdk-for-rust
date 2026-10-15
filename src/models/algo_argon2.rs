@@ -8,16 +8,36 @@ use serde::{Deserialize, Serialize};
 pub struct AlgoArgon2 {
     /// Algo type.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Memory used to compute hash.
     #[serde(rename = "memoryCost")]
+    #[serde(default = "default_memory_cost")]
     pub memory_cost: i64,
     /// Amount of time consumed to compute hash
     #[serde(rename = "timeCost")]
+    #[serde(default = "default_time_cost")]
     pub time_cost: i64,
     /// Number of threads used to compute hash.
     #[serde(rename = "threads")]
+    #[serde(default = "default_threads")]
     pub threads: i64,
+}
+
+fn default_type() -> String {
+    "argon2".to_string()
+}
+
+fn default_memory_cost() -> i64 {
+    0
+}
+
+fn default_time_cost() -> i64 {
+    0
+}
+
+fn default_threads() -> i64 {
+    0
 }
 
 impl AlgoArgon2 {

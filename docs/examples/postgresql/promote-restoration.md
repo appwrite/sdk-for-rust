@@ -1,6 +1,6 @@
 ```rust
 use appwrite::Client;
-use appwrite::services::Organization;
+use appwrite::services::Postgresql;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -9,11 +9,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     client.set_project("<YOUR_PROJECT_ID>"); // Your project ID
     client.set_key("<YOUR_API_KEY>"); // Your secret API key
 
-    let organization = Organization::new(&client);
+    let postgresql = Postgresql::new(&client);
 
-    organization.delete_key(
-        "<KEY_ID>"
+    let result = postgresql.promote_restoration(
+        "<DATABASE_ID>",
+        "<RESTORATION_ID>"
     ).await?;
+
+    let _ = result;
 
     Ok(())
 }

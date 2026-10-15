@@ -60,6 +60,7 @@ impl Organization {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/organization".to_string();
 
@@ -129,9 +130,19 @@ impl Organization {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let installation_id = installation_id.into();
+        if installation_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"installationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/organization/installations/{installationId}"
             .to_string()
-            .replace("{installationId}", &installation_id.into().to_string());
+            .replace("{installationId}", &installation_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -155,9 +166,19 @@ impl Organization {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let installation_id = installation_id.into();
+        if installation_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"installationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/organization/installations/{installationId}"
             .to_string()
-            .replace("{installationId}", &installation_id.into().to_string());
+            .replace("{installationId}", &installation_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -170,130 +191,25 @@ impl Organization {
     pub async fn delete_installation(
         &self,
         installation_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    ) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let installation_id = installation_id.into();
+        if installation_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"installationId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/organization/installations/{installationId}"
             .to_string()
-            .replace("{installationId}", &installation_id.into().to_string());
-
-        self.client
-            .call(Method::DELETE, &path, Some(api_headers), Some(params))
-            .await
-    }
-
-    /// Get a list of all API keys from the current organization.
-    pub async fn list_keys(
-        &self,
-        queries: Option<Vec<String>>,
-        total: Option<bool>,
-    ) -> crate::error::Result<crate::models::KeyList> {
-        let mut params = HashMap::new();
-        if let Some(value) = queries {
-            params.insert(
-                "queries".to_string(),
-                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
-            );
-        }
-        if let Some(value) = total {
-            params.insert("total".to_string(), json!(value));
-        }
-        let mut api_headers = HashMap::new();
-        api_headers.insert("accept".to_string(), "application/json".to_string());
-
-        let path = "/organization/keys".to_string();
-
-        self.client
-            .call(Method::GET, &path, Some(api_headers), Some(params))
-            .await
-    }
-
-    /// Create a new organization API key.
-    pub async fn create_key(
-        &self,
-        key_id: impl Into<String>,
-        name: impl Into<String>,
-        scopes: Vec<crate::enums::OrganizationKeyScopes>,
-        expire: Option<&str>,
-    ) -> crate::error::Result<crate::models::Key> {
-        let mut params = HashMap::new();
-        params.insert("keyId".to_string(), json!(key_id.into()));
-        params.insert("name".to_string(), json!(name.into()));
-        params.insert("scopes".to_string(), json!(scopes));
-        if let Some(value) = expire {
-            params.insert("expire".to_string(), json!(value));
-        }
-        let mut api_headers = HashMap::new();
-        api_headers.insert("content-type".to_string(), "application/json".to_string());
-        api_headers.insert("accept".to_string(), "application/json".to_string());
-
-        let path = "/organization/keys".to_string();
-
-        self.client
-            .call(Method::POST, &path, Some(api_headers), Some(params))
-            .await
-    }
-
-    /// Get a key by its unique ID. This endpoint returns details about a specific
-    /// API key in your organization including its scopes.
-    pub async fn get_key(
-        &self,
-        key_id: impl Into<String>,
-    ) -> crate::error::Result<crate::models::Key> {
-        let params = HashMap::new();
-        let mut api_headers = HashMap::new();
-        api_headers.insert("accept".to_string(), "application/json".to_string());
-
-        let path = "/organization/keys/{keyId}"
-            .to_string()
-            .replace("{keyId}", &key_id.into().to_string());
-
-        self.client
-            .call(Method::GET, &path, Some(api_headers), Some(params))
-            .await
-    }
-
-    /// Update a key by its unique ID. Use this endpoint to update the name,
-    /// scopes, or expiration time of an API key.
-    pub async fn update_key(
-        &self,
-        key_id: impl Into<String>,
-        name: impl Into<String>,
-        scopes: Vec<crate::enums::OrganizationKeyScopes>,
-        expire: Option<&str>,
-    ) -> crate::error::Result<crate::models::Key> {
-        let mut params = HashMap::new();
-        params.insert("name".to_string(), json!(name.into()));
-        params.insert("scopes".to_string(), json!(scopes));
-        if let Some(value) = expire {
-            params.insert("expire".to_string(), json!(value));
-        }
-        let mut api_headers = HashMap::new();
-        api_headers.insert("content-type".to_string(), "application/json".to_string());
-        api_headers.insert("accept".to_string(), "application/json".to_string());
-
-        let path = "/organization/keys/{keyId}"
-            .to_string()
-            .replace("{keyId}", &key_id.into().to_string());
-
-        self.client
-            .call(Method::PUT, &path, Some(api_headers), Some(params))
-            .await
-    }
-
-    /// Delete a key by its unique ID. Once deleted, the key can no longer be used
-    /// to authenticate API calls.
-    pub async fn delete_key(&self, key_id: impl Into<String>) -> crate::error::Result<()> {
-        let params = HashMap::new();
-        let mut api_headers = HashMap::new();
-        api_headers.insert("content-type".to_string(), "application/json".to_string());
-
-        let path = "/organization/keys/{keyId}"
-            .to_string()
-            .replace("{keyId}", &key_id.into().to_string());
+            .replace("{installationId}", &installation_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -382,9 +298,19 @@ impl Organization {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let membership_id = membership_id.into();
+        if membership_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"membershipId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/organization/memberships/{membershipId}"
             .to_string()
-            .replace("{membershipId}", &membership_id.into().to_string());
+            .replace("{membershipId}", &membership_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -406,9 +332,19 @@ impl Organization {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let membership_id = membership_id.into();
+        if membership_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"membershipId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/organization/memberships/{membershipId}"
             .to_string()
-            .replace("{membershipId}", &membership_id.into().to_string());
+            .replace("{membershipId}", &membership_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -425,10 +361,21 @@ impl Organization {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let membership_id = membership_id.into();
+        if membership_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"membershipId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/organization/memberships/{membershipId}"
             .to_string()
-            .replace("{membershipId}", &membership_id.into().to_string());
+            .replace("{membershipId}", &membership_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -496,13 +443,25 @@ impl Organization {
         project_id: impl Into<String>,
     ) -> crate::error::Result<crate::models::Project> {
         let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let project_id = project_id.into();
+        if project_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"projectId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/organization/projects/{projectId}"
             .to_string()
-            .replace("{projectId}", &project_id.into().to_string());
+            .replace("{projectId}", &project_id);
 
         self.client
-            .call(Method::GET, &path, None, Some(params))
+            .call(Method::GET, &path, Some(api_headers), Some(params))
             .await
     }
 
@@ -518,9 +477,19 @@ impl Organization {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let project_id = project_id.into();
+        if project_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"projectId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/organization/projects/{projectId}"
             .to_string()
-            .replace("{projectId}", &project_id.into().to_string());
+            .replace("{projectId}", &project_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -532,10 +501,21 @@ impl Organization {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let project_id = project_id.into();
+        if project_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"projectId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/organization/projects/{projectId}"
             .to_string()
-            .replace("{projectId}", &project_id.into().to_string());
+            .replace("{projectId}", &project_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

@@ -8,9 +8,11 @@ use serde::{Deserialize, Serialize};
 pub struct ColumnVarchar {
     /// Column Key.
     #[serde(rename = "key")]
+    #[serde(default = "default_key")]
     pub key: String,
     /// Column type.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Column status. Possible values: `available`, `processing`, `deleting`,
     /// `stuck`, or `failed`
@@ -19,9 +21,11 @@ pub struct ColumnVarchar {
     /// Error message. Displays error generated on failure of creating or deleting
     /// an column.
     #[serde(rename = "error")]
+    #[serde(default = "default_error")]
     pub error: String,
     /// Is column required?
     #[serde(rename = "required")]
+    #[serde(default = "default_required")]
     pub required: bool,
     /// Is column an array?
     #[serde(rename = "array")]
@@ -29,12 +33,15 @@ pub struct ColumnVarchar {
     pub array: Option<bool>,
     /// Column creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Column update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Column size.
     #[serde(rename = "size")]
+    #[serde(default = "default_size")]
     pub size: i64,
     /// Default value for column when not provided. Cannot be set when column is
     /// required.
@@ -45,6 +52,34 @@ pub struct ColumnVarchar {
     #[serde(rename = "encrypt")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub encrypt: Option<bool>,
+}
+
+fn default_key() -> String {
+    "".to_string()
+}
+
+fn default_type() -> String {
+    "".to_string()
+}
+
+fn default_error() -> String {
+    "".to_string()
+}
+
+fn default_required() -> bool {
+    false
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_size() -> i64 {
+    0
 }
 
 impl ColumnVarchar {

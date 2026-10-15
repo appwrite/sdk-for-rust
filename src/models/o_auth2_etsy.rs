@@ -8,16 +8,36 @@ use serde::{Deserialize, Serialize};
 pub struct OAuth2Etsy {
     /// OAuth2 provider ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// OAuth2 provider is active and can be used to create sessions.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Etsy OAuth2 keystring.
     #[serde(rename = "keyString")]
+    #[serde(default = "default_key_string")]
     pub key_string: String,
     /// Etsy OAuth2 shared secret.
     #[serde(rename = "sharedSecret")]
+    #[serde(default = "default_shared_secret")]
     pub shared_secret: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    false
+}
+
+fn default_key_string() -> String {
+    "".to_string()
+}
+
+fn default_shared_secret() -> String {
+    "".to_string()
 }
 
 impl OAuth2Etsy {

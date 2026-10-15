@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct ColumnList {
     /// Total number of columns in the given table.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of columns.
     #[serde(rename = "columns")]
+    #[serde(default = "default_columns")]
     pub columns: Vec<serde_json::Value>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_columns() -> Vec<serde_json::Value> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl ColumnList {

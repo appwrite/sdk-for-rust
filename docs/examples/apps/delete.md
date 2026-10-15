@@ -11,11 +11,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let apps = Apps::new(&client);
 
-    let result = apps.delete(
+    apps.delete(
         "<APP_ID>"
     ).await?;
-
-    let _ = result;
 
     Ok(())
 }

@@ -12,7 +12,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let project = Project::new(&client);
 
     let result = project.create_ephemeral_key(
-        vec![appwrite::enums::ProjectKeyScopes::ProjectRead],
+        vec![appwrite::enums::ProjectKeyScopes::UsersRead],
         600
     ).await?;
 

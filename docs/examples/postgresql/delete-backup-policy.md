@@ -11,12 +11,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let postgresql = Postgresql::new(&client);
 
-    let result = postgresql.delete_backup_policy(
+    postgresql.delete_backup_policy(
         "<DATABASE_ID>",
         "<POLICY_ID>"
     ).await?;
-
-    let _ = result;
 
     Ok(())
 }

@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct AppSecretList {
     /// Total number of secrets that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of secrets.
     #[serde(rename = "secrets")]
+    #[serde(default = "default_secrets")]
     pub secrets: Vec<crate::models::AppSecret>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_secrets() -> Vec<crate::models::AppSecret> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl AppSecretList {
