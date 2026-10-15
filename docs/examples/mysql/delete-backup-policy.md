@@ -11,12 +11,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mysql = Mysql::new(&client);
 
-    let result = mysql.delete_backup_policy(
+    mysql.delete_backup_policy(
         "<DATABASE_ID>",
         "<POLICY_ID>"
     ).await?;
-
-    let _ = result;
 
     Ok(())
 }

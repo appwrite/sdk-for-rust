@@ -8,12 +8,14 @@ use serde::{Deserialize, Serialize};
 pub struct DedicatedDatabaseMember {
     /// Member identifier.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Member role. Possible values: primary (accepts reads and writes), replica
     /// (read-only follower), unknown (placement not established; reported while a
     /// transition is moving or restarting the topology and this member has not
     /// been probed, so no member can be named the write target).
     #[serde(rename = "role")]
+    #[serde(default = "default_role")]
     pub role: String,
     /// Member pod status. Possible values: pending (configured but absent from the
     /// backend topology, so nothing is bringing it up), provisioning (pod missing
@@ -21,6 +23,7 @@ pub struct DedicatedDatabaseMember {
     /// failed (Failed phase or CrashLoopBackOff container), or the lowercased pod
     /// phase reported by the cluster.
     #[serde(rename = "status")]
+    #[serde(default = "default_status")]
     pub status: String,
     /// Whether the engine reports this member's replication stream as up. Null
     /// when no reading was taken: a primary has no stream to report, and a member
@@ -39,6 +42,18 @@ pub struct DedicatedDatabaseMember {
     #[serde(rename = "lagSeconds")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub lag_seconds: Option<f64>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_role() -> String {
+    "unknown".to_string()
+}
+
+fn default_status() -> String {
+    "".to_string()
 }
 
 impl DedicatedDatabaseMember {

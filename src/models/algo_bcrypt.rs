@@ -8,7 +8,12 @@ use serde::{Deserialize, Serialize};
 pub struct AlgoBcrypt {
     /// Algo type.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
+}
+
+fn default_type() -> String {
+    "bcrypt".to_string()
 }
 
 impl AlgoBcrypt {

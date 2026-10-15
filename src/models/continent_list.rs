@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct ContinentList {
     /// Total number of continents that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of continents.
     #[serde(rename = "continents")]
+    #[serde(default = "default_continents")]
     pub continents: Vec<crate::models::Continent>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_continents() -> Vec<crate::models::Continent> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl ContinentList {

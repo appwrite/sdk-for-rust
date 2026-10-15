@@ -8,56 +8,136 @@ use serde::{Deserialize, Serialize};
 pub struct File {
     /// File ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Bucket ID.
     #[serde(rename = "bucketId")]
+    #[serde(default = "default_bucket_id")]
     pub bucket_id: String,
     /// File creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// File update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// File permissions. [Learn more about
     /// permissions](https://appwrite.io/docs/permissions).
     #[serde(rename = "$permissions")]
+    #[serde(default = "default_permissions")]
     pub permissions: Vec<String>,
     /// File name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Virtual folder containing the file, with a trailing slash. Empty for the
     /// bucket root.
     #[serde(rename = "folder")]
+    #[serde(default = "default_folder")]
     pub folder: String,
     /// Full virtual path of the file: the folder followed by the file name.
     #[serde(rename = "key")]
+    #[serde(default = "default_key")]
     pub key: String,
     /// File MD5 signature.
     #[serde(rename = "signature")]
+    #[serde(default = "default_signature")]
     pub signature: String,
     /// File mime type.
     #[serde(rename = "mimeType")]
+    #[serde(default = "default_mime_type")]
     pub mime_type: String,
     /// File original size in bytes.
     #[serde(rename = "sizeOriginal")]
+    #[serde(default = "default_size_original")]
     pub size_original: i64,
     /// File actual stored size in bytes after compression and/or encryption.
     #[serde(rename = "sizeActual")]
+    #[serde(default = "default_size_actual")]
     pub size_actual: i64,
     /// Total number of chunks available
     #[serde(rename = "chunksTotal")]
+    #[serde(default = "default_chunks_total")]
     pub chunks_total: i64,
     /// Total number of chunks uploaded
     #[serde(rename = "chunksUploaded")]
+    #[serde(default = "default_chunks_uploaded")]
     pub chunks_uploaded: i64,
     /// Whether file contents are encrypted at rest.
     #[serde(rename = "encryption")]
+    #[serde(default = "default_encryption")]
     pub encryption: bool,
     /// Compression algorithm used for the file. Will be one of none,
     /// [gzip](https://en.wikipedia.org/wiki/Gzip), or
     /// [zstd](https://en.wikipedia.org/wiki/Zstd).
     #[serde(rename = "compression")]
+    #[serde(default = "default_compression")]
     pub compression: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_bucket_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_permissions() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_folder() -> String {
+    "".to_string()
+}
+
+fn default_key() -> String {
+    "".to_string()
+}
+
+fn default_signature() -> String {
+    "".to_string()
+}
+
+fn default_mime_type() -> String {
+    "".to_string()
+}
+
+fn default_size_original() -> i64 {
+    0
+}
+
+fn default_size_actual() -> i64 {
+    0
+}
+
+fn default_chunks_total() -> i64 {
+    0
+}
+
+fn default_chunks_uploaded() -> i64 {
+    0
+}
+
+fn default_encryption() -> bool {
+    false
+}
+
+fn default_compression() -> String {
+    "none".to_string()
 }
 
 impl File {

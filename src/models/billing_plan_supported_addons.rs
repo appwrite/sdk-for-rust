@@ -8,13 +8,28 @@ use serde::{Deserialize, Serialize};
 pub struct BillingPlanSupportedAddons {
     /// Whether the plan supports BAA (Business Associate Agreement) addon
     #[serde(rename = "baa")]
+    #[serde(default = "default_baa")]
     pub baa: bool,
     /// Whether the plan supports Premium Geo DB addon (project-level)
     #[serde(rename = "premiumGeoDB")]
+    #[serde(default = "default_premium_geo_db")]
     pub premium_geo_db: bool,
     /// Whether the plan supports Premium Geo DB addon (organization-level)
     #[serde(rename = "premiumGeoDBOrg")]
+    #[serde(default = "default_premium_geo_db_org")]
     pub premium_geo_db_org: bool,
+}
+
+fn default_baa() -> bool {
+    false
+}
+
+fn default_premium_geo_db() -> bool {
+    false
+}
+
+fn default_premium_geo_db_org() -> bool {
+    false
 }
 
 impl BillingPlanSupportedAddons {

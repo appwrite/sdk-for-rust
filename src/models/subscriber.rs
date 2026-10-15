@@ -8,32 +8,72 @@ use serde::{Deserialize, Serialize};
 pub struct Subscriber {
     /// Subscriber ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Subscriber creation time in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Subscriber update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Target ID.
     #[serde(rename = "targetId")]
+    #[serde(default = "default_target_id")]
     pub target_id: String,
     /// Target.
     #[serde(rename = "target")]
     pub target: crate::models::Target,
     /// Topic ID.
     #[serde(rename = "userId")]
+    #[serde(default = "default_user_id")]
     pub user_id: String,
     /// User Name.
     #[serde(rename = "userName")]
+    #[serde(default = "default_user_name")]
     pub user_name: String,
     /// Topic ID.
     #[serde(rename = "topicId")]
+    #[serde(default = "default_topic_id")]
     pub topic_id: String,
     /// The target provider type. Can be one of the following: `email`, `sms` or
     /// `push`.
     #[serde(rename = "providerType")]
+    #[serde(default = "default_provider_type")]
     pub provider_type: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_target_id() -> String {
+    "".to_string()
+}
+
+fn default_user_id() -> String {
+    "".to_string()
+}
+
+fn default_user_name() -> String {
+    "".to_string()
+}
+
+fn default_topic_id() -> String {
+    "".to_string()
+}
+
+fn default_provider_type() -> String {
+    "".to_string()
 }
 
 impl Subscriber {

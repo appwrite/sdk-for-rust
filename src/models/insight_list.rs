@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct InsightList {
     /// Total number of insights that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of insights.
     #[serde(rename = "insights")]
+    #[serde(default = "default_insights")]
     pub insights: Vec<crate::models::Insight>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_insights() -> Vec<crate::models::Insight> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl InsightList {

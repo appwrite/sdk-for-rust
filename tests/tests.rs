@@ -1,11 +1,13 @@
 use appwrite::{
     Client,
+    enums::PresetQuality,
     id::ID,
     input_file::InputFile,
     operator::{self, Condition},
     permission::Permission,
     query::Query,
     role::Role,
+    topic,
     services::*,
 };
 use serde_json::json;
@@ -112,11 +114,49 @@ async fn test_general_service(client: &Client, string_in_array: &[String]) -> Re
         Err(e) => eprintln!("general.redirected => error {}", e),
     }
 
+    for (id, plain) in [("", "0"), ("0", "")] {
+        let error = general.validate_path(plain, Some(id)).await.unwrap_err();
+        assert_eq!(error.code, 0);
+        println!("{}", error.message);
+    }
+    println!("{}", general.validate_path("0", Some("0")).await?.result);
+    println!("{}", general.validate_path("0", None).await?.result);
+
+    let zone: String = Plaintext::new(&client).get_zone().await?;
+    println!("{}", zone);
+    println!("{}", general.get_mixed().await?.result);
+    let plaintext = Plaintext::new(&client);
+    let records = "www 3600 IN A 192.0.2.1";
+    println!("{}", plaintext.import_zone(records, None).await?);
+    let zone_file = InputFile::from_path(Path::new("/app/tests/resources/file.png"), None).await?;
+    println!("{}", plaintext.import_zone(records, Some(zone_file)).await?);
+
+    let message = "conversation without a required file";
+    println!("{}", general.optional_upload(message, None, None).await?.result);
+    let attachment = InputFile::from_path(Path::new("/app/tests/resources/file.png"), None).await?;
+    println!("{}", general.optional_upload(message, Some(attachment), None).await?.result);
+    println!("{}", general.optional_upload(message, None, Some(json!({ "source": "sdk", "uri": "café" }))).await?.result);
+    let attachment = InputFile::from_path(Path::new("/app/tests/resources/file.png"), None).await?;
+    println!("{}", general.optional_upload(message, Some(attachment), Some(json!({ "source": "sdk", "uri": "café" }))).await?.result);
+
     test_general_upload(client, string_in_array).await?;
     test_large_upload(client, string_in_array).await?;
+    // A PUT upload has no chunked form, so it must go in one request even with tiny chunks.
+    let small_chunks = client.set_chunk_size(1024);
+    let profile = General::new(&small_chunks).upload_generic(InputFile::from_path(Path::new("/app/tests/resources/file.png"), None).await?).await?;
+    println!("{}", profile.prefs().get::<String>("result").unwrap_or_default());
 
     // Extended General Responses
     test_general_download(client).await?;
+
+    let preset = general.get_preset(None).await?;
+    println!("preset: name={}, count={}, enabled={}", preset.name, preset.count, preset.enabled);
+    for item in general.list_presets().await?.presets {
+        println!("preset: name={}, count={}, enabled={}", item.name, item.count, item.enabled);
+    }
+    println!("empty presets: {}", general.list_empty_presets().await?.presets.len());
+    println!("preset verified: {}", preset.verified.map_or("null".to_string(), |verified| verified.to_string()));
+    println!("preset quality default: {}", PresetQuality::default());
 
     // Exception Responses
     match general.error400().await {
@@ -145,16 +185,17 @@ async fn test_general_service(client: &Client, string_in_array: &[String]) -> Re
 
     println!("Invalid endpoint URL: htp://cloud.appwrite.io/v1");
 
-    let _ = general.empty().await;
+    let (): () = general.empty().await?;
 
     // Test Queries
-    test_queries();
+    test_queries(client).await?;
 
     // Test Permission Helpers
     test_permission_helpers();
 
     // Test Id Helpers
     test_id_helpers();
+    test_topic_helpers();
 
     // Test Operator Helpers
     test_operator_helpers();
@@ -218,7 +259,7 @@ async fn test_large_upload(client: &Client, string_in_array: &[String]) -> Resul
     Ok(())
 }
 
-fn test_queries() {
+async fn test_queries(client: &Client) -> Result<(), Box<dyn std::error::Error>> {
     println!("{}", Query::equal("released", true));
     println!("{}", Query::equal("title", vec!["Spiderman", "Dr. Strange"]));
     println!("{}", Query::not_equal("title", "Spiderman"));
@@ -293,6 +334,50 @@ fn test_queries() {
         Query::equal("name", "Alice").to_string(),
         Query::greater_than("age", 18).to_string(),
     ]));
+    println!("{}", Query::relationship("comments", vec![
+        Query::equal("approved", true).to_string(),
+        Query::limit(2).to_string(),
+    ]));
+    let general = General::new(client);
+    let mut queries: Vec<String> = vec![
+        Query::count("*", "total").to_string(),
+        Query::join("orders", "$id", "customerId", "=", "").to_string(),
+        Query::group_by(vec!["status"]).to_string(),
+        Query::distinct().to_string(),
+        Query::covers("location", json!([1, 2])).to_string(),
+        Query::count_distinct("year", "uniqueYears").to_string(),
+        Query::sum("price", "total").to_string(),
+        Query::avg("price", "avgPrice").to_string(),
+        Query::min("price", "lowest").to_string(),
+        Query::max("price", "highest").to_string(),
+        Query::stddev("price", "sd").to_string(),
+        Query::stddev_pop("price", "sdp").to_string(),
+        Query::stddev_samp("price", "sds").to_string(),
+        Query::variance("price", "var").to_string(),
+        Query::var_pop("price", "vp").to_string(),
+        Query::var_samp("price", "vs").to_string(),
+        Query::bit_and("flags", "band").to_string(),
+        Query::bit_or("flags", "bor").to_string(),
+        Query::bit_xor("flags", "bxor").to_string(),
+        Query::having(vec![Query::greater_than("total", 1).to_string()]).to_string(),
+        Query::left_join("orders", "$id", "customerId", "=", "ord").to_string(),
+        Query::right_join("orders", "$id", "customerId", "=", "").to_string(),
+        Query::full_outer_join("orders", "$id", "customerId", "=", "").to_string(),
+        Query::cross_join("orders", "ord").to_string(),
+        Query::on("$id", "customerId", "=").to_string(),
+        Query::left_join_on("orders", "ord", vec![
+            Query::on("$id", "customerId", "=").to_string(),
+            Query::equal("ord.status", "paid").to_string(),
+        ]).to_string(),
+        Query::not_covers("location", json!([1, 2])).to_string(),
+        Query::spatial_equals("location", json!([1, 2])).to_string(),
+        Query::not_spatial_equals("location", json!([1, 2])).to_string(),
+    ];
+    queries.extend(Query::page(2, 10).iter().map(|query| query.to_string()));
+    queries.extend(Query::builder().limit(1).build());
+    println!("{}", general.list_rows(Some(queries)).await?.result);
+
+    Ok(())
 }
 
 fn test_permission_helpers() {
@@ -311,6 +396,25 @@ fn test_permission_helpers() {
 fn test_id_helpers() {
     println!("{}", ID::unique());
     println!("{}", ID::custom("custom_id"));
+}
+
+fn test_topic_helpers() {
+    println!("{}", topic::path(&["user", "123", "notification"]).unwrap());
+    println!("{}", topic::path(&["org", "42", "user", "123"]).unwrap().path(&["notification"]).unwrap());
+    let cases: Vec<(&str, Vec<&str>)> = vec![
+        ("empty path", vec![]),
+        ("empty level", vec!["user", ""]),
+        ("slash", vec!["user/123"]),
+        ("plus", vec!["user", "a+b"]),
+        ("hash", vec!["user", "#"]),
+        ("nul", vec!["user", "a\0b"]),
+    ];
+    for (name, levels) in cases {
+        match topic::path(&levels) {
+            Ok(_) => println!("Topic {}:failed", name),
+            Err(_) => println!("Topic {}:passed", name),
+        }
+    }
 }
 
 fn test_operator_helpers() {

@@ -9,7 +9,12 @@ pub struct Oauth2Reject {
     /// URL the end user should be redirected to after the grant is rejected,
     /// carrying an `access_denied` error.
     #[serde(rename = "redirectUrl")]
+    #[serde(default = "default_redirect_url")]
     pub redirect_url: String,
+}
+
+fn default_redirect_url() -> String {
+    "".to_string()
 }
 
 impl Oauth2Reject {

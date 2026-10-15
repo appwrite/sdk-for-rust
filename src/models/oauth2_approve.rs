@@ -10,7 +10,12 @@ pub struct Oauth2Approve {
     /// carrying the authorization `code` and/or `id_token` along with the original
     /// `state`.
     #[serde(rename = "redirectUrl")]
+    #[serde(default = "default_redirect_url")]
     pub redirect_url: String,
+}
+
+fn default_redirect_url() -> String {
+    "".to_string()
 }
 
 impl Oauth2Approve {

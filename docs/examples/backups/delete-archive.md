@@ -11,11 +11,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let backups = Backups::new(&client);
 
-    let result = backups.delete_archive(
+    backups.delete_archive(
         "<ARCHIVE_ID>"
     ).await?;
-
-    let _ = result;
 
     Ok(())
 }

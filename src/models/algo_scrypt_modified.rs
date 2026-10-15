@@ -8,16 +8,36 @@ use serde::{Deserialize, Serialize};
 pub struct AlgoScryptModified {
     /// Algo type.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Salt used to compute hash.
     #[serde(rename = "salt")]
+    #[serde(default = "default_salt")]
     pub salt: String,
     /// Separator used to compute hash.
     #[serde(rename = "saltSeparator")]
+    #[serde(default = "default_salt_separator")]
     pub salt_separator: String,
     /// Key used to compute hash.
     #[serde(rename = "signerKey")]
+    #[serde(default = "default_signer_key")]
     pub signer_key: String,
+}
+
+fn default_type() -> String {
+    "scryptMod".to_string()
+}
+
+fn default_salt() -> String {
+    "".to_string()
+}
+
+fn default_salt_separator() -> String {
+    "".to_string()
+}
+
+fn default_signer_key() -> String {
+    "".to_string()
 }
 
 impl AlgoScryptModified {

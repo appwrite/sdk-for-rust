@@ -11,12 +11,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let apps = Apps::new(&client);
 
-    let result = apps.delete_key(
+    apps.delete_key(
         "<APP_ID>",
         "<KEY_ID>"
     ).await?;
-
-    let _ = result;
 
     Ok(())
 }

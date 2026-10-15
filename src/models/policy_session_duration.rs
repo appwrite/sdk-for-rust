@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct PolicySessionDuration {
     /// Policy ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Session duration in seconds.
     #[serde(rename = "duration")]
+    #[serde(default = "default_duration")]
     pub duration: i64,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_duration() -> i64 {
+    31536000
 }
 
 impl PolicySessionDuration {

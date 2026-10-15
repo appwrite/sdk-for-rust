@@ -8,16 +8,36 @@ use serde::{Deserialize, Serialize};
 pub struct DatabaseStatusVolume {
     /// Mount path of the volume.
     #[serde(rename = "path")]
+    #[serde(default = "default_path")]
     pub path: String,
     /// Percentage of storage used.
     #[serde(rename = "usedPercent")]
+    #[serde(default = "default_used_percent")]
     pub used_percent: String,
     /// Available storage space.
     #[serde(rename = "available")]
+    #[serde(default = "default_available")]
     pub available: String,
     /// Whether the volume is mounted.
     #[serde(rename = "mounted")]
+    #[serde(default = "default_mounted")]
     pub mounted: bool,
+}
+
+fn default_path() -> String {
+    "".to_string()
+}
+
+fn default_used_percent() -> String {
+    "0%".to_string()
+}
+
+fn default_available() -> String {
+    "0GB".to_string()
+}
+
+fn default_mounted() -> bool {
+    false
 }
 
 impl DatabaseStatusVolume {

@@ -8,16 +8,36 @@ use serde::{Deserialize, Serialize};
 pub struct Specification {
     /// Memory size in MB.
     #[serde(rename = "memory")]
+    #[serde(default = "default_memory")]
     pub memory: i64,
     /// Number of CPUs.
     #[serde(rename = "cpus")]
+    #[serde(default = "default_cpus")]
     pub cpus: f64,
     /// Is size enabled.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// Size slug.
     #[serde(rename = "slug")]
+    #[serde(default = "default_slug")]
     pub slug: String,
+}
+
+fn default_memory() -> i64 {
+    0
+}
+
+fn default_cpus() -> f64 {
+    0.0
+}
+
+fn default_enabled() -> bool {
+    false
+}
+
+fn default_slug() -> String {
+    "".to_string()
 }
 
 impl Specification {

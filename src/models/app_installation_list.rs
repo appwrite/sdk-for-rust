@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct AppInstallationList {
     /// Total number of installations that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of installations.
     #[serde(rename = "installations")]
+    #[serde(default = "default_installations")]
     pub installations: Vec<crate::models::AppInstallation>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_installations() -> Vec<crate::models::AppInstallation> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl AppInstallationList {

@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct VariableList {
     /// Total number of variables that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of variables.
     #[serde(rename = "variables")]
+    #[serde(default = "default_variables")]
     pub variables: Vec<crate::models::Variable>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_variables() -> Vec<crate::models::Variable> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl VariableList {

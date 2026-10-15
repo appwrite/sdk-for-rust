@@ -13,7 +13,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = vectors_db.create_operations(
         "<TRANSACTION_ID>",
-        Some(vec![serde_json::json!({"action":"create","databaseId":"<DATABASE_ID>","collectionId":"<COLLECTION_ID>","documentId":"<DOCUMENT_ID>","data":{"name":"Walter O'Brien"}})]) // optional
+        Some(vec![serde_json::json!({"action":"create","databaseId":"<DATABASE_ID>","collectionId":"<COLLECTION_ID>","documentId":"<DOCUMENT_ID>","data":{"embeddings":[0.12,-0.55,0.88,1.02],"metadata":{"name":"First document"}}})]) // optional
     ).await?;
 
     let _ = result;

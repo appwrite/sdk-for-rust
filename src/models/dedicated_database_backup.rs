@@ -8,44 +8,55 @@ use serde::{Deserialize, Serialize};
 pub struct DedicatedDatabaseBackup {
     /// Backup ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Backup creation time in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Database ID this backup belongs to.
     #[serde(rename = "databaseId")]
+    #[serde(default = "default_database_id")]
     pub database_id: String,
     /// Project ID.
     #[serde(rename = "projectId")]
+    #[serde(default = "default_project_id")]
     pub project_id: String,
     /// Backup policy ID when the backup was created by a schedule.
     #[serde(rename = "policyId")]
+    #[serde(default = "default_policy_id")]
     pub policy_id: String,
     /// Backup trigger. Possible values: manual, schedule.
     #[serde(rename = "trigger")]
+    #[serde(default = "default_trigger")]
     pub trigger: String,
     /// Backup type. Possible values: full (complete database snapshot),
     /// incremental (changes since last backup), wal (write-ahead log continuous
     /// archival).
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Backup type that was requested. Differs from `type` when the backend could
     /// not run the requested type and took a different one instead, in which case
     /// `fallbackReason` explains why. Empty for backups taken before the requested
     /// type was recorded.
     #[serde(rename = "requestedType")]
+    #[serde(default = "default_requested_type")]
     pub requested_type: String,
     /// Why the backend ran a different backup type than the one requested. Empty
     /// when the backup ran as requested.
     #[serde(rename = "fallbackReason")]
+    #[serde(default = "default_fallback_reason")]
     pub fallback_reason: String,
     /// Backup status. Possible values: pending (queued for processing), running
     /// (currently in progress), completed (successfully finished), failed
     /// (encountered an error), verified (integrity check passed).
     #[serde(rename = "status")]
+    #[serde(default = "default_status")]
     pub status: String,
     /// Backup size in bytes.
     #[serde(rename = "sizeBytes")]
+    #[serde(default = "default_size_bytes")]
     pub size_bytes: i64,
     /// Backup start time in ISO 8601 format.
     #[serde(rename = "startedAt")]
@@ -73,7 +84,56 @@ pub struct DedicatedDatabaseBackup {
     pub log_position: Option<String>,
     /// Error message if backup failed.
     #[serde(rename = "error")]
+    #[serde(default = "default_error")]
     pub error: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_database_id() -> String {
+    "".to_string()
+}
+
+fn default_project_id() -> String {
+    "".to_string()
+}
+
+fn default_policy_id() -> String {
+    "".to_string()
+}
+
+fn default_trigger() -> String {
+    "manual".to_string()
+}
+
+fn default_type() -> String {
+    "full".to_string()
+}
+
+fn default_requested_type() -> String {
+    "".to_string()
+}
+
+fn default_fallback_reason() -> String {
+    "".to_string()
+}
+
+fn default_status() -> String {
+    "pending".to_string()
+}
+
+fn default_size_bytes() -> i64 {
+    0
+}
+
+fn default_error() -> String {
+    "".to_string()
 }
 
 impl DedicatedDatabaseBackup {

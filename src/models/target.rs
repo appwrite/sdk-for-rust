@@ -8,18 +8,23 @@ use serde::{Deserialize, Serialize};
 pub struct Target {
     /// Target ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Target creation time in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Target update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Target Name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// User ID.
     #[serde(rename = "userId")]
+    #[serde(default = "default_user_id")]
     pub user_id: String,
     /// Provider ID.
     #[serde(rename = "providerId")]
@@ -28,13 +33,48 @@ pub struct Target {
     /// The target provider type. Can be one of the following: `email`, `sms` or
     /// `push`.
     #[serde(rename = "providerType")]
+    #[serde(default = "default_provider_type")]
     pub provider_type: String,
     /// The target identifier.
     #[serde(rename = "identifier")]
+    #[serde(default = "default_identifier")]
     pub identifier: String,
     /// Is the target expired.
     #[serde(rename = "expired")]
+    #[serde(default = "default_expired")]
     pub expired: bool,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_user_id() -> String {
+    "".to_string()
+}
+
+fn default_provider_type() -> String {
+    "".to_string()
+}
+
+fn default_identifier() -> String {
+    "".to_string()
+}
+
+fn default_expired() -> bool {
+    false
 }
 
 impl Target {

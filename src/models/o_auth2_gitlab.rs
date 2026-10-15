@@ -8,20 +8,45 @@ use serde::{Deserialize, Serialize};
 pub struct OAuth2Gitlab {
     /// OAuth2 provider ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// OAuth2 provider is active and can be used to create sessions.
     #[serde(rename = "enabled")]
+    #[serde(default = "default_enabled")]
     pub enabled: bool,
     /// GitLab OAuth2 application ID.
     #[serde(rename = "applicationId")]
+    #[serde(default = "default_application_id")]
     pub application_id: String,
     /// GitLab OAuth2 secret.
     #[serde(rename = "secret")]
+    #[serde(default = "default_secret")]
     pub secret: String,
     /// GitLab OAuth2 endpoint URL. Defaults to https://gitlab.com for self-hosted
     /// instances.
     #[serde(rename = "endpoint")]
+    #[serde(default = "default_endpoint")]
     pub endpoint: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_enabled() -> bool {
+    false
+}
+
+fn default_application_id() -> String {
+    "".to_string()
+}
+
+fn default_secret() -> String {
+    "".to_string()
+}
+
+fn default_endpoint() -> String {
+    "".to_string()
 }
 
 impl OAuth2Gitlab {

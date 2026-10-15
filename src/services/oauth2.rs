@@ -81,7 +81,7 @@ impl Oauth2 {
         prompt: Option<&str>,
         max_age: Option<i64>,
         authorization_details: Option<&str>,
-        resource: Option<&str>,
+        resource: Option<Vec<String>>,
         audience: Option<&str>,
         request_uri: Option<&str>,
     ) -> crate::error::Result<crate::models::Oauth2Authorize> {
@@ -120,7 +120,10 @@ impl Oauth2 {
             params.insert("authorization_details".to_string(), json!(value));
         }
         if let Some(value) = resource {
-            params.insert("resource".to_string(), json!(value));
+            params.insert(
+                "resource".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = audience {
             params.insert("audience".to_string(), json!(value));
@@ -165,7 +168,7 @@ impl Oauth2 {
         prompt: Option<&str>,
         max_age: Option<i64>,
         authorization_details: Option<&str>,
-        resource: Option<&str>,
+        resource: Option<Vec<String>>,
         audience: Option<&str>,
         request_uri: Option<&str>,
     ) -> crate::error::Result<crate::models::Oauth2Authorize> {
@@ -204,7 +207,10 @@ impl Oauth2 {
             params.insert("authorization_details".to_string(), json!(value));
         }
         if let Some(value) = resource {
-            params.insert("resource".to_string(), json!(value));
+            params.insert(
+                "resource".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = audience {
             params.insert("audience".to_string(), json!(value));
@@ -238,7 +244,7 @@ impl Oauth2 {
         client_id: Option<&str>,
         scope: Option<&str>,
         authorization_details: Option<&str>,
-        resource: Option<&str>,
+        resource: Option<Vec<String>>,
         audience: Option<&str>,
     ) -> crate::error::Result<crate::models::Oauth2DeviceAuthorization> {
         let mut params = HashMap::new();
@@ -252,7 +258,10 @@ impl Oauth2 {
             params.insert("authorization_details".to_string(), json!(value));
         }
         if let Some(value) = resource {
-            params.insert("resource".to_string(), json!(value));
+            params.insert(
+                "resource".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = audience {
             params.insert("audience".to_string(), json!(value));
@@ -318,6 +327,16 @@ impl Oauth2 {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let grant_id = grant_id.into();
+        if grant_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"grantId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/oauth2/{project_id}/grants/{grant_id}"
             .to_string()
             .replace(
@@ -329,7 +348,7 @@ impl Oauth2 {
                     .cloned()
                     .unwrap_or_default(),
             )
-            .replace("{grant_id}", &grant_id.into().to_string());
+            .replace("{grant_id}", &grant_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -430,7 +449,7 @@ impl Oauth2 {
         prompt: Option<&str>,
         max_age: Option<i64>,
         authorization_details: Option<&str>,
-        resource: Option<&str>,
+        resource: Option<Vec<String>>,
         audience: Option<&str>,
     ) -> crate::error::Result<crate::models::Oauth2PAR> {
         let mut params = HashMap::new();
@@ -462,7 +481,10 @@ impl Oauth2 {
             params.insert("authorization_details".to_string(), json!(value));
         }
         if let Some(value) = resource {
-            params.insert("resource".to_string(), json!(value));
+            params.insert(
+                "resource".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = audience {
             params.insert("audience".to_string(), json!(value));
@@ -603,7 +625,7 @@ impl Oauth2 {
         client_secret: Option<&str>,
         code_verifier: Option<&str>,
         redirect_uri: Option<&str>,
-        resource: Option<&str>,
+        resource: Option<Vec<String>>,
         audience: Option<&str>,
     ) -> crate::error::Result<crate::models::Oauth2Token> {
         let mut params = HashMap::new();
@@ -630,7 +652,10 @@ impl Oauth2 {
             params.insert("redirect_uri".to_string(), json!(value));
         }
         if let Some(value) = resource {
-            params.insert("resource".to_string(), json!(value));
+            params.insert(
+                "resource".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         if let Some(value) = audience {
             params.insert("audience".to_string(), json!(value));

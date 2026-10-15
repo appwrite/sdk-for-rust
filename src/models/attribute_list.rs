@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct AttributeList {
     /// Total number of attributes in the given collection.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of attributes.
     #[serde(rename = "attributes")]
+    #[serde(default = "default_attributes")]
     pub attributes: Vec<serde_json::Value>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_attributes() -> Vec<serde_json::Value> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl AttributeList {

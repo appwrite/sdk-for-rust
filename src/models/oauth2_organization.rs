@@ -8,7 +8,12 @@ use serde::{Deserialize, Serialize};
 pub struct Oauth2Organization {
     /// Organization ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
+}
+
+fn default_id() -> String {
+    "".to_string()
 }
 
 impl Oauth2Organization {

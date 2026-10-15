@@ -121,8 +121,8 @@ impl Mysql {
     }
 
     /// List the dedicated database specifications available on the current plan.
-    /// Each specification reports its resource limits, pricing, and whether it is
-    /// enabled for the organization.
+    /// Each specification reports its resource limits, its own prices and overage
+    /// rates, and whether it is enabled for the organization.
     pub async fn list_specifications(
         &self,
     ) -> crate::error::Result<crate::models::DedicatedDatabaseSpecificationList> {
@@ -147,9 +147,19 @@ impl Mysql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -259,9 +269,19 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -272,18 +292,25 @@ impl Mysql {
     /// status will be set to 'deleting' and all resources will be cleaned up.
     /// Deletion is allowed from any state, and repeating the call re-dispatches
     /// the cleanup.
-    pub async fn delete(
-        &self,
-        database_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    pub async fn delete(&self, database_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -307,9 +334,19 @@ impl Mysql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/backups"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -331,9 +368,19 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/backups"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -356,9 +403,19 @@ impl Mysql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/backups/policies"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -392,9 +449,19 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/backups/policies"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -411,10 +478,30 @@ impl Mysql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let policy_id = policy_id.into();
+        if policy_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"policyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/backups/policies/{policyId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{policyId}", &policy_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{policyId}", &policy_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -448,10 +535,30 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let policy_id = policy_id.into();
+        if policy_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"policyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/backups/policies/{policyId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{policyId}", &policy_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{policyId}", &policy_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -464,16 +571,36 @@ impl Mysql {
         &self,
         database_id: impl Into<String>,
         policy_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    ) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let policy_id = policy_id.into();
+        if policy_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"policyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/backups/policies/{policyId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{policyId}", &policy_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{policyId}", &policy_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -513,9 +640,19 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/backups/storage"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -533,10 +670,30 @@ impl Mysql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let backup_id = backup_id.into();
+        if backup_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"backupId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/backups/{backupId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{backupId}", &backup_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{backupId}", &backup_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -549,16 +706,36 @@ impl Mysql {
         &self,
         database_id: impl Into<String>,
         backup_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    ) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let backup_id = backup_id.into();
+        if backup_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"backupId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/backups/{backupId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{backupId}", &backup_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{backupId}", &backup_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -575,9 +752,19 @@ impl Mysql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/branches"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -606,9 +793,19 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/branches"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -628,10 +825,30 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let branch_id = branch_id.into();
+        if branch_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"branchId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/branches/{branchId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{branchId}", &branch_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{branchId}", &branch_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -651,9 +868,19 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/credentials"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -669,6 +896,10 @@ impl Mysql {
     /// without a per-query cloud round-trip. The statement type must be on the
     /// database's configured allow-list. Use bound parameters for any
     /// user-supplied values — the API does not interpolate raw strings.
+    /// Long-running statements (for example CREATE INDEX) can outlive the HTTP
+    /// request: if the request ends before a result is returned, check the
+    /// database before retrying, and prefer a direct connection for work that may
+    /// take minutes.
     pub async fn create_execution(
         &self,
         database_id: impl Into<String>,
@@ -688,9 +919,19 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/executions"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -719,9 +960,19 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/failovers"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -744,9 +995,19 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/maintenance"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -772,9 +1033,19 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/migrations"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -805,9 +1076,19 @@ impl Mysql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/operations"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -824,9 +1105,19 @@ impl Mysql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/pitr"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -843,9 +1134,19 @@ impl Mysql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/pooler"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -896,9 +1197,19 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/pooler"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -915,9 +1226,19 @@ impl Mysql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/replicas"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -950,9 +1271,19 @@ impl Mysql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/restorations"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -963,6 +1294,18 @@ impl Mysql {
     /// backup restoration, provide a backupId. For PITR, provide a targetTime as
     /// an ISO 8601 datetime. PITR requires the database to have PITR enabled and
     /// is only available for enterprise databases.
+    ///
+    /// By default the backup is replayed over the database it was taken from. Pass
+    /// `restoreMode` as `clone` to recover it onto a second workload beside this
+    /// database instead: this database keeps serving its own data while the clone
+    /// is filled, and the switch happens as soon as the clone is ready, on the
+    /// endpoint and credentials it already had. Pass `autoPromote` as false to
+    /// hold the clone until you promote it yourself. Pass `restoreMode` as `copy`
+    /// to recover onto a separate database with its own endpoint, either one you
+    /// name with `targetDatabaseId` or one provisioned as a copy of this
+    /// database's engine, version, specification and replicas. Neither mode is
+    /// available for a point-in-time recovery or an incremental backup.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create_restoration(
         &self,
         database_id: impl Into<String>,
@@ -970,6 +1313,9 @@ impl Mysql {
         backup_id: Option<&str>,
         target_database_id: Option<&str>,
         target_time: Option<&str>,
+        restore_mode: Option<&str>,
+        target_name: Option<&str>,
+        auto_promote: Option<bool>,
     ) -> crate::error::Result<crate::models::DedicatedDatabaseRestoration> {
         let mut params = HashMap::new();
         if let Some(value) = r#type {
@@ -984,13 +1330,32 @@ impl Mysql {
         if let Some(value) = target_time {
             params.insert("targetTime".to_string(), json!(value));
         }
+        if let Some(value) = restore_mode {
+            params.insert("restoreMode".to_string(), json!(value));
+        }
+        if let Some(value) = target_name {
+            params.insert("targetName".to_string(), json!(value));
+        }
+        if let Some(value) = auto_promote {
+            params.insert("autoPromote".to_string(), json!(value));
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/restorations"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1008,13 +1373,79 @@ impl Mysql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let restoration_id = restoration_id.into();
+        if restoration_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"restorationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/restorations/{restorationId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{restorationId}", &restoration_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{restorationId}", &restoration_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Switch the database over to the clone a restoration recovered. The database
+    /// keeps
+    /// its endpoint and credentials; clients reconnect once. Writes made after the
+    /// recovery point are discarded, and the side being replaced is retained
+    /// briefly so
+    /// the switch can be reversed.
+    pub async fn promote_restoration(
+        &self,
+        database_id: impl Into<String>,
+        restoration_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::DedicatedDatabaseRestoration> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let restoration_id = restoration_id.into();
+        if restoration_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"restorationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/mysql/{databaseId}/restorations/{restorationId}/promotions"
+            .to_string()
+            .replace("{databaseId}", &database_id)
+            .replace("{restorationId}", &restoration_id);
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
             .await
     }
 
@@ -1029,9 +1460,19 @@ impl Mysql {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/status"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1051,9 +1492,19 @@ impl Mysql {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/mysql/{databaseId}/upgrades"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))

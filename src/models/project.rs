@@ -8,87 +8,110 @@ use serde::{Deserialize, Serialize};
 pub struct Project {
     /// Project ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Project creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Project update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Project name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Project team ID.
     #[serde(rename = "teamId")]
+    #[serde(default = "default_team_id")]
     pub team_id: String,
     /// Project region
     #[serde(rename = "region")]
+    #[serde(default = "default_region")]
     pub region: String,
-    /// Deprecated since 1.9.5: List of dev keys.
-    #[serde(rename = "devKeys")]
-    pub dev_keys: Vec<crate::models::DevKey>,
     /// Status for custom SMTP
     #[serde(rename = "smtpEnabled")]
+    #[serde(default = "default_smtp_enabled")]
     pub smtp_enabled: bool,
     /// SMTP sender name
     #[serde(rename = "smtpSenderName")]
+    #[serde(default = "default_smtp_sender_name")]
     pub smtp_sender_name: String,
     /// SMTP sender email
     #[serde(rename = "smtpSenderEmail")]
+    #[serde(default = "default_smtp_sender_email")]
     pub smtp_sender_email: String,
     /// SMTP reply to name
     #[serde(rename = "smtpReplyToName")]
+    #[serde(default = "default_smtp_reply_to_name")]
     pub smtp_reply_to_name: String,
     /// SMTP reply to email
     #[serde(rename = "smtpReplyToEmail")]
+    #[serde(default = "default_smtp_reply_to_email")]
     pub smtp_reply_to_email: String,
     /// SMTP server host name
     #[serde(rename = "smtpHost")]
+    #[serde(default = "default_smtp_host")]
     pub smtp_host: String,
     /// SMTP server port
     #[serde(rename = "smtpPort")]
+    #[serde(default = "default_smtp_port")]
     pub smtp_port: i64,
     /// SMTP server username
     #[serde(rename = "smtpUsername")]
+    #[serde(default = "default_smtp_username")]
     pub smtp_username: String,
     /// SMTP server password. This property is write-only and always returned
     /// empty.
     #[serde(rename = "smtpPassword")]
+    #[serde(default = "default_smtp_password")]
     pub smtp_password: String,
     /// SMTP server secure protocol
     #[serde(rename = "smtpSecure")]
+    #[serde(default = "default_smtp_secure")]
     pub smtp_secure: String,
     /// Number of times the ping was received for this project.
     #[serde(rename = "pingCount")]
+    #[serde(default = "default_ping_count")]
     pub ping_count: i64,
     /// Last ping datetime in ISO 8601 format.
     #[serde(rename = "pingedAt")]
+    #[serde(default = "default_pinged_at")]
     pub pinged_at: String,
     /// Labels for the project.
     #[serde(rename = "labels")]
+    #[serde(default = "default_labels")]
     pub labels: Vec<String>,
     /// Project status
     #[serde(rename = "status")]
+    #[serde(default = "default_status")]
     pub status: String,
     /// Stage progress (completed or skipped) with timestamps and actor types,
     /// keyed by stage id.
     #[serde(rename = "onboarding")]
+    #[serde(default = "default_onboarding")]
     pub onboarding: serde_json::Value,
     /// List of auth methods.
     #[serde(rename = "authMethods")]
+    #[serde(default = "default_auth_methods")]
     pub auth_methods: Vec<crate::models::ProjectAuthMethod>,
     /// List of services.
     #[serde(rename = "services")]
+    #[serde(default = "default_services")]
     pub services: Vec<crate::models::ProjectService>,
     /// List of protocols.
     #[serde(rename = "protocols")]
+    #[serde(default = "default_protocols")]
     pub protocols: Vec<crate::models::ProjectProtocol>,
     /// Project blocks information
     #[serde(rename = "blocks")]
+    #[serde(default = "default_blocks")]
     pub blocks: Vec<crate::models::Block>,
     /// Last time the project was accessed via console. Used with plan's
     /// projectInactivityDays to determine if project is paused.
     #[serde(rename = "consoleAccessedAt")]
+    #[serde(default = "default_console_accessed_at")]
     pub console_accessed_at: String,
     /// Whether WAF enforcement is enabled for the project.
     #[serde(rename = "wafEnabled")]
@@ -192,6 +215,110 @@ pub struct Project {
     pub o_auth2_server_discovery_url: Option<String>,
 }
 
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_team_id() -> String {
+    "".to_string()
+}
+
+fn default_region() -> String {
+    "fra".to_string()
+}
+
+fn default_smtp_enabled() -> bool {
+    false
+}
+
+fn default_smtp_sender_name() -> String {
+    "".to_string()
+}
+
+fn default_smtp_sender_email() -> String {
+    "".to_string()
+}
+
+fn default_smtp_reply_to_name() -> String {
+    "".to_string()
+}
+
+fn default_smtp_reply_to_email() -> String {
+    "".to_string()
+}
+
+fn default_smtp_host() -> String {
+    "".to_string()
+}
+
+fn default_smtp_port() -> i64 {
+    0
+}
+
+fn default_smtp_username() -> String {
+    "".to_string()
+}
+
+fn default_smtp_password() -> String {
+    "".to_string()
+}
+
+fn default_smtp_secure() -> String {
+    "".to_string()
+}
+
+fn default_ping_count() -> i64 {
+    0
+}
+
+fn default_pinged_at() -> String {
+    "".to_string()
+}
+
+fn default_labels() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_status() -> String {
+    "active".to_string()
+}
+
+fn default_onboarding() -> serde_json::Value {
+    serde_json::json!({})
+}
+
+fn default_auth_methods() -> Vec<crate::models::ProjectAuthMethod> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_services() -> Vec<crate::models::ProjectService> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_protocols() -> Vec<crate::models::ProjectProtocol> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_blocks() -> Vec<crate::models::Block> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_console_accessed_at() -> String {
+    "".to_string()
+}
+
 impl Project {
     /// Get id
     pub fn id(&self) -> &String {
@@ -221,11 +348,6 @@ impl Project {
     /// Get region
     pub fn region(&self) -> &String {
         &self.region
-    }
-
-    /// Get dev_keys
-    pub fn dev_keys(&self) -> &Vec<crate::models::DevKey> {
-        &self.dev_keys
     }
 
     /// Get smtp_enabled
@@ -634,7 +756,6 @@ mod tests {
         let _ = _model.name();
         let _ = _model.team_id();
         let _ = _model.region();
-        let _ = _model.dev_keys();
         let _ = _model.smtp_enabled();
         let _ = _model.smtp_sender_name();
         let _ = _model.smtp_sender_email();

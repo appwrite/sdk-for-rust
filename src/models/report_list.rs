@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct ReportList {
     /// Total number of reports that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of reports.
     #[serde(rename = "reports")]
+    #[serde(default = "default_reports")]
     pub reports: Vec<crate::models::Report>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_reports() -> Vec<crate::models::Report> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl ReportList {

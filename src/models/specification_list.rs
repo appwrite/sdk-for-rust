@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct SpecificationList {
     /// Total number of specifications that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of specifications.
     #[serde(rename = "specifications")]
+    #[serde(default = "default_specifications")]
     pub specifications: Vec<crate::models::Specification>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_specifications() -> Vec<crate::models::Specification> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl SpecificationList {

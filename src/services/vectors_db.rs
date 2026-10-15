@@ -86,8 +86,8 @@ impl VectorsDB {
     }
 
     /// List the dedicated database specifications available on the current plan.
-    /// Each specification reports its resource limits, pricing, and whether it is
-    /// enabled for the organization.
+    /// Each specification reports its resource limits, its own prices and overage
+    /// rates, and whether it is enabled for the organization.
     pub async fn list_specifications(
         &self,
     ) -> crate::error::Result<crate::models::DedicatedDatabaseSpecificationList> {
@@ -157,9 +157,19 @@ impl VectorsDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let transaction_id = transaction_id.into();
+        if transaction_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"transactionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id.into().to_string());
+            .replace("{transactionId}", &transaction_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -184,9 +194,19 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let transaction_id = transaction_id.into();
+        if transaction_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"transactionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id.into().to_string());
+            .replace("{transactionId}", &transaction_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -201,10 +221,21 @@ impl VectorsDB {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let transaction_id = transaction_id.into();
+        if transaction_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"transactionId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/vectorsdb/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id.into().to_string());
+            .replace("{transactionId}", &transaction_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -225,9 +256,19 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let transaction_id = transaction_id.into();
+        if transaction_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"transactionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/transactions/{transactionId}/operations"
             .to_string()
-            .replace("{transactionId}", &transaction_id.into().to_string());
+            .replace("{transactionId}", &transaction_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -244,9 +285,19 @@ impl VectorsDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -281,9 +332,19 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -296,10 +357,21 @@ impl VectorsDB {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/vectorsdb/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -331,9 +403,19 @@ impl VectorsDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -375,9 +457,19 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -395,10 +487,30 @@ impl VectorsDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -438,10 +550,30 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -458,11 +590,32 @@ impl VectorsDB {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -499,10 +652,30 @@ impl VectorsDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -538,10 +711,30 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -568,10 +761,30 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -598,10 +811,30 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -636,10 +869,30 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -669,10 +922,30 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -712,10 +985,30 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/documents/query"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -745,11 +1038,41 @@ impl VectorsDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let document_id = document_id.into();
+        if document_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"documentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/documents/{documentId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{documentId}", &document_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{documentId}", &document_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -786,11 +1109,41 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let document_id = document_id.into();
+        if document_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"documentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/documents/{documentId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{documentId}", &document_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{documentId}", &document_id);
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -825,11 +1178,41 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let document_id = document_id.into();
+        if document_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"documentId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/documents/{documentId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{documentId}", &document_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{documentId}", &document_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -850,12 +1233,43 @@ impl VectorsDB {
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let document_id = document_id.into();
+        if document_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"documentId\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/documents/{documentId}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{documentId}", &document_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{documentId}", &document_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -883,10 +1297,30 @@ impl VectorsDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/indexes"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -927,10 +1361,30 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/indexes"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -948,11 +1402,41 @@ impl VectorsDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/indexes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -969,12 +1453,43 @@ impl VectorsDB {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let key = key.into();
+        if key.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"key\"",
+                None,
+                String::new(),
+            ));
+        }
 
         let path = "/vectorsdb/{databaseId}/collections/{collectionId}/indexes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string())
-            .replace("{collectionId}", &collection_id.into().to_string())
-            .replace("{key}", &key.into().to_string());
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id)
+            .replace("{key}", &key);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1003,9 +1518,19 @@ impl VectorsDB {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/failovers"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1036,9 +1561,19 @@ impl VectorsDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/operations"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1055,9 +1590,19 @@ impl VectorsDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/replicas"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1075,9 +1620,19 @@ impl VectorsDB {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/vectorsdb/{databaseId}/status"
             .to_string()
-            .replace("{databaseId}", &database_id.into().to_string());
+            .replace("{databaseId}", &database_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))

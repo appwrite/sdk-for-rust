@@ -8,15 +8,19 @@ use serde::{Deserialize, Serialize};
 pub struct User {
     /// User ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// User creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// User update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// User name.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Hashed user password.
     #[serde(rename = "password")]
@@ -32,24 +36,31 @@ pub struct User {
     pub hash_options: Option<serde_json::Value>,
     /// User registration date in ISO 8601 format.
     #[serde(rename = "registration")]
+    #[serde(default = "default_registration")]
     pub registration: String,
     /// User status. Pass `true` for enabled and `false` for disabled.
     #[serde(rename = "status")]
+    #[serde(default = "default_status")]
     pub status: bool,
     /// Labels for the user.
     #[serde(rename = "labels")]
+    #[serde(default = "default_labels")]
     pub labels: Vec<String>,
     /// Password update time in ISO 8601 format.
     #[serde(rename = "passwordUpdate")]
+    #[serde(default = "default_password_update")]
     pub password_update: String,
     /// User email address.
     #[serde(rename = "email")]
+    #[serde(default = "default_email")]
     pub email: String,
     /// User phone number in E.164 format.
     #[serde(rename = "phone")]
+    #[serde(default = "default_phone")]
     pub phone: String,
     /// Email verification status.
     #[serde(rename = "emailVerification")]
+    #[serde(default = "default_email_verification")]
     pub email_verification: bool,
     /// Canonical form of the user email address.
     #[serde(rename = "emailCanonical")]
@@ -78,9 +89,11 @@ pub struct User {
     pub password_pwned: Option<bool>,
     /// Phone verification status.
     #[serde(rename = "phoneVerification")]
+    #[serde(default = "default_phone_verification")]
     pub phone_verification: bool,
     /// Multi factor authentication status.
     #[serde(rename = "mfa")]
+    #[serde(default = "default_mfa")]
     pub mfa: bool,
     /// User preferences as a key-value object
     #[serde(rename = "prefs")]
@@ -88,10 +101,12 @@ pub struct User {
     /// A user-owned message receiver. A single user may have multiple e.g. emails,
     /// phones, and a browser. Each target is registered with a single provider.
     #[serde(rename = "targets")]
+    #[serde(default = "default_targets")]
     pub targets: Vec<crate::models::Target>,
     /// Most recent access date in ISO 8601 format. This attribute is only updated
     /// again after 24 hours.
     #[serde(rename = "accessedAt")]
+    #[serde(default = "default_accessed_at")]
     pub accessed_at: String,
     /// Whether the user can impersonate other users.
     #[serde(rename = "impersonator")]
@@ -104,6 +119,66 @@ pub struct User {
     #[serde(rename = "impersonatorUserId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub impersonator_user_id: Option<String>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_registration() -> String {
+    "".to_string()
+}
+
+fn default_status() -> bool {
+    true
+}
+
+fn default_labels() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_password_update() -> String {
+    "".to_string()
+}
+
+fn default_email() -> String {
+    "".to_string()
+}
+
+fn default_phone() -> String {
+    "".to_string()
+}
+
+fn default_email_verification() -> bool {
+    false
+}
+
+fn default_phone_verification() -> bool {
+    false
+}
+
+fn default_mfa() -> bool {
+    false
+}
+
+fn default_targets() -> Vec<crate::models::Target> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_accessed_at() -> String {
+    "".to_string()
 }
 
 impl User {

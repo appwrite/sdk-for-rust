@@ -8,7 +8,12 @@ use serde::{Deserialize, Serialize};
 pub struct AlgoSha {
     /// Algo type.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
+}
+
+fn default_type() -> String {
+    "sha".to_string()
 }
 
 impl AlgoSha {

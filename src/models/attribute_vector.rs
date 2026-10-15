@@ -8,9 +8,11 @@ use serde::{Deserialize, Serialize};
 pub struct AttributeVector {
     /// Attribute Key.
     #[serde(rename = "key")]
+    #[serde(default = "default_key")]
     pub key: String,
     /// Attribute type.
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
     /// Attribute status. Possible values: `available`, `processing`, `deleting`,
     /// `stuck`, or `failed`
@@ -19,9 +21,11 @@ pub struct AttributeVector {
     /// Error message. Displays error generated on failure of creating or deleting
     /// an attribute.
     #[serde(rename = "error")]
+    #[serde(default = "default_error")]
     pub error: String,
     /// Is attribute required?
     #[serde(rename = "required")]
+    #[serde(default = "default_required")]
     pub required: bool,
     /// Is attribute an array?
     #[serde(rename = "array")]
@@ -29,13 +33,44 @@ pub struct AttributeVector {
     pub array: Option<bool>,
     /// Attribute creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
+    #[serde(default = "default_created_at")]
     pub created_at: String,
     /// Attribute update date in ISO 8601 format.
     #[serde(rename = "$updatedAt")]
+    #[serde(default = "default_updated_at")]
     pub updated_at: String,
     /// Vector dimensions.
     #[serde(rename = "size")]
+    #[serde(default = "default_size")]
     pub size: i64,
+}
+
+fn default_key() -> String {
+    "".to_string()
+}
+
+fn default_type() -> String {
+    "".to_string()
+}
+
+fn default_error() -> String {
+    "".to_string()
+}
+
+fn default_required() -> bool {
+    false
+}
+
+fn default_created_at() -> String {
+    "".to_string()
+}
+
+fn default_updated_at() -> String {
+    "".to_string()
+}
+
+fn default_size() -> i64 {
+    0
 }
 
 impl AttributeVector {

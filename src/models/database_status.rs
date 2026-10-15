@@ -9,25 +9,32 @@ pub struct DatabaseStatus {
     /// Overall health status: healthy, degraded, unhealthy, or unknown when
     /// nothing could be measured.
     #[serde(rename = "health")]
+    #[serde(default = "default_health")]
     pub health: String,
     /// Whether the database is ready to accept connections.
     #[serde(rename = "ready")]
+    #[serde(default = "default_ready")]
     pub ready: bool,
     /// Database engine: postgresql, mysql, or mongodb.
     #[serde(rename = "engine")]
+    #[serde(default = "default_engine")]
     pub engine: String,
     /// Database engine version.
     #[serde(rename = "version")]
+    #[serde(default = "default_version")]
     pub version: String,
     /// Database uptime in seconds.
     #[serde(rename = "uptime")]
+    #[serde(default = "default_uptime")]
     pub uptime: i64,
-    /// Connection statistics.
+    /// Connection statistics. Null when the database has not been probed.
     #[serde(rename = "connections")]
-    pub connections: crate::models::DatabaseStatusConnections,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub connections: Option<crate::models::DatabaseStatusConnections>,
     /// Requested replication sync mode. Possible values: async, sync, quorum.
     /// Compare with effectiveSyncMode for what the primary is enforcing.
     #[serde(rename = "syncMode")]
+    #[serde(default = "default_sync_mode")]
     pub sync_mode: String,
     /// Replication sync mode the primary is actually enforcing. Null when high
     /// availability is disabled or the state could not be read.
@@ -36,13 +43,16 @@ pub struct DatabaseStatus {
     pub effective_sync_mode: Option<String>,
     /// Whether the enforced replication is weaker than the requested syncMode.
     #[serde(rename = "syncDegraded")]
+    #[serde(default = "default_sync_degraded")]
     pub sync_degraded: bool,
     /// Number of standby acknowledgements the primary waits for before a write is
     /// committed.
     #[serde(rename = "syncAcknowledgements")]
+    #[serde(default = "default_sync_acknowledgements")]
     pub sync_acknowledgements: i64,
     /// Number of standbys registered with the primary for synchronous replication.
     #[serde(rename = "syncStandbyCount")]
+    #[serde(default = "default_sync_standby_count")]
     pub sync_standby_count: i64,
     /// Whether the other sync fields are an engine reading rather than a recorded
     /// estimate. True when the primary answered what it is enforcing, including
@@ -62,10 +72,56 @@ pub struct DatabaseStatus {
     /// appears, including one the backend has not brought up, which is reported as
     /// not healthy.
     #[serde(rename = "replicas")]
+    #[serde(default = "default_replicas")]
     pub replicas: Vec<crate::models::DatabaseStatusReplica>,
     /// Storage volume information.
     #[serde(rename = "volumes")]
+    #[serde(default = "default_volumes")]
     pub volumes: Vec<crate::models::DatabaseStatusVolume>,
+}
+
+fn default_health() -> String {
+    "unknown".to_string()
+}
+
+fn default_ready() -> bool {
+    false
+}
+
+fn default_engine() -> String {
+    "postgresql".to_string()
+}
+
+fn default_version() -> String {
+    "".to_string()
+}
+
+fn default_uptime() -> i64 {
+    0
+}
+
+fn default_sync_mode() -> String {
+    "async".to_string()
+}
+
+fn default_sync_degraded() -> bool {
+    false
+}
+
+fn default_sync_acknowledgements() -> i64 {
+    0
+}
+
+fn default_sync_standby_count() -> i64 {
+    0
+}
+
+fn default_replicas() -> Vec<crate::models::DatabaseStatusReplica> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_volumes() -> Vec<crate::models::DatabaseStatusVolume> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl DatabaseStatus {
@@ -94,9 +150,18 @@ impl DatabaseStatus {
         &self.uptime
     }
 
+    /// Set connections
+    pub fn set_connections(
+        mut self,
+        connections: crate::models::DatabaseStatusConnections,
+    ) -> Self {
+        self.connections = Some(connections);
+        self
+    }
+
     /// Get connections
-    pub fn connections(&self) -> &crate::models::DatabaseStatusConnections {
-        &self.connections
+    pub fn connections(&self) -> Option<&crate::models::DatabaseStatusConnections> {
+        self.connections.as_ref()
     }
 
     /// Get sync_mode
@@ -164,7 +229,6 @@ mod tests {
         let _ = _model.engine();
         let _ = _model.version();
         let _ = _model.uptime();
-        let _ = _model.connections();
         let _ = _model.sync_mode();
         let _ = _model.sync_degraded();
         let _ = _model.sync_acknowledgements();

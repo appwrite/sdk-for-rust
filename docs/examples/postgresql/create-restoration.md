@@ -16,7 +16,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("backup"), // optional
         Some("<BACKUP_ID>"), // optional
         Some("<TARGET_DATABASE_ID>"), // optional
-        Some("2020-10-15T06:38:00.000+00:00") // optional
+        Some("2020-10-15T06:38:00.000+00:00"), // optional
+        Some("in_place"), // optional
+        Some("<TARGET_NAME>"), // optional
+        Some(false) // optional
     ).await?;
 
     let _ = result;

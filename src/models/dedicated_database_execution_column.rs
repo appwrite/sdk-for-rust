@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct DedicatedDatabaseExecutionColumn {
     /// Column name as returned by the database.
     #[serde(rename = "name")]
+    #[serde(default = "default_name")]
     pub name: String,
     /// Engine-specific column type (e.g. int4, text, timestamptz).
     #[serde(rename = "type")]
+    #[serde(default = "default_type")]
     pub r#type: String,
+}
+
+fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_type() -> String {
+    "".to_string()
 }
 
 impl DedicatedDatabaseExecutionColumn {

@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = vectors_db.upsert_documents(
         "<DATABASE_ID>",
         "<COLLECTION_ID>",
-        vec![],
+        vec![serde_json::json!({"$id":"example1","embeddings":[0.12,-0.55,0.88,1.02],"metadata":{"name":"First document"}})],
         Some("<TRANSACTION_ID>") // optional
     ).await?;
 

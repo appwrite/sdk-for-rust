@@ -8,14 +8,29 @@ use serde::{Deserialize, Serialize};
 pub struct PolicyPasskey {
     /// Policy ID.
     #[serde(rename = "$id")]
+    #[serde(default = "default_id")]
     pub id: String,
     /// Relying party ID passkeys are bound to. Empty until configured.
     #[serde(rename = "rpId")]
+    #[serde(default = "default_rp_id")]
     pub rp_id: String,
     /// Web origins passkeys work on, from the project's platforms on the relying
     /// party ID and a localhost web platform. Read-only.
     #[serde(rename = "origins")]
+    #[serde(default = "default_origins")]
     pub origins: Vec<String>,
+}
+
+fn default_id() -> String {
+    "".to_string()
+}
+
+fn default_rp_id() -> String {
+    "".to_string()
+}
+
+fn default_origins() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl PolicyPasskey {

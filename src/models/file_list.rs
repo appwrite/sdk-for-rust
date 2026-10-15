@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct FileList {
     /// Total number of files that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of files.
     #[serde(rename = "files")]
+    #[serde(default = "default_files")]
     pub files: Vec<crate::models::File>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_files() -> Vec<crate::models::File> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl FileList {

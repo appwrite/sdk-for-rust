@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct BackupPolicyList {
     /// Total number of policies that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of policies.
     #[serde(rename = "policies")]
+    #[serde(default = "default_policies")]
     pub policies: Vec<crate::models::BackupPolicy>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_policies() -> Vec<crate::models::BackupPolicy> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl BackupPolicyList {

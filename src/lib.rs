@@ -8,7 +8,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! appwrite = "0.19.0"
+//! appwrite = "0.20.0"
 //! ```
 //!
 //! ## Usage
@@ -41,6 +41,7 @@ pub mod operator;
 pub mod permission;
 pub mod query;
 pub mod role;
+pub mod topic;
 
 // Re-export commonly used types
 pub use client::Client;
@@ -51,7 +52,7 @@ pub use input_file::InputFile;
 pub type Result<T> = std::result::Result<T, AppwriteError>;
 
 /// SDK version
-pub const VERSION: &str = "0.19.0";
+pub const VERSION: &str = "0.20.0";
 
 /// SDK name
 pub const SDK_NAME: &str = "Rust";

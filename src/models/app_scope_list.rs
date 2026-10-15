@@ -8,10 +8,20 @@ use serde::{Deserialize, Serialize};
 pub struct AppScopeList {
     /// Total number of scopes that matched your query.
     #[serde(rename = "total")]
+    #[serde(default = "default_total")]
     pub total: i64,
     /// List of scopes.
     #[serde(rename = "scopes")]
+    #[serde(default = "default_scopes")]
     pub scopes: Vec<crate::models::AppScope>,
+}
+
+fn default_total() -> i64 {
+    0
+}
+
+fn default_scopes() -> Vec<crate::models::AppScope> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl AppScopeList {

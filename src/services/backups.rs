@@ -77,9 +77,19 @@ impl Backups {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let archive_id = archive_id.into();
+        if archive_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"archiveId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/backups/archives/{archiveId}"
             .to_string()
-            .replace("{archiveId}", &archive_id.into().to_string());
+            .replace("{archiveId}", &archive_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -87,18 +97,25 @@ impl Backups {
     }
 
     /// Delete an existing archive for a project.
-    pub async fn delete_archive(
-        &self,
-        archive_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    pub async fn delete_archive(&self, archive_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let archive_id = archive_id.into();
+        if archive_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"archiveId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/backups/archives/{archiveId}"
             .to_string()
-            .replace("{archiveId}", &archive_id.into().to_string());
+            .replace("{archiveId}", &archive_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -173,9 +190,19 @@ impl Backups {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let policy_id = policy_id.into();
+        if policy_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"policyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/backups/policies/{policyId}"
             .to_string()
-            .replace("{policyId}", &policy_id.into().to_string());
+            .replace("{policyId}", &policy_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -208,9 +235,19 @@ impl Backups {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let policy_id = policy_id.into();
+        if policy_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"policyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/backups/policies/{policyId}"
             .to_string()
-            .replace("{policyId}", &policy_id.into().to_string());
+            .replace("{policyId}", &policy_id);
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -218,18 +255,25 @@ impl Backups {
     }
 
     /// Delete a policy using it's ID.
-    pub async fn delete_policy(
-        &self,
-        policy_id: impl Into<String>,
-    ) -> crate::error::Result<serde_json::Value> {
+    pub async fn delete_policy(&self, policy_id: impl Into<String>) -> crate::error::Result<()> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let policy_id = policy_id.into();
+        if policy_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"policyId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/backups/policies/{policyId}"
             .to_string()
-            .replace("{policyId}", &policy_id.into().to_string());
+            .replace("{policyId}", &policy_id);
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -325,9 +369,19 @@ impl Backups {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
+        let restoration_id = restoration_id.into();
+        if restoration_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"restorationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
         let path = "/backups/restorations/{restorationId}"
             .to_string()
-            .replace("{restorationId}", &restoration_id.into().to_string());
+            .replace("{restorationId}", &restoration_id);
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))

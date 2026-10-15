@@ -2,6 +2,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize, Default)]
 pub enum ImageGravity {
+    #[serde(rename = "auto")]
+    Auto,
     #[serde(rename = "center")]
     #[default]
     Center,
@@ -21,14 +23,13 @@ pub enum ImageGravity {
     Bottom,
     #[serde(rename = "bottom-right")]
     BottomRight,
-    #[serde(rename = "auto")]
-    Auto,
 }
 
 impl ImageGravity {
     /// Get the string value of the enum
     pub fn as_str(&self) -> &str {
         match self {
+            ImageGravity::Auto => "auto",
             ImageGravity::Center => "center",
             ImageGravity::TopLeft => "top-left",
             ImageGravity::Top => "top",
@@ -38,7 +39,6 @@ impl ImageGravity {
             ImageGravity::BottomLeft => "bottom-left",
             ImageGravity::Bottom => "bottom",
             ImageGravity::BottomRight => "bottom-right",
-            ImageGravity::Auto => "auto",
         }
     }
 }
