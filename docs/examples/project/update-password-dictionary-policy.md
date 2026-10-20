@@ -12,7 +12,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let project = Project::new(&client);
 
     let result = project.update_password_dictionary_policy(
-        false
+        false,
+        Some(vec![]) // optional
     ).await?;
 
     let _ = result;

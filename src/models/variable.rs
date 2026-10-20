@@ -22,6 +22,10 @@ pub struct Variable {
     #[serde(rename = "key")]
     #[serde(default = "default_key")]
     pub key: String,
+    /// Optional description for the variable.
+    #[serde(rename = "description")]
+    #[serde(default = "default_description")]
+    pub description: String,
     /// Variable value.
     #[serde(rename = "value")]
     #[serde(default = "default_value")]
@@ -56,6 +60,10 @@ fn default_updated_at() -> String {
 }
 
 fn default_key() -> String {
+    "".to_string()
+}
+
+fn default_description() -> String {
     "".to_string()
 }
 
@@ -96,6 +104,11 @@ impl Variable {
         &self.key
     }
 
+    /// Get description
+    pub fn description(&self) -> &String {
+        &self.description
+    }
+
     /// Get value
     pub fn value(&self) -> &String {
         &self.value
@@ -128,6 +141,7 @@ mod tests {
         let _ = _model.created_at();
         let _ = _model.updated_at();
         let _ = _model.key();
+        let _ = _model.description();
         let _ = _model.value();
         let _ = _model.secret();
         let _ = _model.resource_type();

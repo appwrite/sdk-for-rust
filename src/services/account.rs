@@ -358,6 +358,32 @@ impl Account {
             .await
     }
 
+    /// Get the team memberships of the currently logged in user.
+    pub async fn list_memberships(
+        &self,
+        queries: Option<Vec<String>>,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::MembershipList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/account/memberships".to_string();
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Enable or disable MFA on an account.
     pub async fn update_mfa(&self, mfa: bool) -> crate::error::Result<crate::models::User> {
         let mut params = HashMap::new();
@@ -868,6 +894,14 @@ impl Account {
     /// Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md)
     /// the only valid redirect URLs are the ones from domains you have set when
     /// adding your platforms in the console interface.
+    ///
+    /// The new password must satisfy the project's enabled password policies,
+    /// including custom deny lists. Dictionary entries match the entire password
+    /// case-sensitively; personal-data terms match substrings case-insensitively.
+    /// Personal-data validation runs after token verification against the
+    /// recovered user's ID, name, email, and phone, closing the previous recovery
+    /// gap for profile-based checks. A rejected password leaves the existing
+    /// credentials unchanged and the recovery token usable.
     pub async fn update_recovery(
         &self,
         user_id: impl Into<String>,
@@ -929,6 +963,14 @@ impl Account {
     /// Pass the **userId** of the user along with the **secret** code from the
     /// email and the new **password** to set. If confirmed, this route will return
     /// a 200 status code, the code is consumed and the user's password is updated.
+    ///
+    /// The new password must satisfy the project's enabled password policies,
+    /// including custom deny lists. Dictionary entries match the entire password
+    /// case-sensitively; personal-data terms match substrings case-insensitively.
+    /// Personal-data validation runs after token verification against the
+    /// recovered user's ID, name, email, and phone, closing the previous recovery
+    /// gap for profile-based checks. A rejected password leaves the existing
+    /// credentials unchanged and the recovery token usable.
     pub async fn update_recovery_otp(
         &self,
         user_id: impl Into<String>,

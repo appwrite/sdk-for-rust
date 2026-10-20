@@ -50,11 +50,13 @@ impl VectorsDB {
     }
 
     /// Create a new Database.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create(
         &self,
         database_id: impl Into<String>,
         name: impl Into<String>,
         enabled: Option<bool>,
+        description: Option<&str>,
         specification: Option<&str>,
         replicas: Option<i64>,
         sync_mode: Option<&str>,
@@ -64,6 +66,9 @@ impl VectorsDB {
         params.insert("name".to_string(), json!(name.into()));
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         if let Some(value) = specification {
             params.insert("specification".to_string(), json!(value));
@@ -305,11 +310,13 @@ impl VectorsDB {
     }
 
     /// Update a database by its unique ID.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update(
         &self,
         database_id: impl Into<String>,
         name: impl Into<String>,
         enabled: Option<bool>,
+        description: Option<&str>,
         specification: Option<&str>,
         replicas: Option<i64>,
         sync_mode: Option<&str>,
@@ -318,6 +325,9 @@ impl VectorsDB {
         params.insert("name".to_string(), json!(name.into()));
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         if let Some(value) = specification {
             params.insert("specification".to_string(), json!(value));
@@ -436,6 +446,7 @@ impl VectorsDB {
         permissions: Option<Vec<String>>,
         document_security: Option<bool>,
         enabled: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::VectorsdbCollection> {
         let mut params = HashMap::new();
         params.insert("collectionId".to_string(), json!(collection_id.into()));
@@ -452,6 +463,9 @@ impl VectorsDB {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -528,6 +542,7 @@ impl VectorsDB {
         permissions: Option<Vec<String>>,
         document_security: Option<bool>,
         enabled: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::VectorsdbCollection> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
@@ -545,6 +560,9 @@ impl VectorsDB {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1340,6 +1358,7 @@ impl VectorsDB {
         attributes: impl IntoIterator<Item = impl Into<String>>,
         orders: Option<Vec<crate::enums::OrderBy>>,
         lengths: Option<Vec<i64>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Index> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1356,6 +1375,9 @@ impl VectorsDB {
         }
         if let Some(value) = lengths {
             params.insert("lengths".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

@@ -16,7 +16,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<KEY_ID>",
         "<NAME>",
         vec![appwrite::enums::ProjectKeyScopes::UsersRead],
-        Some("2020-10-15T06:38:00.000+00:00") // optional
+        Some("2020-10-15T06:38:00.000+00:00"), // optional
+        Some("<DESCRIPTION>") // optional
     ).await?;
 
     let _ = result;

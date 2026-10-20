@@ -22,6 +22,10 @@ pub struct EphemeralKey {
     #[serde(rename = "name")]
     #[serde(default = "default_name")]
     pub name: String,
+    /// Optional description for the key.
+    #[serde(rename = "description")]
+    #[serde(default = "default_description")]
+    pub description: String,
     /// Key expiration date in ISO 8601 format.
     #[serde(rename = "expire")]
     #[serde(default = "default_expire")]
@@ -58,6 +62,10 @@ fn default_updated_at() -> String {
 }
 
 fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_description() -> String {
     "".to_string()
 }
 
@@ -102,6 +110,11 @@ impl EphemeralKey {
         &self.name
     }
 
+    /// Get description
+    pub fn description(&self) -> &String {
+        &self.description
+    }
+
     /// Get expire
     pub fn expire(&self) -> &String {
         &self.expire
@@ -139,6 +152,7 @@ mod tests {
         let _ = _model.created_at();
         let _ = _model.updated_at();
         let _ = _model.name();
+        let _ = _model.description();
         let _ = _model.expire();
         let _ = _model.scopes();
         let _ = _model.secret();

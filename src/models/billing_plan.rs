@@ -286,6 +286,10 @@ pub struct BillingPlan {
     #[serde(rename = "functionsIntervalMinimum")]
     #[serde(default = "default_functions_interval_minimum")]
     pub functions_interval_minimum: i64,
+    /// Does the plan allow cron function schedules or only intervals.
+    #[serde(rename = "functionsAllowCron")]
+    #[serde(default = "default_functions_allow_cron")]
+    pub functions_allow_cron: bool,
     /// Does the plan support encrypted string attributes or not.
     #[serde(rename = "databasesAllowEncrypt")]
     #[serde(default = "default_databases_allow_encrypt")]
@@ -546,6 +550,10 @@ fn default_build_size() -> i64 {
 
 fn default_functions_interval_minimum() -> i64 {
     0
+}
+
+fn default_functions_allow_cron() -> bool {
+    true
 }
 
 fn default_databases_allow_encrypt() -> bool {
@@ -953,6 +961,11 @@ impl BillingPlan {
         &self.functions_interval_minimum
     }
 
+    /// Get functions_allow_cron
+    pub fn functions_allow_cron(&self) -> &bool {
+        &self.functions_allow_cron
+    }
+
     /// Get databases_allow_encrypt
     pub fn databases_allow_encrypt(&self) -> &bool {
         &self.databases_allow_encrypt
@@ -1075,6 +1088,7 @@ mod tests {
         let _ = _model.deployment_size();
         let _ = _model.build_size();
         let _ = _model.functions_interval_minimum();
+        let _ = _model.functions_allow_cron();
         let _ = _model.databases_allow_encrypt();
         let _ = _model.group();
         let _ = _model.database_compute_credit();

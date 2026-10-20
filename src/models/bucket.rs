@@ -32,6 +32,10 @@ pub struct Bucket {
     #[serde(rename = "name")]
     #[serde(default = "default_name")]
     pub name: String,
+    /// Optional description for the bucket.
+    #[serde(rename = "description")]
+    #[serde(default = "default_description")]
+    pub description: String,
     /// Bucket enabled.
     #[serde(rename = "enabled")]
     #[serde(default = "default_enabled")]
@@ -62,6 +66,11 @@ pub struct Bucket {
     #[serde(rename = "transformations")]
     #[serde(default = "default_transformations")]
     pub transformations: bool,
+    /// Metadata such as location, device and capture time is removed from uploaded
+    /// images.
+    #[serde(rename = "stripMetadata")]
+    #[serde(default = "default_strip_metadata")]
+    pub strip_metadata: bool,
     /// Total size of this bucket in bytes.
     #[serde(rename = "totalSize")]
     #[serde(default = "default_total_size")]
@@ -92,6 +101,10 @@ fn default_name() -> String {
     "".to_string()
 }
 
+fn default_description() -> String {
+    "".to_string()
+}
+
 fn default_enabled() -> bool {
     true
 }
@@ -118,6 +131,10 @@ fn default_antivirus() -> bool {
 
 fn default_transformations() -> bool {
     true
+}
+
+fn default_strip_metadata() -> bool {
+    false
 }
 
 fn default_total_size() -> i64 {
@@ -155,6 +172,11 @@ impl Bucket {
         &self.name
     }
 
+    /// Get description
+    pub fn description(&self) -> &String {
+        &self.description
+    }
+
     /// Get enabled
     pub fn enabled(&self) -> &bool {
         &self.enabled
@@ -190,6 +212,11 @@ impl Bucket {
         &self.transformations
     }
 
+    /// Get strip_metadata
+    pub fn strip_metadata(&self) -> &bool {
+        &self.strip_metadata
+    }
+
     /// Get total_size
     pub fn total_size(&self) -> &i64 {
         &self.total_size
@@ -209,6 +236,7 @@ mod tests {
         let _ = _model.permissions();
         let _ = _model.file_security();
         let _ = _model.name();
+        let _ = _model.description();
         let _ = _model.enabled();
         let _ = _model.maximum_file_size();
         let _ = _model.allowed_file_extensions();
@@ -216,6 +244,7 @@ mod tests {
         let _ = _model.encryption();
         let _ = _model.antivirus();
         let _ = _model.transformations();
+        let _ = _model.strip_metadata();
         let _ = _model.total_size();
     }
 

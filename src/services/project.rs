@@ -296,12 +296,16 @@ impl Project {
         name: impl Into<String>,
         scopes: Vec<crate::enums::ProjectKeyScopes>,
         expire: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Key> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
         params.insert("scopes".to_string(), json!(scopes));
         if let Some(value) = expire {
             params.insert("expire".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2761,12 +2765,27 @@ impl Project {
     /// Updating this policy allows you to control if new passwords are checked
     /// against most common passwords dictionary. When enabled, and user changes
     /// their password, password must not be contained in the dictionary.
+    ///
+    /// Custom denyList entries use case-sensitive equality and apply only while
+    /// this policy is enabled. Omit denyList or pass null to preserve it, pass an
+    /// array to replace it, or pass [] to clear it. Entries are stored without
+    /// trimming or deduplication. Existing passwords remain valid for sign-in and
+    /// password confirmation. The combined serialized project authentication
+    /// configuration must fit within 16,384 characters, even when each list meets
+    /// its entry limits.
     pub async fn update_password_dictionary_policy(
         &self,
         enabled: bool,
+        deny_list: Option<Vec<String>>,
     ) -> crate::error::Result<crate::models::Project> {
         let mut params = HashMap::new();
         params.insert("enabled".to_string(), json!(enabled));
+        if let Some(value) = deny_list {
+            params.insert(
+                "denyList".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -2810,12 +2829,29 @@ impl Project {
     /// against personal data. When enabled, and user sets or changes their
     /// password, the password must not contain user ID, name, email or phone
     /// number.
+    ///
+    /// Custom denyList entries use case-insensitive substring matching and apply
+    /// only while this policy is enabled. Omit denyList or pass null to preserve
+    /// it, pass an array to replace it, or pass [] to clear it. Entries are stored
+    /// without trimming or deduplication. Existing passwords remain valid for
+    /// sign-in and password confirmation. The combined serialized project
+    /// authentication configuration must fit within 16,384 characters, even when
+    /// each list meets its entry limits.
+    /// Password recovery also checks the recovered user profile, closing the
+    /// previous gap in profile-based personal-data validation.
     pub async fn update_password_personal_data_policy(
         &self,
         enabled: bool,
+        deny_list: Option<Vec<String>>,
     ) -> crate::error::Result<crate::models::Project> {
         let mut params = HashMap::new();
         params.insert("enabled".to_string(), json!(enabled));
+        if let Some(value) = deny_list {
+            params.insert(
+                "denyList".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -3306,6 +3342,7 @@ impl Project {
         key: impl Into<String>,
         value: impl Into<String>,
         secret: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Variable> {
         let mut params = HashMap::new();
         params.insert("variableId".to_string(), json!(variable_id.into()));
@@ -3313,6 +3350,9 @@ impl Project {
         params.insert("value".to_string(), json!(value.into()));
         if let Some(value) = secret {
             params.insert("secret".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -3360,6 +3400,7 @@ impl Project {
         key: Option<&str>,
         value: Option<&str>,
         secret: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Variable> {
         let mut params = HashMap::new();
         if let Some(value) = key {
@@ -3370,6 +3411,9 @@ impl Project {
         }
         if let Some(value) = secret {
             params.insert("secret".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

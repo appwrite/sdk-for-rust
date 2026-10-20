@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.20.0] - TBD
+## [0.21.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
@@ -22,13 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automatic JSON serialization/deserialization
 
 ### Features
-- Account service with 71 methods
+- Account service with 72 methods
 - Activities service with 2 methods
 - Apps service with 22 methods
 - Avatars service with 11 methods
 - Backups service with 12 methods
-- Databases service with 71 methods
-- DocumentsDB service with 37 methods
+- Databases service with 72 methods
+- DocumentsDB service with 38 methods
 - Domains service with 47 methods
 - Embeddings service with 1 methods
 - Functions service with 26 methods
@@ -46,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Advisor service with 5 methods
 - Sites service with 25 methods
 - Storage service with 13 methods
-- TablesDB service with 81 methods
+- TablesDB service with 82 methods
 - Teams service with 18 methods
 - Tokens service with 5 methods
 - Users service with 53 methods
@@ -70,6 +70,7 @@ This endpoint can also be used to convert an anonymous account to a normal one, 
 
 - `list_identities()` - Get the list of identities for the currently logged in user.
 - `delete_identity()` - Delete an identity by its unique ID.
+- `list_memberships()` - Get the team memberships of the currently logged in user.
 - `update_mfa()` - Enable or disable MFA on an account.
 - `create_mfa_authenticator()` - Add an authenticator app to be used as an MFA factor. Verify the authenticator using the [verify authenticator](/docs/references/cloud/client-web/account#updateMfaAuthenticator) method.
 - `create_mfa_authenticator()` - Add an authenticator app to be used as an MFA factor. Verify the authenticator using the [verify authenticator](/docs/references/cloud/client-web/account#updateMfaAuthenticator) method.
@@ -104,11 +105,16 @@ This endpoint can also be used to convert an anonymous account to a normal one, 
 - `update_recovery()` - Use this endpoint to complete the user account password reset. Both the **userId** and **secret** arguments will be passed as query parameters to the redirect URL you have provided when sending your request to the [POST /account/recovery](https://appwrite.io/docs/references/cloud/client-web/account#createRecovery) endpoint.
 
 Please note that in order to avoid a [Redirect Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md) the only valid redirect URLs are the ones from domains you have set when adding your platforms in the console interface.
+
+The new password must satisfy the project&#039;s enabled password policies, including custom deny lists. Dictionary entries match the entire password case-sensitively; personal-data terms match substrings case-insensitively. Personal-data validation runs after token verification against the recovered user&#039;s ID, name, email, and phone, closing the previous recovery gap for profile-based checks. A rejected password leaves the existing credentials unchanged and the recovery token usable.
+
 - `create_recovery_otp()` - Use this endpoint to send a 6-digit password recovery code to the user&#039;s email address. Unlike [createRecovery](https://appwrite.io/docs/references/cloud/client-web/account#createRecovery), this method requires no redirect URL, which makes it suitable for mobile and desktop apps that cannot host a recovery page. Learn more about how to [complete the recovery process](https://appwrite.io/docs/references/cloud/client-web/account#updateRecoveryOTP). The code sent to the user&#039;s email address is valid for 15 minutes.
 
 Enable the **phrase** parameter to include a randomly generated security phrase in both the email and the response. Showing that phrase in your app lets the user confirm the email genuinely came from your request, which helps protect against phishing.
 
 - `update_recovery_otp()` - Use this endpoint to complete the user password recovery process using the 6-digit code that was emailed by [createRecoveryOTP](https://appwrite.io/docs/references/cloud/client-web/account#createRecoveryOTP). Pass the **userId** of the user along with the **secret** code from the email and the new **password** to set. If confirmed, this route will return a 200 status code, the code is consumed and the user&#039;s password is updated.
+
+The new password must satisfy the project&#039;s enabled password policies, including custom deny lists. Dictionary entries match the entire password case-sensitively; personal-data terms match substrings case-insensitively. Personal-data validation runs after token verification against the recovered user&#039;s ID, name, email, and phone, closing the previous recovery gap for profile-based checks. A rejected password leaves the existing credentials unchanged and the recovery token usable.
 
 - `list_sessions()` - Get the list of active sessions across different devices for the currently logged in user.
 - `delete_sessions()` - Delete all sessions from the user account and remove any sessions cookies from the end client. Pass `current` as false to keep the session making the request and sign out of every other session.
@@ -355,12 +361,16 @@ The Databases service allows you to create structured collections of documents, 
 - `get_attribute()` - Get attribute by ID.
 - `delete_attribute()` - Deletes an attribute.
 - `list_documents()` - Get a list of all the user&#039;s documents in a given collection. You can use the query params to filter your results.
+
+Documents returned by aggregate, groupBy or distinct queries hold only the attributes they select, group or aggregate, typed as a document types them, with a joined attribute named by its join alias (`alias.attribute`). The response omits their `$id`, `$sequence`, `$createdAt`, `$updatedAt`, `$permissions`, `$databaseId` and `$collectionId` unless they select or group it, and those of a right or full join document that no document of this collection matched. SDK document models fill omitted system attributes with empty values.
 - `create_document()` - Create a new Document. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#databasesCreateCollection) API or directly from your database console.
 - `create_documents()` - Create new Documents. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#databasesCreateCollection) API or directly from your database console.
 - `upsert_documents()` - Create or update Documents. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#databasesCreateCollection) API or directly from your database console.
 
 - `update_documents()` - Update all documents that match your queries, if no queries are submitted then all documents are updated. You can pass only specific fields to be updated.
 - `delete_documents()` - Bulk delete documents using queries, if no queries are passed then all documents are deleted.
+- `create_query()` - Get a list of all the user&#039;s documents in a given collection using a POST request. This behaves identically to the list documents endpoint but accepts the queries in the request body, allowing much larger `queries` arrays than can fit in a URL query string.
+
 - `get_document()` - Get a document by its unique ID. This endpoint response returns a JSON object with the document data.
 - `upsert_document()` - Create or update a Document. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#databasesCreateCollection) API or directly from your database console.
 - `update_document()` - Update a document by its unique ID. Using the patch method you can pass only specific fields that will get updated.
@@ -400,6 +410,8 @@ Attributes can be `key`, `fulltext`, `unique`, `spatial`, and `trigram`. `trigra
 
 - `update_documents()` - Update all documents that match your queries, if no queries are submitted then all documents are updated. You can pass only specific fields to be updated.
 - `delete_documents()` - Bulk delete documents using queries, if no queries are passed then all documents are deleted.
+- `create_query()` - Get a list of all the user&#039;s documents in a given collection using a POST request. This behaves identically to the list documents endpoint but accepts the queries in the request body, allowing much larger `queries` arrays than can fit in a URL query string.
+
 - `get_document()` - Get a document by its unique ID. This endpoint response returns a JSON object with the document data.
 - `upsert_document()` - Create or update a Document. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
 - `update_document()` - Update a document by its unique ID. Using the patch method you can pass only specific fields that will get updated.
@@ -948,10 +960,15 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_mfa_factors_policy()` - Updating this policy allows you to control which factors users can use to complete an MFA challenge. Disabled factors cannot be used to create a challenge and are reported as unavailable when listing factors. The custom factor is disabled by default; enable it to deliver challenge codes through your own channel. Recovery codes always remain available as a fallback.
 - `update_passkey_policy()` - Set the relying party ID passkeys are bound to: the domain of your application. Passkeys work on the project&#039;s web platforms on that domain or its subdomains, and on the domain itself for Apple apps. A localhost web platform enables passkeys for local development without a relying party ID. The relying party ID cannot change while users have passkeys, and any change invalidates ceremonies in progress.
 - `update_password_dictionary_policy()` - Updating this policy allows you to control if new passwords are checked against most common passwords dictionary. When enabled, and user changes their password, password must not be contained in the dictionary.
+
+Custom denyList entries use case-sensitive equality and apply only while this policy is enabled. Omit denyList or pass null to preserve it, pass an array to replace it, or pass [] to clear it. Entries are stored without trimming or deduplication. Existing passwords remain valid for sign-in and password confirmation. The combined serialized project authentication configuration must fit within 16,384 characters, even when each list meets its entry limits.
 - `update_password_history_policy()` - Updates one of password strength policies. Based on total length configured, previous password hashes are stored, and users cannot choose a new password that is already stored in the passwird history list, when updating an user password, or setting new one through password recovery.
 
 Keep in mind, while password history policy is disabled, the history is not being stored. Enabling the policy will not have any history on existing users, and it will only start to collect and enforce the policy on password changes since the policy is enabled.
 - `update_password_personal_data_policy()` - Updating this policy allows you to control if password strength is checked against personal data. When enabled, and user sets or changes their password, the password must not contain user ID, name, email or phone number.
+
+Custom denyList entries use case-insensitive substring matching and apply only while this policy is enabled. Omit denyList or pass null to preserve it, pass an array to replace it, or pass [] to clear it. Entries are stored without trimming or deduplication. Existing passwords remain valid for sign-in and password confirmation. The combined serialized project authentication configuration must fit within 16,384 characters, even when each list meets its entry limits.
+Password recovery also checks the recovered user profile, closing the previous gap in profile-based personal-data validation.
 - `update_password_pwned_policy()` - Updating this policy allows you to control if passwords are checked against the Have I Been Pwned breach database. When enabled, every password a user signs up, signs in or resets with is checked and the result is recorded on the user as `passwordPwned`. On its own the policy only records. Enable `users` to reject a breached password when a user signs up or sets a new password, and `sessions` to refuse a sign-in with a breached password until it is reset. Only the first five characters of the password hash are ever shared with the service. Options left out keep their current value.
 - `update_password_rotation_policy()` - Require a password reset when an email/password sign-in uses a password older than the configured maximum age. Options left out keep their current value.
 - `update_password_strength_policy()` - Update the password strength requirements for users in the project.
@@ -1167,12 +1184,16 @@ Type can be `key`, `fulltext`, `unique`, `spatial`, or `trigram`. `trigram` is o
 - `get_index()` - Get index by ID.
 - `delete_index()` - Delete an index.
 - `list_rows()` - Get a list of all the user&#039;s rows in a given table. You can use the query params to filter your results.
+
+Rows returned by aggregate, groupBy or distinct queries hold only the columns they select, group or aggregate, typed as a row types them, with a joined column named by its join alias (`alias.column`). The response omits their `$id`, `$sequence`, `$createdAt`, `$updatedAt`, `$permissions`, `$databaseId` and `$tableId` unless they select or group it, and those of a right or full join row that no row of this table matched. SDK row models fill omitted system columns with empty values.
 - `create_row()` - Create a new Row. Before using this route, you should create a new table resource using either a [server integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable) API or directly from your database console.
 - `create_rows()` - Create new Rows. Before using this route, you should create a new table resource using either a [server integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable) API or directly from your database console.
 - `upsert_rows()` - Create or update Rows. Before using this route, you should create a new table resource using either a [server integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable) API or directly from your database console.
 
 - `update_rows()` - Update all rows that match your queries, if no queries are submitted then all rows are updated. You can pass only specific fields to be updated.
 - `delete_rows()` - Bulk delete rows using queries, if no queries are passed then all rows are deleted.
+- `create_query()` - Get a list of all the user&#039;s rows in a given table using a POST request. This behaves identically to the list rows endpoint but accepts the queries in the request body, allowing much larger `queries` arrays than can fit in a URL query string.
+
 - `get_row()` - Get a row by its unique ID. This endpoint response returns a JSON object with the row data.
 - `upsert_row()` - Create or update a Row. Before using this route, you should create a new table resource using either a [server integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable) API or directly from your database console.
 - `update_row()` - Update a row by its unique ID. Using the patch method you can pass only specific fields that will get updated.
@@ -1701,4 +1722,4 @@ The Webhooks service allows you to manage your project webhooks.
 - File upload examples
 - Query builder documentation
 
-[0.20.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.20.0
+[0.21.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.21.0

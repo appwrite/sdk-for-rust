@@ -64,6 +64,7 @@ impl Webhooks {
         auth_username: Option<&str>,
         auth_password: Option<&str>,
         secret: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Webhook> {
         let mut params = HashMap::new();
         params.insert("webhookId".to_string(), json!(webhook_id.into()));
@@ -90,6 +91,9 @@ impl Webhooks {
         }
         if let Some(value) = secret {
             params.insert("secret".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -144,6 +148,7 @@ impl Webhooks {
         tls: Option<bool>,
         auth_username: Option<&str>,
         auth_password: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Webhook> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
@@ -166,6 +171,9 @@ impl Webhooks {
         }
         if let Some(value) = auth_password {
             params.insert("authPassword".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

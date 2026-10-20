@@ -18,7 +18,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         appwrite::enums::VectorsDBIndexType::HnswEuclidean,
         vec!["embeddings".into()],
         Some(vec![appwrite::enums::OrderBy::Asc]), // optional
-        Some(vec![]) // optional
+        Some(vec![]), // optional
+        Some("<DESCRIPTION>") // optional
     ).await?;
 
     let _ = result;
