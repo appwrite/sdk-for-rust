@@ -24,7 +24,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(appwrite::enums::Compression::None), // optional
         Some(false), // optional
         Some(false), // optional
-        Some(false) // optional
+        Some(false), // optional
+        Some("<DESCRIPTION>") // optional
     ).await?;
 
     let _ = result;

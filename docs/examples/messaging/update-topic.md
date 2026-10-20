@@ -16,7 +16,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("<NAME>"), // optional
         Some(vec!["any".into()]), // optional
         Some(0), // optional
-        Some(0) // optional
+        Some(0), // optional
+        Some("<DESCRIPTION>") // optional
     ).await?;
 
     let _ = result;

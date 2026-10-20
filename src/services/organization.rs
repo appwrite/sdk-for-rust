@@ -648,12 +648,16 @@ impl Organization {
         name: impl Into<String>,
         scopes: Vec<crate::enums::ProjectKeyScopes>,
         expire: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Key> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
         params.insert("scopes".to_string(), json!(scopes));
         if let Some(value) = expire {
             params.insert("expire".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

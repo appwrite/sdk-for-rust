@@ -22,6 +22,10 @@ pub struct Topic {
     #[serde(rename = "name")]
     #[serde(default = "default_name")]
     pub name: String,
+    /// Optional description for the topic.
+    #[serde(rename = "description")]
+    #[serde(default = "default_description")]
+    pub description: String,
     /// Total count of email subscribers subscribed to the topic.
     #[serde(rename = "emailTotal")]
     #[serde(default = "default_email_total")]
@@ -67,6 +71,10 @@ fn default_name() -> String {
     "".to_string()
 }
 
+fn default_description() -> String {
+    "".to_string()
+}
+
 fn default_email_total() -> i64 {
     0
 }
@@ -102,6 +110,11 @@ impl Topic {
     /// Get name
     pub fn name(&self) -> &String {
         &self.name
+    }
+
+    /// Get description
+    pub fn description(&self) -> &String {
+        &self.description
     }
 
     /// Get email_total
@@ -158,6 +171,7 @@ mod tests {
         let _ = _model.created_at();
         let _ = _model.updated_at();
         let _ = _model.name();
+        let _ = _model.description();
         let _ = _model.email_total();
         let _ = _model.sms_total();
         let _ = _model.push_total();

@@ -12,7 +12,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let backups = Backups::new(&client);
 
     let result = backups.list_policies(
-        Some(vec![]) // optional
+        Some(vec![]), // optional
+        Some(false) // optional
     ).await?;
 
     let _ = result;

@@ -50,11 +50,13 @@ impl DocumentsDB {
     }
 
     /// Create a new Database.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create(
         &self,
         database_id: impl Into<String>,
         name: impl Into<String>,
         enabled: Option<bool>,
+        description: Option<&str>,
         specification: Option<&str>,
         replicas: Option<i64>,
         sync_mode: Option<&str>,
@@ -64,6 +66,9 @@ impl DocumentsDB {
         params.insert("name".to_string(), json!(name.into()));
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         if let Some(value) = specification {
             params.insert("specification".to_string(), json!(value));
@@ -305,11 +310,13 @@ impl DocumentsDB {
     }
 
     /// Update a database by its unique ID.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update(
         &self,
         database_id: impl Into<String>,
         name: impl Into<String>,
         enabled: Option<bool>,
+        description: Option<&str>,
         specification: Option<&str>,
         replicas: Option<i64>,
         sync_mode: Option<&str>,
@@ -318,6 +325,9 @@ impl DocumentsDB {
         params.insert("name".to_string(), json!(name.into()));
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         if let Some(value) = specification {
             params.insert("specification".to_string(), json!(value));
@@ -437,6 +447,7 @@ impl DocumentsDB {
         enabled: Option<bool>,
         attributes: Option<Vec<serde_json::Value>>,
         indexes: Option<Vec<serde_json::Value>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Collection> {
         let mut params = HashMap::new();
         params.insert("collectionId".to_string(), json!(collection_id.into()));
@@ -458,6 +469,9 @@ impl DocumentsDB {
         }
         if let Some(value) = indexes {
             params.insert("indexes".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -534,6 +548,7 @@ impl DocumentsDB {
         document_security: Option<bool>,
         enabled: Option<bool>,
         purge: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Collection> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
@@ -551,6 +566,9 @@ impl DocumentsDB {
         }
         if let Some(value) = purge {
             params.insert("purge".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -955,6 +973,69 @@ impl DocumentsDB {
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Get a list of all the user's documents in a given collection using a POST
+    /// request. This behaves identically to the list documents endpoint but
+    /// accepts the queries in the request body, allowing much larger `queries`
+    /// arrays than can fit in a URL query string.
+    pub async fn create_query(
+        &self,
+        database_id: impl Into<String>,
+        collection_id: impl Into<String>,
+        queries: Option<Vec<String>>,
+        transaction_id: Option<&str>,
+        total: Option<bool>,
+        ttl: Option<i64>,
+    ) -> crate::error::Result<crate::models::DocumentList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
+        if let Some(value) = transaction_id {
+            params.insert("transactionId".to_string(), json!(value));
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        if let Some(value) = ttl {
+            params.insert("ttl".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/documentsdb/{databaseId}/collections/{collectionId}/documents/query"
+            .to_string()
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
             .await
     }
 
@@ -1441,6 +1522,7 @@ impl DocumentsDB {
         attributes: impl IntoIterator<Item = impl Into<String>>,
         orders: Option<Vec<crate::enums::OrderBy>>,
         lengths: Option<Vec<i64>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Index> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1457,6 +1539,9 @@ impl DocumentsDB {
         }
         if let Some(value) = lengths {
             params.insert("lengths".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

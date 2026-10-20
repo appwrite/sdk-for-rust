@@ -32,6 +32,10 @@ pub struct Bucket {
     #[serde(rename = "name")]
     #[serde(default = "default_name")]
     pub name: String,
+    /// Optional description for the bucket.
+    #[serde(rename = "description")]
+    #[serde(default = "default_description")]
+    pub description: String,
     /// Bucket enabled.
     #[serde(rename = "enabled")]
     #[serde(default = "default_enabled")]
@@ -89,6 +93,10 @@ fn default_file_security() -> bool {
 }
 
 fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_description() -> String {
     "".to_string()
 }
 
@@ -155,6 +163,11 @@ impl Bucket {
         &self.name
     }
 
+    /// Get description
+    pub fn description(&self) -> &String {
+        &self.description
+    }
+
     /// Get enabled
     pub fn enabled(&self) -> &bool {
         &self.enabled
@@ -209,6 +222,7 @@ mod tests {
         let _ = _model.permissions();
         let _ = _model.file_security();
         let _ = _model.name();
+        let _ = _model.description();
         let _ = _model.enabled();
         let _ = _model.maximum_file_size();
         let _ = _model.allowed_file_extensions();

@@ -56,11 +56,13 @@ impl TablesDB {
     }
 
     /// Create a new Database.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create(
         &self,
         database_id: impl Into<String>,
         name: impl Into<String>,
         enabled: Option<bool>,
+        description: Option<&str>,
         specification: Option<&str>,
         replicas: Option<i64>,
         sync_mode: Option<&str>,
@@ -70,6 +72,9 @@ impl TablesDB {
         params.insert("name".to_string(), json!(name.into()));
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         if let Some(value) = specification {
             params.insert("specification".to_string(), json!(value));
@@ -311,11 +316,13 @@ impl TablesDB {
     }
 
     /// Update a database by its unique ID.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update(
         &self,
         database_id: impl Into<String>,
         name: Option<&str>,
         enabled: Option<bool>,
+        description: Option<&str>,
         specification: Option<&str>,
         replicas: Option<i64>,
         sync_mode: Option<&str>,
@@ -326,6 +333,9 @@ impl TablesDB {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         if let Some(value) = specification {
             params.insert("specification".to_string(), json!(value));
@@ -790,6 +800,7 @@ impl TablesDB {
         enabled: Option<bool>,
         columns: Option<Vec<serde_json::Value>>,
         indexes: Option<Vec<serde_json::Value>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Table> {
         let mut params = HashMap::new();
         params.insert("tableId".to_string(), json!(table_id.into()));
@@ -811,6 +822,9 @@ impl TablesDB {
         }
         if let Some(value) = indexes {
             params.insert("indexes".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -887,6 +901,7 @@ impl TablesDB {
         row_security: Option<bool>,
         enabled: Option<bool>,
         purge: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Table> {
         let mut params = HashMap::new();
         if let Some(value) = name {
@@ -906,6 +921,9 @@ impl TablesDB {
         }
         if let Some(value) = purge {
             params.insert("purge".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1047,6 +1065,7 @@ impl TablesDB {
         max: Option<i64>,
         default: Option<i64>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnBigint> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1062,6 +1081,9 @@ impl TablesDB {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1110,6 +1132,7 @@ impl TablesDB {
         min: Option<i64>,
         max: Option<i64>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnBigint> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -1124,6 +1147,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1171,6 +1197,7 @@ impl TablesDB {
     }
 
     /// Create a boolean column.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create_boolean_column(
         &self,
         database_id: impl Into<String>,
@@ -1179,6 +1206,7 @@ impl TablesDB {
         required: bool,
         default: Option<bool>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnBoolean> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1188,6 +1216,9 @@ impl TablesDB {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1225,6 +1256,7 @@ impl TablesDB {
 
     /// Update a boolean column. Changing the `default` value will not update
     /// already existing rows.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_boolean_column(
         &self,
         database_id: impl Into<String>,
@@ -1233,6 +1265,7 @@ impl TablesDB {
         required: bool,
         default: Option<bool>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnBoolean> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -1241,6 +1274,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1288,6 +1324,7 @@ impl TablesDB {
     }
 
     /// Create a date time column according to the ISO 8601 standard.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create_datetime_column(
         &self,
         database_id: impl Into<String>,
@@ -1296,6 +1333,7 @@ impl TablesDB {
         required: bool,
         default: Option<&str>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnDatetime> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1305,6 +1343,9 @@ impl TablesDB {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1342,6 +1383,7 @@ impl TablesDB {
 
     /// Update a date time column. Changing the `default` value will not update
     /// already existing rows.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_datetime_column(
         &self,
         database_id: impl Into<String>,
@@ -1350,6 +1392,7 @@ impl TablesDB {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnDatetime> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -1358,6 +1401,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1405,6 +1451,7 @@ impl TablesDB {
     }
 
     /// Create an email column.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create_email_column(
         &self,
         database_id: impl Into<String>,
@@ -1413,6 +1460,7 @@ impl TablesDB {
         required: bool,
         default: Option<&str>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnEmail> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1422,6 +1470,9 @@ impl TablesDB {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1459,6 +1510,7 @@ impl TablesDB {
 
     /// Update an email column. Changing the `default` value will not update
     /// already existing rows.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_email_column(
         &self,
         database_id: impl Into<String>,
@@ -1467,6 +1519,7 @@ impl TablesDB {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnEmail> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -1475,6 +1528,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1533,6 +1589,7 @@ impl TablesDB {
         required: bool,
         default: Option<&str>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnEnum> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1549,6 +1606,9 @@ impl TablesDB {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1596,6 +1656,7 @@ impl TablesDB {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnEnum> {
         let mut params = HashMap::new();
         params.insert(
@@ -1611,6 +1672,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1670,6 +1734,7 @@ impl TablesDB {
         max: Option<f64>,
         default: Option<f64>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnFloat> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1685,6 +1750,9 @@ impl TablesDB {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1733,6 +1801,7 @@ impl TablesDB {
         min: Option<f64>,
         max: Option<f64>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnFloat> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -1747,6 +1816,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1806,6 +1878,7 @@ impl TablesDB {
         max: Option<i64>,
         default: Option<i64>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnInteger> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1821,6 +1894,9 @@ impl TablesDB {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1869,6 +1945,7 @@ impl TablesDB {
         min: Option<i64>,
         max: Option<i64>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnInteger> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -1883,6 +1960,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1930,6 +2010,7 @@ impl TablesDB {
     }
 
     /// Create IP address column.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create_ip_column(
         &self,
         database_id: impl Into<String>,
@@ -1938,6 +2019,7 @@ impl TablesDB {
         required: bool,
         default: Option<&str>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnIp> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1947,6 +2029,9 @@ impl TablesDB {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1984,6 +2069,7 @@ impl TablesDB {
 
     /// Update an ip column. Changing the `default` value will not update already
     /// existing rows.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_ip_column(
         &self,
         database_id: impl Into<String>,
@@ -1992,6 +2078,7 @@ impl TablesDB {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnIp> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2000,6 +2087,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2054,12 +2144,16 @@ impl TablesDB {
         key: impl Into<String>,
         required: bool,
         default: Option<Vec<Vec<String>>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnLine> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
             params.insert("default".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2097,6 +2191,7 @@ impl TablesDB {
 
     /// Update a line column. Changing the `default` value will not update already
     /// existing rows.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_line_column(
         &self,
         database_id: impl Into<String>,
@@ -2105,6 +2200,7 @@ impl TablesDB {
         required: bool,
         default: Option<Vec<Vec<String>>>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnLine> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2113,6 +2209,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2170,6 +2269,7 @@ impl TablesDB {
         default: Option<&str>,
         array: Option<bool>,
         encrypt: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnLongtext> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -2182,6 +2282,9 @@ impl TablesDB {
         }
         if let Some(value) = encrypt {
             params.insert("encrypt".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2219,6 +2322,7 @@ impl TablesDB {
 
     /// Update a longtext column. Changing the `default` value will not update
     /// already existing rows.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_longtext_column(
         &self,
         database_id: impl Into<String>,
@@ -2227,6 +2331,7 @@ impl TablesDB {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnLongtext> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2235,6 +2340,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2292,6 +2400,7 @@ impl TablesDB {
         default: Option<&str>,
         array: Option<bool>,
         encrypt: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnMediumtext> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -2304,6 +2413,9 @@ impl TablesDB {
         }
         if let Some(value) = encrypt {
             params.insert("encrypt".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2341,6 +2453,7 @@ impl TablesDB {
 
     /// Update a mediumtext column. Changing the `default` value will not update
     /// already existing rows.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_mediumtext_column(
         &self,
         database_id: impl Into<String>,
@@ -2349,6 +2462,7 @@ impl TablesDB {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnMediumtext> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2357,6 +2471,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2411,12 +2528,16 @@ impl TablesDB {
         key: impl Into<String>,
         required: bool,
         default: Option<Vec<f64>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnPoint> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
             params.insert("default".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2454,6 +2575,7 @@ impl TablesDB {
 
     /// Update a point column. Changing the `default` value will not update already
     /// existing rows.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_point_column(
         &self,
         database_id: impl Into<String>,
@@ -2462,6 +2584,7 @@ impl TablesDB {
         required: bool,
         default: Option<Vec<f64>>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnPoint> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2470,6 +2593,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2524,12 +2650,16 @@ impl TablesDB {
         key: impl Into<String>,
         required: bool,
         default: Option<Vec<Vec<String>>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnPolygon> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
             params.insert("default".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2567,6 +2697,7 @@ impl TablesDB {
 
     /// Update a polygon column. Changing the `default` value will not update
     /// already existing rows.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_polygon_column(
         &self,
         database_id: impl Into<String>,
@@ -2575,6 +2706,7 @@ impl TablesDB {
         required: bool,
         default: Option<Vec<Vec<String>>>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnPolygon> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2583,6 +2715,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2642,6 +2777,7 @@ impl TablesDB {
         key: Option<&str>,
         two_way_key: Option<&str>,
         on_delete: Option<crate::enums::RelationMutate>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnRelationship> {
         let mut params = HashMap::new();
         params.insert("relatedTableId".to_string(), json!(related_table_id.into()));
@@ -2657,6 +2793,9 @@ impl TablesDB {
         }
         if let Some(value) = on_delete {
             params.insert("onDelete".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2701,6 +2840,7 @@ impl TablesDB {
         key: impl Into<String>,
         on_delete: Option<crate::enums::RelationMutate>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnRelationship> {
         let mut params = HashMap::new();
         if let Some(value) = on_delete {
@@ -2708,6 +2848,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2766,6 +2909,7 @@ impl TablesDB {
         default: Option<&str>,
         array: Option<bool>,
         encrypt: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnString> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -2779,6 +2923,9 @@ impl TablesDB {
         }
         if let Some(value) = encrypt {
             params.insert("encrypt".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2826,6 +2973,7 @@ impl TablesDB {
         default: Option<&str>,
         size: Option<i64>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnString> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2837,6 +2985,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2894,6 +3045,7 @@ impl TablesDB {
         default: Option<&str>,
         array: Option<bool>,
         encrypt: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnText> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -2906,6 +3058,9 @@ impl TablesDB {
         }
         if let Some(value) = encrypt {
             params.insert("encrypt".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2943,6 +3098,7 @@ impl TablesDB {
 
     /// Update a text column. Changing the `default` value will not update already
     /// existing rows.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_text_column(
         &self,
         database_id: impl Into<String>,
@@ -2951,6 +3107,7 @@ impl TablesDB {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnText> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2959,6 +3116,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -3006,6 +3166,7 @@ impl TablesDB {
     }
 
     /// Create a URL column.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create_url_column(
         &self,
         database_id: impl Into<String>,
@@ -3014,6 +3175,7 @@ impl TablesDB {
         required: bool,
         default: Option<&str>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnUrl> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -3023,6 +3185,9 @@ impl TablesDB {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -3060,6 +3225,7 @@ impl TablesDB {
 
     /// Update an url column. Changing the `default` value will not update already
     /// existing rows.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_url_column(
         &self,
         database_id: impl Into<String>,
@@ -3068,6 +3234,7 @@ impl TablesDB {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnUrl> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -3076,6 +3243,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -3134,6 +3304,7 @@ impl TablesDB {
         default: Option<&str>,
         array: Option<bool>,
         encrypt: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnVarchar> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -3147,6 +3318,9 @@ impl TablesDB {
         }
         if let Some(value) = encrypt {
             params.insert("encrypt".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -3194,6 +3368,7 @@ impl TablesDB {
         default: Option<&str>,
         size: Option<i64>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnVarchar> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -3205,6 +3380,9 @@ impl TablesDB {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -3422,6 +3600,7 @@ impl TablesDB {
         columns: impl IntoIterator<Item = impl Into<String>>,
         orders: Option<Vec<crate::enums::OrderBy>>,
         lengths: Option<Vec<i64>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::ColumnIndex> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -3438,6 +3617,9 @@ impl TablesDB {
         }
         if let Some(value) = lengths {
             params.insert("lengths".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -3580,6 +3762,13 @@ impl TablesDB {
 
     /// Get a list of all the user's rows in a given table. You can use the query
     /// params to filter your results.
+    ///
+    /// Rows returned by aggregate, groupBy or distinct queries hold only the
+    /// columns they select, group or aggregate, typed as a row types them, with a
+    /// joined column named by its join alias (`alias.column`). They have no `$id`,
+    /// `$sequence`, `$createdAt`, `$updatedAt`, `$permissions`, `$databaseId` or
+    /// `$tableId` unless they select or group it, and neither does a right or full
+    /// join row that no row of this table matched.
     pub async fn list_rows(
         &self,
         database_id: impl Into<String>,
@@ -3904,6 +4093,69 @@ impl TablesDB {
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Get a list of all the user's rows in a given table using a POST request.
+    /// This behaves identically to the list rows endpoint but accepts the queries
+    /// in the request body, allowing much larger `queries` arrays than can fit in
+    /// a URL query string.
+    pub async fn create_query(
+        &self,
+        database_id: impl Into<String>,
+        table_id: impl Into<String>,
+        queries: Option<Vec<String>>,
+        transaction_id: Option<&str>,
+        total: Option<bool>,
+        ttl: Option<i64>,
+    ) -> crate::error::Result<crate::models::RowList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
+        if let Some(value) = transaction_id {
+            params.insert("transactionId".to_string(), json!(value));
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        if let Some(value) = ttl {
+            params.insert("ttl".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let table_id = table_id.into();
+        if table_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"tableId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/query"
+            .to_string()
+            .replace("{databaseId}", &database_id)
+            .replace("{tableId}", &table_id);
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
             .await
     }
 

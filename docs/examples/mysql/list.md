@@ -12,7 +12,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mysql = Mysql::new(&client);
 
     let result = mysql.list(
-        Some(vec![]) // optional
+        Some(vec![]), // optional
+        Some(false) // optional
     ).await?;
 
     let _ = result;

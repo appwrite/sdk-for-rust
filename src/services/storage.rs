@@ -69,6 +69,7 @@ impl Storage {
         encryption: Option<bool>,
         antivirus: Option<bool>,
         transformations: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Bucket> {
         let mut params = HashMap::new();
         params.insert("bucketId".to_string(), json!(bucket_id.into()));
@@ -105,6 +106,9 @@ impl Storage {
         }
         if let Some(value) = transformations {
             params.insert("transformations".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -161,6 +165,7 @@ impl Storage {
         encryption: Option<bool>,
         antivirus: Option<bool>,
         transformations: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Bucket> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
@@ -196,6 +201,9 @@ impl Storage {
         }
         if let Some(value) = transformations {
             params.insert("transformations".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

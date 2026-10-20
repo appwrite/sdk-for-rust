@@ -72,6 +72,7 @@ impl Messaging {
         scheduled_at: Option<&str>,
         reply_to_email: Option<&str>,
         reply_to_name: Option<&str>,
+        emails: Option<Vec<String>>,
     ) -> crate::error::Result<crate::models::Message> {
         let mut params = HashMap::new();
         params.insert("messageId".to_string(), json!(message_id.into()));
@@ -128,6 +129,12 @@ impl Messaging {
         if let Some(value) = reply_to_name {
             params.insert("replyToName".to_string(), json!(value));
         }
+        if let Some(value) = emails {
+            params.insert(
+                "emails".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -159,6 +166,7 @@ impl Messaging {
         attachments: Option<Vec<String>>,
         reply_to_email: Option<&str>,
         reply_to_name: Option<&str>,
+        emails: Option<Vec<String>>,
     ) -> crate::error::Result<crate::models::Message> {
         let mut params = HashMap::new();
         if let Some(value) = topics {
@@ -217,6 +225,12 @@ impl Messaging {
         }
         if let Some(value) = reply_to_name {
             params.insert("replyToName".to_string(), json!(value));
+        }
+        if let Some(value) = emails {
+            params.insert(
+                "emails".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2063,6 +2077,7 @@ impl Messaging {
         subscribe: Option<Vec<String>>,
         qos: Option<i64>,
         expiry: Option<i64>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Topic> {
         let mut params = HashMap::new();
         params.insert("topicId".to_string(), json!(topic_id.into()));
@@ -2078,6 +2093,9 @@ impl Messaging {
         }
         if let Some(value) = expiry {
             params.insert("expiry".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2126,6 +2144,7 @@ impl Messaging {
         subscribe: Option<Vec<String>>,
         qos: Option<i64>,
         expiry: Option<i64>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Topic> {
         let mut params = HashMap::new();
         if let Some(value) = name {
@@ -2142,6 +2161,9 @@ impl Messaging {
         }
         if let Some(value) = expiry {
             params.insert("expiry".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

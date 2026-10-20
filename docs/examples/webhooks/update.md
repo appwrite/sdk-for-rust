@@ -19,7 +19,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(false), // optional
         Some(false), // optional
         Some("<AUTH_USERNAME>"), // optional
-        Some("password") // optional
+        Some("password"), // optional
+        Some("<DESCRIPTION>") // optional
     ).await?;
 
     let _ = result;

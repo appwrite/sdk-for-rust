@@ -61,12 +61,16 @@ impl Databases {
         database_id: impl Into<String>,
         name: impl Into<String>,
         enabled: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Database> {
         let mut params = HashMap::new();
         params.insert("databaseId".to_string(), json!(database_id.into()));
         params.insert("name".to_string(), json!(name.into()));
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -287,6 +291,7 @@ impl Databases {
         database_id: impl Into<String>,
         name: Option<&str>,
         enabled: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Database> {
         let mut params = HashMap::new();
         if let Some(value) = name {
@@ -294,6 +299,9 @@ impl Databases {
         }
         if let Some(value) = enabled {
             params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -404,6 +412,7 @@ impl Databases {
         enabled: Option<bool>,
         attributes: Option<Vec<serde_json::Value>>,
         indexes: Option<Vec<serde_json::Value>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Collection> {
         let mut params = HashMap::new();
         params.insert("collectionId".to_string(), json!(collection_id.into()));
@@ -425,6 +434,9 @@ impl Databases {
         }
         if let Some(value) = indexes {
             params.insert("indexes".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -501,6 +513,7 @@ impl Databases {
         document_security: Option<bool>,
         enabled: Option<bool>,
         purge: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Collection> {
         let mut params = HashMap::new();
         if let Some(value) = name {
@@ -520,6 +533,9 @@ impl Databases {
         }
         if let Some(value) = purge {
             params.insert("purge".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -661,6 +677,7 @@ impl Databases {
         max: Option<i64>,
         default: Option<i64>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeBigint> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -676,6 +693,9 @@ impl Databases {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -724,6 +744,7 @@ impl Databases {
         min: Option<i64>,
         max: Option<i64>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeBigint> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -738,6 +759,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -785,6 +809,7 @@ impl Databases {
     }
 
     /// Create a boolean attribute.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create_boolean_attribute(
         &self,
         database_id: impl Into<String>,
@@ -793,6 +818,7 @@ impl Databases {
         required: bool,
         default: Option<bool>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeBoolean> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -802,6 +828,9 @@ impl Databases {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -839,6 +868,7 @@ impl Databases {
 
     /// Update a boolean attribute. Changing the `default` value will not update
     /// already existing documents.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_boolean_attribute(
         &self,
         database_id: impl Into<String>,
@@ -847,6 +877,7 @@ impl Databases {
         required: bool,
         default: Option<bool>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeBoolean> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -855,6 +886,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -902,6 +936,7 @@ impl Databases {
     }
 
     /// Create a date time attribute according to the ISO 8601 standard.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create_datetime_attribute(
         &self,
         database_id: impl Into<String>,
@@ -910,6 +945,7 @@ impl Databases {
         required: bool,
         default: Option<&str>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeDatetime> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -919,6 +955,9 @@ impl Databases {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -956,6 +995,7 @@ impl Databases {
 
     /// Update a date time attribute. Changing the `default` value will not update
     /// already existing documents.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_datetime_attribute(
         &self,
         database_id: impl Into<String>,
@@ -964,6 +1004,7 @@ impl Databases {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeDatetime> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -972,6 +1013,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1019,6 +1063,7 @@ impl Databases {
     }
 
     /// Create an email attribute.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create_email_attribute(
         &self,
         database_id: impl Into<String>,
@@ -1027,6 +1072,7 @@ impl Databases {
         required: bool,
         default: Option<&str>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeEmail> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1036,6 +1082,9 @@ impl Databases {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1073,6 +1122,7 @@ impl Databases {
 
     /// Update an email attribute. Changing the `default` value will not update
     /// already existing documents.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_email_attribute(
         &self,
         database_id: impl Into<String>,
@@ -1081,6 +1131,7 @@ impl Databases {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeEmail> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -1089,6 +1140,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1147,6 +1201,7 @@ impl Databases {
         required: bool,
         default: Option<&str>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeEnum> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1163,6 +1218,9 @@ impl Databases {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1210,6 +1268,7 @@ impl Databases {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeEnum> {
         let mut params = HashMap::new();
         params.insert(
@@ -1225,6 +1284,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1284,6 +1346,7 @@ impl Databases {
         max: Option<f64>,
         default: Option<f64>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeFloat> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1299,6 +1362,9 @@ impl Databases {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1347,6 +1413,7 @@ impl Databases {
         min: Option<f64>,
         max: Option<f64>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeFloat> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -1361,6 +1428,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1420,6 +1490,7 @@ impl Databases {
         max: Option<i64>,
         default: Option<i64>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeInteger> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1435,6 +1506,9 @@ impl Databases {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1483,6 +1557,7 @@ impl Databases {
         min: Option<i64>,
         max: Option<i64>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeInteger> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -1497,6 +1572,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1544,6 +1622,7 @@ impl Databases {
     }
 
     /// Create IP address attribute.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create_ip_attribute(
         &self,
         database_id: impl Into<String>,
@@ -1552,6 +1631,7 @@ impl Databases {
         required: bool,
         default: Option<&str>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeIp> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1561,6 +1641,9 @@ impl Databases {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1598,6 +1681,7 @@ impl Databases {
 
     /// Update an ip attribute. Changing the `default` value will not update
     /// already existing documents.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_ip_attribute(
         &self,
         database_id: impl Into<String>,
@@ -1606,6 +1690,7 @@ impl Databases {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeIp> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -1614,6 +1699,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1668,12 +1756,16 @@ impl Databases {
         key: impl Into<String>,
         required: bool,
         default: Option<Vec<Vec<String>>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeLine> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
             params.insert("default".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1711,6 +1803,7 @@ impl Databases {
 
     /// Update a line attribute. Changing the `default` value will not update
     /// already existing documents.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_line_attribute(
         &self,
         database_id: impl Into<String>,
@@ -1719,6 +1812,7 @@ impl Databases {
         required: bool,
         default: Option<Vec<Vec<String>>>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeLine> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -1727,6 +1821,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1784,6 +1881,7 @@ impl Databases {
         default: Option<&str>,
         array: Option<bool>,
         encrypt: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeLongtext> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1796,6 +1894,9 @@ impl Databases {
         }
         if let Some(value) = encrypt {
             params.insert("encrypt".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1833,6 +1934,7 @@ impl Databases {
 
     /// Update a longtext attribute. Changing the `default` value will not update
     /// already existing documents.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_longtext_attribute(
         &self,
         database_id: impl Into<String>,
@@ -1841,6 +1943,7 @@ impl Databases {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeLongtext> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -1849,6 +1952,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1906,6 +2012,7 @@ impl Databases {
         default: Option<&str>,
         array: Option<bool>,
         encrypt: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeMediumtext> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -1918,6 +2025,9 @@ impl Databases {
         }
         if let Some(value) = encrypt {
             params.insert("encrypt".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1955,6 +2065,7 @@ impl Databases {
 
     /// Update a mediumtext attribute. Changing the `default` value will not update
     /// already existing documents.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_mediumtext_attribute(
         &self,
         database_id: impl Into<String>,
@@ -1963,6 +2074,7 @@ impl Databases {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeMediumtext> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -1971,6 +2083,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2025,12 +2140,16 @@ impl Databases {
         key: impl Into<String>,
         required: bool,
         default: Option<Vec<f64>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributePoint> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
             params.insert("default".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2068,6 +2187,7 @@ impl Databases {
 
     /// Update a point attribute. Changing the `default` value will not update
     /// already existing documents.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_point_attribute(
         &self,
         database_id: impl Into<String>,
@@ -2076,6 +2196,7 @@ impl Databases {
         required: bool,
         default: Option<Vec<f64>>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributePoint> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2084,6 +2205,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2138,12 +2262,16 @@ impl Databases {
         key: impl Into<String>,
         required: bool,
         default: Option<Vec<Vec<String>>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributePolygon> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
         params.insert("required".to_string(), json!(required));
         if let Some(value) = default {
             params.insert("default".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2181,6 +2309,7 @@ impl Databases {
 
     /// Update a polygon attribute. Changing the `default` value will not update
     /// already existing documents.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_polygon_attribute(
         &self,
         database_id: impl Into<String>,
@@ -2189,6 +2318,7 @@ impl Databases {
         required: bool,
         default: Option<Vec<Vec<String>>>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributePolygon> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2197,6 +2327,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2256,6 +2389,7 @@ impl Databases {
         key: Option<&str>,
         two_way_key: Option<&str>,
         on_delete: Option<crate::enums::RelationMutate>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeRelationship> {
         let mut params = HashMap::new();
         params.insert(
@@ -2274,6 +2408,9 @@ impl Databases {
         }
         if let Some(value) = on_delete {
             params.insert("onDelete".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2318,6 +2455,7 @@ impl Databases {
         key: impl Into<String>,
         on_delete: Option<crate::enums::RelationMutate>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeRelationship> {
         let mut params = HashMap::new();
         if let Some(value) = on_delete {
@@ -2325,6 +2463,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2384,6 +2525,7 @@ impl Databases {
         default: Option<&str>,
         array: Option<bool>,
         encrypt: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeString> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -2397,6 +2539,9 @@ impl Databases {
         }
         if let Some(value) = encrypt {
             params.insert("encrypt".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2444,6 +2589,7 @@ impl Databases {
         default: Option<&str>,
         size: Option<i64>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeString> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2455,6 +2601,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2512,6 +2661,7 @@ impl Databases {
         default: Option<&str>,
         array: Option<bool>,
         encrypt: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeText> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -2524,6 +2674,9 @@ impl Databases {
         }
         if let Some(value) = encrypt {
             params.insert("encrypt".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2561,6 +2714,7 @@ impl Databases {
 
     /// Update a text attribute. Changing the `default` value will not update
     /// already existing documents.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_text_attribute(
         &self,
         database_id: impl Into<String>,
@@ -2569,6 +2723,7 @@ impl Databases {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeText> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2577,6 +2732,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2624,6 +2782,7 @@ impl Databases {
     }
 
     /// Create a URL attribute.
+    #[allow(clippy::too_many_arguments)]
     pub async fn create_url_attribute(
         &self,
         database_id: impl Into<String>,
@@ -2632,6 +2791,7 @@ impl Databases {
         required: bool,
         default: Option<&str>,
         array: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeUrl> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -2641,6 +2801,9 @@ impl Databases {
         }
         if let Some(value) = array {
             params.insert("array".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2678,6 +2841,7 @@ impl Databases {
 
     /// Update an url attribute. Changing the `default` value will not update
     /// already existing documents.
+    #[allow(clippy::too_many_arguments)]
     pub async fn update_url_attribute(
         &self,
         database_id: impl Into<String>,
@@ -2686,6 +2850,7 @@ impl Databases {
         required: bool,
         default: Option<&str>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeUrl> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2694,6 +2859,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2752,6 +2920,7 @@ impl Databases {
         default: Option<&str>,
         array: Option<bool>,
         encrypt: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeVarchar> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -2765,6 +2934,9 @@ impl Databases {
         }
         if let Some(value) = encrypt {
             params.insert("encrypt".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2812,6 +2984,7 @@ impl Databases {
         default: Option<&str>,
         size: Option<i64>,
         new_key: Option<&str>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::AttributeVarchar> {
         let mut params = HashMap::new();
         params.insert("required".to_string(), json!(required));
@@ -2823,6 +2996,9 @@ impl Databases {
         }
         if let Some(value) = new_key {
             params.insert("newKey".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -2976,6 +3152,14 @@ impl Databases {
 
     /// Get a list of all the user's documents in a given collection. You can use
     /// the query params to filter your results.
+    ///
+    /// Documents returned by aggregate, groupBy or distinct queries hold only the
+    /// attributes they select, group or aggregate, typed as a document types them,
+    /// with a joined attribute named by its join alias (`alias.attribute`). They
+    /// have no `$id`, `$sequence`, `$createdAt`, `$updatedAt`, `$permissions`,
+    /// `$databaseId` or `$collectionId` unless they select or group it, and
+    /// neither does a right or full join document that no document of this
+    /// collection matched.
     pub async fn list_documents(
         &self,
         database_id: impl Into<String>,
@@ -3301,6 +3485,69 @@ impl Databases {
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Get a list of all the user's documents in a given collection using a POST
+    /// request. This behaves identically to the list documents endpoint but
+    /// accepts the queries in the request body, allowing much larger `queries`
+    /// arrays than can fit in a URL query string.
+    pub async fn create_query(
+        &self,
+        database_id: impl Into<String>,
+        collection_id: impl Into<String>,
+        queries: Option<Vec<String>>,
+        transaction_id: Option<&str>,
+        total: Option<bool>,
+        ttl: Option<i64>,
+    ) -> crate::error::Result<crate::models::DocumentList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
+        if let Some(value) = transaction_id {
+            params.insert("transactionId".to_string(), json!(value));
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        if let Some(value) = ttl {
+            params.insert("ttl".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let database_id = database_id.into();
+        if database_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"databaseId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let collection_id = collection_id.into();
+        if collection_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"collectionId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/databases/{databaseId}/collections/{collectionId}/documents/query"
+            .to_string()
+            .replace("{databaseId}", &database_id)
+            .replace("{collectionId}", &collection_id);
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
             .await
     }
 
@@ -3789,6 +4036,7 @@ impl Databases {
         attributes: impl IntoIterator<Item = impl Into<String>>,
         orders: Option<Vec<crate::enums::OrderBy>>,
         lengths: Option<Vec<i64>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Index> {
         let mut params = HashMap::new();
         params.insert("key".to_string(), json!(key.into()));
@@ -3805,6 +4053,9 @@ impl Databases {
         }
         if let Some(value) = lengths {
             params.insert("lengths".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

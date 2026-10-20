@@ -35,7 +35,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some("s-1vcpu-512mb"), // optional
         Some("s-1vcpu-512mb"), // optional
         Some(0), // optional
-        Some(vec![appwrite::enums::ProjectKeyScopes::ProjectRead]) // optional
+        Some(vec![appwrite::enums::ProjectKeyScopes::ProjectRead]), // optional
+        Some("<DESCRIPTION>") // optional
     ).await?;
 
     let _ = result;

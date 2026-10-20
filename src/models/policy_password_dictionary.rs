@@ -14,6 +14,10 @@ pub struct PolicyPasswordDictionary {
     #[serde(rename = "enabled")]
     #[serde(default = "default_enabled")]
     pub enabled: bool,
+    /// Custom passwords blocked by case-sensitive equality when enabled.
+    #[serde(rename = "denyList")]
+    #[serde(default = "default_deny_list")]
+    pub deny_list: Vec<String>,
 }
 
 fn default_id() -> String {
@@ -22,6 +26,10 @@ fn default_id() -> String {
 
 fn default_enabled() -> bool {
     false
+}
+
+fn default_deny_list() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 impl PolicyPasswordDictionary {
@@ -34,6 +42,11 @@ impl PolicyPasswordDictionary {
     pub fn enabled(&self) -> &bool {
         &self.enabled
     }
+
+    /// Get deny_list
+    pub fn deny_list(&self) -> &Vec<String> {
+        &self.deny_list
+    }
 }
 
 #[cfg(test)]
@@ -45,6 +58,7 @@ mod tests {
         let _model = <PolicyPasswordDictionary as Default>::default();
         let _ = _model.id();
         let _ = _model.enabled();
+        let _ = _model.deny_list();
     }
 
     #[test]

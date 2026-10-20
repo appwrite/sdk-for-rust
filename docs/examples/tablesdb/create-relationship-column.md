@@ -19,7 +19,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(false), // optional
         Some("<KEY>"), // optional
         Some("<TWO_WAY_KEY>"), // optional
-        Some(appwrite::enums::RelationMutate::Cascade) // optional
+        Some(appwrite::enums::RelationMutate::Cascade), // optional
+        Some("<DESCRIPTION>") // optional
     ).await?;
 
     let _ = result;

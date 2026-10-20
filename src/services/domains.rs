@@ -28,6 +28,7 @@ impl Domains {
         &self,
         queries: Option<Vec<String>>,
         search: Option<&str>,
+        total: Option<bool>,
     ) -> crate::error::Result<crate::models::DomainsList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
@@ -38,6 +39,9 @@ impl Domains {
         }
         if let Some(value) = search {
             params.insert("search".to_string(), json!(value));
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -623,6 +627,7 @@ impl Domains {
         &self,
         domain_id: impl Into<String>,
         queries: Option<Vec<String>>,
+        total: Option<bool>,
     ) -> crate::error::Result<crate::models::DnsRecordsList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
@@ -630,6 +635,9 @@ impl Domains {
                 "queries".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
