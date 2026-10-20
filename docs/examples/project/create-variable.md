@@ -15,7 +15,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<VARIABLE_ID>",
         "<KEY>",
         "<VALUE>",
-        Some(false) // optional
+        Some(false), // optional
+        Some("<DESCRIPTION>") // optional
     ).await?;
 
     let _ = result;

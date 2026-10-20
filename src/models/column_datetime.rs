@@ -10,6 +10,10 @@ pub struct ColumnDatetime {
     #[serde(rename = "key")]
     #[serde(default = "default_key")]
     pub key: String,
+    /// Optional description for the column.
+    #[serde(rename = "description")]
+    #[serde(default = "default_description")]
+    pub description: String,
     /// Column type.
     #[serde(rename = "type")]
     #[serde(default = "default_type")]
@@ -52,6 +56,10 @@ fn default_key() -> String {
     "".to_string()
 }
 
+fn default_description() -> String {
+    "".to_string()
+}
+
 fn default_type() -> String {
     "".to_string()
 }
@@ -76,6 +84,11 @@ impl ColumnDatetime {
     /// Get key
     pub fn key(&self) -> &String {
         &self.key
+    }
+
+    /// Get description
+    pub fn description(&self) -> &String {
+        &self.description
     }
 
     /// Get r#type
@@ -144,6 +157,7 @@ mod tests {
     fn test_column_datetime_creation() {
         let _model = <ColumnDatetime as Default>::default();
         let _ = _model.key();
+        let _ = _model.description();
         let _ = _model.r#type();
         let _ = _model.status();
         let _ = _model.error();

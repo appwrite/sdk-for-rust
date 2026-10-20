@@ -82,6 +82,7 @@ impl Sites {
         runtime_specification: Option<&str>,
         deployment_retention: Option<i64>,
         scopes: Option<Vec<crate::enums::ProjectKeyScopes>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Site> {
         let mut params = HashMap::new();
         params.insert("siteId".to_string(), json!(site_id.into()));
@@ -153,6 +154,9 @@ impl Sites {
         }
         if let Some(value) = scopes {
             params.insert("scopes".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -262,6 +266,7 @@ impl Sites {
         runtime_specification: Option<&str>,
         deployment_retention: Option<i64>,
         scopes: Option<Vec<crate::enums::ProjectKeyScopes>>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Site> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
@@ -334,6 +339,9 @@ impl Sites {
         }
         if let Some(value) = scopes {
             params.insert("scopes".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -982,6 +990,7 @@ impl Sites {
         key: impl Into<String>,
         value: impl Into<String>,
         secret: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Variable> {
         let mut params = HashMap::new();
         params.insert("variableId".to_string(), json!(variable_id.into()));
@@ -989,6 +998,9 @@ impl Sites {
         params.insert("value".to_string(), json!(value.into()));
         if let Some(value) = secret {
             params.insert("secret".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1061,6 +1073,7 @@ impl Sites {
         key: Option<&str>,
         value: Option<&str>,
         secret: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Variable> {
         let mut params = HashMap::new();
         if let Some(value) = key {
@@ -1071,6 +1084,9 @@ impl Sites {
         }
         if let Some(value) = secret {
             params.insert("secret".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

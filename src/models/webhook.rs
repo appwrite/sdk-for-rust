@@ -22,6 +22,10 @@ pub struct Webhook {
     #[serde(rename = "name")]
     #[serde(default = "default_name")]
     pub name: String,
+    /// Optional description for the webhook.
+    #[serde(rename = "description")]
+    #[serde(default = "default_description")]
+    pub description: String,
     /// Webhook URL endpoint.
     #[serde(rename = "url")]
     #[serde(default = "default_url")]
@@ -74,6 +78,10 @@ fn default_updated_at() -> String {
 }
 
 fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_description() -> String {
     "".to_string()
 }
 
@@ -134,6 +142,11 @@ impl Webhook {
         &self.name
     }
 
+    /// Get description
+    pub fn description(&self) -> &String {
+        &self.description
+    }
+
     /// Get url
     pub fn url(&self) -> &String {
         &self.url
@@ -191,6 +204,7 @@ mod tests {
         let _ = _model.created_at();
         let _ = _model.updated_at();
         let _ = _model.name();
+        let _ = _model.description();
         let _ = _model.url();
         let _ = _model.events();
         let _ = _model.tls();

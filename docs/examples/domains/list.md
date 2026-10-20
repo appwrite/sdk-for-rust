@@ -13,7 +13,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = domains.list(
         Some(vec![]), // optional
-        Some("<SEARCH>") // optional
+        Some("<SEARCH>"), // optional
+        Some(false) // optional
     ).await?;
 
     let _ = result;

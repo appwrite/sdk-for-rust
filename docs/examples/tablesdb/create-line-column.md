@@ -16,7 +16,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<TABLE_ID>",
         "<KEY>",
         false,
-        Some(vec![serde_json::json!([1,2]), serde_json::json!([3,4]), serde_json::json!([5,6])]) // optional
+        Some(vec![serde_json::json!([1,2]), serde_json::json!([3,4]), serde_json::json!([5,6])]), // optional
+        Some("<DESCRIPTION>") // optional
     ).await?;
 
     let _ = result;

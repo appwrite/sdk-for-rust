@@ -31,6 +31,10 @@ pub struct VectorsdbCollection {
     #[serde(rename = "name")]
     #[serde(default = "default_name")]
     pub name: String,
+    /// Optional description for the collection.
+    #[serde(rename = "description")]
+    #[serde(default = "default_description")]
+    pub description: String,
     /// Collection enabled. Can be 'enabled' or 'disabled'. When disabled, the
     /// collection is inaccessible to users, but remains accessible to Server SDKs
     /// using API keys.
@@ -85,6 +89,10 @@ fn default_database_id() -> String {
 }
 
 fn default_name() -> String {
+    "".to_string()
+}
+
+fn default_description() -> String {
     "".to_string()
 }
 
@@ -147,6 +155,11 @@ impl VectorsdbCollection {
         &self.name
     }
 
+    /// Get description
+    pub fn description(&self) -> &String {
+        &self.description
+    }
+
     /// Get enabled
     pub fn enabled(&self) -> &bool {
         &self.enabled
@@ -196,6 +209,7 @@ mod tests {
         let _ = _model.permissions();
         let _ = _model.database_id();
         let _ = _model.name();
+        let _ = _model.description();
         let _ = _model.enabled();
         let _ = _model.document_security();
         let _ = _model.attributes();

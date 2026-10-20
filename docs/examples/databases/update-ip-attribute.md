@@ -17,7 +17,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<KEY>",
         false,
         Some("192.0.2.0"),
-        Some("<NEW_KEY>") // optional
+        Some("<NEW_KEY>"), // optional
+        Some("<DESCRIPTION>") // optional
     ).await?;
 
     let _ = result;

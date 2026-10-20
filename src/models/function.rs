@@ -26,6 +26,10 @@ pub struct Function {
     #[serde(rename = "name")]
     #[serde(default = "default_name")]
     pub name: String,
+    /// Optional description for the function.
+    #[serde(rename = "description")]
+    #[serde(default = "default_description")]
+    pub description: String,
     /// Function enabled.
     #[serde(rename = "enabled")]
     #[serde(default = "default_enabled")]
@@ -175,6 +179,10 @@ fn default_name() -> String {
     "".to_string()
 }
 
+fn default_description() -> String {
+    "".to_string()
+}
+
 fn default_enabled() -> bool {
     true
 }
@@ -311,6 +319,11 @@ impl Function {
     /// Get name
     pub fn name(&self) -> &String {
         &self.name
+    }
+
+    /// Get description
+    pub fn description(&self) -> &String {
+        &self.description
     }
 
     /// Get enabled
@@ -477,6 +490,7 @@ mod tests {
         let _ = _model.updated_at();
         let _ = _model.execute();
         let _ = _model.name();
+        let _ = _model.description();
         let _ = _model.enabled();
         let _ = _model.live();
         let _ = _model.logging();

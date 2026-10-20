@@ -14,6 +14,10 @@ pub struct Database {
     #[serde(rename = "name")]
     #[serde(default = "default_name")]
     pub name: String,
+    /// Optional description for the database.
+    #[serde(rename = "description")]
+    #[serde(default = "default_description")]
+    pub description: String,
     /// Database creation date in ISO 8601 format.
     #[serde(rename = "$createdAt")]
     #[serde(default = "default_created_at")]
@@ -89,6 +93,10 @@ fn default_name() -> String {
     "".to_string()
 }
 
+fn default_description() -> String {
+    "".to_string()
+}
+
 fn default_created_at() -> String {
     "".to_string()
 }
@@ -114,6 +122,11 @@ impl Database {
     /// Get name
     pub fn name(&self) -> &String {
         &self.name
+    }
+
+    /// Get description
+    pub fn description(&self) -> &String {
+        &self.description
     }
 
     /// Get created_at
@@ -245,6 +258,7 @@ mod tests {
         let _model = <Database as Default>::default();
         let _ = _model.id();
         let _ = _model.name();
+        let _ = _model.description();
         let _ = _model.created_at();
         let _ = _model.updated_at();
         let _ = _model.enabled();

@@ -85,6 +85,7 @@ impl Functions {
         runtime_specification: Option<&str>,
         deployment_retention: Option<i64>,
         interval: Option<i64>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Function> {
         let mut params = HashMap::new();
         params.insert("functionId".to_string(), json!(function_id.into()));
@@ -161,6 +162,9 @@ impl Functions {
         }
         if let Some(value) = interval {
             params.insert("interval".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -270,6 +274,7 @@ impl Functions {
         runtime_specification: Option<&str>,
         deployment_retention: Option<i64>,
         interval: Option<i64>,
+        description: Option<&str>,
         email_enabled: Option<bool>,
     ) -> crate::error::Result<crate::models::Function> {
         let mut params = HashMap::new();
@@ -348,6 +353,9 @@ impl Functions {
         }
         if let Some(value) = interval {
             params.insert("interval".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         if let Some(value) = email_enabled {
             params.insert("emailEnabled".to_string(), json!(value));
@@ -1065,6 +1073,7 @@ impl Functions {
         key: impl Into<String>,
         value: impl Into<String>,
         secret: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Variable> {
         let mut params = HashMap::new();
         params.insert("variableId".to_string(), json!(variable_id.into()));
@@ -1072,6 +1081,9 @@ impl Functions {
         params.insert("value".to_string(), json!(value.into()));
         if let Some(value) = secret {
             params.insert("secret".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -1144,6 +1156,7 @@ impl Functions {
         key: Option<&str>,
         value: Option<&str>,
         secret: Option<bool>,
+        description: Option<&str>,
     ) -> crate::error::Result<crate::models::Variable> {
         let mut params = HashMap::new();
         if let Some(value) = key {
@@ -1154,6 +1167,9 @@ impl Functions {
         }
         if let Some(value) = secret {
             params.insert("secret".to_string(), json!(value));
+        }
+        if let Some(value) = description {
+            params.insert("description".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
