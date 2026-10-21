@@ -8,7 +8,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! appwrite = "0.21.0"
+//! appwrite = "0.21.1"
 //! ```
 //!
 //! ## Usage
@@ -52,7 +52,7 @@ pub use input_file::InputFile;
 pub type Result<T> = std::result::Result<T, AppwriteError>;
 
 /// SDK version
-pub const VERSION: &str = "0.21.0";
+pub const VERSION: &str = "0.21.1";
 
 /// SDK name
 pub const SDK_NAME: &str = "Rust";
