@@ -101,7 +101,7 @@ impl Client {
         headers.insert(
             "user-agent",
             format!(
-                "AppwriteRustSDK/0.21.0 ({}; {})",
+                "AppwriteRustSDK/0.21.1 ({}; {})",
                 std::env::consts::OS,
                 std::env::consts::ARCH
             )
@@ -111,7 +111,7 @@ impl Client {
         headers.insert("x-sdk-name", "Rust".parse().unwrap());
         headers.insert("x-sdk-platform", "server".parse().unwrap());
         headers.insert("x-sdk-language", "rust".parse().unwrap());
-        headers.insert("x-sdk-version", "0.21.0".parse().unwrap());
+        headers.insert("x-sdk-version", "0.21.1".parse().unwrap());
 
         let config = Config {
             endpoint: "https://cloud.appwrite.io/v1".to_string(),
@@ -1500,5 +1500,26 @@ mod tests {
         assert!(pairs.contains(&("values[]".to_string(), "[\"a\",\"b\"]".to_string())));
         assert!(pairs.contains(&("queries[]".to_string(), Query::limit(1).to_string())));
         assert_eq!(pairs.len(), 2);
+    }
+
+    #[tokio::test]
+    async fn json_response_floats_round_trip() {
+        let body = r#"{"stddev":14.176206959197513,"values":[1.9256223898445775,106878.80101488405],"variance":200.96486383540937}"#;
+        let server = wiremock::MockServer::start().await;
+        wiremock::Mock::given(wiremock::matchers::any())
+            .respond_with(
+                wiremock::ResponseTemplate::new(200).set_body_raw(body, "application/json"),
+            )
+            .mount(&server)
+            .await;
+        let client = Client::new().set_endpoint(server.uri());
+
+        let response: Value = client.call(Method::GET, "/", None, None).await.unwrap();
+
+        assert_eq!(response["stddev"].as_f64(), Some(14.176206959197513));
+        assert_eq!(response["values"][0].as_f64(), Some(1.9256223898445775));
+        assert_eq!(response["values"][1].as_f64(), Some(106878.80101488405));
+        assert_eq!(response["variance"].as_f64(), Some(200.96486383540937));
+        assert_eq!(serde_json::to_string(&response).unwrap(), body);
     }
 }
