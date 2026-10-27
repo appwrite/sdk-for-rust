@@ -55,9 +55,9 @@ impl Waf {
     /// Create a bypass WAF rule. Conditions can match request attributes including
     /// `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`,
     /// `host`, `country`, `continent`, `headers.<name>`, `query.<key>`,
-    /// `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-    /// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-    /// DB addon.
+    /// `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`,
+    /// `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and
+    /// `state` require the premium Geo DB addon.
     #[allow(clippy::too_many_arguments)]
     pub async fn create_bypass_rule(
         &self,
@@ -106,9 +106,9 @@ impl Waf {
     /// Update a bypass WAF rule. Conditions can match request attributes including
     /// `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`,
     /// `host`, `country`, `continent`, `headers.<name>`, `query.<key>`,
-    /// `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-    /// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-    /// DB addon.
+    /// `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`,
+    /// `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and
+    /// `state` require the premium Geo DB addon.
     #[allow(clippy::too_many_arguments)]
     pub async fn update_bypass_rule(
         &self,
@@ -162,7 +162,7 @@ impl Waf {
 
         let path = "/waf/rules/bypass/{ruleId}"
             .to_string()
-            .replace("{ruleId}", &rule_id);
+            .replace("{ruleId}", &Client::encode_path(&rule_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -175,8 +175,9 @@ impl Waf {
     /// challenged again. Conditions can match request attributes including `ip`
     /// (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`,
     /// `country`, `continent`, `headers.<name>`, `query.<key>`, `queryKeys`,
-    /// `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions
-    /// on `city` and `state` require the premium Geo DB addon.
+    /// `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`,
+    /// `browser`, and `browserVersion`. Conditions on `city` and `state` require
+    /// the premium Geo DB addon.
     #[allow(clippy::too_many_arguments)]
     pub async fn create_challenge_rule(
         &self,
@@ -240,8 +241,9 @@ impl Waf {
     /// challenged again. Conditions can match request attributes including `ip`
     /// (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`,
     /// `country`, `continent`, `headers.<name>`, `query.<key>`, `queryKeys`,
-    /// `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions
-    /// on `city` and `state` require the premium Geo DB addon.
+    /// `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`,
+    /// `browser`, and `browserVersion`. Conditions on `city` and `state` require
+    /// the premium Geo DB addon.
     #[allow(clippy::too_many_arguments)]
     pub async fn update_challenge_rule(
         &self,
@@ -307,7 +309,7 @@ impl Waf {
 
         let path = "/waf/rules/challenge/{ruleId}"
             .to_string()
-            .replace("{ruleId}", &rule_id);
+            .replace("{ruleId}", &Client::encode_path(&rule_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -317,9 +319,19 @@ impl Waf {
     /// Create a deny WAF rule. Conditions can match request attributes including
     /// `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`,
     /// `host`, `country`, `continent`, `headers.<name>`, `query.<key>`,
-    /// `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-    /// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-    /// DB addon.
+    /// `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`,
+    /// `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and
+    /// `state` require the premium Geo DB addon. `sessionAge` and `mfaAge` hold
+    /// the seconds since the request's session was created and since its last MFA
+    /// challenge. Both are null for requests without a session, such as guests and
+    /// API keys, while a request authenticated with the `x-appwrite-jwt` header
+    /// carries the age of the session its token is bound to; on `functions` rules
+    /// the session comes from the `x-appwrite-user-jwt` header, and `mfaAge` is
+    /// null when the session never completed MFA. A deny matching on `mfaAge`
+    /// returns `user_challenge_required` and one matching on `sessionAge` returns
+    /// `user_reauthentication_required`, both with status 401, so the user can
+    /// sign in again and retry. To also deny requests without a session, combine
+    /// `isNull` and `greaterThan` in an `or` condition.
     #[allow(clippy::too_many_arguments)]
     pub async fn create_deny_rule(
         &self,
@@ -368,9 +380,19 @@ impl Waf {
     /// Update a deny WAF rule. Conditions can match request attributes including
     /// `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`,
     /// `host`, `country`, `continent`, `headers.<name>`, `query.<key>`,
-    /// `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-    /// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-    /// DB addon.
+    /// `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`,
+    /// `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and
+    /// `state` require the premium Geo DB addon. `sessionAge` and `mfaAge` hold
+    /// the seconds since the request's session was created and since its last MFA
+    /// challenge. Both are null for requests without a session, such as guests and
+    /// API keys, while a request authenticated with the `x-appwrite-jwt` header
+    /// carries the age of the session its token is bound to; on `functions` rules
+    /// the session comes from the `x-appwrite-user-jwt` header, and `mfaAge` is
+    /// null when the session never completed MFA. A deny matching on `mfaAge`
+    /// returns `user_challenge_required` and one matching on `sessionAge` returns
+    /// `user_reauthentication_required`, both with status 401, so the user can
+    /// sign in again and retry. To also deny requests without a session, combine
+    /// `isNull` and `greaterThan` in an `or` condition.
     #[allow(clippy::too_many_arguments)]
     pub async fn update_deny_rule(
         &self,
@@ -424,7 +446,7 @@ impl Waf {
 
         let path = "/waf/rules/deny/{ruleId}"
             .to_string()
-            .replace("{ruleId}", &rule_id);
+            .replace("{ruleId}", &Client::encode_path(&rule_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -436,9 +458,9 @@ impl Waf {
     /// without an authenticated user skip `userId` rules). Conditions can match
     /// request attributes including `ip` (plain IPs or CIDR blocks like
     /// `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`,
-    /// `headers.<name>`, `query.<key>`, `queryKeys`, `userAgent`, `os`,
-    /// `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and
-    /// `state` require the premium Geo DB addon.
+    /// `headers.<name>`, `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`,
+    /// `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`.
+    /// Conditions on `city` and `state` require the premium Geo DB addon.
     #[allow(clippy::too_many_arguments)]
     pub async fn create_rate_limit_rule(
         &self,
@@ -505,9 +527,9 @@ impl Waf {
     /// without an authenticated user skip `userId` rules). Conditions can match
     /// request attributes including `ip` (plain IPs or CIDR blocks like
     /// `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`,
-    /// `headers.<name>`, `query.<key>`, `queryKeys`, `userAgent`, `os`,
-    /// `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and
-    /// `state` require the premium Geo DB addon.
+    /// `headers.<name>`, `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`,
+    /// `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`.
+    /// Conditions on `city` and `state` require the premium Geo DB addon.
     #[allow(clippy::too_many_arguments)]
     pub async fn update_rate_limit_rule(
         &self,
@@ -577,7 +599,7 @@ impl Waf {
 
         let path = "/waf/rules/rate-limit/{ruleId}"
             .to_string()
-            .replace("{ruleId}", &rule_id);
+            .replace("{ruleId}", &Client::encode_path(&rule_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -587,9 +609,9 @@ impl Waf {
     /// Create a redirect WAF rule. Conditions can match request attributes
     /// including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`,
     /// `path`, `host`, `country`, `continent`, `headers.<name>`, `query.<key>`,
-    /// `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-    /// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-    /// DB addon.
+    /// `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`,
+    /// `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and
+    /// `state` require the premium Geo DB addon.
     #[allow(clippy::too_many_arguments)]
     pub async fn create_redirect_rule(
         &self,
@@ -642,9 +664,9 @@ impl Waf {
     /// Update a redirect WAF rule. Conditions can match request attributes
     /// including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`,
     /// `path`, `host`, `country`, `continent`, `headers.<name>`, `query.<key>`,
-    /// `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-    /// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-    /// DB addon.
+    /// `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`,
+    /// `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and
+    /// `state` require the premium Geo DB addon.
     #[allow(clippy::too_many_arguments)]
     pub async fn update_redirect_rule(
         &self,
@@ -706,7 +728,7 @@ impl Waf {
 
         let path = "/waf/rules/redirect/{ruleId}"
             .to_string()
-            .replace("{ruleId}", &rule_id);
+            .replace("{ruleId}", &Client::encode_path(&rule_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -734,7 +756,7 @@ impl Waf {
 
         let path = "/waf/rules/{ruleId}"
             .to_string()
-            .replace("{ruleId}", &rule_id);
+            .replace("{ruleId}", &Client::encode_path(&rule_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -760,7 +782,7 @@ impl Waf {
 
         let path = "/waf/rules/{ruleId}"
             .to_string()
-            .replace("{ruleId}", &rule_id);
+            .replace("{ruleId}", &Client::encode_path(&rule_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

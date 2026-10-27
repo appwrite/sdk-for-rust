@@ -248,7 +248,7 @@ impl Messaging {
 
         let path = "/messaging/messages/email/{messageId}"
             .to_string()
-            .replace("{messageId}", &message_id);
+            .replace("{messageId}", &Client::encode_path(&message_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -469,7 +469,7 @@ impl Messaging {
 
         let path = "/messaging/messages/push/{messageId}"
             .to_string()
-            .replace("{messageId}", &message_id);
+            .replace("{messageId}", &Client::encode_path(&message_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -584,7 +584,7 @@ impl Messaging {
 
         let path = "/messaging/messages/sms/{messageId}"
             .to_string()
-            .replace("{messageId}", &message_id);
+            .replace("{messageId}", &Client::encode_path(&message_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -612,7 +612,7 @@ impl Messaging {
 
         let path = "/messaging/messages/{messageId}"
             .to_string()
-            .replace("{messageId}", &message_id);
+            .replace("{messageId}", &Client::encode_path(&message_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -639,7 +639,7 @@ impl Messaging {
 
         let path = "/messaging/messages/{messageId}"
             .to_string()
-            .replace("{messageId}", &message_id);
+            .replace("{messageId}", &Client::encode_path(&message_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -678,7 +678,7 @@ impl Messaging {
 
         let path = "/messaging/messages/{messageId}/targets"
             .to_string()
-            .replace("{messageId}", &message_id);
+            .replace("{messageId}", &Client::encode_path(&message_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -811,7 +811,7 @@ impl Messaging {
 
         let path = "/messaging/providers/apns/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -888,7 +888,7 @@ impl Messaging {
 
         let path = "/messaging/providers/appwrite/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -957,7 +957,7 @@ impl Messaging {
 
         let path = "/messaging/providers/fcm/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1076,7 +1076,7 @@ impl Messaging {
 
         let path = "/messaging/providers/mailgun/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1161,7 +1161,7 @@ impl Messaging {
 
         let path = "/messaging/providers/msg91/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1264,7 +1264,7 @@ impl Messaging {
 
         let path = "/messaging/providers/resend/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1367,7 +1367,7 @@ impl Messaging {
 
         let path = "/messaging/providers/sendgrid/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1486,7 +1486,7 @@ impl Messaging {
 
         let path = "/messaging/providers/ses/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1635,7 +1635,7 @@ impl Messaging {
 
         let path = "/messaging/providers/smtp/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1720,7 +1720,7 @@ impl Messaging {
 
         let path = "/messaging/providers/telesign/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1805,7 +1805,7 @@ impl Messaging {
 
         let path = "/messaging/providers/textmagic/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1890,7 +1890,7 @@ impl Messaging {
 
         let path = "/messaging/providers/twilio/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1975,7 +1975,7 @@ impl Messaging {
 
         let path = "/messaging/providers/vonage/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2003,7 +2003,7 @@ impl Messaging {
 
         let path = "/messaging/providers/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2032,7 +2032,7 @@ impl Messaging {
 
         let path = "/messaging/providers/{providerId}"
             .to_string()
-            .replace("{providerId}", &provider_id);
+            .replace("{providerId}", &Client::encode_path(&provider_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -2129,7 +2129,7 @@ impl Messaging {
 
         let path = "/messaging/topics/{topicId}"
             .to_string()
-            .replace("{topicId}", &topic_id);
+            .replace("{topicId}", &Client::encode_path(&topic_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2181,7 +2181,7 @@ impl Messaging {
 
         let path = "/messaging/topics/{topicId}"
             .to_string()
-            .replace("{topicId}", &topic_id);
+            .replace("{topicId}", &Client::encode_path(&topic_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2207,7 +2207,7 @@ impl Messaging {
 
         let path = "/messaging/topics/{topicId}"
             .to_string()
-            .replace("{topicId}", &topic_id);
+            .replace("{topicId}", &Client::encode_path(&topic_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -2250,7 +2250,7 @@ impl Messaging {
 
         let path = "/messaging/topics/{topicId}/subscribers"
             .to_string()
-            .replace("{topicId}", &topic_id);
+            .replace("{topicId}", &Client::encode_path(&topic_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2283,7 +2283,7 @@ impl Messaging {
 
         let path = "/messaging/topics/{topicId}/subscribers"
             .to_string()
-            .replace("{topicId}", &topic_id);
+            .replace("{topicId}", &Client::encode_path(&topic_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2322,8 +2322,8 @@ impl Messaging {
 
         let path = "/messaging/topics/{topicId}/subscribers/{subscriberId}"
             .to_string()
-            .replace("{topicId}", &topic_id)
-            .replace("{subscriberId}", &subscriber_id);
+            .replace("{topicId}", &Client::encode_path(&topic_id))
+            .replace("{subscriberId}", &Client::encode_path(&subscriber_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2363,8 +2363,8 @@ impl Messaging {
 
         let path = "/messaging/topics/{topicId}/subscribers/{subscriberId}"
             .to_string()
-            .replace("{topicId}", &topic_id)
-            .replace("{subscriberId}", &subscriber_id);
+            .replace("{topicId}", &Client::encode_path(&topic_id))
+            .replace("{subscriberId}", &Client::encode_path(&subscriber_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

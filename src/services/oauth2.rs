@@ -49,12 +49,14 @@ impl Oauth2 {
 
         let path = "/oauth2/{project_id}/approve".to_string().replace(
             "{project_id}",
-            &self
-                .client
-                .get_headers()
-                .get("x-appwrite-project")
-                .cloned()
-                .unwrap_or_default(),
+            &Client::encode_path(
+                &self
+                    .client
+                    .get_headers()
+                    .get("x-appwrite-project")
+                    .cloned()
+                    .unwrap_or_default(),
+            ),
         );
 
         self.client
@@ -136,12 +138,14 @@ impl Oauth2 {
 
         let path = "/oauth2/{project_id}/authorize".to_string().replace(
             "{project_id}",
-            &self
-                .client
-                .get_headers()
-                .get("x-appwrite-project")
-                .cloned()
-                .unwrap_or_default(),
+            &Client::encode_path(
+                &self
+                    .client
+                    .get_headers()
+                    .get("x-appwrite-project")
+                    .cloned()
+                    .unwrap_or_default(),
+            ),
         );
 
         self.client
@@ -224,12 +228,14 @@ impl Oauth2 {
 
         let path = "/oauth2/{project_id}/authorize".to_string().replace(
             "{project_id}",
-            &self
-                .client
-                .get_headers()
-                .get("x-appwrite-project")
-                .cloned()
-                .unwrap_or_default(),
+            &Client::encode_path(
+                &self
+                    .client
+                    .get_headers()
+                    .get("x-appwrite-project")
+                    .cloned()
+                    .unwrap_or_default(),
+            ),
         );
 
         self.client
@@ -274,12 +280,14 @@ impl Oauth2 {
             .to_string()
             .replace(
                 "{project_id}",
-                &self
-                    .client
-                    .get_headers()
-                    .get("x-appwrite-project")
-                    .cloned()
-                    .unwrap_or_default(),
+                &Client::encode_path(
+                    &self
+                        .client
+                        .get_headers()
+                        .get("x-appwrite-project")
+                        .cloned()
+                        .unwrap_or_default(),
+                ),
             );
 
         self.client
@@ -303,12 +311,14 @@ impl Oauth2 {
 
         let path = "/oauth2/{project_id}/grants".to_string().replace(
             "{project_id}",
-            &self
-                .client
-                .get_headers()
-                .get("x-appwrite-project")
-                .cloned()
-                .unwrap_or_default(),
+            &Client::encode_path(
+                &self
+                    .client
+                    .get_headers()
+                    .get("x-appwrite-project")
+                    .cloned()
+                    .unwrap_or_default(),
+            ),
         );
 
         self.client
@@ -341,14 +351,16 @@ impl Oauth2 {
             .to_string()
             .replace(
                 "{project_id}",
-                &self
-                    .client
-                    .get_headers()
-                    .get("x-appwrite-project")
-                    .cloned()
-                    .unwrap_or_default(),
+                &Client::encode_path(
+                    &self
+                        .client
+                        .get_headers()
+                        .get("x-appwrite-project")
+                        .cloned()
+                        .unwrap_or_default(),
+                ),
             )
-            .replace("{grant_id}", &grant_id);
+            .replace("{grant_id}", &Client::encode_path(&grant_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -383,12 +395,14 @@ impl Oauth2 {
 
         let path = "/oauth2/{project_id}/introspect".to_string().replace(
             "{project_id}",
-            &self
-                .client
-                .get_headers()
-                .get("x-appwrite-project")
-                .cloned()
-                .unwrap_or_default(),
+            &Client::encode_path(
+                &self
+                    .client
+                    .get_headers()
+                    .get("x-appwrite-project")
+                    .cloned()
+                    .unwrap_or_default(),
+            ),
         );
 
         self.client
@@ -420,12 +434,14 @@ impl Oauth2 {
 
         let path = "/oauth2/{project_id}/organizations".to_string().replace(
             "{project_id}",
-            &self
-                .client
-                .get_headers()
-                .get("x-appwrite-project")
-                .cloned()
-                .unwrap_or_default(),
+            &Client::encode_path(
+                &self
+                    .client
+                    .get_headers()
+                    .get("x-appwrite-project")
+                    .cloned()
+                    .unwrap_or_default(),
+            ),
         );
 
         self.client
@@ -495,12 +511,14 @@ impl Oauth2 {
 
         let path = "/oauth2/{project_id}/par".to_string().replace(
             "{project_id}",
-            &self
-                .client
-                .get_headers()
-                .get("x-appwrite-project")
-                .cloned()
-                .unwrap_or_default(),
+            &Client::encode_path(
+                &self
+                    .client
+                    .get_headers()
+                    .get("x-appwrite-project")
+                    .cloned()
+                    .unwrap_or_default(),
+            ),
         );
 
         self.client
@@ -532,12 +550,14 @@ impl Oauth2 {
 
         let path = "/oauth2/{project_id}/projects".to_string().replace(
             "{project_id}",
-            &self
-                .client
-                .get_headers()
-                .get("x-appwrite-project")
-                .cloned()
-                .unwrap_or_default(),
+            &Client::encode_path(
+                &self
+                    .client
+                    .get_headers()
+                    .get("x-appwrite-project")
+                    .cloned()
+                    .unwrap_or_default(),
+            ),
         );
 
         self.client
@@ -561,12 +581,14 @@ impl Oauth2 {
 
         let path = "/oauth2/{project_id}/reject".to_string().replace(
             "{project_id}",
-            &self
-                .client
-                .get_headers()
-                .get("x-appwrite-project")
-                .cloned()
-                .unwrap_or_default(),
+            &Client::encode_path(
+                &self
+                    .client
+                    .get_headers()
+                    .get("x-appwrite-project")
+                    .cloned()
+                    .unwrap_or_default(),
+            ),
         );
 
         self.client
@@ -599,12 +621,14 @@ impl Oauth2 {
 
         let path = "/oauth2/{project_id}/revoke".to_string().replace(
             "{project_id}",
-            &self
-                .client
-                .get_headers()
-                .get("x-appwrite-project")
-                .cloned()
-                .unwrap_or_default(),
+            &Client::encode_path(
+                &self
+                    .client
+                    .get_headers()
+                    .get("x-appwrite-project")
+                    .cloned()
+                    .unwrap_or_default(),
+            ),
         );
 
         self.client
@@ -666,12 +690,14 @@ impl Oauth2 {
 
         let path = "/oauth2/{project_id}/token".to_string().replace(
             "{project_id}",
-            &self
-                .client
-                .get_headers()
-                .get("x-appwrite-project")
-                .cloned()
-                .unwrap_or_default(),
+            &Client::encode_path(
+                &self
+                    .client
+                    .get_headers()
+                    .get("x-appwrite-project")
+                    .cloned()
+                    .unwrap_or_default(),
+            ),
         );
 
         self.client

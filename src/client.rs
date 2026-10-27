@@ -97,11 +97,11 @@ impl Client {
     /// Create a new Appwrite client
     pub fn new() -> Self {
         let mut headers = HeaderMap::new();
-        headers.insert("X-Appwrite-Response-Format", "2.5.0".parse().unwrap());
+        headers.insert("X-Appwrite-Response-Format", "2.6.2".parse().unwrap());
         headers.insert(
             "user-agent",
             format!(
-                "AppwriteRustSDK/0.21.1 ({}; {})",
+                "AppwriteRustSDK/0.22.0 ({}; {})",
                 std::env::consts::OS,
                 std::env::consts::ARCH
             )
@@ -111,7 +111,7 @@ impl Client {
         headers.insert("x-sdk-name", "Rust".parse().unwrap());
         headers.insert("x-sdk-platform", "server".parse().unwrap());
         headers.insert("x-sdk-language", "rust".parse().unwrap());
-        headers.insert("x-sdk-version", "0.21.1".parse().unwrap());
+        headers.insert("x-sdk-version", "0.22.0".parse().unwrap());
 
         let config = Config {
             endpoint: "https://cloud.appwrite.io/v1".to_string(),
@@ -135,8 +135,11 @@ impl Client {
         }
     }
 
+    /// Calls follow no redirects: one would carry the API key to wherever it points.
     fn build_http_client(config: &Config) -> HttpClient {
-        let mut builder = HttpClient::builder().timeout(Duration::from_secs(config.timeout_secs));
+        let mut builder = HttpClient::builder()
+            .redirect(reqwest::redirect::Policy::none())
+            .timeout(Duration::from_secs(config.timeout_secs));
 
         if config.self_signed {
             builder = builder.danger_accept_invalid_certs(true);
@@ -443,6 +446,42 @@ impl Client {
         state.config.endpoint.clone()
     }
 
+    /// Encode a value as one path segment
+    ///
+    /// Every byte but letters, digits and `-_.!~*'()` is escaped, as
+    /// encodeURIComponent does, so a value fills exactly the segment it replaces.
+    pub(crate) fn encode_path(value: &str) -> String {
+        const HEX: &[u8; 16] = b"0123456789ABCDEF";
+        let mut encoded = String::with_capacity(value.len());
+        for &byte in value.as_bytes() {
+            if byte.is_ascii_alphanumeric() || b"-_.!~*'()".contains(&byte) {
+                encoded.push(byte as char);
+            } else {
+                encoded.push('%');
+                encoded.push(HEX[usize::from(byte >> 4)] as char);
+                encoded.push(HEX[usize::from(byte & 0x0F)] as char);
+            }
+        }
+        encoded
+    }
+
+    /// Join the endpoint and a request path that has no `.` or `..` segment
+    fn url(endpoint: &str, path: &str) -> Result<String> {
+        let route = path.split_once('?').map_or(path, |(route, _)| route);
+        if route
+            .split('/')
+            .any(|segment| segment == "." || segment == "..")
+        {
+            return Err(AppwriteError::new(
+                0,
+                "Path parameter cannot be \".\" or \"..\"",
+                None,
+                String::new(),
+            ));
+        }
+        Ok(format!("{endpoint}{path}"))
+    }
+
     /// Serialize primitive parameter value to string
     fn serialize_param_value(value: &Value) -> String {
         match value {
@@ -558,7 +597,7 @@ impl Client {
         format: ResponseFormat,
     ) -> Result<T> {
         let state = self.state.load_full();
-        let url = format!("{}{}", state.config.endpoint, path);
+        let url = Self::url(&state.config.endpoint, path)?;
         let is_multipart = method != Method::GET
             && headers.as_ref().is_some_and(|headers| {
                 headers.iter().any(|(key, value)| {
@@ -623,7 +662,7 @@ impl Client {
         params: Option<HashMap<String, Value>>,
     ) -> Result<String> {
         let state = self.state.load_full();
-        let url = format!("{}{}", state.config.endpoint, path);
+        let url = Self::url(&state.config.endpoint, path)?;
 
         let mut request_builder = state.http_no_redirect.request(method.clone(), &url);
 
@@ -723,7 +762,7 @@ impl Client {
         params: Option<HashMap<String, Value>>,
     ) -> Result<Vec<u8>> {
         let state = self.state.load_full();
-        let url = format!("{}{}", state.config.endpoint, path);
+        let url = Self::url(&state.config.endpoint, path)?;
         let mut request_builder;
 
         if let Some(params) = params {
@@ -755,6 +794,9 @@ impl Client {
         }
 
         let response = request_builder.send().await?;
+        if let Some(error) = Self::redirect_error(&response) {
+            return Err(error);
+        }
 
         let status = response.status();
         if status.is_success() {
@@ -870,7 +912,7 @@ impl Client {
         param_name: &str,
         input_file: InputFile,
     ) -> Result<T> {
-        let url = format!("{}{}", self.state.load().config.endpoint, path);
+        let url = Self::url(&self.state.load().config.endpoint, path)?;
 
         self.single_file_upload(
             method,
@@ -907,7 +949,7 @@ impl Client {
         param_name: &str,
         input_file: InputFile,
     ) -> Result<String> {
-        let url = format!("{}{}", self.state.load().config.endpoint, path);
+        let url = Self::url(&self.state.load().config.endpoint, path)?;
 
         self.single_file_upload(
             method,
@@ -968,7 +1010,7 @@ impl Client {
 
         if file_size <= chunk_size as u64 {
             let state = self.state.load_full();
-            let url = format!("{}{}", state.config.endpoint, path);
+            let url = Self::url(&state.config.endpoint, path)?;
 
             let result = self
                 .single_file_upload(
@@ -1085,8 +1127,9 @@ impl Client {
         let mut start_chunk = 0u64;
         let mut last_response = None;
         if let Some(ref id) = current_upload_id {
+            let resume_path = format!("{}/{}", path, Self::encode_path(id));
             if let Ok(response) = self
-                .call::<Value>(Method::GET, &format!("{}/{}", path, id), None, None)
+                .call::<Value>(Method::GET, &resume_path, None, None)
                 .await
             {
                 if let Some(chunks_uploaded) =
@@ -1315,7 +1358,7 @@ impl Client {
             form = form.text(key, value_str);
         }
 
-        let url = format!("{}{}", state.config.endpoint, path);
+        let url = Self::url(&state.config.endpoint, path)?;
         let mut request_builder = state
             .http
             .request(method, url)
@@ -1343,11 +1386,35 @@ impl Client {
         self.handle_response(response, ResponseFormat::Json).await
     }
 
+    /// The error for an API call answered with a redirect, which is reported,
+    /// not followed: it would carry the API key to wherever it points.
+    fn redirect_error(response: &Response) -> Option<AppwriteError> {
+        if !response.status().is_redirection() {
+            return None;
+        }
+        let location = response
+            .headers()
+            .get("location")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or_default();
+
+        Some(AppwriteError::new(
+            response.status().as_u16(),
+            format!("Redirect to {} not followed", location),
+            None,
+            String::new(),
+        ))
+    }
+
     async fn handle_response<T: DeserializeOwned>(
         &self,
         response: Response,
         format: ResponseFormat,
     ) -> Result<T> {
+        if let Some(error) = Self::redirect_error(&response) {
+            return Err(error);
+        }
+
         let status = response.status();
         let content_type = response
             .headers()
@@ -1434,6 +1501,23 @@ mod tests {
     fn test_client_creation() {
         let client = Client::new();
         assert_eq!(client.endpoint(), "https://cloud.appwrite.io/v1");
+    }
+
+    #[test]
+    fn test_encode_path_fills_one_segment() {
+        assert_eq!(
+            Client::encode_path("../grant?special=id#x y%"),
+            "..%2Fgrant%3Fspecial%3Did%23x%20y%25"
+        );
+        assert_eq!(Client::encode_path("unique()"), "unique()");
+        assert_eq!(Client::encode_path("é"), "%C3%A9");
+    }
+
+    #[test]
+    fn test_url_refuses_dot_segments() {
+        assert!(Client::url("https://example.com/v1", "/files/..").is_err());
+        assert!(Client::url("https://example.com/v1", "/files/.?project=x").is_err());
+        assert!(Client::url("https://example.com/v1", "/files/..%2Fx").is_ok());
     }
 
     #[test]

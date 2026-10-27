@@ -93,7 +93,7 @@ impl Backups {
 
         let path = "/backups/archives/{archiveId}"
             .to_string()
-            .replace("{archiveId}", &archive_id);
+            .replace("{archiveId}", &Client::encode_path(&archive_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -119,7 +119,7 @@ impl Backups {
 
         let path = "/backups/archives/{archiveId}"
             .to_string()
-            .replace("{archiveId}", &archive_id);
+            .replace("{archiveId}", &Client::encode_path(&archive_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -210,7 +210,7 @@ impl Backups {
 
         let path = "/backups/policies/{policyId}"
             .to_string()
-            .replace("{policyId}", &policy_id);
+            .replace("{policyId}", &Client::encode_path(&policy_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -255,7 +255,7 @@ impl Backups {
 
         let path = "/backups/policies/{policyId}"
             .to_string()
-            .replace("{policyId}", &policy_id);
+            .replace("{policyId}", &Client::encode_path(&policy_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -281,7 +281,7 @@ impl Backups {
 
         let path = "/backups/policies/{policyId}"
             .to_string()
-            .replace("{policyId}", &policy_id);
+            .replace("{policyId}", &Client::encode_path(&policy_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -393,7 +393,7 @@ impl Backups {
 
         let path = "/backups/restorations/{restorationId}"
             .to_string()
-            .replace("{restorationId}", &restoration_id);
+            .replace("{restorationId}", &Client::encode_path(&restoration_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))

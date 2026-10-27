@@ -61,6 +61,8 @@ pub enum Runtime {
     Python313,
     #[serde(rename = "python-3.14")]
     Python314,
+    #[serde(rename = "python-3.15")]
+    Python315,
     #[serde(rename = "python-ml-3.11")]
     PythonMl311,
     #[serde(rename = "python-ml-3.12")]
@@ -77,6 +79,8 @@ pub enum Runtime {
     Deno25,
     #[serde(rename = "deno-2.6")]
     Deno26,
+    #[serde(rename = "deno-2.9")]
+    Deno29,
     #[serde(rename = "dart-2.15")]
     Dart215,
     #[serde(rename = "dart-2.16")]
@@ -171,8 +175,12 @@ pub enum Runtime {
     Go125,
     #[serde(rename = "go-1.26")]
     Go126,
+    #[serde(rename = "go-1.27")]
+    Go127,
     #[serde(rename = "rust-1.83")]
     Rust183,
+    #[serde(rename = "rust-1.99")]
+    Rust199,
     #[serde(rename = "static-1")]
     Static1,
     #[serde(rename = "flutter-3.24")]
@@ -228,6 +236,7 @@ impl Runtime {
             Runtime::Python312 => "python-3.12",
             Runtime::Python313 => "python-3.13",
             Runtime::Python314 => "python-3.14",
+            Runtime::Python315 => "python-3.15",
             Runtime::PythonMl311 => "python-ml-3.11",
             Runtime::PythonMl312 => "python-ml-3.12",
             Runtime::PythonMl313 => "python-ml-3.13",
@@ -236,6 +245,7 @@ impl Runtime {
             Runtime::Deno20 => "deno-2.0",
             Runtime::Deno25 => "deno-2.5",
             Runtime::Deno26 => "deno-2.6",
+            Runtime::Deno29 => "deno-2.9",
             Runtime::Dart215 => "dart-2.15",
             Runtime::Dart216 => "dart-2.16",
             Runtime::Dart217 => "dart-2.17",
@@ -283,7 +293,9 @@ impl Runtime {
             Runtime::Go124 => "go-1.24",
             Runtime::Go125 => "go-1.25",
             Runtime::Go126 => "go-1.26",
+            Runtime::Go127 => "go-1.27",
             Runtime::Rust183 => "rust-1.83",
+            Runtime::Rust199 => "rust-1.99",
             Runtime::Static1 => "static-1",
             Runtime::Flutter324 => "flutter-3.24",
             Runtime::Flutter327 => "flutter-3.27",

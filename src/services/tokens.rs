@@ -68,8 +68,8 @@ impl Tokens {
 
         let path = "/tokens/buckets/{bucketId}/files/{fileId}"
             .to_string()
-            .replace("{bucketId}", &bucket_id)
-            .replace("{fileId}", &file_id);
+            .replace("{bucketId}", &Client::encode_path(&bucket_id))
+            .replace("{fileId}", &Client::encode_path(&file_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -114,8 +114,8 @@ impl Tokens {
 
         let path = "/tokens/buckets/{bucketId}/files/{fileId}"
             .to_string()
-            .replace("{bucketId}", &bucket_id)
-            .replace("{fileId}", &file_id);
+            .replace("{bucketId}", &Client::encode_path(&bucket_id))
+            .replace("{fileId}", &Client::encode_path(&file_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -143,7 +143,7 @@ impl Tokens {
 
         let path = "/tokens/{tokenId}"
             .to_string()
-            .replace("{tokenId}", &token_id);
+            .replace("{tokenId}", &Client::encode_path(&token_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -177,7 +177,7 @@ impl Tokens {
 
         let path = "/tokens/{tokenId}"
             .to_string()
-            .replace("{tokenId}", &token_id);
+            .replace("{tokenId}", &Client::encode_path(&token_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -203,7 +203,7 @@ impl Tokens {
 
         let path = "/tokens/{tokenId}"
             .to_string()
-            .replace("{tokenId}", &token_id);
+            .replace("{tokenId}", &Client::encode_path(&token_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

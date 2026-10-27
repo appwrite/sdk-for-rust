@@ -17,7 +17,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "password",
         "<PASSWORD_SALT>",
         8,
-        65536,
+        14,
         1,
         64,
         Some("<NAME>") // optional

@@ -66,7 +66,7 @@ impl Project {
 
         let path = "/project/auth-methods/{methodId}"
             .to_string()
-            .replace("{methodId}", &method_id.to_string());
+            .replace("{methodId}", &Client::encode_path(&method_id.to_string()));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -143,7 +143,7 @@ impl Project {
 
         let path = "/project/environments/{environmentId}"
             .to_string()
-            .replace("{environmentId}", &environment_id);
+            .replace("{environmentId}", &Client::encode_path(&environment_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -174,7 +174,7 @@ impl Project {
 
         let path = "/project/environments/{environmentId}"
             .to_string()
-            .replace("{environmentId}", &environment_id);
+            .replace("{environmentId}", &Client::encode_path(&environment_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -203,7 +203,7 @@ impl Project {
 
         let path = "/project/environments/{environmentId}"
             .to_string()
-            .replace("{environmentId}", &environment_id);
+            .replace("{environmentId}", &Client::encode_path(&environment_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -281,7 +281,7 @@ impl Project {
 
         let path = "/project/keys/{keyId}"
             .to_string()
-            .replace("{keyId}", &key_id);
+            .replace("{keyId}", &Client::encode_path(&key_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -323,7 +323,7 @@ impl Project {
 
         let path = "/project/keys/{keyId}"
             .to_string()
-            .replace("{keyId}", &key_id);
+            .replace("{keyId}", &Client::encode_path(&key_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -350,7 +350,7 @@ impl Project {
 
         let path = "/project/keys/{keyId}"
             .to_string()
-            .replace("{keyId}", &key_id);
+            .replace("{keyId}", &Client::encode_path(&key_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -452,7 +452,7 @@ impl Project {
 
         let path = "/project/mock-phones/{number}"
             .to_string()
-            .replace("{number}", &number);
+            .replace("{number}", &Client::encode_path(&number));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -484,7 +484,7 @@ impl Project {
 
         let path = "/project/mock-phones/{number}"
             .to_string()
-            .replace("{number}", &number);
+            .replace("{number}", &Client::encode_path(&number));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -511,7 +511,7 @@ impl Project {
 
         let path = "/project/mock-phones/{number}"
             .to_string()
-            .replace("{number}", &number);
+            .replace("{number}", &Client::encode_path(&number));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -2148,9 +2148,10 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/oauth2/{providerId}"
-            .to_string()
-            .replace("{providerId}", &provider_id.to_string());
+        let path = "/project/oauth2/{providerId}".to_string().replace(
+            "{providerId}",
+            &Client::encode_path(&provider_id.to_string()),
+        );
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2249,7 +2250,7 @@ impl Project {
 
         let path = "/project/platforms/android/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id);
+            .replace("{platformId}", &Client::encode_path(&platform_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2313,7 +2314,7 @@ impl Project {
 
         let path = "/project/platforms/apple/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id);
+            .replace("{platformId}", &Client::encode_path(&platform_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2371,7 +2372,7 @@ impl Project {
 
         let path = "/project/platforms/linux/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id);
+            .replace("{platformId}", &Client::encode_path(&platform_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2429,7 +2430,7 @@ impl Project {
 
         let path = "/project/platforms/web/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id);
+            .replace("{platformId}", &Client::encode_path(&platform_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2493,7 +2494,7 @@ impl Project {
 
         let path = "/project/platforms/windows/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id);
+            .replace("{platformId}", &Client::encode_path(&platform_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -2522,7 +2523,7 @@ impl Project {
 
         let path = "/project/platforms/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id);
+            .replace("{platformId}", &Client::encode_path(&platform_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -2552,7 +2553,7 @@ impl Project {
 
         let path = "/project/platforms/{platformId}"
             .to_string()
-            .replace("{platformId}", &platform_id);
+            .replace("{platformId}", &Client::encode_path(&platform_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -2655,6 +2656,26 @@ impl Project {
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
         let path = "/project/policies/deny-free-email".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Configures if guests, connections without a signed-in user, may subscribe
+    /// to realtime channels. When enabled, a guest can still connect and sign in
+    /// over the connection, but cannot subscribe until it does.
+    pub async fn update_deny_realtime_guests_policy(
+        &self,
+        enabled: bool,
+    ) -> crate::error::Result<crate::models::Project> {
+        let mut params = HashMap::new();
+        params.insert("enabled".to_string(), json!(enabled));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/policies/deny-realtime-guests".to_string();
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -3074,7 +3095,7 @@ impl Project {
 
         let path = "/project/policies/{policyId}"
             .to_string()
-            .replace("{policyId}", &policy_id.to_string());
+            .replace("{policyId}", &Client::encode_path(&policy_id.to_string()));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -3094,9 +3115,10 @@ impl Project {
         api_headers.insert("content-type".to_string(), "application/json".to_string());
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/protocols/{protocolId}"
-            .to_string()
-            .replace("{protocolId}", &protocol_id.to_string());
+        let path = "/project/protocols/{protocolId}".to_string().replace(
+            "{protocolId}",
+            &Client::encode_path(&protocol_id.to_string()),
+        );
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -3118,10 +3140,27 @@ impl Project {
 
         let path = "/project/services/{serviceId}"
             .to_string()
-            .replace("{serviceId}", &service_id.to_string());
+            .replace("{serviceId}", &Client::encode_path(&service_id.to_string()));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Delete all sessions in the project. Any session created before this request
+    /// will be invalidated immediately: users will be signed out of every active
+    /// client (web, mobile, server SDKs, JWTs), and will be able to sign in again
+    /// afterwards. API keys are not affected by this action.
+    pub async fn delete_sessions(&self) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/sessions".to_string();
+
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
             .await
     }
 
@@ -3299,9 +3338,10 @@ impl Project {
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
 
-        let path = "/project/templates/email/{templateId}"
-            .to_string()
-            .replace("{templateId}", &template_id.to_string());
+        let path = "/project/templates/email/{templateId}".to_string().replace(
+            "{templateId}",
+            &Client::encode_path(&template_id.to_string()),
+        );
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -3386,7 +3426,7 @@ impl Project {
 
         let path = "/project/variables/{variableId}"
             .to_string()
-            .replace("{variableId}", &variable_id);
+            .replace("{variableId}", &Client::encode_path(&variable_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -3431,7 +3471,7 @@ impl Project {
 
         let path = "/project/variables/{variableId}"
             .to_string()
-            .replace("{variableId}", &variable_id);
+            .replace("{variableId}", &Client::encode_path(&variable_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -3460,7 +3500,7 @@ impl Project {
 
         let path = "/project/variables/{variableId}"
             .to_string()
-            .replace("{variableId}", &variable_id);
+            .replace("{variableId}", &Client::encode_path(&variable_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

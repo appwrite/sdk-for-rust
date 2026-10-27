@@ -147,7 +147,7 @@ impl Storage {
 
         let path = "/storage/buckets/{bucketId}"
             .to_string()
-            .replace("{bucketId}", &bucket_id);
+            .replace("{bucketId}", &Client::encode_path(&bucket_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -229,7 +229,7 @@ impl Storage {
 
         let path = "/storage/buckets/{bucketId}"
             .to_string()
-            .replace("{bucketId}", &bucket_id);
+            .replace("{bucketId}", &Client::encode_path(&bucket_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -255,7 +255,7 @@ impl Storage {
 
         let path = "/storage/buckets/{bucketId}"
             .to_string()
-            .replace("{bucketId}", &bucket_id);
+            .replace("{bucketId}", &Client::encode_path(&bucket_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -299,7 +299,7 @@ impl Storage {
 
         let path = "/storage/buckets/{bucketId}/files"
             .to_string()
-            .replace("{bucketId}", &bucket_id);
+            .replace("{bucketId}", &Client::encode_path(&bucket_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -362,7 +362,7 @@ impl Storage {
 
         let path = "/storage/buckets/{bucketId}/files"
             .to_string()
-            .replace("{bucketId}", &bucket_id);
+            .replace("{bucketId}", &Client::encode_path(&bucket_id));
 
         self.client
             .upload(
@@ -410,8 +410,8 @@ impl Storage {
 
         let path = "/storage/buckets/{bucketId}/files/{fileId}"
             .to_string()
-            .replace("{bucketId}", &bucket_id)
-            .replace("{fileId}", &file_id);
+            .replace("{bucketId}", &Client::encode_path(&bucket_id))
+            .replace("{fileId}", &Client::encode_path(&file_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -463,8 +463,8 @@ impl Storage {
 
         let path = "/storage/buckets/{bucketId}/files/{fileId}"
             .to_string()
-            .replace("{bucketId}", &bucket_id)
-            .replace("{fileId}", &file_id);
+            .replace("{bucketId}", &Client::encode_path(&bucket_id))
+            .replace("{fileId}", &Client::encode_path(&file_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -505,8 +505,8 @@ impl Storage {
 
         let path = "/storage/buckets/{bucketId}/files/{fileId}"
             .to_string()
-            .replace("{bucketId}", &bucket_id)
-            .replace("{fileId}", &file_id);
+            .replace("{bucketId}", &Client::encode_path(&bucket_id))
+            .replace("{fileId}", &Client::encode_path(&file_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -551,8 +551,8 @@ impl Storage {
 
         let path = "/storage/buckets/{bucketId}/files/{fileId}/download"
             .to_string()
-            .replace("{bucketId}", &bucket_id)
-            .replace("{fileId}", &file_id);
+            .replace("{bucketId}", &Client::encode_path(&bucket_id))
+            .replace("{fileId}", &Client::encode_path(&file_id));
 
         self.client
             .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
@@ -644,8 +644,8 @@ impl Storage {
 
         let path = "/storage/buckets/{bucketId}/files/{fileId}/preview"
             .to_string()
-            .replace("{bucketId}", &bucket_id)
-            .replace("{fileId}", &file_id);
+            .replace("{bucketId}", &Client::encode_path(&bucket_id))
+            .replace("{fileId}", &Client::encode_path(&file_id));
 
         self.client
             .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
@@ -690,8 +690,8 @@ impl Storage {
 
         let path = "/storage/buckets/{bucketId}/files/{fileId}/view"
             .to_string()
-            .replace("{bucketId}", &bucket_id)
-            .replace("{fileId}", &file_id);
+            .replace("{bucketId}", &Client::encode_path(&bucket_id))
+            .replace("{fileId}", &Client::encode_path(&file_id));
 
         self.client
             .call_bytes(Method::GET, &path, Some(api_headers), Some(params))

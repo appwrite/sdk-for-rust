@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.21.1] - TBD
+## [0.22.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
-- Full support for Appwrite API 2.5.0
+- Full support for Appwrite API 2.6.2
 - Async/await support with tokio runtime
 - Built-in error handling with custom error types
 - File upload support with automatic chunking
@@ -35,13 +35,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Graphql service with 2 methods
 - Locale service with 8 methods
 - Messaging service with 56 methods
+- Migrations service with 15 methods
 - Mongo service with 32 methods
 - Mysql service with 35 methods
 - Oauth2 service with 13 methods
 - Organization service with 23 methods
 - Postgresql service with 38 methods
 - Presences service with 5 methods
-- Project service with 116 methods
+- Project service with 118 methods
 - Proxy service with 10 methods
 - Advisor service with 5 methods
 - Sites service with 25 methods
@@ -547,7 +548,7 @@ and all its DNS records to the new team.
 - `get_zone()` - Retrieve the DNS zone file for the given domain. This endpoint will return the DNS
 zone file in a standardized format that can be used to configure DNS servers.
 - `update_zone()` - Update the DNS zone for the given domain using the provided zone file content.
-All parsed records are imported and then the main domain document is returned.
+All parsed records the domain does not already have are imported and then the main domain document is returned.
 
 #### Embeddings
 
@@ -676,6 +677,26 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 - `get_subscriber()` - Get a subscriber by its unique ID.
 
 - `delete_subscriber()` - Delete a subscriber by its unique ID.
+
+#### Migrations
+The Migrations service allows you to migrate third-party data to your Appwrite project.
+- `list()` - List all migrations in the current project. This endpoint returns a list of all migrations including their status, progress, and any errors that occurred during the migration process.
+- `create_appwrite_migration()` - Migrate data from another Appwrite project to your current project. This endpoint allows you to migrate resources like databases, collections, documents, users, and files from an existing Appwrite project. 
+- `create_csv_export()` - Export documents to a CSV file from your Appwrite database. This endpoint allows you to export documents to a CSV file stored in a secure internal bucket. You&#039;ll receive an email with a download link when the export is complete.
+- `create_csv_import()` - Import documents from a CSV file into your Appwrite database. This endpoint allows you to import documents from a CSV file uploaded to Appwrite Storage bucket.
+- `create_firebase_migration()` - Migrate data from a Firebase project to your Appwrite project. This endpoint allows you to migrate resources like authentication and other supported services from a Firebase project. 
+- `get_firebase_report()` - Generate a report of the data in a Firebase project before migrating. This endpoint analyzes the source project and returns information about the resources that can be migrated.
+- `create_json_export()` - Export documents to a JSON file from your Appwrite database. This endpoint allows you to export documents to a JSON file stored in a secure internal bucket. You&#039;ll receive an email with a download link when the export is complete.
+
+- `create_json_import()` - Import documents from a JSON file into your Appwrite database. This endpoint allows you to import documents from a JSON file uploaded to Appwrite Storage bucket.
+
+- `create_n_host_migration()` - Migrate data from an NHost project to your Appwrite project. This endpoint allows you to migrate resources like authentication, databases, and other supported services from an NHost project. 
+- `get_n_host_report()` - Generate a detailed report of the data in an NHost project before migrating. This endpoint analyzes the source project and returns information about the resources that can be migrated. 
+- `create_supabase_migration()` - Migrate data from a Supabase project to your Appwrite project. This endpoint allows you to migrate resources like authentication, databases, and other supported services from a Supabase project. 
+- `get_supabase_report()` - Generate a report of the data in a Supabase project before migrating. This endpoint analyzes the source project and returns information about the resources that can be migrated. 
+- `get()` - Get a migration by its unique ID. This endpoint returns detailed information about a specific migration including its current status, progress, and any errors that occurred during the migration process. 
+- `retry()` - Retry a failed migration. This endpoint allows you to retry a migration that has previously failed.
+- `delete()` - Delete a migration by its unique ID. This endpoint allows you to remove a migration from your project&#039;s migration history. 
 
 #### Mongo
 
@@ -956,6 +977,7 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_deny_corporate_email_policy()` - Configures if only corporate email addresses (non-free and non-disposable domains) are allowed during new user sign-ups and email updates.
 - `update_deny_disposable_email_policy()` - Configures if disposable emails from known temporary domains are denied during new users sign-ups and email updates.
 - `update_deny_free_email_policy()` - Configures if emails from free providers such as Gmail or Yahoo are denied during new users sign-ups and email updates.
+- `update_deny_realtime_guests_policy()` - Configures if guests, connections without a signed-in user, may subscribe to realtime channels. When enabled, a guest can still connect and sign in over the connection, but cannot subscribe until it does.
 - `update_membership_privacy_policy()` - Updating this policy allows you to control if team members can see other members information. When enabled, all team members can see ID, name, email, phone number, and MFA status of other members..
 - `update_mfa_factors_policy()` - Updating this policy allows you to control which factors users can use to complete an MFA challenge. Disabled factors cannot be used to create a challenge and are reported as unavailable when listing factors. The custom factor is disabled by default; enable it to deliver challenge codes through your own channel. Recovery codes always remain available as a fallback.
 - `update_passkey_policy()` - Set the relying party ID passkeys are bound to: the domain of your application. Passkeys work on the project&#039;s web platforms on that domain or its subdomains, and on the domain itself for Apple apps. A localhost web platform enables passkeys for local development without a relying party ID. The relying party ID cannot change while users have passkeys, and any change invalidates ceremonies in progress.
@@ -980,6 +1002,7 @@ Password recovery also checks the recovered user profile, closing the previous g
 - `get_policy()` - Get a policy by its unique ID. This endpoint returns the current configuration for the requested project policy.
 - `update_protocol()` - Update properties of a specific protocol. Use this endpoint to enable or disable a protocol in your project. 
 - `update_service()` - Update properties of a specific service. Use this endpoint to enable or disable a service in your project. 
+- `delete_sessions()` - Delete all sessions in the project. Any session created before this request will be invalidated immediately: users will be signed out of every active client (web, mobile, server SDKs, JWTs), and will be able to sign in again afterwards. API keys are not affected by this action.
 - `update_smtp()` - Update the SMTP configuration for your project. Use this endpoint to configure your project&#039;s SMTP provider with your custom settings for sending transactional emails.
 - `create_smtp_test()` - Send a test email to verify SMTP configuration. 
 - `list_email_templates()` - Get a list of all custom email templates configured for the project. This endpoint returns an array of all configured email templates and their locales.
@@ -1350,25 +1373,25 @@ Attributes can be `key`, `fulltext`, and `unique`.
 
 - `list_rules()` - List WAF rules for the current project.
 
-- `create_bypass_rule()` - Create a bypass WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+- `create_bypass_rule()` - Create a bypass WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
 
-- `update_bypass_rule()` - Update a bypass WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+- `update_bypass_rule()` - Update a bypass WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
 
-- `create_challenge_rule()` - Create a challenge WAF rule. Use `difficulty` (1 easiest to 5 hardest) to tune the client-side proof-of-work cost, and `ttl` to control how long, in seconds, a visitor stays cleared after passing the challenge before being challenged again. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+- `create_challenge_rule()` - Create a challenge WAF rule. Use `difficulty` (1 easiest to 5 hardest) to tune the client-side proof-of-work cost, and `ttl` to control how long, in seconds, a visitor stays cleared after passing the challenge before being challenged again. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
 
-- `update_challenge_rule()` - Update a challenge WAF rule. Use `difficulty` (1 easiest to 5 hardest) to tune the client-side proof-of-work cost, and `ttl` to control how long, in seconds, a visitor stays cleared after passing the challenge before being challenged again. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+- `update_challenge_rule()` - Update a challenge WAF rule. Use `difficulty` (1 easiest to 5 hardest) to tune the client-side proof-of-work cost, and `ttl` to control how long, in seconds, a visitor stays cleared after passing the challenge before being challenged again. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
 
-- `create_deny_rule()` - Create a deny WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+- `create_deny_rule()` - Create a deny WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon. `sessionAge` and `mfaAge` hold the seconds since the request&#039;s session was created and since its last MFA challenge. Both are null for requests without a session, such as guests and API keys, while a request authenticated with the `x-appwrite-jwt` header carries the age of the session its token is bound to; on `functions` rules the session comes from the `x-appwrite-user-jwt` header, and `mfaAge` is null when the session never completed MFA. A deny matching on `mfaAge` returns `user_challenge_required` and one matching on `sessionAge` returns `user_reauthentication_required`, both with status 401, so the user can sign in again and retry. To also deny requests without a session, combine `isNull` and `greaterThan` in an `or` condition.
 
-- `update_deny_rule()` - Update a deny WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+- `update_deny_rule()` - Update a deny WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon. `sessionAge` and `mfaAge` hold the seconds since the request&#039;s session was created and since its last MFA challenge. Both are null for requests without a session, such as guests and API keys, while a request authenticated with the `x-appwrite-jwt` header carries the age of the session its token is bound to; on `functions` rules the session comes from the `x-appwrite-user-jwt` header, and `mfaAge` is null when the session never completed MFA. A deny matching on `mfaAge` returns `user_challenge_required` and one matching on `sessionAge` returns `user_reauthentication_required`, both with status 401, so the user can sign in again and retry. To also deny requests without a session, combine `isNull` and `greaterThan` in an `or` condition.
 
-- `create_rate_limit_rule()` - Create a rate limit WAF rule. Use `key` to choose the counter: `ip` limits per client IP, while `userId` limits per authenticated user (requests without an authenticated user skip `userId` rules). Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+- `create_rate_limit_rule()` - Create a rate limit WAF rule. Use `key` to choose the counter: `ip` limits per client IP, while `userId` limits per authenticated user (requests without an authenticated user skip `userId` rules). Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
 
-- `update_rate_limit_rule()` - Update a rate limit WAF rule. Use `key` to choose the counter: `ip` limits per client IP, while `userId` limits per authenticated user (requests without an authenticated user skip `userId` rules). Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+- `update_rate_limit_rule()` - Update a rate limit WAF rule. Use `key` to choose the counter: `ip` limits per client IP, while `userId` limits per authenticated user (requests without an authenticated user skip `userId` rules). Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
 
-- `create_redirect_rule()` - Create a redirect WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+- `create_redirect_rule()` - Create a redirect WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
 
-- `update_redirect_rule()` - Update a redirect WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
+- `update_redirect_rule()` - Update a redirect WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
 
 - `get_rule()` - Get a WAF rule by its ID.
 
@@ -1428,6 +1451,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `SubscriberList` - Subscriber list
 - `TargetList` - Target list
 - `TransactionList` - Transaction List
+- `MigrationList` - Migrations List
 - `SpecificationList` - Specifications List
 - `VectorsdbCollectionList` - VectorsDB Collections List
 - `EmbeddingList` - Embedding list
@@ -1585,6 +1609,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `PolicyDenyDisposableEmail` - Policy Deny Disposable Email
 - `PolicyDenyFreeEmail` - Policy Deny Free Email
 - `PolicyDenyCorporateEmail` - Policy Deny Corporate Email
+- `PolicyDenyRealtimeGuests` - Policy Deny Realtime Guests
 - `PlatformWeb` - Platform Web
 - `PlatformApple` - Platform Apple
 - `PlatformAndroid` - Platform Android
@@ -1616,6 +1641,8 @@ The Webhooks service allows you to manage your project webhooks.
 - `Transaction` - Transaction
 - `Subscriber` - Subscriber
 - `Target` - Target
+- `Migration` - Migration
+- `MigrationReport` - Migration Report
 - `Insight` - Insight
 - `InsightCTA` - InsightCTA
 - `Report` - Report
@@ -1722,4 +1749,4 @@ The Webhooks service allows you to manage your project webhooks.
 - File upload examples
 - Query builder documentation
 
-[0.21.1]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.21.1
+[0.22.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.22.0

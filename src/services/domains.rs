@@ -159,7 +159,7 @@ impl Domains {
 
         let path = "/domains/{domainId}"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -188,7 +188,7 @@ impl Domains {
 
         let path = "/domains/{domainId}"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -226,7 +226,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/nameservers"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -259,7 +259,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/nameservers/verification"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -287,7 +287,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/presets/google-workspace"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -318,7 +318,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/presets/google-workspace"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -346,7 +346,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/presets/icloud"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -377,7 +377,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/presets/icloud"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -405,7 +405,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/presets/mailgun"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -436,7 +436,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/presets/mailgun"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -464,7 +464,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/presets/outlook"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -495,7 +495,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/presets/outlook"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -523,7 +523,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/presets/proton-mail"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -554,7 +554,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/presets/proton-mail"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -582,7 +582,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/presets/zoho"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -613,7 +613,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/presets/zoho"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -654,7 +654,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/records"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -695,7 +695,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/a"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -749,8 +749,8 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/a/{recordId}"
             .to_string()
-            .replace("{domainId}", &domain_id)
-            .replace("{recordId}", &record_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id))
+            .replace("{recordId}", &Client::encode_path(&record_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -792,7 +792,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/aaaa"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -846,8 +846,8 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/aaaa/{recordId}"
             .to_string()
-            .replace("{domainId}", &domain_id)
-            .replace("{recordId}", &record_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id))
+            .replace("{recordId}", &Client::encode_path(&record_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -890,7 +890,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/alias"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -947,8 +947,8 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/alias/{recordId}"
             .to_string()
-            .replace("{domainId}", &domain_id)
-            .replace("{recordId}", &record_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id))
+            .replace("{recordId}", &Client::encode_path(&record_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -990,7 +990,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/caa"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1044,8 +1044,8 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/caa/{recordId}"
             .to_string()
-            .replace("{domainId}", &domain_id)
-            .replace("{recordId}", &record_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id))
+            .replace("{recordId}", &Client::encode_path(&record_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -1090,7 +1090,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/cname"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1140,8 +1140,8 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/cname/{recordId}"
             .to_string()
-            .replace("{domainId}", &domain_id)
-            .replace("{recordId}", &record_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id))
+            .replace("{recordId}", &Client::encode_path(&record_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -1182,7 +1182,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/https"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1236,8 +1236,8 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/https/{recordId}"
             .to_string()
-            .replace("{domainId}", &domain_id)
-            .replace("{recordId}", &record_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id))
+            .replace("{recordId}", &Client::encode_path(&record_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -1284,7 +1284,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/mx"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1337,8 +1337,8 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/mx/{recordId}"
             .to_string()
-            .replace("{domainId}", &domain_id)
-            .replace("{recordId}", &record_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id))
+            .replace("{recordId}", &Client::encode_path(&record_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -1380,7 +1380,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/ns"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1436,8 +1436,8 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/ns/{recordId}"
             .to_string()
-            .replace("{domainId}", &domain_id)
-            .replace("{recordId}", &record_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id))
+            .replace("{recordId}", &Client::encode_path(&record_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -1487,7 +1487,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/srv"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1557,8 +1557,8 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/srv/{recordId}"
             .to_string()
-            .replace("{domainId}", &domain_id)
-            .replace("{recordId}", &record_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id))
+            .replace("{recordId}", &Client::encode_path(&record_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -1601,7 +1601,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/txt"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1656,8 +1656,8 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/txt/{recordId}"
             .to_string()
-            .replace("{domainId}", &domain_id)
-            .replace("{recordId}", &record_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id))
+            .replace("{recordId}", &Client::encode_path(&record_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -1702,8 +1702,8 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/{recordId}"
             .to_string()
-            .replace("{domainId}", &domain_id)
-            .replace("{recordId}", &record_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id))
+            .replace("{recordId}", &Client::encode_path(&record_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1745,8 +1745,8 @@ impl Domains {
 
         let path = "/domains/{domainId}/records/{recordId}"
             .to_string()
-            .replace("{domainId}", &domain_id)
-            .replace("{recordId}", &record_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id))
+            .replace("{recordId}", &Client::encode_path(&record_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1783,7 +1783,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/team"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1812,7 +1812,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/transfers/status"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1840,7 +1840,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/zone"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call_text(Method::GET, &path, Some(api_headers), Some(params))
@@ -1849,8 +1849,8 @@ impl Domains {
 
     /// Update the DNS zone for the given domain using the provided zone file
     /// content.
-    /// All parsed records are imported and then the main domain document is
-    /// returned.
+    /// All parsed records the domain does not already have are imported and then
+    /// the main domain document is returned.
     pub async fn update_zone(
         &self,
         domain_id: impl Into<String>,
@@ -1874,7 +1874,7 @@ impl Domains {
 
         let path = "/domains/{domainId}/zone"
             .to_string()
-            .replace("{domainId}", &domain_id);
+            .replace("{domainId}", &Client::encode_path(&domain_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
