@@ -73,7 +73,7 @@ impl Advisor {
 
         let path = "/reports/{reportId}"
             .to_string()
-            .replace("{reportId}", &report_id);
+            .replace("{reportId}", &Client::encode_path(&report_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -100,7 +100,7 @@ impl Advisor {
 
         let path = "/reports/{reportId}"
             .to_string()
-            .replace("{reportId}", &report_id);
+            .replace("{reportId}", &Client::encode_path(&report_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -140,7 +140,7 @@ impl Advisor {
 
         let path = "/reports/{reportId}/insights"
             .to_string()
-            .replace("{reportId}", &report_id);
+            .replace("{reportId}", &Client::encode_path(&report_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -179,8 +179,8 @@ impl Advisor {
 
         let path = "/reports/{reportId}/insights/{insightId}"
             .to_string()
-            .replace("{reportId}", &report_id)
-            .replace("{insightId}", &insight_id);
+            .replace("{reportId}", &Client::encode_path(&report_id))
+            .replace("{insightId}", &Client::encode_path(&insight_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))

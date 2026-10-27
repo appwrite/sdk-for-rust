@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = oauth2.authorize_post(
         Some("<CLIENT_ID>"), // optional
         Some("https://example.com"), // optional
-        Some(""), // optional
+        None, // optional
         Some("<SCOPE>"), // optional
         Some("<STATE>"), // optional
         Some("<NONCE>"), // optional

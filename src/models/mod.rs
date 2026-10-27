@@ -84,6 +84,8 @@ pub mod target_list;
 pub use target_list::TargetList;
 pub mod transaction_list;
 pub use transaction_list::TransactionList;
+pub mod migration_list;
+pub use migration_list::MigrationList;
 pub mod specification_list;
 pub use specification_list::SpecificationList;
 pub mod vectorsdb_collection_list;
@@ -398,6 +400,8 @@ pub mod policy_deny_free_email;
 pub use policy_deny_free_email::PolicyDenyFreeEmail;
 pub mod policy_deny_corporate_email;
 pub use policy_deny_corporate_email::PolicyDenyCorporateEmail;
+pub mod policy_deny_realtime_guests;
+pub use policy_deny_realtime_guests::PolicyDenyRealtimeGuests;
 pub mod platform_web;
 pub use platform_web::PlatformWeb;
 pub mod platform_apple;
@@ -460,6 +464,8 @@ pub mod subscriber;
 pub use subscriber::Subscriber;
 pub mod target;
 pub use target::Target;
+pub mod migration;
+pub use migration::Migration;
 pub mod insight;
 pub use insight::Insight;
 pub mod insight_cta;
@@ -692,6 +698,7 @@ impl Model for TopicList {}
 impl Model for SubscriberList {}
 impl Model for TargetList {}
 impl Model for TransactionList {}
+impl Model for MigrationList {}
 impl Model for SpecificationList {}
 impl Model for VectorsdbCollectionList {}
 impl Model for EmbeddingList {}
@@ -849,6 +856,7 @@ impl Model for PolicyDenyAliasedEmail {}
 impl Model for PolicyDenyDisposableEmail {}
 impl Model for PolicyDenyFreeEmail {}
 impl Model for PolicyDenyCorporateEmail {}
+impl Model for PolicyDenyRealtimeGuests {}
 impl Model for PlatformWeb {}
 impl Model for PlatformApple {}
 impl Model for PlatformAndroid {}
@@ -880,6 +888,7 @@ impl Model for Topic {}
 impl Model for Transaction {}
 impl Model for Subscriber {}
 impl Model for Target {}
+impl Model for Migration {}
 impl Model for Insight {}
 impl Model for InsightCTA {}
 impl Model for Report {}

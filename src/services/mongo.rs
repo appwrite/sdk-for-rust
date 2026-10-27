@@ -163,7 +163,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -285,7 +285,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -314,7 +314,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -354,7 +354,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/backups"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -388,7 +388,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/backups"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -427,7 +427,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/backups/policies"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -473,7 +473,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/backups/policies"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -512,8 +512,8 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/backups/policies/{policyId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{policyId}", &policy_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{policyId}", &Client::encode_path(&policy_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -569,8 +569,8 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/backups/policies/{policyId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{policyId}", &policy_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{policyId}", &Client::encode_path(&policy_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -611,8 +611,8 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/backups/policies/{policyId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{policyId}", &policy_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{policyId}", &Client::encode_path(&policy_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -664,7 +664,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/backups/storage"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -704,8 +704,8 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/backups/{backupId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{backupId}", &backup_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{backupId}", &Client::encode_path(&backup_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -746,8 +746,8 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/backups/{backupId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{backupId}", &backup_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{backupId}", &Client::encode_path(&backup_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -776,7 +776,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/branches"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -817,7 +817,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/branches"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -859,8 +859,8 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/branches/{branchId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{branchId}", &branch_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{branchId}", &Client::encode_path(&branch_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -892,7 +892,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/credentials"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -933,7 +933,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/failovers"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -968,7 +968,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/maintenance"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1006,7 +1006,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/migrations"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1049,7 +1049,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/operations"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1078,7 +1078,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/pitr"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1107,7 +1107,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/replicas"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1152,7 +1152,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/restorations"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1224,7 +1224,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/restorations"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1264,8 +1264,8 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/restorations/{restorationId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{restorationId}", &restoration_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{restorationId}", &Client::encode_path(&restoration_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1310,8 +1310,8 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/restorations/{restorationId}/promotions"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{restorationId}", &restoration_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{restorationId}", &Client::encode_path(&restoration_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1341,7 +1341,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/status"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1373,7 +1373,7 @@ impl Mongo {
 
         let path = "/mongo/{databaseId}/upgrades"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))

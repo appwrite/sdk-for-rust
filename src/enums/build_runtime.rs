@@ -61,6 +61,8 @@ pub enum BuildRuntime {
     Python313,
     #[serde(rename = "python-3.14")]
     Python314,
+    #[serde(rename = "python-3.15")]
+    Python315,
     #[serde(rename = "python-ml-3.11")]
     PythonMl311,
     #[serde(rename = "python-ml-3.12")]
@@ -77,6 +79,8 @@ pub enum BuildRuntime {
     Deno25,
     #[serde(rename = "deno-2.6")]
     Deno26,
+    #[serde(rename = "deno-2.9")]
+    Deno29,
     #[serde(rename = "dart-2.15")]
     Dart215,
     #[serde(rename = "dart-2.16")]
@@ -171,8 +175,12 @@ pub enum BuildRuntime {
     Go125,
     #[serde(rename = "go-1.26")]
     Go126,
+    #[serde(rename = "go-1.27")]
+    Go127,
     #[serde(rename = "rust-1.83")]
     Rust183,
+    #[serde(rename = "rust-1.99")]
+    Rust199,
     #[serde(rename = "static-1")]
     Static1,
     #[serde(rename = "flutter-3.24")]
@@ -228,6 +236,7 @@ impl BuildRuntime {
             BuildRuntime::Python312 => "python-3.12",
             BuildRuntime::Python313 => "python-3.13",
             BuildRuntime::Python314 => "python-3.14",
+            BuildRuntime::Python315 => "python-3.15",
             BuildRuntime::PythonMl311 => "python-ml-3.11",
             BuildRuntime::PythonMl312 => "python-ml-3.12",
             BuildRuntime::PythonMl313 => "python-ml-3.13",
@@ -236,6 +245,7 @@ impl BuildRuntime {
             BuildRuntime::Deno20 => "deno-2.0",
             BuildRuntime::Deno25 => "deno-2.5",
             BuildRuntime::Deno26 => "deno-2.6",
+            BuildRuntime::Deno29 => "deno-2.9",
             BuildRuntime::Dart215 => "dart-2.15",
             BuildRuntime::Dart216 => "dart-2.16",
             BuildRuntime::Dart217 => "dart-2.17",
@@ -283,7 +293,9 @@ impl BuildRuntime {
             BuildRuntime::Go124 => "go-1.24",
             BuildRuntime::Go125 => "go-1.25",
             BuildRuntime::Go126 => "go-1.26",
+            BuildRuntime::Go127 => "go-1.27",
             BuildRuntime::Rust183 => "rust-1.83",
+            BuildRuntime::Rust199 => "rust-1.99",
             BuildRuntime::Static1 => "static-1",
             BuildRuntime::Flutter324 => "flutter-3.24",
             BuildRuntime::Flutter327 => "flutter-3.27",

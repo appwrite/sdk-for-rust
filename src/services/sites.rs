@@ -231,7 +231,9 @@ impl Sites {
             ));
         }
 
-        let path = "/sites/{siteId}".to_string().replace("{siteId}", &site_id);
+        let path = "/sites/{siteId}"
+            .to_string()
+            .replace("{siteId}", &Client::encode_path(&site_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -357,7 +359,9 @@ impl Sites {
             ));
         }
 
-        let path = "/sites/{siteId}".to_string().replace("{siteId}", &site_id);
+        let path = "/sites/{siteId}"
+            .to_string()
+            .replace("{siteId}", &Client::encode_path(&site_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -381,7 +385,9 @@ impl Sites {
             ));
         }
 
-        let path = "/sites/{siteId}".to_string().replace("{siteId}", &site_id);
+        let path = "/sites/{siteId}"
+            .to_string()
+            .replace("{siteId}", &Client::encode_path(&site_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -413,7 +419,7 @@ impl Sites {
 
         let path = "/sites/{siteId}/deployment"
             .to_string()
-            .replace("{siteId}", &site_id);
+            .replace("{siteId}", &Client::encode_path(&site_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -457,7 +463,7 @@ impl Sites {
 
         let path = "/sites/{siteId}/deployments"
             .to_string()
-            .replace("{siteId}", &site_id);
+            .replace("{siteId}", &Client::encode_path(&site_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -508,7 +514,7 @@ impl Sites {
 
         let path = "/sites/{siteId}/deployments"
             .to_string()
-            .replace("{siteId}", &site_id);
+            .replace("{siteId}", &Client::encode_path(&site_id));
 
         self.client
             .upload(
@@ -551,7 +557,7 @@ impl Sites {
 
         let path = "/sites/{siteId}/deployments/duplicate"
             .to_string()
-            .replace("{siteId}", &site_id);
+            .replace("{siteId}", &Client::encode_path(&site_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -599,7 +605,7 @@ impl Sites {
 
         let path = "/sites/{siteId}/deployments/template"
             .to_string()
-            .replace("{siteId}", &site_id);
+            .replace("{siteId}", &Client::encode_path(&site_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -638,7 +644,7 @@ impl Sites {
 
         let path = "/sites/{siteId}/deployments/vcs"
             .to_string()
-            .replace("{siteId}", &site_id);
+            .replace("{siteId}", &Client::encode_path(&site_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -677,8 +683,8 @@ impl Sites {
 
         let path = "/sites/{siteId}/deployments/{deploymentId}"
             .to_string()
-            .replace("{siteId}", &site_id)
-            .replace("{deploymentId}", &deployment_id);
+            .replace("{siteId}", &Client::encode_path(&site_id))
+            .replace("{deploymentId}", &Client::encode_path(&deployment_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -718,8 +724,8 @@ impl Sites {
 
         let path = "/sites/{siteId}/deployments/{deploymentId}"
             .to_string()
-            .replace("{siteId}", &site_id)
-            .replace("{deploymentId}", &deployment_id);
+            .replace("{siteId}", &Client::encode_path(&site_id))
+            .replace("{deploymentId}", &Client::encode_path(&deployment_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -768,8 +774,8 @@ impl Sites {
 
         let path = "/sites/{siteId}/deployments/{deploymentId}/download"
             .to_string()
-            .replace("{siteId}", &site_id)
-            .replace("{deploymentId}", &deployment_id);
+            .replace("{siteId}", &Client::encode_path(&site_id))
+            .replace("{deploymentId}", &Client::encode_path(&deployment_id));
 
         self.client
             .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
@@ -813,8 +819,8 @@ impl Sites {
 
         let path = "/sites/{siteId}/deployments/{deploymentId}/status"
             .to_string()
-            .replace("{siteId}", &site_id)
-            .replace("{deploymentId}", &deployment_id);
+            .replace("{siteId}", &Client::encode_path(&site_id))
+            .replace("{deploymentId}", &Client::encode_path(&deployment_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -854,7 +860,7 @@ impl Sites {
 
         let path = "/sites/{siteId}/logs"
             .to_string()
-            .replace("{siteId}", &site_id);
+            .replace("{siteId}", &Client::encode_path(&site_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -893,8 +899,8 @@ impl Sites {
 
         let path = "/sites/{siteId}/logs/{logId}"
             .to_string()
-            .replace("{siteId}", &site_id)
-            .replace("{logId}", &log_id);
+            .replace("{siteId}", &Client::encode_path(&site_id))
+            .replace("{logId}", &Client::encode_path(&log_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -934,8 +940,8 @@ impl Sites {
 
         let path = "/sites/{siteId}/logs/{logId}"
             .to_string()
-            .replace("{siteId}", &site_id)
-            .replace("{logId}", &log_id);
+            .replace("{siteId}", &Client::encode_path(&site_id))
+            .replace("{logId}", &Client::encode_path(&log_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -974,7 +980,7 @@ impl Sites {
 
         let path = "/sites/{siteId}/variables"
             .to_string()
-            .replace("{siteId}", &site_id);
+            .replace("{siteId}", &Client::encode_path(&site_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1018,7 +1024,7 @@ impl Sites {
 
         let path = "/sites/{siteId}/variables"
             .to_string()
-            .replace("{siteId}", &site_id);
+            .replace("{siteId}", &Client::encode_path(&site_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1057,8 +1063,8 @@ impl Sites {
 
         let path = "/sites/{siteId}/variables/{variableId}"
             .to_string()
-            .replace("{siteId}", &site_id)
-            .replace("{variableId}", &variable_id);
+            .replace("{siteId}", &Client::encode_path(&site_id))
+            .replace("{variableId}", &Client::encode_path(&variable_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1114,8 +1120,8 @@ impl Sites {
 
         let path = "/sites/{siteId}/variables/{variableId}"
             .to_string()
-            .replace("{siteId}", &site_id)
-            .replace("{variableId}", &variable_id);
+            .replace("{siteId}", &Client::encode_path(&site_id))
+            .replace("{variableId}", &Client::encode_path(&variable_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -1155,8 +1161,8 @@ impl Sites {
 
         let path = "/sites/{siteId}/variables/{variableId}"
             .to_string()
-            .replace("{siteId}", &site_id)
-            .replace("{variableId}", &variable_id);
+            .replace("{siteId}", &Client::encode_path(&site_id))
+            .replace("{variableId}", &Client::encode_path(&variable_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

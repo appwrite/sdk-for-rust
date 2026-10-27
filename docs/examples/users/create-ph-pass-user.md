@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = users.create_ph_pass_user(
         "<USER_ID>",
         "email@example.com",
-        "password",
+        "$P$BrOEFP1YR5W1yHpvvGuoeVUDPmw9ra/",
         Some("<NAME>") // optional
     ).await?;
 

@@ -232,7 +232,7 @@ impl Proxy {
 
         let path = "/proxy/rules/{ruleId}"
             .to_string()
-            .replace("{ruleId}", &rule_id);
+            .replace("{ruleId}", &Client::encode_path(&rule_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -258,7 +258,7 @@ impl Proxy {
 
         let path = "/proxy/rules/{ruleId}"
             .to_string()
-            .replace("{ruleId}", &rule_id);
+            .replace("{ruleId}", &Client::encode_path(&rule_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -290,7 +290,7 @@ impl Proxy {
 
         let path = "/proxy/rules/{ruleId}/status"
             .to_string()
-            .replace("{ruleId}", &rule_id);
+            .replace("{ruleId}", &Client::encode_path(&rule_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))

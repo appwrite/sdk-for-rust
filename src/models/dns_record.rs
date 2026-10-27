@@ -22,7 +22,7 @@ pub struct DnsRecord {
     #[serde(rename = "type")]
     #[serde(default = "default_type")]
     pub r#type: String,
-    /// Record name or subdomain.
+    /// Record name relative to the domain, or `@` for the domain itself.
     #[serde(rename = "name")]
     #[serde(default = "default_name")]
     pub name: String,

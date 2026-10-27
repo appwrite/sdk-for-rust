@@ -142,7 +142,7 @@ impl Organization {
 
         let path = "/organization/installations/{installationId}"
             .to_string()
-            .replace("{installationId}", &installation_id);
+            .replace("{installationId}", &Client::encode_path(&installation_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -178,7 +178,7 @@ impl Organization {
 
         let path = "/organization/installations/{installationId}"
             .to_string()
-            .replace("{installationId}", &installation_id);
+            .replace("{installationId}", &Client::encode_path(&installation_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -209,7 +209,7 @@ impl Organization {
 
         let path = "/organization/installations/{installationId}"
             .to_string()
-            .replace("{installationId}", &installation_id);
+            .replace("{installationId}", &Client::encode_path(&installation_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -310,7 +310,7 @@ impl Organization {
 
         let path = "/organization/memberships/{membershipId}"
             .to_string()
-            .replace("{membershipId}", &membership_id);
+            .replace("{membershipId}", &Client::encode_path(&membership_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -344,7 +344,7 @@ impl Organization {
 
         let path = "/organization/memberships/{membershipId}"
             .to_string()
-            .replace("{membershipId}", &membership_id);
+            .replace("{membershipId}", &Client::encode_path(&membership_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -375,7 +375,7 @@ impl Organization {
 
         let path = "/organization/memberships/{membershipId}"
             .to_string()
-            .replace("{membershipId}", &membership_id);
+            .replace("{membershipId}", &Client::encode_path(&membership_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -458,7 +458,7 @@ impl Organization {
 
         let path = "/organization/projects/{projectId}"
             .to_string()
-            .replace("{projectId}", &project_id);
+            .replace("{projectId}", &Client::encode_path(&project_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -489,7 +489,7 @@ impl Organization {
 
         let path = "/organization/projects/{projectId}"
             .to_string()
-            .replace("{projectId}", &project_id);
+            .replace("{projectId}", &Client::encode_path(&project_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -515,7 +515,7 @@ impl Organization {
 
         let path = "/organization/projects/{projectId}"
             .to_string()
-            .replace("{projectId}", &project_id);
+            .replace("{projectId}", &Client::encode_path(&project_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -554,7 +554,7 @@ impl Organization {
 
         let path = "/organization/projects/{projectId}/keys"
             .to_string()
-            .replace("{projectId}", &project_id);
+            .replace("{projectId}", &Client::encode_path(&project_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -592,7 +592,7 @@ impl Organization {
 
         let path = "/organization/projects/{projectId}/keys/ephemeral"
             .to_string()
-            .replace("{projectId}", &project_id);
+            .replace("{projectId}", &Client::encode_path(&project_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -631,8 +631,8 @@ impl Organization {
 
         let path = "/organization/projects/{projectId}/keys/{keyId}"
             .to_string()
-            .replace("{projectId}", &project_id)
-            .replace("{keyId}", &key_id);
+            .replace("{projectId}", &Client::encode_path(&project_id))
+            .replace("{keyId}", &Client::encode_path(&key_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -685,8 +685,8 @@ impl Organization {
 
         let path = "/organization/projects/{projectId}/keys/{keyId}"
             .to_string()
-            .replace("{projectId}", &project_id)
-            .replace("{keyId}", &key_id);
+            .replace("{projectId}", &Client::encode_path(&project_id))
+            .replace("{keyId}", &Client::encode_path(&key_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -727,8 +727,8 @@ impl Organization {
 
         let path = "/organization/projects/{projectId}/keys/{keyId}"
             .to_string()
-            .replace("{projectId}", &project_id)
-            .replace("{keyId}", &key_id);
+            .replace("{projectId}", &Client::encode_path(&project_id))
+            .replace("{keyId}", &Client::encode_path(&key_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

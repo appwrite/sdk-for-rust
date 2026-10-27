@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = users.create_bcrypt_user(
         "<USER_ID>",
         "email@example.com",
-        "password",
+        "$2y$10$vBiMe4NOvlbYL1iJUNdqkO.QJy17fvslZQ5oiqKq1G4uwyRWvdrXC",
         Some("<NAME>") // optional
     ).await?;
 

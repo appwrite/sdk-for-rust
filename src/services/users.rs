@@ -198,7 +198,7 @@ impl Users {
 
         let path = "/users/identities/{identityId}"
             .to_string()
-            .replace("{identityId}", &identity_id);
+            .replace("{identityId}", &Client::encode_path(&identity_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -398,7 +398,9 @@ impl Users {
             ));
         }
 
-        let path = "/users/{userId}".to_string().replace("{userId}", &user_id);
+        let path = "/users/{userId}"
+            .to_string()
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -427,7 +429,9 @@ impl Users {
             ));
         }
 
-        let path = "/users/{userId}".to_string().replace("{userId}", &user_id);
+        let path = "/users/{userId}"
+            .to_string()
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -458,7 +462,7 @@ impl Users {
 
         let path = "/users/{userId}/email"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -496,7 +500,7 @@ impl Users {
 
         let path = "/users/{userId}/impersonator"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -535,7 +539,7 @@ impl Users {
 
         let path = "/users/{userId}/jwts"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -577,7 +581,7 @@ impl Users {
 
         let path = "/users/{userId}/labels"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -620,7 +624,7 @@ impl Users {
 
         let path = "/users/{userId}/memberships"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -651,7 +655,7 @@ impl Users {
 
         let path = "/users/{userId}/mfa"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -681,8 +685,8 @@ impl Users {
 
         let path = "/users/{userId}/mfa/authenticators/{type}"
             .to_string()
-            .replace("{userId}", &user_id)
-            .replace("{type}", &r#type.to_string());
+            .replace("{userId}", &Client::encode_path(&user_id))
+            .replace("{type}", &Client::encode_path(&r#type.to_string()));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -722,8 +726,8 @@ impl Users {
 
         let path = "/users/{userId}/mfa/challenges/{challengeId}"
             .to_string()
-            .replace("{userId}", &user_id)
-            .replace("{challengeId}", &challenge_id);
+            .replace("{userId}", &Client::encode_path(&user_id))
+            .replace("{challengeId}", &Client::encode_path(&challenge_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -751,7 +755,7 @@ impl Users {
 
         let path = "/users/{userId}/mfa/factors"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -782,7 +786,7 @@ impl Users {
 
         let path = "/users/{userId}/mfa/recovery-codes"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -814,7 +818,7 @@ impl Users {
 
         let path = "/users/{userId}/mfa/recovery-codes"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -846,7 +850,7 @@ impl Users {
 
         let path = "/users/{userId}/mfa/recovery-codes"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -877,7 +881,7 @@ impl Users {
 
         let path = "/users/{userId}/name"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -916,7 +920,7 @@ impl Users {
 
         let path = "/users/{userId}/passkeys"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -955,8 +959,8 @@ impl Users {
 
         let path = "/users/{userId}/passkeys/{passkeyId}"
             .to_string()
-            .replace("{userId}", &user_id)
-            .replace("{passkeyId}", &passkey_id);
+            .replace("{userId}", &Client::encode_path(&user_id))
+            .replace("{passkeyId}", &Client::encode_path(&passkey_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -998,8 +1002,8 @@ impl Users {
 
         let path = "/users/{userId}/passkeys/{passkeyId}"
             .to_string()
-            .replace("{userId}", &user_id)
-            .replace("{passkeyId}", &passkey_id);
+            .replace("{userId}", &Client::encode_path(&user_id))
+            .replace("{passkeyId}", &Client::encode_path(&passkey_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1040,8 +1044,8 @@ impl Users {
 
         let path = "/users/{userId}/passkeys/{passkeyId}"
             .to_string()
-            .replace("{userId}", &user_id)
-            .replace("{passkeyId}", &passkey_id);
+            .replace("{userId}", &Client::encode_path(&user_id))
+            .replace("{passkeyId}", &Client::encode_path(&passkey_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1072,7 +1076,7 @@ impl Users {
 
         let path = "/users/{userId}/password"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1103,7 +1107,7 @@ impl Users {
 
         let path = "/users/{userId}/phone"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1131,7 +1135,7 @@ impl Users {
 
         let path = "/users/{userId}/prefs"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1164,7 +1168,7 @@ impl Users {
 
         let path = "/users/{userId}/prefs"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1196,7 +1200,7 @@ impl Users {
 
         let path = "/users/{userId}/sessions"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1230,7 +1234,7 @@ impl Users {
 
         let path = "/users/{userId}/sessions"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1256,7 +1260,7 @@ impl Users {
 
         let path = "/users/{userId}/sessions"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1296,8 +1300,8 @@ impl Users {
 
         let path = "/users/{userId}/sessions/{sessionId}"
             .to_string()
-            .replace("{userId}", &user_id)
-            .replace("{sessionId}", &session_id);
+            .replace("{userId}", &Client::encode_path(&user_id))
+            .replace("{sessionId}", &Client::encode_path(&session_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1329,7 +1333,7 @@ impl Users {
 
         let path = "/users/{userId}/status"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1368,7 +1372,7 @@ impl Users {
 
         let path = "/users/{userId}/targets"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1411,7 +1415,7 @@ impl Users {
 
         let path = "/users/{userId}/targets"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1450,8 +1454,8 @@ impl Users {
 
         let path = "/users/{userId}/targets/{targetId}"
             .to_string()
-            .replace("{userId}", &user_id)
-            .replace("{targetId}", &target_id);
+            .replace("{userId}", &Client::encode_path(&user_id))
+            .replace("{targetId}", &Client::encode_path(&target_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1503,8 +1507,8 @@ impl Users {
 
         let path = "/users/{userId}/targets/{targetId}"
             .to_string()
-            .replace("{userId}", &user_id)
-            .replace("{targetId}", &target_id);
+            .replace("{userId}", &Client::encode_path(&user_id))
+            .replace("{targetId}", &Client::encode_path(&target_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1544,8 +1548,8 @@ impl Users {
 
         let path = "/users/{userId}/targets/{targetId}"
             .to_string()
-            .replace("{userId}", &user_id)
-            .replace("{targetId}", &target_id);
+            .replace("{userId}", &Client::encode_path(&user_id))
+            .replace("{targetId}", &Client::encode_path(&target_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1585,7 +1589,7 @@ impl Users {
 
         let path = "/users/{userId}/tokens"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1616,7 +1620,7 @@ impl Users {
 
         let path = "/users/{userId}/verification"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1647,7 +1651,7 @@ impl Users {
 
         let path = "/users/{userId}/verification/phone"
             .to_string()
-            .replace("{userId}", &user_id);
+            .replace("{userId}", &Client::encode_path(&user_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))

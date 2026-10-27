@@ -128,7 +128,7 @@ impl Webhooks {
 
         let path = "/webhooks/{webhookId}"
             .to_string()
-            .replace("{webhookId}", &webhook_id);
+            .replace("{webhookId}", &Client::encode_path(&webhook_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -191,7 +191,7 @@ impl Webhooks {
 
         let path = "/webhooks/{webhookId}"
             .to_string()
-            .replace("{webhookId}", &webhook_id);
+            .replace("{webhookId}", &Client::encode_path(&webhook_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -218,7 +218,7 @@ impl Webhooks {
 
         let path = "/webhooks/{webhookId}"
             .to_string()
-            .replace("{webhookId}", &webhook_id);
+            .replace("{webhookId}", &Client::encode_path(&webhook_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -253,7 +253,7 @@ impl Webhooks {
 
         let path = "/webhooks/{webhookId}/secret"
             .to_string()
-            .replace("{webhookId}", &webhook_id);
+            .replace("{webhookId}", &Client::encode_path(&webhook_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))

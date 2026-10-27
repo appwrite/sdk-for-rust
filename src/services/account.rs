@@ -117,7 +117,7 @@ impl Account {
 
         let path = "/account/consents/{consentId}"
             .to_string()
-            .replace("{consentId}", &consent_id);
+            .replace("{consentId}", &Client::encode_path(&consent_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -145,7 +145,7 @@ impl Account {
 
         let path = "/account/consents/{consentId}"
             .to_string()
-            .replace("{consentId}", &consent_id);
+            .replace("{consentId}", &Client::encode_path(&consent_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -186,7 +186,7 @@ impl Account {
 
         let path = "/account/consents/{consentId}/tokens"
             .to_string()
-            .replace("{consentId}", &consent_id);
+            .replace("{consentId}", &Client::encode_path(&consent_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -226,8 +226,8 @@ impl Account {
 
         let path = "/account/consents/{consentId}/tokens/{tokenId}"
             .to_string()
-            .replace("{consentId}", &consent_id)
-            .replace("{tokenId}", &token_id);
+            .replace("{consentId}", &Client::encode_path(&consent_id))
+            .replace("{tokenId}", &Client::encode_path(&token_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -269,8 +269,8 @@ impl Account {
 
         let path = "/account/consents/{consentId}/tokens/{tokenId}"
             .to_string()
-            .replace("{consentId}", &consent_id)
-            .replace("{tokenId}", &token_id);
+            .replace("{consentId}", &Client::encode_path(&consent_id))
+            .replace("{tokenId}", &Client::encode_path(&token_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -351,7 +351,7 @@ impl Account {
 
         let path = "/account/identities/{identityId}"
             .to_string()
-            .replace("{identityId}", &identity_id);
+            .replace("{identityId}", &Client::encode_path(&identity_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -414,7 +414,7 @@ impl Account {
 
         let path = "/account/mfa/authenticators/{type}"
             .to_string()
-            .replace("{type}", &r#type.to_string());
+            .replace("{type}", &Client::encode_path(&r#type.to_string()));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -437,7 +437,7 @@ impl Account {
 
         let path = "/account/mfa/authenticators/{type}"
             .to_string()
-            .replace("{type}", &r#type.to_string());
+            .replace("{type}", &Client::encode_path(&r#type.to_string()));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -456,7 +456,7 @@ impl Account {
 
         let path = "/account/mfa/authenticators/{type}"
             .to_string()
-            .replace("{type}", &r#type.to_string());
+            .replace("{type}", &Client::encode_path(&r#type.to_string()));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -674,7 +674,7 @@ impl Account {
 
         let path = "/account/passkeys/{passkeyId}"
             .to_string()
-            .replace("{passkeyId}", &passkey_id);
+            .replace("{passkeyId}", &Client::encode_path(&passkey_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -705,7 +705,7 @@ impl Account {
 
         let path = "/account/passkeys/{passkeyId}"
             .to_string()
-            .replace("{passkeyId}", &passkey_id);
+            .replace("{passkeyId}", &Client::encode_path(&passkey_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -734,7 +734,7 @@ impl Account {
 
         let path = "/account/passkeys/{passkeyId}"
             .to_string()
-            .replace("{passkeyId}", &passkey_id);
+            .replace("{passkeyId}", &Client::encode_path(&passkey_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -769,7 +769,7 @@ impl Account {
 
         let path = "/account/passkeys/{passkeyId}/verification"
             .to_string()
-            .replace("{passkeyId}", &passkey_id);
+            .replace("{passkeyId}", &Client::encode_path(&passkey_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -1247,7 +1247,7 @@ impl Account {
 
         let path = "/account/sessions/{sessionId}"
             .to_string()
-            .replace("{sessionId}", &session_id);
+            .replace("{sessionId}", &Client::encode_path(&session_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1278,7 +1278,7 @@ impl Account {
 
         let path = "/account/sessions/{sessionId}"
             .to_string()
-            .replace("{sessionId}", &session_id);
+            .replace("{sessionId}", &Client::encode_path(&session_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1308,7 +1308,7 @@ impl Account {
 
         let path = "/account/sessions/{sessionId}"
             .to_string()
-            .replace("{sessionId}", &session_id);
+            .replace("{sessionId}", &Client::encode_path(&session_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1454,7 +1454,7 @@ impl Account {
 
         let path = "/account/tokens/oauth2/{provider}"
             .to_string()
-            .replace("{provider}", &provider.to_string());
+            .replace("{provider}", &Client::encode_path(&provider.to_string()));
 
         self.client
             .call_location(Method::GET, &path, Some(api_headers), Some(params))
