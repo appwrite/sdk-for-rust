@@ -15,7 +15,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<DATABASE_ID>",
         "<POLICY_ID>",
         Some("<NAME>"), // optional
-        Some(""), // optional
+        None, // optional
         Some(1), // optional
         Some(false) // optional
     ).await?;

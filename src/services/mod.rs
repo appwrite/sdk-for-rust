@@ -26,6 +26,8 @@ pub mod locale;
 pub use locale::Locale;
 pub mod messaging;
 pub use messaging::Messaging;
+pub mod migrations;
+pub use migrations::Migrations;
 pub mod mongo;
 pub use mongo::Mongo;
 pub mod mysql;
@@ -87,6 +89,7 @@ pub struct Services {
     graphql: Graphql,
     locale: Locale,
     messaging: Messaging,
+    migrations: Migrations,
     mongo: Mongo,
     mysql: Mysql,
     oauth2: Oauth2,
@@ -124,6 +127,7 @@ impl Services {
             graphql: Graphql::new(&client),
             locale: Locale::new(&client),
             messaging: Messaging::new(&client),
+            migrations: Migrations::new(&client),
             mongo: Mongo::new(&client),
             mysql: Mysql::new(&client),
             oauth2: Oauth2::new(&client),
@@ -202,6 +206,10 @@ impl Services {
     /// Get Messaging service
     pub fn messaging(&self) -> &Messaging {
         &self.messaging
+    }
+    /// Get Migrations service
+    pub fn migrations(&self) -> &Migrations {
+        &self.migrations
     }
     /// Get Mongo service
     pub fn mongo(&self) -> &Mongo {

@@ -119,6 +119,20 @@ pub struct BillingPlan {
     #[serde(rename = "executionsRetentionCount")]
     #[serde(default = "default_executions_retention_count")]
     pub executions_retention_count: i64,
+    /// Days non-active deployments are kept when a function or site sets no
+    /// retention.
+    #[serde(rename = "deploymentRetention")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub deployment_retention: Option<i64>,
+    /// Maximum deployment retention in days a function or site can set. 0 means
+    /// unlimited.
+    #[serde(rename = "deploymentRetentionMax")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub deployment_retention_max: Option<i64>,
+    /// Non-active deployments kept per function or site. 0 means unlimited.
+    #[serde(rename = "deploymentsRetentionCount")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub deployments_retention_count: Option<i64>,
     /// GB hours for functions
     #[serde(rename = "GBHours")]
     #[serde(default = "default_gb_hours")]
@@ -709,6 +723,39 @@ impl BillingPlan {
     /// Get executions_retention_count
     pub fn executions_retention_count(&self) -> &i64 {
         &self.executions_retention_count
+    }
+
+    /// Set deployment_retention
+    pub fn set_deployment_retention(mut self, deployment_retention: i64) -> Self {
+        self.deployment_retention = Some(deployment_retention);
+        self
+    }
+
+    /// Get deployment_retention
+    pub fn deployment_retention(&self) -> Option<&i64> {
+        self.deployment_retention.as_ref()
+    }
+
+    /// Set deployment_retention_max
+    pub fn set_deployment_retention_max(mut self, deployment_retention_max: i64) -> Self {
+        self.deployment_retention_max = Some(deployment_retention_max);
+        self
+    }
+
+    /// Get deployment_retention_max
+    pub fn deployment_retention_max(&self) -> Option<&i64> {
+        self.deployment_retention_max.as_ref()
+    }
+
+    /// Set deployments_retention_count
+    pub fn set_deployments_retention_count(mut self, deployments_retention_count: i64) -> Self {
+        self.deployments_retention_count = Some(deployments_retention_count);
+        self
+    }
+
+    /// Get deployments_retention_count
+    pub fn deployments_retention_count(&self) -> Option<&i64> {
+        self.deployments_retention_count.as_ref()
     }
 
     /// Get gb_hours

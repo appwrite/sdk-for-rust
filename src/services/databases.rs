@@ -150,7 +150,7 @@ impl Databases {
 
         let path = "/databases/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id);
+            .replace("{transactionId}", &Client::encode_path(&transaction_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -187,7 +187,7 @@ impl Databases {
 
         let path = "/databases/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id);
+            .replace("{transactionId}", &Client::encode_path(&transaction_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -216,7 +216,7 @@ impl Databases {
 
         let path = "/databases/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id);
+            .replace("{transactionId}", &Client::encode_path(&transaction_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -249,7 +249,7 @@ impl Databases {
 
         let path = "/databases/transactions/{transactionId}/operations"
             .to_string()
-            .replace("{transactionId}", &transaction_id);
+            .replace("{transactionId}", &Client::encode_path(&transaction_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -278,7 +278,7 @@ impl Databases {
 
         let path = "/databases/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -319,7 +319,7 @@ impl Databases {
 
         let path = "/databases/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -346,7 +346,7 @@ impl Databases {
 
         let path = "/databases/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -390,7 +390,7 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -454,7 +454,7 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -494,8 +494,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -563,8 +563,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -605,8 +605,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -656,8 +656,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -723,8 +723,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/bigint"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -799,9 +799,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/bigint/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -858,8 +858,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/boolean"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -926,9 +926,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/boolean/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -985,8 +985,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/datetime"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1053,9 +1053,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/datetime/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1112,8 +1112,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/email"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1180,9 +1180,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/email/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1248,8 +1248,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/enum"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1324,9 +1324,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/enum/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1392,8 +1392,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/float"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1468,9 +1468,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/float/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1536,8 +1536,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/integer"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1612,9 +1612,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/integer/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1671,8 +1671,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/ip"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1739,9 +1739,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/ip/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1793,8 +1793,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/line"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1861,9 +1861,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/line/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1924,8 +1924,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/longtext"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1992,9 +1992,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/longtext/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2055,8 +2055,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2123,9 +2123,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2177,8 +2177,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/point"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2245,9 +2245,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/point/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2299,8 +2299,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/polygon"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2367,9 +2367,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/polygon/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2438,8 +2438,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/relationship"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2504,9 +2504,9 @@ impl Databases {
         let path =
             "/databases/{databaseId}/collections/{collectionId}/attributes/relationship/{key}"
                 .to_string()
-                .replace("{databaseId}", &database_id)
-                .replace("{collectionId}", &collection_id)
-                .replace("{key}", &key);
+                .replace("{databaseId}", &Client::encode_path(&database_id))
+                .replace("{collectionId}", &Client::encode_path(&collection_id))
+                .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2569,8 +2569,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/string"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2641,9 +2641,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/string/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2704,8 +2704,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/text"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2772,9 +2772,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/text/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2831,8 +2831,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/url"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2899,9 +2899,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/url/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2964,8 +2964,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/varchar"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -3036,9 +3036,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/varchar/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -3088,9 +3088,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -3141,9 +3141,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/attributes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -3211,8 +3211,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -3270,8 +3270,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -3320,8 +3320,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -3370,8 +3370,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -3428,8 +3428,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -3481,8 +3481,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -3544,8 +3544,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/query"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -3607,9 +3607,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{documentId}", &document_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{documentId}", &Client::encode_path(&document_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -3678,9 +3678,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{documentId}", &document_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{documentId}", &Client::encode_path(&document_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -3747,9 +3747,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{documentId}", &document_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{documentId}", &Client::encode_path(&document_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -3804,9 +3804,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{documentId}", &document_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{documentId}", &Client::encode_path(&document_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -3882,10 +3882,10 @@ impl Databases {
         let path =
             "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/decrement"
                 .to_string()
-                .replace("{databaseId}", &database_id)
-                .replace("{collectionId}", &collection_id)
-                .replace("{documentId}", &document_id)
-                .replace("{attribute}", &attribute);
+                .replace("{databaseId}", &Client::encode_path(&database_id))
+                .replace("{collectionId}", &Client::encode_path(&collection_id))
+                .replace("{documentId}", &Client::encode_path(&document_id))
+                .replace("{attribute}", &Client::encode_path(&attribute));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -3961,10 +3961,10 @@ impl Databases {
         let path =
             "/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/increment"
                 .to_string()
-                .replace("{databaseId}", &database_id)
-                .replace("{collectionId}", &collection_id)
-                .replace("{documentId}", &document_id)
-                .replace("{attribute}", &attribute);
+                .replace("{databaseId}", &Client::encode_path(&database_id))
+                .replace("{collectionId}", &Client::encode_path(&collection_id))
+                .replace("{documentId}", &Client::encode_path(&document_id))
+                .replace("{attribute}", &Client::encode_path(&attribute));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -4014,8 +4014,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/indexes"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -4084,8 +4084,8 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/indexes"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -4135,9 +4135,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/indexes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -4188,9 +4188,9 @@ impl Databases {
 
         let path = "/databases/{databaseId}/collections/{collectionId}/indexes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{collectionId}", &collection_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{collectionId}", &Client::encode_path(&collection_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

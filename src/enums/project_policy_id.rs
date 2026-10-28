@@ -37,6 +37,8 @@ pub enum ProjectPolicyId {
     DenyFreeEmail,
     #[serde(rename = "deny-corporate-email")]
     DenyCorporateEmail,
+    #[serde(rename = "deny-realtime-guests")]
+    DenyRealtimeGuests,
     #[serde(rename = "passkey")]
     Passkey,
 }
@@ -62,6 +64,7 @@ impl ProjectPolicyId {
             ProjectPolicyId::DenyDisposableEmail => "deny-disposable-email",
             ProjectPolicyId::DenyFreeEmail => "deny-free-email",
             ProjectPolicyId::DenyCorporateEmail => "deny-corporate-email",
+            ProjectPolicyId::DenyRealtimeGuests => "deny-realtime-guests",
             ProjectPolicyId::Passkey => "passkey",
         }
     }

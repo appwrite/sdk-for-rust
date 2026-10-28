@@ -180,7 +180,7 @@ impl TablesDB {
 
         let path = "/tablesdb/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id);
+            .replace("{transactionId}", &Client::encode_path(&transaction_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -217,7 +217,7 @@ impl TablesDB {
 
         let path = "/tablesdb/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id);
+            .replace("{transactionId}", &Client::encode_path(&transaction_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -246,7 +246,7 @@ impl TablesDB {
 
         let path = "/tablesdb/transactions/{transactionId}"
             .to_string()
-            .replace("{transactionId}", &transaction_id);
+            .replace("{transactionId}", &Client::encode_path(&transaction_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -279,7 +279,7 @@ impl TablesDB {
 
         let path = "/tablesdb/transactions/{transactionId}/operations"
             .to_string()
-            .replace("{transactionId}", &transaction_id);
+            .replace("{transactionId}", &Client::encode_path(&transaction_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -308,7 +308,7 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -362,7 +362,7 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -389,7 +389,7 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -430,7 +430,7 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/failovers"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -459,7 +459,7 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/migrations"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -501,7 +501,7 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/migrations"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -540,8 +540,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/migrations/{migrationId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{migrationId}", &migration_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{migrationId}", &Client::encode_path(&migration_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -582,8 +582,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/migrations/{migrationId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{migrationId}", &migration_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{migrationId}", &Client::encode_path(&migration_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -631,8 +631,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/migrations/{migrationId}/cutovers"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{migrationId}", &migration_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{migrationId}", &Client::encode_path(&migration_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -675,7 +675,7 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/operations"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -704,7 +704,7 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/replicas"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -734,7 +734,7 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/status"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -778,7 +778,7 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -842,7 +842,7 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables"
             .to_string()
-            .replace("{databaseId}", &database_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -882,8 +882,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -951,8 +951,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -993,8 +993,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1044,8 +1044,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1111,8 +1111,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/bigint"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1187,9 +1187,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/bigint/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1246,8 +1246,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/boolean"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1314,9 +1314,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/boolean/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1373,8 +1373,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/datetime"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1441,9 +1441,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/datetime/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1500,8 +1500,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/email"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1568,9 +1568,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/email/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1636,8 +1636,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/enum"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1712,9 +1712,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/enum/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1780,8 +1780,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/float"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1856,9 +1856,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/float/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -1924,8 +1924,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/integer"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2000,9 +2000,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/integer/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2059,8 +2059,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/ip"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2127,9 +2127,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/ip/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2181,8 +2181,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/line"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2249,9 +2249,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/line/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2312,8 +2312,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/longtext"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2380,9 +2380,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/longtext/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2443,8 +2443,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2511,9 +2511,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2565,8 +2565,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/point"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2633,9 +2633,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/point/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2687,8 +2687,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/polygon"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2755,9 +2755,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/polygon/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2823,8 +2823,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/relationship"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -2888,9 +2888,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/relationship/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -2953,8 +2953,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/string"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -3025,9 +3025,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/string/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -3088,8 +3088,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/text"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -3156,9 +3156,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/text/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -3215,8 +3215,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/url"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -3283,9 +3283,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/url/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -3348,8 +3348,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/varchar"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -3420,9 +3420,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/varchar/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -3472,9 +3472,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -3525,9 +3525,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/columns/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -3577,8 +3577,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -3647,8 +3647,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -3698,9 +3698,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -3751,9 +3751,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{key}", &key);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{key}", &Client::encode_path(&key));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -3820,8 +3820,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -3879,8 +3879,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -3929,8 +3929,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -3979,8 +3979,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -4036,8 +4036,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -4089,8 +4089,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -4152,8 +4152,8 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/query"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -4215,9 +4215,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{rowId}", &row_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{rowId}", &Client::encode_path(&row_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -4286,9 +4286,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{rowId}", &row_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{rowId}", &Client::encode_path(&row_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -4355,9 +4355,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{rowId}", &row_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{rowId}", &Client::encode_path(&row_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -4412,9 +4412,9 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{rowId}", &row_id);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{rowId}", &Client::encode_path(&row_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -4489,10 +4489,10 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/decrement"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{rowId}", &row_id)
-            .replace("{column}", &column);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{rowId}", &Client::encode_path(&row_id))
+            .replace("{column}", &Client::encode_path(&column));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -4567,10 +4567,10 @@ impl TablesDB {
 
         let path = "/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/increment"
             .to_string()
-            .replace("{databaseId}", &database_id)
-            .replace("{tableId}", &table_id)
-            .replace("{rowId}", &row_id)
-            .replace("{column}", &column);
+            .replace("{databaseId}", &Client::encode_path(&database_id))
+            .replace("{tableId}", &Client::encode_path(&table_id))
+            .replace("{rowId}", &Client::encode_path(&row_id))
+            .replace("{column}", &Client::encode_path(&column));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))

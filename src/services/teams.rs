@@ -103,7 +103,9 @@ impl Teams {
             ));
         }
 
-        let path = "/teams/{teamId}".to_string().replace("{teamId}", &team_id);
+        let path = "/teams/{teamId}"
+            .to_string()
+            .replace("{teamId}", &Client::encode_path(&team_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -132,7 +134,9 @@ impl Teams {
             ));
         }
 
-        let path = "/teams/{teamId}".to_string().replace("{teamId}", &team_id);
+        let path = "/teams/{teamId}"
+            .to_string()
+            .replace("{teamId}", &Client::encode_path(&team_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -157,7 +161,9 @@ impl Teams {
             ));
         }
 
-        let path = "/teams/{teamId}".to_string().replace("{teamId}", &team_id);
+        let path = "/teams/{teamId}"
+            .to_string()
+            .replace("{teamId}", &Client::encode_path(&team_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -196,7 +202,7 @@ impl Teams {
 
         let path = "/teams/{teamId}/installations"
             .to_string()
-            .replace("{teamId}", &team_id);
+            .replace("{teamId}", &Client::encode_path(&team_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -234,7 +240,7 @@ impl Teams {
 
         let path = "/teams/{teamId}/installations"
             .to_string()
-            .replace("{teamId}", &team_id);
+            .replace("{teamId}", &Client::encode_path(&team_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -274,8 +280,8 @@ impl Teams {
 
         let path = "/teams/{teamId}/installations/{installationId}"
             .to_string()
-            .replace("{teamId}", &team_id)
-            .replace("{installationId}", &installation_id);
+            .replace("{teamId}", &Client::encode_path(&team_id))
+            .replace("{installationId}", &Client::encode_path(&installation_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -322,8 +328,8 @@ impl Teams {
 
         let path = "/teams/{teamId}/installations/{installationId}"
             .to_string()
-            .replace("{teamId}", &team_id)
-            .replace("{installationId}", &installation_id);
+            .replace("{teamId}", &Client::encode_path(&team_id))
+            .replace("{installationId}", &Client::encode_path(&installation_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -365,8 +371,8 @@ impl Teams {
 
         let path = "/teams/{teamId}/installations/{installationId}"
             .to_string()
-            .replace("{teamId}", &team_id)
-            .replace("{installationId}", &installation_id);
+            .replace("{teamId}", &Client::encode_path(&team_id))
+            .replace("{installationId}", &Client::encode_path(&installation_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -411,7 +417,7 @@ impl Teams {
 
         let path = "/teams/{teamId}/memberships"
             .to_string()
-            .replace("{teamId}", &team_id);
+            .replace("{teamId}", &Client::encode_path(&team_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -489,7 +495,7 @@ impl Teams {
 
         let path = "/teams/{teamId}/memberships"
             .to_string()
-            .replace("{teamId}", &team_id);
+            .replace("{teamId}", &Client::encode_path(&team_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -530,8 +536,8 @@ impl Teams {
 
         let path = "/teams/{teamId}/memberships/{membershipId}"
             .to_string()
-            .replace("{teamId}", &team_id)
-            .replace("{membershipId}", &membership_id);
+            .replace("{teamId}", &Client::encode_path(&team_id))
+            .replace("{membershipId}", &Client::encode_path(&membership_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -578,8 +584,8 @@ impl Teams {
 
         let path = "/teams/{teamId}/memberships/{membershipId}"
             .to_string()
-            .replace("{teamId}", &team_id)
-            .replace("{membershipId}", &membership_id);
+            .replace("{teamId}", &Client::encode_path(&team_id))
+            .replace("{membershipId}", &Client::encode_path(&membership_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -621,8 +627,8 @@ impl Teams {
 
         let path = "/teams/{teamId}/memberships/{membershipId}"
             .to_string()
-            .replace("{teamId}", &team_id)
-            .replace("{membershipId}", &membership_id);
+            .replace("{teamId}", &Client::encode_path(&team_id))
+            .replace("{membershipId}", &Client::encode_path(&membership_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -671,8 +677,8 @@ impl Teams {
 
         let path = "/teams/{teamId}/memberships/{membershipId}/status"
             .to_string()
-            .replace("{teamId}", &team_id)
-            .replace("{membershipId}", &membership_id);
+            .replace("{teamId}", &Client::encode_path(&team_id))
+            .replace("{membershipId}", &Client::encode_path(&membership_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -702,7 +708,7 @@ impl Teams {
 
         let path = "/teams/{teamId}/prefs"
             .to_string()
-            .replace("{teamId}", &team_id);
+            .replace("{teamId}", &Client::encode_path(&team_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -735,7 +741,7 @@ impl Teams {
 
         let path = "/teams/{teamId}/prefs"
             .to_string()
-            .replace("{teamId}", &team_id);
+            .replace("{teamId}", &Client::encode_path(&team_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))

@@ -240,7 +240,7 @@ impl Functions {
 
         let path = "/functions/{functionId}"
             .to_string()
-            .replace("{functionId}", &function_id);
+            .replace("{functionId}", &Client::encode_path(&function_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -376,7 +376,7 @@ impl Functions {
 
         let path = "/functions/{functionId}"
             .to_string()
-            .replace("{functionId}", &function_id);
+            .replace("{functionId}", &Client::encode_path(&function_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -402,7 +402,7 @@ impl Functions {
 
         let path = "/functions/{functionId}"
             .to_string()
-            .replace("{functionId}", &function_id);
+            .replace("{functionId}", &Client::encode_path(&function_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -434,7 +434,7 @@ impl Functions {
 
         let path = "/functions/{functionId}/deployment"
             .to_string()
-            .replace("{functionId}", &function_id);
+            .replace("{functionId}", &Client::encode_path(&function_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -478,7 +478,7 @@ impl Functions {
 
         let path = "/functions/{functionId}/deployments"
             .to_string()
-            .replace("{functionId}", &function_id);
+            .replace("{functionId}", &Client::encode_path(&function_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -530,7 +530,7 @@ impl Functions {
 
         let path = "/functions/{functionId}/deployments"
             .to_string()
-            .replace("{functionId}", &function_id);
+            .replace("{functionId}", &Client::encode_path(&function_id));
 
         self.client
             .upload(
@@ -577,7 +577,7 @@ impl Functions {
 
         let path = "/functions/{functionId}/deployments/duplicate"
             .to_string()
-            .replace("{functionId}", &function_id);
+            .replace("{functionId}", &Client::encode_path(&function_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -625,7 +625,7 @@ impl Functions {
 
         let path = "/functions/{functionId}/deployments/template"
             .to_string()
-            .replace("{functionId}", &function_id);
+            .replace("{functionId}", &Client::encode_path(&function_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -664,7 +664,7 @@ impl Functions {
 
         let path = "/functions/{functionId}/deployments/vcs"
             .to_string()
-            .replace("{functionId}", &function_id);
+            .replace("{functionId}", &Client::encode_path(&function_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -703,8 +703,8 @@ impl Functions {
 
         let path = "/functions/{functionId}/deployments/{deploymentId}"
             .to_string()
-            .replace("{functionId}", &function_id)
-            .replace("{deploymentId}", &deployment_id);
+            .replace("{functionId}", &Client::encode_path(&function_id))
+            .replace("{deploymentId}", &Client::encode_path(&deployment_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -744,8 +744,8 @@ impl Functions {
 
         let path = "/functions/{functionId}/deployments/{deploymentId}"
             .to_string()
-            .replace("{functionId}", &function_id)
-            .replace("{deploymentId}", &deployment_id);
+            .replace("{functionId}", &Client::encode_path(&function_id))
+            .replace("{deploymentId}", &Client::encode_path(&deployment_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -794,8 +794,8 @@ impl Functions {
 
         let path = "/functions/{functionId}/deployments/{deploymentId}/download"
             .to_string()
-            .replace("{functionId}", &function_id)
-            .replace("{deploymentId}", &deployment_id);
+            .replace("{functionId}", &Client::encode_path(&function_id))
+            .replace("{deploymentId}", &Client::encode_path(&deployment_id));
 
         self.client
             .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
@@ -839,8 +839,8 @@ impl Functions {
 
         let path = "/functions/{functionId}/deployments/{deploymentId}/status"
             .to_string()
-            .replace("{functionId}", &function_id)
-            .replace("{deploymentId}", &deployment_id);
+            .replace("{functionId}", &Client::encode_path(&function_id))
+            .replace("{deploymentId}", &Client::encode_path(&deployment_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -880,7 +880,7 @@ impl Functions {
 
         let path = "/functions/{functionId}/executions"
             .to_string()
-            .replace("{functionId}", &function_id);
+            .replace("{functionId}", &Client::encode_path(&function_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -937,7 +937,7 @@ impl Functions {
 
         let path = "/functions/{functionId}/executions"
             .to_string()
-            .replace("{functionId}", &function_id);
+            .replace("{functionId}", &Client::encode_path(&function_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -976,8 +976,8 @@ impl Functions {
 
         let path = "/functions/{functionId}/executions/{executionId}"
             .to_string()
-            .replace("{functionId}", &function_id)
-            .replace("{executionId}", &execution_id);
+            .replace("{functionId}", &Client::encode_path(&function_id))
+            .replace("{executionId}", &Client::encode_path(&execution_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1017,8 +1017,8 @@ impl Functions {
 
         let path = "/functions/{functionId}/executions/{executionId}"
             .to_string()
-            .replace("{functionId}", &function_id)
-            .replace("{executionId}", &execution_id);
+            .replace("{functionId}", &Client::encode_path(&function_id))
+            .replace("{executionId}", &Client::encode_path(&execution_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -1057,7 +1057,7 @@ impl Functions {
 
         let path = "/functions/{functionId}/variables"
             .to_string()
-            .replace("{functionId}", &function_id);
+            .replace("{functionId}", &Client::encode_path(&function_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1101,7 +1101,7 @@ impl Functions {
 
         let path = "/functions/{functionId}/variables"
             .to_string()
-            .replace("{functionId}", &function_id);
+            .replace("{functionId}", &Client::encode_path(&function_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -1140,8 +1140,8 @@ impl Functions {
 
         let path = "/functions/{functionId}/variables/{variableId}"
             .to_string()
-            .replace("{functionId}", &function_id)
-            .replace("{variableId}", &variable_id);
+            .replace("{functionId}", &Client::encode_path(&function_id))
+            .replace("{variableId}", &Client::encode_path(&variable_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -1197,8 +1197,8 @@ impl Functions {
 
         let path = "/functions/{functionId}/variables/{variableId}"
             .to_string()
-            .replace("{functionId}", &function_id)
-            .replace("{variableId}", &variable_id);
+            .replace("{functionId}", &Client::encode_path(&function_id))
+            .replace("{variableId}", &Client::encode_path(&variable_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -1238,8 +1238,8 @@ impl Functions {
 
         let path = "/functions/{functionId}/variables/{variableId}"
             .to_string()
-            .replace("{functionId}", &function_id)
-            .replace("{variableId}", &variable_id);
+            .replace("{functionId}", &Client::encode_path(&function_id))
+            .replace("{variableId}", &Client::encode_path(&variable_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

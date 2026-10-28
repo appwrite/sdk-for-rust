@@ -199,7 +199,9 @@ impl Apps {
             ));
         }
 
-        let path = "/apps/{appId}".to_string().replace("{appId}", &app_id);
+        let path = "/apps/{appId}"
+            .to_string()
+            .replace("{appId}", &Client::encode_path(&app_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -319,7 +321,9 @@ impl Apps {
             ));
         }
 
-        let path = "/apps/{appId}".to_string().replace("{appId}", &app_id);
+        let path = "/apps/{appId}"
+            .to_string()
+            .replace("{appId}", &Client::encode_path(&app_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -343,7 +347,9 @@ impl Apps {
             ));
         }
 
-        let path = "/apps/{appId}".to_string().replace("{appId}", &app_id);
+        let path = "/apps/{appId}"
+            .to_string()
+            .replace("{appId}", &Client::encode_path(&app_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -384,7 +390,7 @@ impl Apps {
 
         let path = "/apps/{appId}/installations"
             .to_string()
-            .replace("{appId}", &app_id);
+            .replace("{appId}", &Client::encode_path(&app_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -425,8 +431,8 @@ impl Apps {
 
         let path = "/apps/{appId}/installations/{installationId}"
             .to_string()
-            .replace("{appId}", &app_id)
-            .replace("{installationId}", &installation_id);
+            .replace("{appId}", &Client::encode_path(&app_id))
+            .replace("{installationId}", &Client::encode_path(&installation_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -468,8 +474,8 @@ impl Apps {
 
         let path = "/apps/{appId}/installations/{installationId}"
             .to_string()
-            .replace("{appId}", &app_id)
-            .replace("{installationId}", &installation_id);
+            .replace("{appId}", &Client::encode_path(&app_id))
+            .replace("{installationId}", &Client::encode_path(&installation_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -516,8 +522,8 @@ impl Apps {
 
         let path = "/apps/{appId}/installations/{installationId}/tokens"
             .to_string()
-            .replace("{appId}", &app_id)
-            .replace("{installationId}", &installation_id);
+            .replace("{appId}", &Client::encode_path(&app_id))
+            .replace("{installationId}", &Client::encode_path(&installation_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -554,7 +560,9 @@ impl Apps {
             ));
         }
 
-        let path = "/apps/{appId}/keys".to_string().replace("{appId}", &app_id);
+        let path = "/apps/{appId}/keys"
+            .to_string()
+            .replace("{appId}", &Client::encode_path(&app_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -583,7 +591,9 @@ impl Apps {
             ));
         }
 
-        let path = "/apps/{appId}/keys".to_string().replace("{appId}", &app_id);
+        let path = "/apps/{appId}/keys"
+            .to_string()
+            .replace("{appId}", &Client::encode_path(&app_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -622,8 +632,8 @@ impl Apps {
 
         let path = "/apps/{appId}/keys/{keyId}"
             .to_string()
-            .replace("{appId}", &app_id)
-            .replace("{keyId}", &key_id);
+            .replace("{appId}", &Client::encode_path(&app_id))
+            .replace("{keyId}", &Client::encode_path(&key_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -663,8 +673,8 @@ impl Apps {
 
         let path = "/apps/{appId}/keys/{keyId}"
             .to_string()
-            .replace("{appId}", &app_id)
-            .replace("{keyId}", &key_id);
+            .replace("{appId}", &Client::encode_path(&app_id))
+            .replace("{keyId}", &Client::encode_path(&key_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -703,7 +713,7 @@ impl Apps {
 
         let path = "/apps/{appId}/labels"
             .to_string()
-            .replace("{appId}", &app_id);
+            .replace("{appId}", &Client::encode_path(&app_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -742,7 +752,7 @@ impl Apps {
 
         let path = "/apps/{appId}/secrets"
             .to_string()
-            .replace("{appId}", &app_id);
+            .replace("{appId}", &Client::encode_path(&app_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -771,7 +781,7 @@ impl Apps {
 
         let path = "/apps/{appId}/secrets"
             .to_string()
-            .replace("{appId}", &app_id);
+            .replace("{appId}", &Client::encode_path(&app_id));
 
         self.client
             .call(Method::POST, &path, Some(api_headers), Some(params))
@@ -810,8 +820,8 @@ impl Apps {
 
         let path = "/apps/{appId}/secrets/{secretId}"
             .to_string()
-            .replace("{appId}", &app_id)
-            .replace("{secretId}", &secret_id);
+            .replace("{appId}", &Client::encode_path(&app_id))
+            .replace("{secretId}", &Client::encode_path(&secret_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -851,8 +861,8 @@ impl Apps {
 
         let path = "/apps/{appId}/secrets/{secretId}"
             .to_string()
-            .replace("{appId}", &app_id)
-            .replace("{secretId}", &secret_id);
+            .replace("{appId}", &Client::encode_path(&app_id))
+            .replace("{secretId}", &Client::encode_path(&secret_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
@@ -881,7 +891,9 @@ impl Apps {
             ));
         }
 
-        let path = "/apps/{appId}/team".to_string().replace("{appId}", &app_id);
+        let path = "/apps/{appId}/team"
+            .to_string()
+            .replace("{appId}", &Client::encode_path(&app_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -907,7 +919,7 @@ impl Apps {
 
         let path = "/apps/{appId}/tokens"
             .to_string()
-            .replace("{appId}", &app_id);
+            .replace("{appId}", &Client::encode_path(&app_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))

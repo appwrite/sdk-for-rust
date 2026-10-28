@@ -71,7 +71,7 @@ impl Activities {
 
         let path = "/activities/events/{eventId}"
             .to_string()
-            .replace("{eventId}", &event_id);
+            .replace("{eventId}", &Client::encode_path(&event_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))

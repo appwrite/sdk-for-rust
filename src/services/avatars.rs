@@ -56,7 +56,7 @@ impl Avatars {
 
         let path = "/avatars/browsers/{code}"
             .to_string()
-            .replace("{code}", &code.to_string());
+            .replace("{code}", &Client::encode_path(&code.to_string()));
 
         self.client
             .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
@@ -93,7 +93,7 @@ impl Avatars {
 
         let path = "/avatars/credit-cards/{code}"
             .to_string()
-            .replace("{code}", &code.to_string());
+            .replace("{code}", &Client::encode_path(&code.to_string()));
 
         self.client
             .call_bytes(Method::GET, &path, Some(api_headers), Some(params))
@@ -148,7 +148,7 @@ impl Avatars {
 
         let path = "/avatars/flags/{code}"
             .to_string()
-            .replace("{code}", &code.to_string());
+            .replace("{code}", &Client::encode_path(&code.to_string()));
 
         self.client
             .call_bytes(Method::GET, &path, Some(api_headers), Some(params))

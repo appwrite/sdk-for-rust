@@ -19,7 +19,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "<SECRET_KEY>",
         Some("<REGION>"), // optional
         Some("<PREFIX>"), // optional
-        Some("<ENDPOINT>") // optional
+        Some("https://example.com") // optional
     ).await?;
 
     let _ = result;

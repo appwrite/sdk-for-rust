@@ -16,7 +16,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = storage.update_file(
         "<BUCKET_ID>",
         "<FILE_ID>",
-        Some("<NAME>"), // optional
+        None, // optional
         Some(vec![Permission::read(Role::any()).to_string()]) // optional
     ).await?;
 

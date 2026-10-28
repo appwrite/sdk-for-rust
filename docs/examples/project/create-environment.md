@@ -13,7 +13,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let result = project.create_environment(
         "<ENVIRONMENT_ID>",
-        "<NAME>"
+        "<NAME>",
+        Some(vec![appwrite::enums::EnvironmentResource::Database, appwrite::enums::EnvironmentResource::Table, appwrite::enums::EnvironmentResource::Column, appwrite::enums::EnvironmentResource::Index, appwrite::enums::EnvironmentResource::Bucket, appwrite::enums::EnvironmentResource::Team, appwrite::enums::EnvironmentResource::Function, appwrite::enums::EnvironmentResource::EnvironmentVariable]) // optional
     ).await?;
 
     let _ = result;

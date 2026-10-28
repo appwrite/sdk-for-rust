@@ -34,7 +34,7 @@ pub struct Provider {
     #[serde(rename = "type")]
     #[serde(default = "default_type")]
     pub r#type: String,
-    /// Provider credentials.
+    /// Provider credentials. Secret values are write-only and never returned.
     #[serde(rename = "credentials")]
     #[serde(default = "default_credentials")]
     pub credentials: serde_json::Value,

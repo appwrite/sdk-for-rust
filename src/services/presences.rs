@@ -76,7 +76,7 @@ impl Presences {
 
         let path = "/presences/{presenceId}"
             .to_string()
-            .replace("{presenceId}", &presence_id);
+            .replace("{presenceId}", &Client::encode_path(&presence_id));
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
@@ -124,7 +124,7 @@ impl Presences {
 
         let path = "/presences/{presenceId}"
             .to_string()
-            .replace("{presenceId}", &presence_id);
+            .replace("{presenceId}", &Client::encode_path(&presence_id));
 
         self.client
             .call(Method::PUT, &path, Some(api_headers), Some(params))
@@ -180,7 +180,7 @@ impl Presences {
 
         let path = "/presences/{presenceId}"
             .to_string()
-            .replace("{presenceId}", &presence_id);
+            .replace("{presenceId}", &Client::encode_path(&presence_id));
 
         self.client
             .call(Method::PATCH, &path, Some(api_headers), Some(params))
@@ -206,7 +206,7 @@ impl Presences {
 
         let path = "/presences/{presenceId}"
             .to_string()
-            .replace("{presenceId}", &presence_id);
+            .replace("{presenceId}", &Client::encode_path(&presence_id));
 
         self.client
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
