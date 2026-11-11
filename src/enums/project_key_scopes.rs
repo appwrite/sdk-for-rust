@@ -179,6 +179,14 @@ pub enum ProjectKeyScopes {
     WebhooksRead,
     #[serde(rename = "webhooks.write")]
     WebhooksWrite,
+    #[serde(rename = "monitors.read")]
+    MonitorsRead,
+    #[serde(rename = "monitors.write")]
+    MonitorsWrite,
+    #[serde(rename = "alerts.read")]
+    AlertsRead,
+    #[serde(rename = "alerts.write")]
+    AlertsWrite,
     #[serde(rename = "locale.read")]
     LocaleRead,
     #[serde(rename = "avatars.read")]
@@ -209,6 +217,10 @@ pub enum ProjectKeyScopes {
     ReportsRead,
     #[serde(rename = "reports.write")]
     ReportsWrite,
+    #[serde(rename = "reviews.read")]
+    ReviewsRead,
+    #[serde(rename = "reviews.write")]
+    ReviewsWrite,
     #[serde(rename = "presences.read")]
     PresencesRead,
     #[serde(rename = "presences.write")]
@@ -347,6 +359,10 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::RulesWrite => "rules.write",
             ProjectKeyScopes::WebhooksRead => "webhooks.read",
             ProjectKeyScopes::WebhooksWrite => "webhooks.write",
+            ProjectKeyScopes::MonitorsRead => "monitors.read",
+            ProjectKeyScopes::MonitorsWrite => "monitors.write",
+            ProjectKeyScopes::AlertsRead => "alerts.read",
+            ProjectKeyScopes::AlertsWrite => "alerts.write",
             ProjectKeyScopes::LocaleRead => "locale.read",
             ProjectKeyScopes::AvatarsRead => "avatars.read",
             ProjectKeyScopes::AvatarsWrite => "avatars.write",
@@ -362,6 +378,8 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::InsightsWrite => "insights.write",
             ProjectKeyScopes::ReportsRead => "reports.read",
             ProjectKeyScopes::ReportsWrite => "reports.write",
+            ProjectKeyScopes::ReviewsRead => "reviews.read",
+            ProjectKeyScopes::ReviewsWrite => "reviews.write",
             ProjectKeyScopes::PresencesRead => "presences.read",
             ProjectKeyScopes::PresencesWrite => "presences.write",
             ProjectKeyScopes::DedicatedDatabasesExecute => "dedicatedDatabases.execute",

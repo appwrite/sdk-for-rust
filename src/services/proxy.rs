@@ -265,10 +265,123 @@ impl Proxy {
             .await
     }
 
+    /// Update the function and VCS branch a function proxy rule executes. The rule
+    /// domain cannot be changed.
+    pub async fn update_function_rule(
+        &self,
+        rule_id: impl Into<String>,
+        function_id: impl Into<String>,
+        branch: Option<&str>,
+    ) -> crate::error::Result<crate::models::ProxyRule> {
+        let mut params = HashMap::new();
+        params.insert("functionId".to_string(), json!(function_id.into()));
+        if let Some(value) = branch {
+            params.insert("branch".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let rule_id = rule_id.into();
+        if rule_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"ruleId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/proxy/rules/{ruleId}/function"
+            .to_string()
+            .replace("{ruleId}", &Client::encode_path(&rule_id));
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update the target URL, status code and parent resource of a redirect proxy
+    /// rule. The rule domain cannot be changed.
+    pub async fn update_redirect_rule(
+        &self,
+        rule_id: impl Into<String>,
+        url: impl Into<String>,
+        status_code: crate::enums::StatusCode,
+        resource_id: impl Into<String>,
+        resource_type: crate::enums::ProxyResourceType,
+    ) -> crate::error::Result<crate::models::ProxyRule> {
+        let mut params = HashMap::new();
+        params.insert("url".to_string(), json!(url.into()));
+        params.insert("statusCode".to_string(), json!(status_code));
+        params.insert("resourceId".to_string(), json!(resource_id.into()));
+        params.insert("resourceType".to_string(), json!(resource_type));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let rule_id = rule_id.into();
+        if rule_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"ruleId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/proxy/rules/{ruleId}/redirect"
+            .to_string()
+            .replace("{ruleId}", &Client::encode_path(&rule_id));
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update the site and VCS branch a site proxy rule serves. The rule domain
+    /// cannot be changed.
+    pub async fn update_site_rule(
+        &self,
+        rule_id: impl Into<String>,
+        site_id: impl Into<String>,
+        branch: Option<&str>,
+    ) -> crate::error::Result<crate::models::ProxyRule> {
+        let mut params = HashMap::new();
+        params.insert("siteId".to_string(), json!(site_id.into()));
+        if let Some(value) = branch {
+            params.insert("branch".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let rule_id = rule_id.into();
+        if rule_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"ruleId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/proxy/rules/{ruleId}/site"
+            .to_string()
+            .replace("{ruleId}", &Client::encode_path(&rule_id));
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// If not succeeded yet, retry verification process of a proxy rule domain.
     /// This endpoint triggers domain verification by checking DNS records. If
     /// verification is successful, a TLS certificate will be automatically
-    /// provisioned for the domain asynchronously in the background.
+    /// provisioned for the domain asynchronously in the background. A verified
+    /// rule whose certificate renewal failed or is blocked, or whose certificate
+    /// expired, is checked the same way, and its certificate renewed in the
+    /// background.
     pub async fn update_rule_status(
         &self,
         rule_id: impl Into<String>,

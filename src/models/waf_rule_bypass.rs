@@ -61,6 +61,11 @@ pub struct WafRuleBypass {
     #[serde(rename = "config")]
     #[serde(default = "default_config")]
     pub config: serde_json::Value,
+    /// When the rule is active: mode, days, interval, anchor, startTime, endTime
+    /// and timezone. Null when the rule is always active.
+    #[serde(rename = "schedule")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub schedule: Option<serde_json::Value>,
 }
 
 fn default_id() -> String {
@@ -184,6 +189,17 @@ impl WafRuleBypass {
     /// Get config
     pub fn config(&self) -> &serde_json::Value {
         &self.config
+    }
+
+    /// Set schedule
+    pub fn set_schedule(mut self, schedule: serde_json::Value) -> Self {
+        self.schedule = Some(schedule);
+        self
+    }
+
+    /// Get schedule
+    pub fn schedule(&self) -> Option<&serde_json::Value> {
+        self.schedule.as_ref()
     }
 }
 

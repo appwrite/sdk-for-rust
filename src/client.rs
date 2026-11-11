@@ -97,11 +97,11 @@ impl Client {
     /// Create a new Appwrite client
     pub fn new() -> Self {
         let mut headers = HeaderMap::new();
-        headers.insert("X-Appwrite-Response-Format", "2.6.2".parse().unwrap());
+        headers.insert("X-Appwrite-Response-Format", "2.7.1".parse().unwrap());
         headers.insert(
             "user-agent",
             format!(
-                "AppwriteRustSDK/0.22.0 ({}; {})",
+                "AppwriteRustSDK/0.23.0 ({}; {})",
                 std::env::consts::OS,
                 std::env::consts::ARCH
             )
@@ -111,7 +111,7 @@ impl Client {
         headers.insert("x-sdk-name", "Rust".parse().unwrap());
         headers.insert("x-sdk-platform", "server".parse().unwrap());
         headers.insert("x-sdk-language", "rust".parse().unwrap());
-        headers.insert("x-sdk-version", "0.22.0".parse().unwrap());
+        headers.insert("x-sdk-version", "0.23.0".parse().unwrap());
 
         let config = Config {
             endpoint: "https://cloud.appwrite.io/v1".to_string(),
@@ -263,6 +263,21 @@ impl Client {
             next.config
                 .headers
                 .insert("x-appwrite-locale", value.clone().parse().unwrap());
+            Arc::new(next)
+        });
+        self.clone()
+    }
+
+    /// Set Environment
+    ///
+    /// The ID of the project environment to act in, alongside the project ID. Used with Appwrite Cloud projects that have environments.
+    pub fn set_environment<S: Into<String>>(&self, value: S) -> Self {
+        let value = value.into();
+        self.state.rcu(|state| {
+            let mut next = (**state).clone();
+            next.config
+                .headers
+                .insert("x-appwrite-environment", value.clone().parse().unwrap());
             Arc::new(next)
         });
         self.clone()

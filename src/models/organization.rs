@@ -37,6 +37,15 @@ pub struct Organization {
     #[serde(rename = "budgetAlerts")]
     #[serde(default = "default_budget_alerts")]
     pub budget_alerts: Vec<i64>,
+    /// Organization roles whose confirmed members are emailed when a budget alert
+    /// fires.
+    #[serde(rename = "budgetNotify")]
+    #[serde(default = "default_budget_notify")]
+    pub budget_notify: Vec<String>,
+    /// Budget alert percentages whose push notifications are critical.
+    #[serde(rename = "budgetCritical")]
+    #[serde(default = "default_budget_critical")]
+    pub budget_critical: Vec<i64>,
     /// Organization's billing plan ID.
     #[serde(rename = "billingPlan")]
     #[serde(default = "default_billing_plan")]
@@ -120,6 +129,10 @@ pub struct Organization {
     #[serde(rename = "programDiscordChannelUrl")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub program_discord_channel_url: Option<String>,
+    /// When the education plan ends, for an organization on it.
+    #[serde(rename = "educationExpiresAt")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub education_expires_at: Option<String>,
     /// Billing limits reached
     #[serde(rename = "billingLimits")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -168,6 +181,14 @@ fn default_total() -> i64 {
 
 fn default_budget_alerts() -> Vec<i64> {
     serde_json::from_value(serde_json::json!([75])).unwrap()
+}
+
+fn default_budget_notify() -> Vec<String> {
+    serde_json::from_value(serde_json::json!(["owner", "billing"])).unwrap()
+}
+
+fn default_budget_critical() -> Vec<i64> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
 }
 
 fn default_billing_plan() -> String {
@@ -243,6 +264,16 @@ impl Organization {
     /// Get budget_alerts
     pub fn budget_alerts(&self) -> &Vec<i64> {
         &self.budget_alerts
+    }
+
+    /// Get budget_notify
+    pub fn budget_notify(&self) -> &Vec<String> {
+        &self.budget_notify
+    }
+
+    /// Get budget_critical
+    pub fn budget_critical(&self) -> &Vec<i64> {
+        &self.budget_critical
     }
 
     /// Get billing_plan
@@ -452,6 +483,17 @@ impl Organization {
         self.program_discord_channel_url.as_ref()
     }
 
+    /// Set education_expires_at
+    pub fn set_education_expires_at(mut self, education_expires_at: String) -> Self {
+        self.education_expires_at = Some(education_expires_at);
+        self
+    }
+
+    /// Get education_expires_at
+    pub fn education_expires_at(&self) -> Option<&String> {
+        self.education_expires_at.as_ref()
+    }
+
     /// Set billing_limits
     pub fn set_billing_limits(mut self, billing_limits: crate::models::BillingLimits) -> Self {
         self.billing_limits = Some(billing_limits);
@@ -515,6 +557,8 @@ mod tests {
         let _ = _model.total();
         let _ = _model.prefs();
         let _ = _model.budget_alerts();
+        let _ = _model.budget_notify();
+        let _ = _model.budget_critical();
         let _ = _model.billing_plan();
         let _ = _model.billing_plan_id();
         let _ = _model.billing_plan_details();

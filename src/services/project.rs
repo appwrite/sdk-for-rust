@@ -74,12 +74,13 @@ impl Project {
     }
 
     /// Get a list of all environments of the project. You can use the query params
-    /// to filter your results.
+    /// to filter your results. An environment is listed by its ID, the one passed
+    /// in the `X-Appwrite-Environment` header to act in it.
     pub async fn list_environments(
         &self,
         queries: Option<Vec<String>>,
         total: Option<bool>,
-    ) -> crate::error::Result<crate::models::ProjectList> {
+    ) -> crate::error::Result<crate::models::EnvironmentList> {
         let mut params = HashMap::new();
         if let Some(value) = queries {
             params.insert(
@@ -102,7 +103,11 @@ impl Project {
 
     /// Create a new environment of the project. An environment is a separate
     /// project in the same organization and region, with its own resources and
-    /// users. Its usage is billed under the project it belongs to.
+    /// users. Its usage is billed under the project it belongs to. Requests act in
+    /// the environment when they carry the project's ID in the
+    /// `X-Appwrite-Project` header and the environment's ID in the
+    /// `X-Appwrite-Environment` header; the environment has no project ID of its
+    /// own to pass.
     ///
     /// Pass `resources` to copy the project into the environment. The environment
     /// is returned at once and the copy runs as a migration of the environment,
@@ -116,7 +121,7 @@ impl Project {
         environment_id: impl Into<String>,
         name: impl Into<String>,
         resources: Option<Vec<crate::enums::EnvironmentResource>>,
-    ) -> crate::error::Result<crate::models::Project> {
+    ) -> crate::error::Result<crate::models::Environment> {
         let mut params = HashMap::new();
         params.insert("environmentId".to_string(), json!(environment_id.into()));
         params.insert("name".to_string(), json!(name.into()));
@@ -134,11 +139,12 @@ impl Project {
             .await
     }
 
-    /// Get an environment of the project by its unique ID.
+    /// Get an environment of the project by its ID, the one passed in the
+    /// `X-Appwrite-Environment` header to act in it.
     pub async fn get_environment(
         &self,
         environment_id: impl Into<String>,
-    ) -> crate::error::Result<crate::models::Project> {
+    ) -> crate::error::Result<crate::models::Environment> {
         let params = HashMap::new();
         let mut api_headers = HashMap::new();
         api_headers.insert("accept".to_string(), "application/json".to_string());
@@ -162,12 +168,13 @@ impl Project {
             .await
     }
 
-    /// Update the name of an environment of the project.
+    /// Update the name of an environment of the project. The environment ID cannot
+    /// be changed.
     pub async fn update_environment(
         &self,
         environment_id: impl Into<String>,
         name: impl Into<String>,
-    ) -> crate::error::Result<crate::models::Project> {
+    ) -> crate::error::Result<crate::models::Environment> {
         let mut params = HashMap::new();
         params.insert("name".to_string(), json!(name.into()));
         let mut api_headers = HashMap::new();
@@ -1950,6 +1957,62 @@ impl Project {
             .await
     }
 
+    /// Update the project OAuth2 Vipps MobilePay configuration.
+    pub async fn update_o_auth2_vipps(
+        &self,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::OAuth2Vipps> {
+        let mut params = HashMap::new();
+        if let Some(value) = client_id {
+            params.insert("clientId".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/oauth2/vipps".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update the project OAuth2 Vipps MobilePay Sandbox configuration.
+    pub async fn update_o_auth2_vipps_sandbox(
+        &self,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::OAuth2Vipps> {
+        let mut params = HashMap::new();
+        if let Some(value) = client_id {
+            params.insert("clientId".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/oauth2/vippsSandbox".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Update the project OAuth2 Webflow configuration.
     pub async fn update_o_auth2_webflow(
         &self,
@@ -2598,6 +2661,27 @@ impl Project {
             .await
     }
 
+    /// Update whether account devices are enabled for the project. When enabled, a
+    /// browser can create an account device that holds multiple sessions and
+    /// switch between them. When disabled, account devices can no longer be
+    /// created, so each browser is limited to a single active session.
+    pub async fn update_account_devices_policy(
+        &self,
+        enabled: bool,
+    ) -> crate::error::Result<crate::models::Project> {
+        let mut params = HashMap::new();
+        params.insert("enabled".to_string(), json!(enabled));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/policies/account-devices".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Configures if aliased emails such as subaddresses and emails with suffixes
     /// are denied during new users sign-ups and email updates.
     pub async fn update_deny_aliased_email_policy(
@@ -3111,6 +3195,40 @@ impl Project {
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Get the project preferences. Preferences are a key-value object stored on
+    /// the project for anyone working on it.
+    pub async fn get_prefs(&self) -> crate::error::Result<crate::models::Preferences> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/prefs".to_string();
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update the project preferences. The object you pass is stored as is and
+    /// replaces any previous value. The maximum allowed prefs size is 64kB and
+    /// throws an error if exceeded.
+    pub async fn update_prefs(
+        &self,
+        prefs: serde_json::Value,
+    ) -> crate::error::Result<crate::models::Preferences> {
+        let mut params = HashMap::new();
+        params.insert("prefs".to_string(), json!(prefs));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/prefs".to_string();
+
+        self.client
+            .call(Method::PUT, &path, Some(api_headers), Some(params))
             .await
     }
 

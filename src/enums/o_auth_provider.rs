@@ -87,6 +87,10 @@ pub enum OAuthProvider {
     TradeshiftBox,
     #[serde(rename = "twitch")]
     Twitch,
+    #[serde(rename = "vipps")]
+    Vipps,
+    #[serde(rename = "vippsSandbox")]
+    VippsSandbox,
     #[serde(rename = "webflow")]
     Webflow,
     #[serde(rename = "wordpress")]
@@ -151,6 +155,8 @@ impl OAuthProvider {
             OAuthProvider::Tradeshift => "tradeshift",
             OAuthProvider::TradeshiftBox => "tradeshiftBox",
             OAuthProvider::Twitch => "twitch",
+            OAuthProvider::Vipps => "vipps",
+            OAuthProvider::VippsSandbox => "vippsSandbox",
             OAuthProvider::Webflow => "webflow",
             OAuthProvider::Wordpress => "wordpress",
             OAuthProvider::X => "x",
