@@ -83,6 +83,10 @@ pub struct Project {
     #[serde(rename = "labels")]
     #[serde(default = "default_labels")]
     pub labels: Vec<String>,
+    /// Project preferences as a key-value object
+    #[serde(rename = "prefs")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub prefs: Option<crate::models::Preferences>,
     /// Project status
     #[serde(rename = "status")]
     #[serde(default = "default_status")]
@@ -122,6 +126,12 @@ pub struct Project {
     #[serde(rename = "parentId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub parent_id: Option<String>,
+    /// ID of the environment, as passed in the X-Appwrite-Environment header, when
+    /// the project is accessed as one. Null when the project is not an
+    /// environment.
+    #[serde(rename = "environmentId")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub environment_id: Option<String>,
     /// Billing limits reached
     #[serde(rename = "billingLimits")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -415,6 +425,17 @@ impl Project {
         &self.labels
     }
 
+    /// Set prefs
+    pub fn set_prefs(mut self, prefs: crate::models::Preferences) -> Self {
+        self.prefs = Some(prefs);
+        self
+    }
+
+    /// Get prefs
+    pub fn prefs(&self) -> Option<&crate::models::Preferences> {
+        self.prefs.as_ref()
+    }
+
     /// Get status
     pub fn status(&self) -> &String {
         &self.status
@@ -470,6 +491,17 @@ impl Project {
     /// Get parent_id
     pub fn parent_id(&self) -> Option<&String> {
         self.parent_id.as_ref()
+    }
+
+    /// Set environment_id
+    pub fn set_environment_id(mut self, environment_id: String) -> Self {
+        self.environment_id = Some(environment_id);
+        self
+    }
+
+    /// Get environment_id
+    pub fn environment_id(&self) -> Option<&String> {
+        self.environment_id.as_ref()
     }
 
     /// Set billing_limits

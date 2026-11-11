@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.22.0] - TBD
+## [0.23.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
-- Full support for Appwrite API 2.6.2
+- Full support for Appwrite API 2.7.1
 - Async/await support with tokio runtime
 - Built-in error handling with custom error types
 - File upload support with automatic chunking
@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automatic JSON serialization/deserialization
 
 ### Features
-- Account service with 72 methods
+- Account service with 76 methods
 - Activities service with 2 methods
 - Apps service with 22 methods
 - Avatars service with 11 methods
@@ -42,8 +42,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Organization service with 23 methods
 - Postgresql service with 38 methods
 - Presences service with 5 methods
-- Project service with 118 methods
-- Proxy service with 10 methods
+- Project service with 123 methods
+- Proxy service with 13 methods
 - Advisor service with 5 methods
 - Sites service with 25 methods
 - Storage service with 13 methods
@@ -66,6 +66,16 @@ The Account service allows you to authenticate and manage a user account.
 - `list_consent_tokens()` - Get a list of the token families issued under an OAuth2 consent. Each entry represents one authorized device or session; the token secrets themselves are never returned.
 - `get_consent_token()` - Get a token family issued under an OAuth2 consent by its unique ID. The token secrets themselves are never returned.
 - `delete_consent_token()` - Delete a token family issued under an OAuth2 consent by its unique ID. The access and refresh tokens of the family stop working immediately; other token families and the consent itself are unaffected.
+- `create_device()` - Create an account switching device. A device is a container, scoped to one browser or app install, that holds multiple sessions and tracks which one is active. Once a device exists, session creation endpoints attach the new session to it automatically, so a single browser can stay signed in to several accounts and switch between them. A device holds at most one session per user: signing in again as a user it already holds replaces that user&#039;s session. The device lives as long as its newest session.
+
+The device secret is returned in a cookie. Run this on app start: if the browser already has a valid device, the existing one is returned with the same status code instead of an error, so it is always safe to call.
+
+Every session that joins the device rotates the device secret and re-issues the cookie, so an earlier copy of the secret stops working. A client that keeps the secret itself, rather than relying on the cookie, must replace it from each session response.
+- `get_device()` - Get the account switching device for the current browser, including every session it holds, the name of the user each session belongs to, and the ID of the active session. Use the string &#039;current&#039; to reference the current browser&#039;s device.
+- `delete_device()` - Delete the account switching device for the current browser. Every session the device holds is signed out, each firing its own session delete event, the device is removed, and both the device and session cookies are cleared. Use the string &#039;current&#039; to reference the current browser&#039;s device.
+- `update_device_session()` - Switch the active account on an account switching device to one of the sessions it holds. The chosen session becomes active and its secret is written to the browser&#039;s session cookie, so subsequent requests authenticate as that account. Use the string &#039;current&#039; to reference the current browser&#039;s device.
+
+Switching rotates the chosen session&#039;s secret. Any other holder of that session, such as a copy kept elsewhere, stops working, so a session should not be shared across devices.
 - `update_email()` - Update currently logged in user account email address. After changing user address, the user confirmation status will get reset. A new confirmation email is not sent automatically however you can use the send confirmation email endpoint again to send the confirmation email. For security measures, user password is required to complete this request.
 This endpoint can also be used to convert an anonymous account to a normal one, by passing an email address and a new password.
 
@@ -886,12 +896,12 @@ The Project service allows you to manage all the projects in your Appwrite serve
 - `get()` - Get a project.
 - `delete()` - Delete a project.
 - `update_auth_method()` - Update properties of a specific auth method. Use this endpoint to enable or disable a method in your project. 
-- `list_environments()` - Get a list of all environments of the project. You can use the query params to filter your results.
-- `create_environment()` - Create a new environment of the project. An environment is a separate project in the same organization and region, with its own resources and users. Its usage is billed under the project it belongs to.
+- `list_environments()` - Get a list of all environments of the project. You can use the query params to filter your results. An environment is listed by its ID, the one passed in the `X-Appwrite-Environment` header to act in it.
+- `create_environment()` - Create a new environment of the project. An environment is a separate project in the same organization and region, with its own resources and users. Its usage is billed under the project it belongs to. Requests act in the environment when they carry the project&#039;s ID in the `X-Appwrite-Project` header and the environment&#039;s ID in the `X-Appwrite-Environment` header; the environment has no project ID of its own to pass.
 
 Pass `resources` to copy the project into the environment. The environment is returned at once and the copy runs as a migration of the environment, listed by its migrations routes and announced on its `migrations.*` realtime events; a resource whose ID can be chosen keeps it. Users are copied newest first and at most 90 of them, so the environment keeps room under its limit of 100 users for test accounts, and the memberships of users left behind are not copied.
-- `get_environment()` - Get an environment of the project by its unique ID.
-- `update_environment()` - Update the name of an environment of the project.
+- `get_environment()` - Get an environment of the project by its ID, the one passed in the `X-Appwrite-Environment` header to act in it.
+- `update_environment()` - Update the name of an environment of the project. The environment ID cannot be changed.
 - `delete_environment()` - Delete an environment of the project, with all of its resources and users.
 - `list_keys()` - Get a list of all API keys from the current project.
 - `create_ephemeral_key()` - Create a new ephemeral API key. It&#039;s recommended to have multiple API keys with strict scopes for separate functions within your project.
@@ -950,6 +960,8 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_o_auth2_tradeshift()` - Update the project OAuth2 Tradeshift configuration.
 - `update_o_auth2_tradeshift_sandbox()` - Update the project OAuth2 Tradeshift Sandbox configuration.
 - `update_o_auth2_twitch()` - Update the project OAuth2 Twitch configuration.
+- `update_o_auth2_vipps()` - Update the project OAuth2 Vipps MobilePay configuration.
+- `update_o_auth2_vipps_sandbox()` - Update the project OAuth2 Vipps MobilePay Sandbox configuration.
 - `update_o_auth2_webflow()` - Update the project OAuth2 Webflow configuration.
 - `update_o_auth2_word_press()` - Update the project OAuth2 WordPress configuration.
 - `update_o_auth2_x()` - Update the project OAuth2 X configuration.
@@ -972,6 +984,7 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `get_platform()` - Get a platform by its unique ID. This endpoint returns the platform&#039;s details, including its name, type, and key configurations.
 - `delete_platform()` - Delete a platform by its unique ID. This endpoint removes the platform and all its configurations from the project.
 - `list_policies()` - Get a list of all project policies and their current configuration.
+- `update_account_devices_policy()` - Update whether account devices are enabled for the project. When enabled, a browser can create an account device that holds multiple sessions and switch between them. When disabled, account devices can no longer be created, so each browser is limited to a single active session.
 - `update_deny_aliased_email_policy()` - Configures if aliased emails such as subaddresses and emails with suffixes are denied during new users sign-ups and email updates.
 - `update_deny_corporate_email_policy()` - Configures if only corporate email addresses (non-free and non-disposable domains) are allowed during new user sign-ups and email updates.
 - `update_deny_disposable_email_policy()` - Configures if disposable emails from known temporary domains are denied during new users sign-ups and email updates.
@@ -999,6 +1012,8 @@ Password recovery also checks the recovered user profile, closing the previous g
 - `update_session_limit_policy()` - Update the maximum number of sessions allowed per user. When the limit is hit, the oldest session will be deleted to make room for new one.
 - `update_user_limit_policy()` - Update the maximum number of users in the project. When the limit is hit or amount of existing users already exceeded the limit, all users remain active, but new user sign up will be prohibited.
 - `get_policy()` - Get a policy by its unique ID. This endpoint returns the current configuration for the requested project policy.
+- `get_prefs()` - Get the project preferences. Preferences are a key-value object stored on the project for anyone working on it.
+- `update_prefs()` - Update the project preferences. The object you pass is stored as is and replaces any previous value. The maximum allowed prefs size is 64kB and throws an error if exceeded.
 - `update_protocol()` - Update properties of a specific protocol. Use this endpoint to enable or disable a protocol in your project. 
 - `update_service()` - Update properties of a specific service. Use this endpoint to enable or disable a service in your project. 
 - `delete_sessions()` - Delete all sessions in the project. Any session created before this request will be invalidated immediately: users will be signed out of every active client (web, mobile, server SDKs, JWTs), and will be able to sign in again afterwards. API keys are not affected by this action.
@@ -1036,7 +1051,10 @@ Rule ID is automatically generated as MD5 hash of a rule domain for performance 
 - `create_smtp_rule()` - Create an SMTP ingress rule that asynchronously executes an Appwrite Function for incoming email.
 - `get_rule()` - Get a proxy rule by its unique ID.
 - `delete_rule()` - Delete a proxy rule by its unique ID.
-- `update_rule_status()` - If not succeeded yet, retry verification process of a proxy rule domain. This endpoint triggers domain verification by checking DNS records. If verification is successful, a TLS certificate will be automatically provisioned for the domain asynchronously in the background.
+- `update_function_rule()` - Update the function and VCS branch a function proxy rule executes. The rule domain cannot be changed.
+- `update_redirect_rule()` - Update the target URL, status code and parent resource of a redirect proxy rule. The rule domain cannot be changed.
+- `update_site_rule()` - Update the site and VCS branch a site proxy rule serves. The rule domain cannot be changed.
+- `update_rule_status()` - If not succeeded yet, retry verification process of a proxy rule domain. This endpoint triggers domain verification by checking DNS records. If verification is successful, a TLS certificate will be automatically provisioned for the domain asynchronously in the background. A verified rule whose certificate renewal failed or is blocked, or whose certificate expired, is checked the same way, and its certificate renewed in the background.
 
 #### Advisor
 The Advisor service surfaces actionable reports about your project resources, with CTA descriptors for one-click remediation in the console.
@@ -1517,6 +1535,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `Account` - Account
 - `Preferences` - Preferences
 - `Session` - Session
+- `Device` - Device
 - `Identity` - Identity
 - `Token` - Token
 - `Jwt` - JWT
@@ -1584,6 +1603,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `OAuth2Oidc` - OAuth2Oidc
 - `OAuth2Okta` - OAuth2Okta
 - `OAuth2Kick` - OAuth2Kick
+- `OAuth2Vipps` - OAuth2Vipps
 - `OAuth2Apple` - OAuth2Apple
 - `OAuth2Microsoft` - OAuth2Microsoft
 - `OAuth2Resend` - OAuth2Resend
@@ -1609,6 +1629,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `PolicyDenyFreeEmail` - Policy Deny Free Email
 - `PolicyDenyCorporateEmail` - Policy Deny Corporate Email
 - `PolicyDenyRealtimeGuests` - Policy Deny Realtime Guests
+- `PolicyAccountDevices` - Policy Account Devices
 - `PlatformWeb` - Platform Web
 - `PlatformApple` - Platform Apple
 - `PlatformAndroid` - Platform Android
@@ -1682,6 +1703,8 @@ The Webhooks service allows you to manage your project webhooks.
 - `DedicatedDatabasePooler` - PoolerConfig
 - `PostgresExtension` - Postgres extension
 - `Program` - Program
+- `Environment` - Environment
+- `EnvironmentList` - Environments list
 - `BackupRestoration` - Restoration
 - `DedicatedDatabaseRestorationList` - Dedicated database restorations list
 - `DedicatedDatabaseSpecification` - Specification
@@ -1747,4 +1770,4 @@ The Webhooks service allows you to manage your project webhooks.
 - File upload examples
 - Query builder documentation
 
-[0.22.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.22.0
+[0.23.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.23.0
