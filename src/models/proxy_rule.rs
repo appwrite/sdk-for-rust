@@ -70,6 +70,21 @@ pub struct ProxyRule {
     /// Certificate auto-renewal date in ISO 8601 format.
     #[serde(rename = "renewAt")]
     pub renew_at: String,
+    /// Certificate expiry date in ISO 8601 format. Empty when unknown or not
+    /// checked yet.
+    #[serde(rename = "expireAt")]
+    #[serde(default = "default_expire_at")]
+    pub expire_at: String,
+    /// Certificate status, as last reported by the certificate provider. Possible
+    /// values are "pending", "processing", "issued", "renewing", "expiring",
+    /// "blocked", "failed", or "unknown". "expiring" means the certificate expires
+    /// soon, or has already expired, and the provider has not renewed it yet,
+    /// "blocked" means the provider waits on a DNS record from the domain owner,
+    /// and "failed" means the provider stopped trying or the last issuance or
+    /// renewal attempt failed. Empty until the certificate is next checked.
+    #[serde(rename = "certificateStatus")]
+    #[serde(default = "default_certificate_status")]
+    pub certificate_status: String,
     /// Ingress protocol for the rule.
     #[serde(rename = "protocol")]
     #[serde(default = "default_protocol")]
@@ -125,6 +140,14 @@ fn default_status() -> crate::enums::ProxyRuleStatus {
 }
 
 fn default_logs() -> String {
+    "".to_string()
+}
+
+fn default_expire_at() -> String {
+    "".to_string()
+}
+
+fn default_certificate_status() -> String {
     "".to_string()
 }
 
@@ -219,6 +242,16 @@ impl ProxyRule {
         &self.renew_at
     }
 
+    /// Get expire_at
+    pub fn expire_at(&self) -> &String {
+        &self.expire_at
+    }
+
+    /// Get certificate_status
+    pub fn certificate_status(&self) -> &String {
+        &self.certificate_status
+    }
+
     /// Get protocol
     pub fn protocol(&self) -> &crate::enums::ProxyRuleProtocol {
         &self.protocol
@@ -246,6 +279,8 @@ mod tests {
         let _ = _model.status();
         let _ = _model.logs();
         let _ = _model.renew_at();
+        let _ = _model.expire_at();
+        let _ = _model.certificate_status();
         let _ = _model.protocol();
     }
 

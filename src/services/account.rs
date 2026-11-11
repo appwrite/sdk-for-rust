@@ -277,6 +277,134 @@ impl Account {
             .await
     }
 
+    /// Create an account switching device. A device is a container, scoped to one
+    /// browser or app install, that holds multiple sessions and tracks which one
+    /// is active. Once a device exists, session creation endpoints attach the new
+    /// session to it automatically, so a single browser can stay signed in to
+    /// several accounts and switch between them. A device holds at most one
+    /// session per user: signing in again as a user it already holds replaces that
+    /// user's session. The device lives as long as its newest session.
+    ///
+    /// The device secret is returned in a cookie. Run this on app start: if the
+    /// browser already has a valid device, the existing one is returned with the
+    /// same status code instead of an error, so it is always safe to call.
+    ///
+    /// Every session that joins the device rotates the device secret and re-issues
+    /// the cookie, so an earlier copy of the secret stops working. A client that
+    /// keeps the secret itself, rather than relying on the cookie, must replace it
+    /// from each session response.
+    pub async fn create_device(&self) -> crate::error::Result<crate::models::Device> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/account/devices".to_string();
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Get the account switching device for the current browser, including every
+    /// session it holds, the name of the user each session belongs to, and the ID
+    /// of the active session. Use the string 'current' to reference the current
+    /// browser's device.
+    pub async fn get_device(
+        &self,
+        device_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Device> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let device_id = device_id.into();
+        if device_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"deviceId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/account/devices/{deviceId}"
+            .to_string()
+            .replace("{deviceId}", &Client::encode_path(&device_id));
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Delete the account switching device for the current browser. Every session
+    /// the device holds is signed out, each firing its own session delete event,
+    /// the device is removed, and both the device and session cookies are cleared.
+    /// Use the string 'current' to reference the current browser's device.
+    pub async fn delete_device(&self, device_id: impl Into<String>) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let device_id = device_id.into();
+        if device_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"deviceId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/account/devices/{deviceId}"
+            .to_string()
+            .replace("{deviceId}", &Client::encode_path(&device_id));
+
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Switch the active account on an account switching device to one of the
+    /// sessions it holds. The chosen session becomes active and its secret is
+    /// written to the browser's session cookie, so subsequent requests
+    /// authenticate as that account. Use the string 'current' to reference the
+    /// current browser's device.
+    ///
+    /// Switching rotates the chosen session's secret. Any other holder of that
+    /// session, such as a copy kept elsewhere, stops working, so a session should
+    /// not be shared across devices.
+    pub async fn update_device_session(
+        &self,
+        device_id: impl Into<String>,
+        session_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Session> {
+        let mut params = HashMap::new();
+        params.insert("sessionId".to_string(), json!(session_id.into()));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let device_id = device_id.into();
+        if device_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"deviceId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/account/devices/{deviceId}/session"
+            .to_string()
+            .replace("{deviceId}", &Client::encode_path(&device_id));
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Update currently logged in user account email address. After changing user
     /// address, the user confirmation status will get reset. A new confirmation
     /// email is not sent automatically however you can use the send confirmation

@@ -75,6 +75,8 @@ pub enum AppwriteMigrationResource {
     ProjectProtocols,
     #[serde(rename = "project-labels")]
     ProjectLabels,
+    #[serde(rename = "project-preferences")]
+    ProjectPreferences,
     #[serde(rename = "project-services")]
     ProjectServices,
     #[serde(rename = "project-email-template")]
@@ -125,6 +127,7 @@ impl AppwriteMigrationResource {
             AppwriteMigrationResource::ProjectVariable => "project-variable",
             AppwriteMigrationResource::ProjectProtocols => "project-protocols",
             AppwriteMigrationResource::ProjectLabels => "project-labels",
+            AppwriteMigrationResource::ProjectPreferences => "project-preferences",
             AppwriteMigrationResource::ProjectServices => "project-services",
             AppwriteMigrationResource::ProjectEmailTemplate => "project-email-template",
             AppwriteMigrationResource::ProjectEnvironment => "project-environment",

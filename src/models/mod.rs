@@ -218,6 +218,8 @@ pub mod preferences;
 pub use preferences::Preferences;
 pub mod session;
 pub use session::Session;
+pub mod device;
+pub use device::Device;
 pub mod identity;
 pub use identity::Identity;
 pub mod token;
@@ -352,6 +354,8 @@ pub mod o_auth2_okta;
 pub use o_auth2_okta::OAuth2Okta;
 pub mod o_auth2_kick;
 pub use o_auth2_kick::OAuth2Kick;
+pub mod o_auth2_vipps;
+pub use o_auth2_vipps::OAuth2Vipps;
 pub mod o_auth2_apple;
 pub use o_auth2_apple::OAuth2Apple;
 pub mod o_auth2_microsoft;
@@ -402,6 +406,8 @@ pub mod policy_deny_corporate_email;
 pub use policy_deny_corporate_email::PolicyDenyCorporateEmail;
 pub mod policy_deny_realtime_guests;
 pub use policy_deny_realtime_guests::PolicyDenyRealtimeGuests;
+pub mod policy_account_devices;
+pub use policy_account_devices::PolicyAccountDevices;
 pub mod platform_web;
 pub use platform_web::PlatformWeb;
 pub mod platform_apple;
@@ -548,6 +554,10 @@ pub mod postgres_extension;
 pub use postgres_extension::PostgresExtension;
 pub mod program;
 pub use program::Program;
+pub mod environment;
+pub use environment::Environment;
+pub mod environment_list;
+pub use environment_list::EnvironmentList;
 pub mod backup_restoration;
 pub use backup_restoration::BackupRestoration;
 pub mod dedicated_database_restoration_list;
@@ -765,6 +775,7 @@ impl Model for AlgoArgon2 {}
 impl Model for Account {}
 impl Model for Preferences {}
 impl Model for Session {}
+impl Model for Device {}
 impl Model for Identity {}
 impl Model for Token {}
 impl Model for Jwt {}
@@ -832,6 +843,7 @@ impl Model for OAuth2Keycloak {}
 impl Model for OAuth2Oidc {}
 impl Model for OAuth2Okta {}
 impl Model for OAuth2Kick {}
+impl Model for OAuth2Vipps {}
 impl Model for OAuth2Apple {}
 impl Model for OAuth2Microsoft {}
 impl Model for OAuth2Resend {}
@@ -857,6 +869,7 @@ impl Model for PolicyDenyDisposableEmail {}
 impl Model for PolicyDenyFreeEmail {}
 impl Model for PolicyDenyCorporateEmail {}
 impl Model for PolicyDenyRealtimeGuests {}
+impl Model for PolicyAccountDevices {}
 impl Model for PlatformWeb {}
 impl Model for PlatformApple {}
 impl Model for PlatformAndroid {}
@@ -930,6 +943,8 @@ impl Model for BackupPolicy {}
 impl Model for DedicatedDatabasePooler {}
 impl Model for PostgresExtension {}
 impl Model for Program {}
+impl Model for Environment {}
+impl Model for EnvironmentList {}
 impl Model for BackupRestoration {}
 impl Model for DedicatedDatabaseRestorationList {}
 impl Model for DedicatedDatabaseSpecification {}

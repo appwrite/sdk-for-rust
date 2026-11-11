@@ -22,6 +22,11 @@ pub struct Session {
     #[serde(rename = "userId")]
     #[serde(default = "default_user_id")]
     pub user_id: String,
+    /// Name of the user the session belongs to. Lets a client label the account,
+    /// for example in an account switcher.
+    #[serde(rename = "userName")]
+    #[serde(default = "default_user_name")]
+    pub user_name: String,
     /// Session expiration date in ISO 8601 format.
     #[serde(rename = "expire")]
     #[serde(default = "default_expire")]
@@ -144,6 +149,10 @@ fn default_user_id() -> String {
     "".to_string()
 }
 
+fn default_user_name() -> String {
+    "".to_string()
+}
+
 fn default_expire() -> String {
     "".to_string()
 }
@@ -263,6 +272,11 @@ impl Session {
     /// Get user_id
     pub fn user_id(&self) -> &String {
         &self.user_id
+    }
+
+    /// Get user_name
+    pub fn user_name(&self) -> &String {
+        &self.user_name
     }
 
     /// Get expire
@@ -402,6 +416,7 @@ mod tests {
         let _ = _model.created_at();
         let _ = _model.updated_at();
         let _ = _model.user_id();
+        let _ = _model.user_name();
         let _ = _model.expire();
         let _ = _model.provider();
         let _ = _model.provider_uid();

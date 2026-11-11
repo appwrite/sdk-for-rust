@@ -24,7 +24,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(1), // optional
         Some(-100000), // optional
         Some(false), // optional
-        Some(vec![]) // optional
+        Some(vec![]), // optional
+        Some(serde_json::json!({})) // optional
     ).await?;
 
     let _ = result;

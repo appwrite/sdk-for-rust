@@ -69,6 +69,7 @@ impl Waf {
         priority: Option<i64>,
         enabled: Option<bool>,
         conditions: Option<Vec<String>>,
+        schedule: Option<serde_json::Value>,
     ) -> crate::error::Result<crate::models::WafRuleBypass> {
         let mut params = HashMap::new();
         params.insert("ruleId".to_string(), json!(rule_id.into()));
@@ -91,6 +92,9 @@ impl Waf {
                 "conditions".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = schedule {
+            params.insert("schedule".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -120,6 +124,7 @@ impl Waf {
         priority: Option<i64>,
         enabled: Option<bool>,
         conditions: Option<Vec<String>>,
+        schedule: Option<serde_json::Value>,
     ) -> crate::error::Result<crate::models::WafRuleBypass> {
         let mut params = HashMap::new();
         if let Some(value) = resource_type {
@@ -145,6 +150,9 @@ impl Waf {
                 "conditions".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = schedule {
+            params.insert("schedule".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -192,6 +200,7 @@ impl Waf {
         conditions: Option<Vec<String>>,
         difficulty: Option<i64>,
         ttl: Option<i64>,
+        schedule: Option<serde_json::Value>,
     ) -> crate::error::Result<crate::models::WafRuleChallenge> {
         let mut params = HashMap::new();
         params.insert("ruleId".to_string(), json!(rule_id.into()));
@@ -223,6 +232,9 @@ impl Waf {
         }
         if let Some(value) = ttl {
             params.insert("ttl".to_string(), json!(value));
+        }
+        if let Some(value) = schedule {
+            params.insert("schedule".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -258,6 +270,7 @@ impl Waf {
         conditions: Option<Vec<String>>,
         difficulty: Option<i64>,
         ttl: Option<i64>,
+        schedule: Option<serde_json::Value>,
     ) -> crate::error::Result<crate::models::WafRuleChallenge> {
         let mut params = HashMap::new();
         if let Some(value) = resource_type {
@@ -292,6 +305,9 @@ impl Waf {
         }
         if let Some(value) = ttl {
             params.insert("ttl".to_string(), json!(value));
+        }
+        if let Some(value) = schedule {
+            params.insert("schedule".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -343,6 +359,7 @@ impl Waf {
         priority: Option<i64>,
         enabled: Option<bool>,
         conditions: Option<Vec<String>>,
+        schedule: Option<serde_json::Value>,
     ) -> crate::error::Result<crate::models::WafRuleDeny> {
         let mut params = HashMap::new();
         params.insert("ruleId".to_string(), json!(rule_id.into()));
@@ -365,6 +382,9 @@ impl Waf {
                 "conditions".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = schedule {
+            params.insert("schedule".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -404,6 +424,7 @@ impl Waf {
         priority: Option<i64>,
         enabled: Option<bool>,
         conditions: Option<Vec<String>>,
+        schedule: Option<serde_json::Value>,
     ) -> crate::error::Result<crate::models::WafRuleDeny> {
         let mut params = HashMap::new();
         if let Some(value) = resource_type {
@@ -429,6 +450,9 @@ impl Waf {
                 "conditions".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = schedule {
+            params.insert("schedule".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -477,6 +501,7 @@ impl Waf {
         priority: Option<i64>,
         enabled: Option<bool>,
         conditions: Option<Vec<String>>,
+        schedule: Option<serde_json::Value>,
     ) -> crate::error::Result<crate::models::WafRuleRateLimit> {
         let mut params = HashMap::new();
         params.insert("ruleId".to_string(), json!(rule_id.into()));
@@ -510,6 +535,9 @@ impl Waf {
                 "conditions".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = schedule {
+            params.insert("schedule".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -545,6 +573,7 @@ impl Waf {
         priority: Option<i64>,
         enabled: Option<bool>,
         conditions: Option<Vec<String>>,
+        schedule: Option<serde_json::Value>,
     ) -> crate::error::Result<crate::models::WafRuleRateLimit> {
         let mut params = HashMap::new();
         if let Some(value) = resource_type {
@@ -582,6 +611,9 @@ impl Waf {
                 "conditions".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = schedule {
+            params.insert("schedule".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -625,6 +657,7 @@ impl Waf {
         priority: Option<i64>,
         enabled: Option<bool>,
         conditions: Option<Vec<String>>,
+        schedule: Option<serde_json::Value>,
     ) -> crate::error::Result<crate::models::WafRuleRedirect> {
         let mut params = HashMap::new();
         params.insert("ruleId".to_string(), json!(rule_id.into()));
@@ -649,6 +682,9 @@ impl Waf {
                 "conditions".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = schedule {
+            params.insert("schedule".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());
@@ -680,6 +716,7 @@ impl Waf {
         priority: Option<i64>,
         enabled: Option<bool>,
         conditions: Option<Vec<String>>,
+        schedule: Option<serde_json::Value>,
     ) -> crate::error::Result<crate::models::WafRuleRedirect> {
         let mut params = HashMap::new();
         if let Some(value) = resource_type {
@@ -711,6 +748,9 @@ impl Waf {
                 "conditions".to_string(),
                 json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
             );
+        }
+        if let Some(value) = schedule {
+            params.insert("schedule".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
         api_headers.insert("content-type".to_string(), "application/json".to_string());

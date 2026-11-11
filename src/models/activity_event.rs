@@ -122,6 +122,11 @@ pub struct ActivityEvent {
     #[serde(rename = "sdkVersion")]
     #[serde(default = "default_sdk_version")]
     pub sdk_version: String,
+    /// Why the actor made the request, as sent in the `X-Appwrite-Reason` header.
+    /// Empty when no reason was given.
+    #[serde(rename = "reason")]
+    #[serde(default = "default_reason")]
+    pub reason: String,
 }
 
 fn default_id() -> String {
@@ -237,6 +242,10 @@ fn default_sdk() -> String {
 }
 
 fn default_sdk_version() -> String {
+    "".to_string()
+}
+
+fn default_reason() -> String {
     "".to_string()
 }
 
@@ -385,6 +394,11 @@ impl ActivityEvent {
     pub fn sdk_version(&self) -> &String {
         &self.sdk_version
     }
+
+    /// Get reason
+    pub fn reason(&self) -> &String {
+        &self.reason
+    }
 }
 
 #[cfg(test)]
@@ -423,6 +437,7 @@ mod tests {
         let _ = _model.hostname();
         let _ = _model.sdk();
         let _ = _model.sdk_version();
+        let _ = _model.reason();
     }
 
     #[test]

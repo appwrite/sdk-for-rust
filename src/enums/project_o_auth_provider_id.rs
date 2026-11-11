@@ -87,6 +87,10 @@ pub enum ProjectOAuthProviderId {
     TradeshiftBox,
     #[serde(rename = "twitch")]
     Twitch,
+    #[serde(rename = "vipps")]
+    Vipps,
+    #[serde(rename = "vippsSandbox")]
+    VippsSandbox,
     #[serde(rename = "webflow")]
     Webflow,
     #[serde(rename = "wordpress")]
@@ -151,6 +155,8 @@ impl ProjectOAuthProviderId {
             ProjectOAuthProviderId::Tradeshift => "tradeshift",
             ProjectOAuthProviderId::TradeshiftBox => "tradeshiftBox",
             ProjectOAuthProviderId::Twitch => "twitch",
+            ProjectOAuthProviderId::Vipps => "vipps",
+            ProjectOAuthProviderId::VippsSandbox => "vippsSandbox",
             ProjectOAuthProviderId::Webflow => "webflow",
             ProjectOAuthProviderId::Wordpress => "wordpress",
             ProjectOAuthProviderId::X => "x",
