@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.23.0] - TBD
+## [0.24.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
-- Full support for Appwrite API 2.7.1
+- Full support for Appwrite API 2.7.2
 - Async/await support with tokio runtime
 - Built-in error handling with custom error types
 - File upload support with automatic chunking
@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automatic JSON serialization/deserialization
 
 ### Features
-- Account service with 76 methods
+- Account service with 77 methods
 - Activities service with 2 methods
 - Apps service with 22 methods
 - Avatars service with 11 methods
@@ -42,10 +42,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Organization service with 23 methods
 - Postgresql service with 38 methods
 - Presences service with 5 methods
-- Project service with 123 methods
+- Project service with 127 methods
 - Proxy service with 13 methods
 - Advisor service with 5 methods
-- Sites service with 25 methods
+- Sites service with 26 methods
 - Storage service with 13 methods
 - TablesDB service with 82 methods
 - Teams service with 18 methods
@@ -145,6 +145,7 @@ This flow does not return provider refresh tokens. You may pass an access token 
 
 A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
 
+- `create_ldap_session()` - Allow the user to login into their account by providing the username and password they use in the project&#039;s LDAP directory. The directory verifies the password; on the first sign-in an account is created from the directory entry, and on later sign-ins the name, email and phone follow the directory. This endpoint requires LDAP to be configured and enabled for the project. A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
 - `update_magic_url_session()` - Use this endpoint to create a session from token. Provide the **userId** and **secret** parameters from the successful response of authentication flows initiated by token creation. For example, magic URL and phone login.
 - `update_phone_session()` - Use this endpoint to create a session from token. Provide the **userId** and **secret** parameters from the successful response of authentication flows initiated by token creation. For example, magic URL and phone login.
 - `create_session()` - Use this endpoint to create a session from token. Provide the **userId** and **secret** parameters from the successful response of authentication flows initiated by token creation. For example, magic URL and phone login.
@@ -261,6 +262,8 @@ Passing `userId` — `current()` for the authenticated user — resolves the pho
 You can configure the browser viewport size, theme, user agent, geolocation, permissions, and more. Capture either just the viewport or the full page scroll.
 
 When width and height are specified, the image is resized accordingly. If both dimensions are 0, the API provides an image at original size. If dimensions are not specified, the default viewport size is 1280x720px.
+
+Set `output` to `auto` to receive avif or webp when the `Accept` header of your request supports it, falling back to png.
 
 #### Backups
 The Backups service allows you to manage backup policies, archives, and restorations for your project.
@@ -444,7 +447,7 @@ Attributes can be `key`, `fulltext`, and `unique`.
 - `list()` - List all domains registered for this project. This endpoint supports pagination.
 - `create()` - Create a new domain. Before creating a domain, you need to ensure that your DNS provider is properly configured. After creating the domain, you can use the verification endpoint to check if the domain is ready to be used.
 - `get_price()` - Get the registration price for a domain name.
-- `list_prices()` - Check availability and get the requested registration price for one or more domain names. Availability is resolved for all domains in a single registrar lookup. Unavailable domains have a null price for new registrations, but can still be priced for renewal, transfer, or trade. Every priced domain also carries its renewal price for the same period, so a separate renewal lookup is not needed. A domain whose price could not be resolved, for example because its TLD is not supported, is returned with a null price.
+- `list_prices()` - Check availability and get the requested registration price for one or more domain names. Availability is resolved for all domains in a single registrar lookup. Unavailable domains have a null price for new registrations, but can still be priced for renewal, transfer, or trade. Available domains have a null price for transfers, since an unregistered domain cannot be transferred, and the reason says so. Every priced domain also carries its renewal price for the same period, so a separate renewal lookup is not needed. A domain whose price could not be resolved, for example because its TLD is not supported, is returned with a null price.
 - `get()` - Get a domain by its unique ID.
 - `delete()` - Delete a domain by its unique ID. This endpoint can be used to delete a domain from your project.
 Once deleted, the domain will no longer be available for use and all associated resources will be removed.
@@ -911,6 +914,8 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_key()` - Update a key by its unique ID. Use this endpoint to update the name, scopes, or expiration time of an API key.
 - `delete_key()` - Delete a key by its unique ID. Once deleted, the key can no longer be used to authenticate API calls.
 - `update_labels()` - Update the project labels. Labels can be used to easily filter projects in an organization.
+- `update_ldap()` - Update the LDAP configuration for your project. Use this endpoint to connect your project to an LDAP directory, such as OpenLDAP or Active Directory, so users can sign in with their directory credentials. Omitted parameters keep their stored value. Enabling LDAP connects to the directory and binds as the service account, so a project cannot be left enabled with a configuration that cannot sign anyone in.
+- `create_ldap_test()` - Test the stored LDAP configuration against the directory without signing anyone in. Connects to the directory, binds as the service account and reads the base DN. Pass a username to also look the user up and check the required group, and a password to also verify it. The error names the step that failed.
 - `list_mock_phones()` - Get a list of all mock phones in the project. This endpoint returns an array of all mock phones and their OTPs.
 - `create_mock_phone()` - Create a new mock phone for your project. Use this endpoint to register a mock phone number and its sign-in OTP for your testers.
 - `get_mock_phone()` - Get a mock phone by its unique number. This endpoint returns the mock phone&#039;s OTP.
@@ -945,6 +950,7 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_o_auth2_kick()` - Update the project OAuth2 Kick configuration.
 - `update_o_auth2_linkedin()` - Update the project OAuth2 Linkedin configuration.
 - `update_o_auth2_microsoft()` - Update the project OAuth2 Microsoft configuration.
+- `update_o_auth2_naver()` - Update the project OAuth2 Naver configuration.
 - `update_o_auth2_notion()` - Update the project OAuth2 Notion configuration.
 - `update_o_auth2_oidc()` - Update the project OAuth2 Oidc configuration.
 - `update_o_auth2_okta()` - Update the project OAuth2 Okta configuration.
@@ -970,6 +976,7 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_o_auth2_zoho()` - Update the project OAuth2 Zoho configuration.
 - `update_o_auth2_zoom()` - Update the project OAuth2 Zoom configuration.
 - `get_o_auth2_provider()` - Get a single OAuth2 provider configuration. Credential fields (client secret, p8 file, key/team IDs) are write-only and always returned empty.
+- `delete_passwords()` - Delete all passwords in the project, forcing every user to reset their password. Any password set before this request stops working for email and password sign-in immediately: signing in returns a `user_password_reset_required` error until the user sets a new password through password recovery, or until a new password is set for them with the Users API. Existing sessions are not affected; call the delete sessions endpoint to sign users out as well. Users without a password and API keys are not affected by this action.
 - `list_platforms()` - Get a list of all platforms in the project. This endpoint returns an array of all platforms and their configurations.
 - `create_android_platform()` - Create a new Android platform for your project. Use this endpoint to register a new Android platform where your users will run your application which will interact with the Appwrite API.
 - `update_android_platform()` - Update an Android platform by its unique ID. Use this endpoint to update the platform&#039;s name, application ID or signing certificate fingerprints.
@@ -1078,6 +1085,7 @@ The Sites Service allows you view, create and manage your web applications.
 - `get()` - Get a site by its unique ID.
 - `update()` - Update site by its unique ID.
 - `delete()` - Delete a site by its unique ID.
+- `update_analytics()` - Turn analytics on or off for a site. Turning it on links an analytics property named after the site, creating one on first use, and injects the tracker into pages served on the site&#039;s production domains. Turning it on also needs the `analytics.write` scope. Turning it off stops the injection and keeps the property and its data.
 - `update_site_deployment()` - Update the site active deployment. Use this endpoint to switch the code deployment that should be used when visitor opens your site.
 - `list_deployments()` - Get a list of all the site&#039;s code deployments. You can use the query params to filter your results.
 - `create_deployment()` - Create a new site code deployment. Use this endpoint to upload a new version of your site code. To activate your newly uploaded code, you&#039;ll need to update the site&#039;s deployment to use your new deployment ID.
@@ -1121,7 +1129,8 @@ If you&#039;re creating a new file using one of the Appwrite SDKs, all the chunk
 - `update_file()` - Update a file by its unique ID. Only users with write permissions have access to update this resource.
 - `delete_file()` - Delete a file by its unique ID. Only users with write permissions have access to delete this resource.
 - `get_file_download()` - Get a file content by its unique ID. The endpoint response return with a &#039;Content-Disposition: attachment&#039; header that tells the browser to start downloading the file to user downloads directory.
-- `get_file_preview()` - Get a file preview image. Currently, this method supports preview for image files (jpg, png, and gif), other supported formats, like pdf, docs, slides, and spreadsheets, will return the file icon image. You can also pass query string arguments for cutting and resizing your preview image. Preview is supported only for image files smaller than 10MB.
+- `get_file_preview()` - Get a file preview image. Currently, this method supports preview for image files (jpg, png, and gif), other supported formats, like pdf, docs, slides, and spreadsheets, will return the file icon image. You can also pass query string arguments for cutting and resizing your preview image. Set `output` to `auto` to receive avif or webp when the client&#039;s `Accept` header supports it, falling back to the original image format. Preview is supported only for image files smaller than 10MB.
+
 - `get_file_view()` - Get a file content by its unique ID. This endpoint is similar to the download method but returns with no  &#039;Content-Disposition: attachment&#039; header.
 
 #### TablesDB
@@ -1609,6 +1618,7 @@ The Webhooks service allows you to manage your project webhooks.
 - `OAuth2Resend` - OAuth2Resend
 - `OAuth2TikTok` - OAuth2TikTok
 - `OAuth2Kakao` - OAuth2Kakao
+- `OAuth2Naver` - OAuth2Naver
 - `OAuth2ProviderList` - OAuth2 Providers List
 - `PolicyPasswordDictionary` - Policy Password Dictionary
 - `PolicyPasswordHistory` - Policy Password History
@@ -1770,4 +1780,4 @@ The Webhooks service allows you to manage your project webhooks.
 - File upload examples
 - Query builder documentation
 
-[0.23.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.23.0
+[0.24.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.24.0

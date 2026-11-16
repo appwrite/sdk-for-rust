@@ -57,6 +57,8 @@ pub enum ProjectOAuthProviderId {
     Linkedin,
     #[serde(rename = "microsoft")]
     Microsoft,
+    #[serde(rename = "naver")]
+    Naver,
     #[serde(rename = "notion")]
     Notion,
     #[serde(rename = "oidc")]
@@ -140,6 +142,7 @@ impl ProjectOAuthProviderId {
             ProjectOAuthProviderId::Kick => "kick",
             ProjectOAuthProviderId::Linkedin => "linkedin",
             ProjectOAuthProviderId::Microsoft => "microsoft",
+            ProjectOAuthProviderId::Naver => "naver",
             ProjectOAuthProviderId::Notion => "notion",
             ProjectOAuthProviderId::Oidc => "oidc",
             ProjectOAuthProviderId::Okta => "okta",

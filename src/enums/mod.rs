@@ -70,6 +70,8 @@ pub mod project_auth_method_id;
 pub use project_auth_method_id::ProjectAuthMethodId;
 pub mod environment_resource;
 pub use environment_resource::EnvironmentResource;
+pub mod project_ldap_encryption;
+pub use project_ldap_encryption::ProjectLDAPEncryption;
 pub mod project_o_auth2_auth0_prompt;
 pub use project_o_auth2_auth0_prompt::ProjectOAuth2Auth0Prompt;
 pub mod project_o_auth2_discord_prompt;

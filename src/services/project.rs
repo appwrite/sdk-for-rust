@@ -401,6 +401,123 @@ impl Project {
             .await
     }
 
+    /// Update the LDAP configuration for your project. Use this endpoint to
+    /// connect your project to an LDAP directory, such as OpenLDAP or Active
+    /// Directory, so users can sign in with their directory credentials. Omitted
+    /// parameters keep their stored value. Enabling LDAP connects to the directory
+    /// and binds as the service account, so a project cannot be left enabled with
+    /// a configuration that cannot sign anyone in.
+    #[allow(clippy::too_many_arguments)]
+    pub async fn update_ldap(
+        &self,
+        enabled: Option<bool>,
+        hosts: Option<Vec<String>>,
+        port: Option<i64>,
+        encryption: Option<crate::enums::ProjectLDAPEncryption>,
+        verification: Option<bool>,
+        certificate: Option<&str>,
+        timeout: Option<i64>,
+        base_dn: Option<&str>,
+        bind_dn: Option<&str>,
+        bind_password: Option<&str>,
+        user_filter: Option<&str>,
+        required_group_dn: Option<&str>,
+        id_attribute: Option<&str>,
+        email_attribute: Option<&str>,
+        name_attribute: Option<&str>,
+        phone_attribute: Option<&str>,
+    ) -> crate::error::Result<crate::models::Project> {
+        let mut params = HashMap::new();
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = hosts {
+            params.insert(
+                "hosts".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
+        if let Some(value) = port {
+            params.insert("port".to_string(), json!(value));
+        }
+        if let Some(value) = encryption {
+            params.insert("encryption".to_string(), json!(value));
+        }
+        if let Some(value) = verification {
+            params.insert("verification".to_string(), json!(value));
+        }
+        if let Some(value) = certificate {
+            params.insert("certificate".to_string(), json!(value));
+        }
+        if let Some(value) = timeout {
+            params.insert("timeout".to_string(), json!(value));
+        }
+        if let Some(value) = base_dn {
+            params.insert("baseDn".to_string(), json!(value));
+        }
+        if let Some(value) = bind_dn {
+            params.insert("bindDn".to_string(), json!(value));
+        }
+        if let Some(value) = bind_password {
+            params.insert("bindPassword".to_string(), json!(value));
+        }
+        if let Some(value) = user_filter {
+            params.insert("userFilter".to_string(), json!(value));
+        }
+        if let Some(value) = required_group_dn {
+            params.insert("requiredGroupDn".to_string(), json!(value));
+        }
+        if let Some(value) = id_attribute {
+            params.insert("idAttribute".to_string(), json!(value));
+        }
+        if let Some(value) = email_attribute {
+            params.insert("emailAttribute".to_string(), json!(value));
+        }
+        if let Some(value) = name_attribute {
+            params.insert("nameAttribute".to_string(), json!(value));
+        }
+        if let Some(value) = phone_attribute {
+            params.insert("phoneAttribute".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/ldap".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Test the stored LDAP configuration against the directory without signing
+    /// anyone in. Connects to the directory, binds as the service account and
+    /// reads the base DN. Pass a username to also look the user up and check the
+    /// required group, and a password to also verify it. The error names the step
+    /// that failed.
+    pub async fn create_ldap_test(
+        &self,
+        username: Option<&str>,
+        password: Option<&str>,
+    ) -> crate::error::Result<()> {
+        let mut params = HashMap::new();
+        if let Some(value) = username {
+            params.insert("username".to_string(), json!(value));
+        }
+        if let Some(value) = password {
+            params.insert("password".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/ldap/tests".to_string();
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Get a list of all mock phones in the project. This endpoint returns an
     /// array of all mock phones and their OTPs.
     pub async fn list_mock_phones(
@@ -1496,6 +1613,34 @@ impl Project {
             .await
     }
 
+    /// Update the project OAuth2 Naver configuration.
+    pub async fn update_o_auth2_naver(
+        &self,
+        client_id: Option<&str>,
+        client_secret: Option<&str>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::OAuth2Naver> {
+        let mut params = HashMap::new();
+        if let Some(value) = client_id {
+            params.insert("clientId".to_string(), json!(value));
+        }
+        if let Some(value) = client_secret {
+            params.insert("clientSecret".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/oauth2/naver".to_string();
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Update the project OAuth2 Notion configuration.
     pub async fn update_o_auth2_notion(
         &self,
@@ -2230,6 +2375,27 @@ impl Project {
 
         self.client
             .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Delete all passwords in the project, forcing every user to reset their
+    /// password. Any password set before this request stops working for email and
+    /// password sign-in immediately: signing in returns a
+    /// `user_password_reset_required` error until the user sets a new password
+    /// through password recovery, or until a new password is set for them with the
+    /// Users API. Existing sessions are not affected; call the delete sessions
+    /// endpoint to sign users out as well. Users without a password and API keys
+    /// are not affected by this action.
+    pub async fn delete_passwords(&self) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/passwords".to_string();
+
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
             .await
     }
 

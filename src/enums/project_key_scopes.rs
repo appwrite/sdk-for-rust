@@ -29,10 +29,16 @@ pub enum ProjectKeyScopes {
     ProjectPoliciesRead,
     #[serde(rename = "project.policies.write")]
     ProjectPoliciesWrite,
+    #[serde(rename = "project.videos.profiles.read")]
+    ProjectVideosProfilesRead,
+    #[serde(rename = "project.videos.profiles.write")]
+    ProjectVideosProfilesWrite,
     #[serde(rename = "project.oauth2.read")]
     ProjectOauth2Read,
     #[serde(rename = "project.oauth2.write")]
     ProjectOauth2Write,
+    #[serde(rename = "project.ldap.write")]
+    ProjectLdapWrite,
     #[serde(rename = "templates.read")]
     TemplatesRead,
     #[serde(rename = "templates.write")]
@@ -225,6 +231,12 @@ pub enum ProjectKeyScopes {
     PresencesRead,
     #[serde(rename = "presences.write")]
     PresencesWrite,
+    #[serde(rename = "videos.play")]
+    VideosPlay,
+    #[serde(rename = "videos.read")]
+    VideosRead,
+    #[serde(rename = "videos.write")]
+    VideosWrite,
     #[serde(rename = "dedicatedDatabases.execute")]
     DedicatedDatabasesExecute,
     #[serde(rename = "backups.policies.read")]
@@ -284,8 +296,11 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::PoliciesWrite => "policies.write",
             ProjectKeyScopes::ProjectPoliciesRead => "project.policies.read",
             ProjectKeyScopes::ProjectPoliciesWrite => "project.policies.write",
+            ProjectKeyScopes::ProjectVideosProfilesRead => "project.videos.profiles.read",
+            ProjectKeyScopes::ProjectVideosProfilesWrite => "project.videos.profiles.write",
             ProjectKeyScopes::ProjectOauth2Read => "project.oauth2.read",
             ProjectKeyScopes::ProjectOauth2Write => "project.oauth2.write",
+            ProjectKeyScopes::ProjectLdapWrite => "project.ldap.write",
             ProjectKeyScopes::TemplatesRead => "templates.read",
             ProjectKeyScopes::TemplatesWrite => "templates.write",
             ProjectKeyScopes::StagesRead => "stages.read",
@@ -382,6 +397,9 @@ impl ProjectKeyScopes {
             ProjectKeyScopes::ReviewsWrite => "reviews.write",
             ProjectKeyScopes::PresencesRead => "presences.read",
             ProjectKeyScopes::PresencesWrite => "presences.write",
+            ProjectKeyScopes::VideosPlay => "videos.play",
+            ProjectKeyScopes::VideosRead => "videos.read",
+            ProjectKeyScopes::VideosWrite => "videos.write",
             ProjectKeyScopes::DedicatedDatabasesExecute => "dedicatedDatabases.execute",
             ProjectKeyScopes::BackupsPoliciesRead => "backups.policies.read",
             ProjectKeyScopes::BackupsPoliciesWrite => "backups.policies.write",

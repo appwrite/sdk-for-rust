@@ -57,6 +57,8 @@ pub enum OAuthProvider {
     Linkedin,
     #[serde(rename = "microsoft")]
     Microsoft,
+    #[serde(rename = "naver")]
+    Naver,
     #[serde(rename = "notion")]
     Notion,
     #[serde(rename = "oidc")]
@@ -140,6 +142,7 @@ impl OAuthProvider {
             OAuthProvider::Kick => "kick",
             OAuthProvider::Linkedin => "linkedin",
             OAuthProvider::Microsoft => "microsoft",
+            OAuthProvider::Naver => "naver",
             OAuthProvider::Notion => "notion",
             OAuthProvider::Oidc => "oidc",
             OAuthProvider::Okta => "okta",

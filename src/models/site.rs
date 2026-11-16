@@ -159,6 +159,16 @@ pub struct Site {
     /// page will be displayed.
     #[serde(rename = "fallbackFile")]
     pub fallback_file: String,
+    /// Whether the analytics tracker is injected into pages served on the site's
+    /// production domains.
+    #[serde(rename = "analyticsEnabled")]
+    #[serde(default = "default_analytics_enabled")]
+    pub analytics_enabled: bool,
+    /// ID of the analytics property the site reports to. Kept when analytics is
+    /// turned off, so turning it back on resumes the same property.
+    #[serde(rename = "analyticsPropertyId")]
+    #[serde(default = "default_analytics_property_id")]
+    pub analytics_property_id: String,
 }
 
 fn default_id() -> String {
@@ -294,6 +304,14 @@ fn default_runtime_specification() -> String {
 }
 
 fn default_build_runtime() -> String {
+    "".to_string()
+}
+
+fn default_analytics_enabled() -> bool {
+    false
+}
+
+fn default_analytics_property_id() -> String {
     "".to_string()
 }
 
@@ -477,6 +495,16 @@ impl Site {
     pub fn fallback_file(&self) -> &String {
         &self.fallback_file
     }
+
+    /// Get analytics_enabled
+    pub fn analytics_enabled(&self) -> &bool {
+        &self.analytics_enabled
+    }
+
+    /// Get analytics_property_id
+    pub fn analytics_property_id(&self) -> &String {
+        &self.analytics_property_id
+    }
 }
 
 #[cfg(test)]
@@ -522,6 +550,8 @@ mod tests {
         let _ = _model.build_runtime();
         let _ = _model.adapter();
         let _ = _model.fallback_file();
+        let _ = _model.analytics_enabled();
+        let _ = _model.analytics_property_id();
     }
 
     #[test]

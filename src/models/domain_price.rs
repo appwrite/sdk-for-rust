@@ -40,6 +40,11 @@ pub struct DomainPrice {
     #[serde(rename = "renewalPeriodYears")]
     #[serde(default = "default_renewal_period_years")]
     pub renewal_period_years: i64,
+    /// Why the domain was not priced for the requested registration type, for
+    /// example a transfer of an unregistered domain. Empty otherwise.
+    #[serde(rename = "reason")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reason: Option<String>,
 }
 
 fn default_domain() -> String {
@@ -117,6 +122,17 @@ impl DomainPrice {
     /// Get renewal_period_years
     pub fn renewal_period_years(&self) -> &i64 {
         &self.renewal_period_years
+    }
+
+    /// Set reason
+    pub fn set_reason(mut self, reason: String) -> Self {
+        self.reason = Some(reason);
+        self
+    }
+
+    /// Get reason
+    pub fn reason(&self) -> Option<&String> {
+        self.reason.as_ref()
     }
 }
 

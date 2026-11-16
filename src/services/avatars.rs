@@ -379,6 +379,9 @@ impl Avatars {
     /// When width and height are specified, the image is resized accordingly. If
     /// both dimensions are 0, the API provides an image at original size. If
     /// dimensions are not specified, the default viewport size is 1280x720px.
+    ///
+    /// Set `output` to `auto` to receive avif or webp when the `Accept` header of
+    /// your request supports it, falling back to png.
     #[allow(clippy::too_many_arguments)]
     pub async fn get_screenshot(
         &self,
@@ -463,7 +466,7 @@ impl Avatars {
             params.insert("output".to_string(), json!(value));
         }
         let mut api_headers = HashMap::new();
-        api_headers.insert("accept".to_string(), "image/png".to_string());
+        api_headers.insert("accept".to_string(), "image/*".to_string());
 
         let path = "/avatars/screenshots".to_string();
 
