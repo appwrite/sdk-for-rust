@@ -366,6 +366,8 @@ pub mod o_auth2_tik_tok;
 pub use o_auth2_tik_tok::OAuth2TikTok;
 pub mod o_auth2_kakao;
 pub use o_auth2_kakao::OAuth2Kakao;
+pub mod o_auth2_naver;
+pub use o_auth2_naver::OAuth2Naver;
 pub mod o_auth2_provider_list;
 pub use o_auth2_provider_list::OAuth2ProviderList;
 pub mod policy_password_dictionary;
@@ -849,6 +851,7 @@ impl Model for OAuth2Microsoft {}
 impl Model for OAuth2Resend {}
 impl Model for OAuth2TikTok {}
 impl Model for OAuth2Kakao {}
+impl Model for OAuth2Naver {}
 impl Model for OAuth2ProviderList {}
 impl Model for PolicyPasswordDictionary {}
 impl Model for PolicyPasswordHistory {}

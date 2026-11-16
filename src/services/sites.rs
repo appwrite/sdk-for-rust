@@ -394,6 +394,41 @@ impl Sites {
             .await
     }
 
+    /// Turn analytics on or off for a site. Turning it on links an analytics
+    /// property named after the site, creating one on first use, and injects the
+    /// tracker into pages served on the site's production domains. Turning it on
+    /// also needs the `analytics.write` scope. Turning it off stops the injection
+    /// and keeps the property and its data.
+    pub async fn update_analytics(
+        &self,
+        site_id: impl Into<String>,
+        enabled: bool,
+    ) -> crate::error::Result<crate::models::Site> {
+        let mut params = HashMap::new();
+        params.insert("enabled".to_string(), json!(enabled));
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let site_id = site_id.into();
+        if site_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"siteId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/sites/{siteId}/analytics"
+            .to_string()
+            .replace("{siteId}", &Client::encode_path(&site_id));
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Update the site active deployment. Use this endpoint to switch the code
     /// deployment that should be used when visitor opens your site.
     pub async fn update_site_deployment(

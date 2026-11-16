@@ -1287,6 +1287,37 @@ impl Account {
             .await
     }
 
+    /// Allow the user to login into their account by providing the username and
+    /// password they use in the project's LDAP directory. The directory verifies
+    /// the password; on the first sign-in an account is created from the directory
+    /// entry, and on later sign-ins the name, email and phone follow the
+    /// directory. This endpoint requires LDAP to be configured and enabled for the
+    /// project. A user is limited to 10 active sessions at a time by default.
+    /// [Learn more about session
+    /// limits](https://appwrite.io/docs/authentication-security#limits).
+    pub async fn create_ldap_session(
+        &self,
+        username: impl Into<String>,
+        password: impl Into<String>,
+        duration: Option<i64>,
+    ) -> crate::error::Result<crate::models::Session> {
+        let mut params = HashMap::new();
+        params.insert("username".to_string(), json!(username.into()));
+        params.insert("password".to_string(), json!(password.into()));
+        if let Some(value) = duration {
+            params.insert("duration".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/account/sessions/ldap".to_string();
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Use this endpoint to create a session from token. Provide the **userId**
     /// and **secret** parameters from the successful response of authentication
     /// flows initiated by token creation. For example, magic URL and phone login.

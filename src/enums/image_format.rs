@@ -17,6 +17,8 @@ pub enum ImageFormat {
     Avif,
     #[serde(rename = "gif")]
     Gif,
+    #[serde(rename = "auto")]
+    Auto,
 }
 
 impl ImageFormat {
@@ -30,6 +32,7 @@ impl ImageFormat {
             ImageFormat::Heic => "heic",
             ImageFormat::Avif => "avif",
             ImageFormat::Gif => "gif",
+            ImageFormat::Auto => "auto",
         }
     }
 }

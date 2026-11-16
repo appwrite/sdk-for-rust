@@ -1,7 +1,7 @@
 # Appwrite Rust SDK
 
 ![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)
-![Version](https://img.shields.io/badge/api%20version-2.7.1-blue.svg)
+![Version](https://img.shields.io/badge/api%20version-2.7.2-blue.svg)
 [![Crates.io](https://img.shields.io/crates/v/appwrite.svg)](https://crates.io/crates/appwrite)
 [![Documentation](https://docs.rs/appwrite/badge.svg)](https://docs.rs/appwrite)
 
@@ -17,7 +17,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-appwrite = "0.23.0"
+appwrite = "0.24.0"
 tokio = { version = "1.48", features = ["full"] }
 ```
 

@@ -71,6 +71,76 @@ pub struct Project {
     #[serde(rename = "smtpSecure")]
     #[serde(default = "default_smtp_secure")]
     pub smtp_secure: String,
+    /// Status for LDAP sign-in
+    #[serde(rename = "ldapEnabled")]
+    #[serde(default = "default_ldap_enabled")]
+    pub ldap_enabled: bool,
+    /// LDAP directory hosts, tried in order.
+    #[serde(rename = "ldapHosts")]
+    #[serde(default = "default_ldap_hosts")]
+    pub ldap_hosts: Vec<String>,
+    /// LDAP directory port.
+    #[serde(rename = "ldapPort")]
+    #[serde(default = "default_ldap_port")]
+    pub ldap_port: i64,
+    /// LDAP transport encryption: none, ldaps or starttls.
+    #[serde(rename = "ldapEncryption")]
+    #[serde(default = "default_ldap_encryption")]
+    pub ldap_encryption: String,
+    /// Whether the LDAP directory certificate is verified.
+    #[serde(rename = "ldapVerification")]
+    #[serde(default = "default_ldap_verification")]
+    pub ldap_verification: bool,
+    /// Certificate in PEM format of the authority that signed the LDAP directory
+    /// certificate, or the directory certificate itself when it is self-signed.
+    /// Empty for the system trust store.
+    #[serde(rename = "ldapCertificate")]
+    #[serde(default = "default_ldap_certificate")]
+    pub ldap_certificate: String,
+    /// Seconds to wait for the LDAP directory to connect and answer.
+    #[serde(rename = "ldapTimeout")]
+    #[serde(default = "default_ldap_timeout")]
+    pub ldap_timeout: i64,
+    /// LDAP subtree the user search starts from.
+    #[serde(rename = "ldapBaseDn")]
+    #[serde(default = "default_ldap_base_dn")]
+    pub ldap_base_dn: String,
+    /// LDAP service account used to search for users, empty for anonymous search.
+    #[serde(rename = "ldapBindDn")]
+    #[serde(default = "default_ldap_bind_dn")]
+    pub ldap_bind_dn: String,
+    /// LDAP service account password. This property is write-only and always
+    /// returned empty.
+    #[serde(rename = "ldapBindPassword")]
+    #[serde(default = "default_ldap_bind_password")]
+    pub ldap_bind_password: String,
+    /// LDAP filter that finds the user signing in, with {username} where the
+    /// username they enter goes.
+    #[serde(rename = "ldapUserFilter")]
+    #[serde(default = "default_ldap_user_filter")]
+    pub ldap_user_filter: String,
+    /// LDAP group a user must belong to in order to sign in, empty to allow every
+    /// user.
+    #[serde(rename = "ldapRequiredGroupDn")]
+    #[serde(default = "default_ldap_required_group_dn")]
+    pub ldap_required_group_dn: String,
+    /// LDAP attribute holding the identifier that stays the same when an entry is
+    /// renamed or moved.
+    #[serde(rename = "ldapIdAttribute")]
+    #[serde(default = "default_ldap_id_attribute")]
+    pub ldap_id_attribute: String,
+    /// LDAP attribute holding the email address.
+    #[serde(rename = "ldapEmailAttribute")]
+    #[serde(default = "default_ldap_email_attribute")]
+    pub ldap_email_attribute: String,
+    /// LDAP attribute holding the display name.
+    #[serde(rename = "ldapNameAttribute")]
+    #[serde(default = "default_ldap_name_attribute")]
+    pub ldap_name_attribute: String,
+    /// LDAP attribute holding the phone number, empty when unmapped.
+    #[serde(rename = "ldapPhoneAttribute")]
+    #[serde(default = "default_ldap_phone_attribute")]
+    pub ldap_phone_attribute: String,
     /// Number of times the ping was received for this project.
     #[serde(rename = "pingCount")]
     #[serde(default = "default_ping_count")]
@@ -289,6 +359,70 @@ fn default_smtp_secure() -> String {
     "".to_string()
 }
 
+fn default_ldap_enabled() -> bool {
+    false
+}
+
+fn default_ldap_hosts() -> Vec<String> {
+    serde_json::from_value(serde_json::json!([])).unwrap()
+}
+
+fn default_ldap_port() -> i64 {
+    636
+}
+
+fn default_ldap_encryption() -> String {
+    "ldaps".to_string()
+}
+
+fn default_ldap_verification() -> bool {
+    true
+}
+
+fn default_ldap_certificate() -> String {
+    "".to_string()
+}
+
+fn default_ldap_timeout() -> i64 {
+    10
+}
+
+fn default_ldap_base_dn() -> String {
+    "".to_string()
+}
+
+fn default_ldap_bind_dn() -> String {
+    "".to_string()
+}
+
+fn default_ldap_bind_password() -> String {
+    "".to_string()
+}
+
+fn default_ldap_user_filter() -> String {
+    "(uid={username})".to_string()
+}
+
+fn default_ldap_required_group_dn() -> String {
+    "".to_string()
+}
+
+fn default_ldap_id_attribute() -> String {
+    "entryUUID".to_string()
+}
+
+fn default_ldap_email_attribute() -> String {
+    "mail".to_string()
+}
+
+fn default_ldap_name_attribute() -> String {
+    "cn".to_string()
+}
+
+fn default_ldap_phone_attribute() -> String {
+    "".to_string()
+}
+
 fn default_ping_count() -> i64 {
     0
 }
@@ -408,6 +542,86 @@ impl Project {
     /// Get smtp_secure
     pub fn smtp_secure(&self) -> &String {
         &self.smtp_secure
+    }
+
+    /// Get ldap_enabled
+    pub fn ldap_enabled(&self) -> &bool {
+        &self.ldap_enabled
+    }
+
+    /// Get ldap_hosts
+    pub fn ldap_hosts(&self) -> &Vec<String> {
+        &self.ldap_hosts
+    }
+
+    /// Get ldap_port
+    pub fn ldap_port(&self) -> &i64 {
+        &self.ldap_port
+    }
+
+    /// Get ldap_encryption
+    pub fn ldap_encryption(&self) -> &String {
+        &self.ldap_encryption
+    }
+
+    /// Get ldap_verification
+    pub fn ldap_verification(&self) -> &bool {
+        &self.ldap_verification
+    }
+
+    /// Get ldap_certificate
+    pub fn ldap_certificate(&self) -> &String {
+        &self.ldap_certificate
+    }
+
+    /// Get ldap_timeout
+    pub fn ldap_timeout(&self) -> &i64 {
+        &self.ldap_timeout
+    }
+
+    /// Get ldap_base_dn
+    pub fn ldap_base_dn(&self) -> &String {
+        &self.ldap_base_dn
+    }
+
+    /// Get ldap_bind_dn
+    pub fn ldap_bind_dn(&self) -> &String {
+        &self.ldap_bind_dn
+    }
+
+    /// Get ldap_bind_password
+    pub fn ldap_bind_password(&self) -> &String {
+        &self.ldap_bind_password
+    }
+
+    /// Get ldap_user_filter
+    pub fn ldap_user_filter(&self) -> &String {
+        &self.ldap_user_filter
+    }
+
+    /// Get ldap_required_group_dn
+    pub fn ldap_required_group_dn(&self) -> &String {
+        &self.ldap_required_group_dn
+    }
+
+    /// Get ldap_id_attribute
+    pub fn ldap_id_attribute(&self) -> &String {
+        &self.ldap_id_attribute
+    }
+
+    /// Get ldap_email_attribute
+    pub fn ldap_email_attribute(&self) -> &String {
+        &self.ldap_email_attribute
+    }
+
+    /// Get ldap_name_attribute
+    pub fn ldap_name_attribute(&self) -> &String {
+        &self.ldap_name_attribute
+    }
+
+    /// Get ldap_phone_attribute
+    pub fn ldap_phone_attribute(&self) -> &String {
+        &self.ldap_phone_attribute
     }
 
     /// Get ping_count
@@ -798,6 +1012,22 @@ mod tests {
         let _ = _model.smtp_username();
         let _ = _model.smtp_password();
         let _ = _model.smtp_secure();
+        let _ = _model.ldap_enabled();
+        let _ = _model.ldap_hosts();
+        let _ = _model.ldap_port();
+        let _ = _model.ldap_encryption();
+        let _ = _model.ldap_verification();
+        let _ = _model.ldap_certificate();
+        let _ = _model.ldap_timeout();
+        let _ = _model.ldap_base_dn();
+        let _ = _model.ldap_bind_dn();
+        let _ = _model.ldap_bind_password();
+        let _ = _model.ldap_user_filter();
+        let _ = _model.ldap_required_group_dn();
+        let _ = _model.ldap_id_attribute();
+        let _ = _model.ldap_email_attribute();
+        let _ = _model.ldap_name_attribute();
+        let _ = _model.ldap_phone_attribute();
         let _ = _model.ping_count();
         let _ = _model.pinged_at();
         let _ = _model.labels();
