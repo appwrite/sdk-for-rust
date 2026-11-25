@@ -322,6 +322,32 @@ pub mod o_auth2_cloudflare;
 pub use o_auth2_cloudflare::OAuth2Cloudflare;
 pub mod o_auth2_hugging_face;
 pub use o_auth2_hugging_face::OAuth2HuggingFace;
+pub mod o_auth2_instagram;
+pub use o_auth2_instagram::OAuth2Instagram;
+pub mod o_auth2_patreon;
+pub use o_auth2_patreon::OAuth2Patreon;
+pub mod o_auth2_strava;
+pub use o_auth2_strava::OAuth2Strava;
+pub mod o_auth2_vk;
+pub use o_auth2_vk::OAuth2VK;
+pub mod o_auth2_netlify;
+pub use o_auth2_netlify::OAuth2Netlify;
+pub mod o_auth2_railway;
+pub use o_auth2_railway::OAuth2Railway;
+pub mod o_auth2_reddit;
+pub use o_auth2_reddit::OAuth2Reddit;
+pub mod o_auth2_vercel;
+pub use o_auth2_vercel::OAuth2Vercel;
+pub mod o_auth2_atlassian;
+pub use o_auth2_atlassian::OAuth2Atlassian;
+pub mod o_auth2_line;
+pub use o_auth2_line::OAuth2Line;
+pub mod o_auth2_linear;
+pub use o_auth2_linear::OAuth2Linear;
+pub mod o_auth2_roblox;
+pub use o_auth2_roblox::OAuth2Roblox;
+pub mod o_auth2_work_os;
+pub use o_auth2_work_os::OAuth2WorkOS;
 pub mod o_auth2_linkedin;
 pub use o_auth2_linkedin::OAuth2Linkedin;
 pub mod o_auth2_disqus;
@@ -829,6 +855,19 @@ impl Model for OAuth2Salesforce {}
 impl Model for OAuth2Yahoo {}
 impl Model for OAuth2Cloudflare {}
 impl Model for OAuth2HuggingFace {}
+impl Model for OAuth2Instagram {}
+impl Model for OAuth2Patreon {}
+impl Model for OAuth2Strava {}
+impl Model for OAuth2VK {}
+impl Model for OAuth2Netlify {}
+impl Model for OAuth2Railway {}
+impl Model for OAuth2Reddit {}
+impl Model for OAuth2Vercel {}
+impl Model for OAuth2Atlassian {}
+impl Model for OAuth2Line {}
+impl Model for OAuth2Linear {}
+impl Model for OAuth2Roblox {}
+impl Model for OAuth2WorkOS {}
 impl Model for OAuth2Linkedin {}
 impl Model for OAuth2Disqus {}
 impl Model for OAuth2Amazon {}

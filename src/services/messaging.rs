@@ -895,6 +895,188 @@ impl Messaging {
             .await
     }
 
+    /// Create a new Bird email provider. It sends email through Bird's email API
+    /// with a workspace API key that holds the `emails:write` scope.
+    #[allow(clippy::too_many_arguments)]
+    pub async fn create_bird_email_provider(
+        &self,
+        provider_id: impl Into<String>,
+        name: impl Into<String>,
+        api_key: Option<&str>,
+        from_name: Option<&str>,
+        from_email: Option<&str>,
+        reply_to_name: Option<&str>,
+        reply_to_email: Option<&str>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::Provider> {
+        let mut params = HashMap::new();
+        params.insert("providerId".to_string(), json!(provider_id.into()));
+        params.insert("name".to_string(), json!(name.into()));
+        if let Some(value) = api_key {
+            params.insert("apiKey".to_string(), json!(value));
+        }
+        if let Some(value) = from_name {
+            params.insert("fromName".to_string(), json!(value));
+        }
+        if let Some(value) = from_email {
+            params.insert("fromEmail".to_string(), json!(value));
+        }
+        if let Some(value) = reply_to_name {
+            params.insert("replyToName".to_string(), json!(value));
+        }
+        if let Some(value) = reply_to_email {
+            params.insert("replyToEmail".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/messaging/providers/bird-email".to_string();
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update a Bird email provider by its unique ID.
+    #[allow(clippy::too_many_arguments)]
+    pub async fn update_bird_email_provider(
+        &self,
+        provider_id: impl Into<String>,
+        name: Option<&str>,
+        enabled: Option<bool>,
+        api_key: Option<&str>,
+        from_name: Option<&str>,
+        from_email: Option<&str>,
+        reply_to_name: Option<&str>,
+        reply_to_email: Option<&str>,
+    ) -> crate::error::Result<crate::models::Provider> {
+        let mut params = HashMap::new();
+        if let Some(value) = name {
+            params.insert("name".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = api_key {
+            params.insert("apiKey".to_string(), json!(value));
+        }
+        if let Some(value) = from_name {
+            params.insert("fromName".to_string(), json!(value));
+        }
+        if let Some(value) = from_email {
+            params.insert("fromEmail".to_string(), json!(value));
+        }
+        if let Some(value) = reply_to_name {
+            params.insert("replyToName".to_string(), json!(value));
+        }
+        if let Some(value) = reply_to_email {
+            params.insert("replyToEmail".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/messaging/providers/bird-email/{providerId}"
+            .to_string()
+            .replace("{providerId}", &Client::encode_path(&provider_id));
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Create a new Bird SMS provider. It sends SMS through Bird with a workspace
+    /// API key that holds the `sms:write` scope.
+    pub async fn create_bird_sms_provider(
+        &self,
+        provider_id: impl Into<String>,
+        name: impl Into<String>,
+        from: Option<&str>,
+        api_key: Option<&str>,
+        enabled: Option<bool>,
+    ) -> crate::error::Result<crate::models::Provider> {
+        let mut params = HashMap::new();
+        params.insert("providerId".to_string(), json!(provider_id.into()));
+        params.insert("name".to_string(), json!(name.into()));
+        if let Some(value) = from {
+            params.insert("from".to_string(), json!(value));
+        }
+        if let Some(value) = api_key {
+            params.insert("apiKey".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/messaging/providers/bird-sms".to_string();
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update a Bird SMS provider by its unique ID.
+    pub async fn update_bird_sms_provider(
+        &self,
+        provider_id: impl Into<String>,
+        name: Option<&str>,
+        enabled: Option<bool>,
+        api_key: Option<&str>,
+        from: Option<&str>,
+    ) -> crate::error::Result<crate::models::Provider> {
+        let mut params = HashMap::new();
+        if let Some(value) = name {
+            params.insert("name".to_string(), json!(value));
+        }
+        if let Some(value) = enabled {
+            params.insert("enabled".to_string(), json!(value));
+        }
+        if let Some(value) = api_key {
+            params.insert("apiKey".to_string(), json!(value));
+        }
+        if let Some(value) = from {
+            params.insert("from".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let provider_id = provider_id.into();
+        if provider_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"providerId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/messaging/providers/bird-sms/{providerId}"
+            .to_string()
+            .replace("{providerId}", &Client::encode_path(&provider_id));
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// Create a new Firebase Cloud Messaging provider.
     pub async fn create_fcm_provider(
         &self,

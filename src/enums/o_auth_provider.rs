@@ -9,6 +9,8 @@ pub enum OAuthProvider {
     Apple,
     #[serde(rename = "appwrite")]
     Appwrite,
+    #[serde(rename = "atlassian")]
+    Atlassian,
     #[serde(rename = "auth0")]
     Auth0,
     #[serde(rename = "authentik")]
@@ -47,38 +49,56 @@ pub enum OAuthProvider {
     Google,
     #[serde(rename = "huggingface")]
     Huggingface,
+    #[serde(rename = "instagram")]
+    Instagram,
     #[serde(rename = "kakao")]
     Kakao,
     #[serde(rename = "keycloak")]
     Keycloak,
     #[serde(rename = "kick")]
     Kick,
+    #[serde(rename = "line")]
+    Line,
+    #[serde(rename = "linear")]
+    Linear,
     #[serde(rename = "linkedin")]
     Linkedin,
     #[serde(rename = "microsoft")]
     Microsoft,
     #[serde(rename = "naver")]
     Naver,
+    #[serde(rename = "netlify")]
+    Netlify,
     #[serde(rename = "notion")]
     Notion,
     #[serde(rename = "oidc")]
     Oidc,
     #[serde(rename = "okta")]
     Okta,
+    #[serde(rename = "patreon")]
+    Patreon,
     #[serde(rename = "paypal")]
     Paypal,
     #[serde(rename = "paypalSandbox")]
     PaypalSandbox,
     #[serde(rename = "podio")]
     Podio,
+    #[serde(rename = "railway")]
+    Railway,
+    #[serde(rename = "reddit")]
+    Reddit,
     #[serde(rename = "resend")]
     Resend,
+    #[serde(rename = "roblox")]
+    Roblox,
     #[serde(rename = "salesforce")]
     Salesforce,
     #[serde(rename = "slack")]
     Slack,
     #[serde(rename = "spotify")]
     Spotify,
+    #[serde(rename = "strava")]
+    Strava,
     #[serde(rename = "stripe")]
     Stripe,
     #[serde(rename = "tiktok")]
@@ -89,14 +109,20 @@ pub enum OAuthProvider {
     TradeshiftBox,
     #[serde(rename = "twitch")]
     Twitch,
+    #[serde(rename = "vercel")]
+    Vercel,
     #[serde(rename = "vipps")]
     Vipps,
     #[serde(rename = "vippsSandbox")]
     VippsSandbox,
+    #[serde(rename = "vk")]
+    Vk,
     #[serde(rename = "webflow")]
     Webflow,
     #[serde(rename = "wordpress")]
     Wordpress,
+    #[serde(rename = "workos")]
+    Workos,
     #[serde(rename = "x")]
     X,
     #[serde(rename = "yahoo")]
@@ -118,6 +144,7 @@ impl OAuthProvider {
             OAuthProvider::Amazon => "amazon",
             OAuthProvider::Apple => "apple",
             OAuthProvider::Appwrite => "appwrite",
+            OAuthProvider::Atlassian => "atlassian",
             OAuthProvider::Auth0 => "auth0",
             OAuthProvider::Authentik => "authentik",
             OAuthProvider::Autodesk => "autodesk",
@@ -137,31 +164,43 @@ impl OAuthProvider {
             OAuthProvider::Gitlab => "gitlab",
             OAuthProvider::Google => "google",
             OAuthProvider::Huggingface => "huggingface",
+            OAuthProvider::Instagram => "instagram",
             OAuthProvider::Kakao => "kakao",
             OAuthProvider::Keycloak => "keycloak",
             OAuthProvider::Kick => "kick",
+            OAuthProvider::Line => "line",
+            OAuthProvider::Linear => "linear",
             OAuthProvider::Linkedin => "linkedin",
             OAuthProvider::Microsoft => "microsoft",
             OAuthProvider::Naver => "naver",
+            OAuthProvider::Netlify => "netlify",
             OAuthProvider::Notion => "notion",
             OAuthProvider::Oidc => "oidc",
             OAuthProvider::Okta => "okta",
+            OAuthProvider::Patreon => "patreon",
             OAuthProvider::Paypal => "paypal",
             OAuthProvider::PaypalSandbox => "paypalSandbox",
             OAuthProvider::Podio => "podio",
+            OAuthProvider::Railway => "railway",
+            OAuthProvider::Reddit => "reddit",
             OAuthProvider::Resend => "resend",
+            OAuthProvider::Roblox => "roblox",
             OAuthProvider::Salesforce => "salesforce",
             OAuthProvider::Slack => "slack",
             OAuthProvider::Spotify => "spotify",
+            OAuthProvider::Strava => "strava",
             OAuthProvider::Stripe => "stripe",
             OAuthProvider::Tiktok => "tiktok",
             OAuthProvider::Tradeshift => "tradeshift",
             OAuthProvider::TradeshiftBox => "tradeshiftBox",
             OAuthProvider::Twitch => "twitch",
+            OAuthProvider::Vercel => "vercel",
             OAuthProvider::Vipps => "vipps",
             OAuthProvider::VippsSandbox => "vippsSandbox",
+            OAuthProvider::Vk => "vk",
             OAuthProvider::Webflow => "webflow",
             OAuthProvider::Wordpress => "wordpress",
+            OAuthProvider::Workos => "workos",
             OAuthProvider::X => "x",
             OAuthProvider::Yahoo => "yahoo",
             OAuthProvider::Yammer => "yammer",

@@ -9,6 +9,8 @@ pub enum ProjectOAuthProviderId {
     Apple,
     #[serde(rename = "appwrite")]
     Appwrite,
+    #[serde(rename = "atlassian")]
+    Atlassian,
     #[serde(rename = "auth0")]
     Auth0,
     #[serde(rename = "authentik")]
@@ -47,38 +49,56 @@ pub enum ProjectOAuthProviderId {
     Google,
     #[serde(rename = "huggingface")]
     Huggingface,
+    #[serde(rename = "instagram")]
+    Instagram,
     #[serde(rename = "kakao")]
     Kakao,
     #[serde(rename = "keycloak")]
     Keycloak,
     #[serde(rename = "kick")]
     Kick,
+    #[serde(rename = "line")]
+    Line,
+    #[serde(rename = "linear")]
+    Linear,
     #[serde(rename = "linkedin")]
     Linkedin,
     #[serde(rename = "microsoft")]
     Microsoft,
     #[serde(rename = "naver")]
     Naver,
+    #[serde(rename = "netlify")]
+    Netlify,
     #[serde(rename = "notion")]
     Notion,
     #[serde(rename = "oidc")]
     Oidc,
     #[serde(rename = "okta")]
     Okta,
+    #[serde(rename = "patreon")]
+    Patreon,
     #[serde(rename = "paypal")]
     Paypal,
     #[serde(rename = "paypalSandbox")]
     PaypalSandbox,
     #[serde(rename = "podio")]
     Podio,
+    #[serde(rename = "railway")]
+    Railway,
+    #[serde(rename = "reddit")]
+    Reddit,
     #[serde(rename = "resend")]
     Resend,
+    #[serde(rename = "roblox")]
+    Roblox,
     #[serde(rename = "salesforce")]
     Salesforce,
     #[serde(rename = "slack")]
     Slack,
     #[serde(rename = "spotify")]
     Spotify,
+    #[serde(rename = "strava")]
+    Strava,
     #[serde(rename = "stripe")]
     Stripe,
     #[serde(rename = "tiktok")]
@@ -89,14 +109,20 @@ pub enum ProjectOAuthProviderId {
     TradeshiftBox,
     #[serde(rename = "twitch")]
     Twitch,
+    #[serde(rename = "vercel")]
+    Vercel,
     #[serde(rename = "vipps")]
     Vipps,
     #[serde(rename = "vippsSandbox")]
     VippsSandbox,
+    #[serde(rename = "vk")]
+    Vk,
     #[serde(rename = "webflow")]
     Webflow,
     #[serde(rename = "wordpress")]
     Wordpress,
+    #[serde(rename = "workos")]
+    Workos,
     #[serde(rename = "x")]
     X,
     #[serde(rename = "yahoo")]
@@ -118,6 +144,7 @@ impl ProjectOAuthProviderId {
             ProjectOAuthProviderId::Amazon => "amazon",
             ProjectOAuthProviderId::Apple => "apple",
             ProjectOAuthProviderId::Appwrite => "appwrite",
+            ProjectOAuthProviderId::Atlassian => "atlassian",
             ProjectOAuthProviderId::Auth0 => "auth0",
             ProjectOAuthProviderId::Authentik => "authentik",
             ProjectOAuthProviderId::Autodesk => "autodesk",
@@ -137,31 +164,43 @@ impl ProjectOAuthProviderId {
             ProjectOAuthProviderId::Gitlab => "gitlab",
             ProjectOAuthProviderId::Google => "google",
             ProjectOAuthProviderId::Huggingface => "huggingface",
+            ProjectOAuthProviderId::Instagram => "instagram",
             ProjectOAuthProviderId::Kakao => "kakao",
             ProjectOAuthProviderId::Keycloak => "keycloak",
             ProjectOAuthProviderId::Kick => "kick",
+            ProjectOAuthProviderId::Line => "line",
+            ProjectOAuthProviderId::Linear => "linear",
             ProjectOAuthProviderId::Linkedin => "linkedin",
             ProjectOAuthProviderId::Microsoft => "microsoft",
             ProjectOAuthProviderId::Naver => "naver",
+            ProjectOAuthProviderId::Netlify => "netlify",
             ProjectOAuthProviderId::Notion => "notion",
             ProjectOAuthProviderId::Oidc => "oidc",
             ProjectOAuthProviderId::Okta => "okta",
+            ProjectOAuthProviderId::Patreon => "patreon",
             ProjectOAuthProviderId::Paypal => "paypal",
             ProjectOAuthProviderId::PaypalSandbox => "paypalSandbox",
             ProjectOAuthProviderId::Podio => "podio",
+            ProjectOAuthProviderId::Railway => "railway",
+            ProjectOAuthProviderId::Reddit => "reddit",
             ProjectOAuthProviderId::Resend => "resend",
+            ProjectOAuthProviderId::Roblox => "roblox",
             ProjectOAuthProviderId::Salesforce => "salesforce",
             ProjectOAuthProviderId::Slack => "slack",
             ProjectOAuthProviderId::Spotify => "spotify",
+            ProjectOAuthProviderId::Strava => "strava",
             ProjectOAuthProviderId::Stripe => "stripe",
             ProjectOAuthProviderId::Tiktok => "tiktok",
             ProjectOAuthProviderId::Tradeshift => "tradeshift",
             ProjectOAuthProviderId::TradeshiftBox => "tradeshiftBox",
             ProjectOAuthProviderId::Twitch => "twitch",
+            ProjectOAuthProviderId::Vercel => "vercel",
             ProjectOAuthProviderId::Vipps => "vipps",
             ProjectOAuthProviderId::VippsSandbox => "vippsSandbox",
+            ProjectOAuthProviderId::Vk => "vk",
             ProjectOAuthProviderId::Webflow => "webflow",
             ProjectOAuthProviderId::Wordpress => "wordpress",
+            ProjectOAuthProviderId::Workos => "workos",
             ProjectOAuthProviderId::X => "x",
             ProjectOAuthProviderId::Yahoo => "yahoo",
             ProjectOAuthProviderId::Yammer => "yammer",
