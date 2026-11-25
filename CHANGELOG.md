@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.24.0] - TBD
+## [0.25.0] - TBD
 
 ### Added
 - Initial release of Appwrite Rust SDK
@@ -34,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Functions service with 26 methods
 - Graphql service with 2 methods
 - Locale service with 8 methods
-- Messaging service with 56 methods
+- Messaging service with 60 methods
 - Migrations service with 12 methods
 - Mongo service with 32 methods
 - Mysql service with 35 methods
@@ -42,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Organization service with 23 methods
 - Postgresql service with 38 methods
 - Presences service with 5 methods
-- Project service with 127 methods
+- Project service with 140 methods
 - Proxy service with 13 methods
 - Advisor service with 5 methods
 - Sites service with 26 methods
@@ -649,6 +649,10 @@ The Messaging service allows you to send messages to any provider type (SMTP, pu
 - `update_apns_provider()` - Update a Apple Push Notification service provider by its unique ID.
 - `create_appwrite_provider()` - Create a new Appwrite push provider.
 - `update_appwrite_provider()` - Update an Appwrite push provider by its unique ID.
+- `create_bird_email_provider()` - Create a new Bird email provider. It sends email through Bird&#039;s email API with a workspace API key that holds the `emails:write` scope.
+- `update_bird_email_provider()` - Update a Bird email provider by its unique ID.
+- `create_bird_sms_provider()` - Create a new Bird SMS provider. It sends SMS through Bird with a workspace API key that holds the `sms:write` scope.
+- `update_bird_sms_provider()` - Update a Bird SMS provider by its unique ID.
 - `create_fcm_provider()` - Create a new Firebase Cloud Messaging provider.
 - `create_fcm_provider()` - Create a new Firebase Cloud Messaging provider.
 - `update_fcm_provider()` - Update a Firebase Cloud Messaging provider by its unique ID.
@@ -926,6 +930,7 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_o_auth2_amazon()` - Update the project OAuth2 Amazon configuration.
 - `update_o_auth2_apple()` - Update the project OAuth2 Apple configuration.
 - `update_o_auth2_appwrite()` - Update the project OAuth2 Appwrite configuration.
+- `update_o_auth2_atlassian()` - Update the project OAuth2 Atlassian configuration.
 - `update_o_auth2_auth0()` - Update the project OAuth2 Auth0 configuration.
 - `update_o_auth2_authentik()` - Update the project OAuth2 Authentik configuration.
 - `update_o_auth2_autodesk()` - Update the project OAuth2 Autodesk configuration.
@@ -945,31 +950,43 @@ You can also create a standard API key if you need a longer-lived key instead.
 - `update_o_auth2_gitlab()` - Update the project OAuth2 Gitlab configuration.
 - `update_o_auth2_google()` - Update the project OAuth2 Google configuration.
 - `update_o_auth2_hugging_face()` - Update the project OAuth2 Hugging Face configuration.
+- `update_o_auth2_instagram()` - Update the project OAuth2 Instagram configuration.
 - `update_o_auth2_kakao()` - Update the project OAuth2 Kakao configuration.
 - `update_o_auth2_keycloak()` - Update the project OAuth2 Keycloak configuration.
 - `update_o_auth2_kick()` - Update the project OAuth2 Kick configuration.
+- `update_o_auth2_line()` - Update the project OAuth2 LINE configuration.
+- `update_o_auth2_linear()` - Update the project OAuth2 Linear configuration.
 - `update_o_auth2_linkedin()` - Update the project OAuth2 Linkedin configuration.
 - `update_o_auth2_microsoft()` - Update the project OAuth2 Microsoft configuration.
 - `update_o_auth2_naver()` - Update the project OAuth2 Naver configuration.
+- `update_o_auth2_netlify()` - Update the project OAuth2 Netlify configuration.
 - `update_o_auth2_notion()` - Update the project OAuth2 Notion configuration.
 - `update_o_auth2_oidc()` - Update the project OAuth2 Oidc configuration.
 - `update_o_auth2_okta()` - Update the project OAuth2 Okta configuration.
+- `update_o_auth2_patreon()` - Update the project OAuth2 Patreon configuration.
 - `update_o_auth2_paypal()` - Update the project OAuth2 Paypal configuration.
 - `update_o_auth2_paypal_sandbox()` - Update the project OAuth2 PaypalSandbox configuration.
 - `update_o_auth2_podio()` - Update the project OAuth2 Podio configuration.
+- `update_o_auth2_railway()` - Update the project OAuth2 Railway configuration.
+- `update_o_auth2_reddit()` - Update the project OAuth2 Reddit configuration.
 - `update_o_auth2_resend()` - Update the project OAuth2 Resend configuration.
+- `update_o_auth2_roblox()` - Update the project OAuth2 Roblox configuration.
 - `update_o_auth2_salesforce()` - Update the project OAuth2 Salesforce configuration.
 - `update_o_auth2_slack()` - Update the project OAuth2 Slack configuration.
 - `update_o_auth2_spotify()` - Update the project OAuth2 Spotify configuration.
+- `update_o_auth2_strava()` - Update the project OAuth2 Strava configuration.
 - `update_o_auth2_stripe()` - Update the project OAuth2 Stripe configuration.
 - `update_o_auth2_tik_tok()` - Update the project OAuth2 TikTok configuration.
 - `update_o_auth2_tradeshift()` - Update the project OAuth2 Tradeshift configuration.
 - `update_o_auth2_tradeshift_sandbox()` - Update the project OAuth2 Tradeshift Sandbox configuration.
 - `update_o_auth2_twitch()` - Update the project OAuth2 Twitch configuration.
+- `update_o_auth2_vercel()` - Update the project OAuth2 Vercel configuration.
 - `update_o_auth2_vipps()` - Update the project OAuth2 Vipps MobilePay configuration.
 - `update_o_auth2_vipps_sandbox()` - Update the project OAuth2 Vipps MobilePay Sandbox configuration.
+- `update_o_auth2_vk()` - Update the project OAuth2 VK configuration.
 - `update_o_auth2_webflow()` - Update the project OAuth2 Webflow configuration.
 - `update_o_auth2_word_press()` - Update the project OAuth2 WordPress configuration.
+- `update_o_auth2_work_os()` - Update the project OAuth2 WorkOS configuration.
 - `update_o_auth2_x()` - Update the project OAuth2 X configuration.
 - `update_o_auth2_yahoo()` - Update the project OAuth2 Yahoo configuration.
 - `update_o_auth2_yandex()` - Update the project OAuth2 Yandex configuration.
@@ -1596,6 +1613,19 @@ The Webhooks service allows you to manage your project webhooks.
 - `OAuth2Yahoo` - OAuth2Yahoo
 - `OAuth2Cloudflare` - OAuth2Cloudflare
 - `OAuth2HuggingFace` - OAuth2HuggingFace
+- `OAuth2Instagram` - OAuth2Instagram
+- `OAuth2Patreon` - OAuth2Patreon
+- `OAuth2Strava` - OAuth2Strava
+- `OAuth2VK` - OAuth2VK
+- `OAuth2Netlify` - OAuth2Netlify
+- `OAuth2Railway` - OAuth2Railway
+- `OAuth2Reddit` - OAuth2Reddit
+- `OAuth2Vercel` - OAuth2Vercel
+- `OAuth2Atlassian` - OAuth2Atlassian
+- `OAuth2Line` - OAuth2Line
+- `OAuth2Linear` - OAuth2Linear
+- `OAuth2Roblox` - OAuth2Roblox
+- `OAuth2WorkOS` - OAuth2WorkOS
 - `OAuth2Linkedin` - OAuth2Linkedin
 - `OAuth2Disqus` - OAuth2Disqus
 - `OAuth2Amazon` - OAuth2Amazon
@@ -1780,4 +1810,4 @@ The Webhooks service allows you to manage your project webhooks.
 - File upload examples
 - Query builder documentation
 
-[0.24.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.24.0
+[0.25.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.25.0
