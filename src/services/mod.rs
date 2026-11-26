@@ -64,6 +64,8 @@ pub mod users;
 pub use users::Users;
 pub mod vectors_db;
 pub use vectors_db::VectorsDB;
+pub mod videos;
+pub use videos::Videos;
 pub mod waf;
 pub use waf::Waf;
 pub mod webhooks;
@@ -112,6 +114,7 @@ pub struct Services {
     tokens: Tokens,
     users: Users,
     vectors_db: VectorsDB,
+    videos: Videos,
     waf: Waf,
     webhooks: Webhooks,
 }
@@ -152,6 +155,7 @@ impl Services {
             tokens: Tokens::new(&client),
             users: Users::new(&client),
             vectors_db: VectorsDB::new(&client),
+            videos: Videos::new(&client),
             waf: Waf::new(&client),
             webhooks: Webhooks::new(&client),
             client,
@@ -290,6 +294,10 @@ impl Services {
     /// Get VectorsDB service
     pub fn vectors_db(&self) -> &VectorsDB {
         &self.vectors_db
+    }
+    /// Get Videos service
+    pub fn videos(&self) -> &Videos {
+        &self.videos
     }
     /// Get Waf service
     pub fn waf(&self) -> &Waf {

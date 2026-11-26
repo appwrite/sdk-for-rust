@@ -4166,6 +4166,187 @@ impl Project {
             .call(Method::DELETE, &path, Some(api_headers), Some(params))
             .await
     }
+
+    /// Get a list of video profiles in the current project (`GET
+    /// /v1/project/videos/profiles`). Every profile is returned regardless of
+    /// codec. Filter with `queries`, for example `Query.equal('codec', ['h264'])`
+    /// for one encode ladder, or on `name`, `width`, `height`, `videoBitRate` and
+    /// `audioBitRate`. Search with `Query.search()` on the `search` attribute.
+    pub async fn list_video_profiles(
+        &self,
+        queries: Option<Vec<String>>,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::VideoProfileList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/videos/profiles".to_string();
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Create a video profile (`POST /v1/project/videos/profiles`) describing an
+    /// encoding target: output dimensions, video/audio bitrates, and encode codec.
+    /// Only codecs enabled on this instance are accepted; the default is `h264`. A
+    /// disabled codec is rejected. Creating a profile with the same width, height,
+    /// bitrates, and codec fails with `video_profile_already_exists`. Bitrates are
+    /// in bits per second and must be multiples of 1000. Renditions are encoded
+    /// against a profile.
+    #[allow(clippy::too_many_arguments)]
+    pub async fn create_video_profile(
+        &self,
+        profile_id: impl Into<String>,
+        name: impl Into<String>,
+        video_bit_rate: i64,
+        audio_bit_rate: i64,
+        width: i64,
+        height: i64,
+        codec: Option<crate::enums::VideoCodecId>,
+    ) -> crate::error::Result<crate::models::VideoProfile> {
+        let mut params = HashMap::new();
+        params.insert("profileId".to_string(), json!(profile_id.into()));
+        params.insert("name".to_string(), json!(name.into()));
+        params.insert("videoBitRate".to_string(), json!(video_bit_rate));
+        params.insert("audioBitRate".to_string(), json!(audio_bit_rate));
+        params.insert("width".to_string(), json!(width));
+        params.insert("height".to_string(), json!(height));
+        if let Some(value) = codec {
+            params.insert("codec".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/project/videos/profiles".to_string();
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Get a video profile by its unique ID (`GET
+    /// /v1/project/videos/profiles/:profileId`).
+    pub async fn get_video_profile(
+        &self,
+        profile_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::VideoProfile> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let profile_id = profile_id.into();
+        if profile_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"profileId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/project/videos/profiles/{profileId}"
+            .to_string()
+            .replace("{profileId}", &Client::encode_path(&profile_id));
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update a video profile by its unique ID (`PATCH
+    /// /v1/project/videos/profiles/:profileId`). Existing renditions are not
+    /// re-encoded. Changing the profile onto the same width, height, bitrates, and
+    /// codec as another profile fails with `video_profile_already_exists`.
+    pub async fn update_video_profile(
+        &self,
+        profile_id: impl Into<String>,
+        name: Option<&str>,
+        video_bit_rate: Option<i64>,
+        audio_bit_rate: Option<i64>,
+        width: Option<i64>,
+        height: Option<i64>,
+    ) -> crate::error::Result<crate::models::VideoProfile> {
+        let mut params = HashMap::new();
+        if let Some(value) = name {
+            params.insert("name".to_string(), json!(value));
+        }
+        if let Some(value) = video_bit_rate {
+            params.insert("videoBitRate".to_string(), json!(value));
+        }
+        if let Some(value) = audio_bit_rate {
+            params.insert("audioBitRate".to_string(), json!(value));
+        }
+        if let Some(value) = width {
+            params.insert("width".to_string(), json!(value));
+        }
+        if let Some(value) = height {
+            params.insert("height".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let profile_id = profile_id.into();
+        if profile_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"profileId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/project/videos/profiles/{profileId}"
+            .to_string()
+            .replace("{profileId}", &Client::encode_path(&profile_id));
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Delete a video profile by its unique ID (`DELETE
+    /// /v1/project/videos/profiles/:profileId`). Renditions already encoded
+    /// against it are left in place.
+    pub async fn delete_video_profile(
+        &self,
+        profile_id: impl Into<String>,
+    ) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let profile_id = profile_id.into();
+        if profile_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"profileId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/project/videos/profiles/{profileId}"
+            .to_string()
+            .replace("{profileId}", &Client::encode_path(&profile_id));
+
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
+    }
 }
 
 impl crate::services::Service for Project {
