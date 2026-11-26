@@ -28,6 +28,16 @@ pub mod bucket_list;
 pub use bucket_list::BucketList;
 pub mod resource_token_list;
 pub use resource_token_list::ResourceTokenList;
+pub mod video_list;
+pub use video_list::VideoList;
+pub mod video_codec_list;
+pub use video_codec_list::VideoCodecList;
+pub mod video_profile_list;
+pub use video_profile_list::VideoProfileList;
+pub mod video_rendition_list;
+pub use video_rendition_list::VideoRenditionList;
+pub mod video_caption_list;
+pub use video_caption_list::VideoCaptionList;
 pub mod team_list;
 pub use team_list::TeamList;
 pub mod membership_list;
@@ -520,6 +530,16 @@ pub mod insight_cta;
 pub use insight_cta::InsightCTA;
 pub mod report;
 pub use report::Report;
+pub mod video;
+pub use video::Video;
+pub mod video_codec;
+pub use video_codec::VideoCodec;
+pub mod video_profile;
+pub use video_profile::VideoProfile;
+pub mod video_rendition;
+pub use video_rendition::VideoRendition;
+pub mod video_caption;
+pub use video_caption::VideoCaption;
 pub mod activity_event;
 pub use activity_event::ActivityEvent;
 pub mod additional_resource;
@@ -722,6 +742,11 @@ impl Model for IdentityList {}
 impl Model for FileList {}
 impl Model for BucketList {}
 impl Model for ResourceTokenList {}
+impl Model for VideoList {}
+impl Model for VideoCodecList {}
+impl Model for VideoProfileList {}
+impl Model for VideoRenditionList {}
+impl Model for VideoCaptionList {}
 impl Model for TeamList {}
 impl Model for MembershipList {}
 impl Model for SiteList {}
@@ -968,6 +993,11 @@ impl Model for Migration {}
 impl Model for Insight {}
 impl Model for InsightCTA {}
 impl Model for Report {}
+impl Model for Video {}
+impl Model for VideoCodec {}
+impl Model for VideoProfile {}
+impl Model for VideoRendition {}
+impl Model for VideoCaption {}
 impl Model for ActivityEvent {}
 impl Model for AdditionalResource {}
 impl Model for BackupArchive {}
