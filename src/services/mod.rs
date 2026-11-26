@@ -4,6 +4,8 @@ pub mod account;
 pub use account::Account;
 pub mod activities;
 pub use activities::Activities;
+pub mod alerts;
+pub use alerts::Alerts;
 pub mod apps;
 pub use apps::Apps;
 pub mod avatars;
@@ -30,6 +32,8 @@ pub mod migrations;
 pub use migrations::Migrations;
 pub mod mongo;
 pub use mongo::Mongo;
+pub mod monitors;
+pub use monitors::Monitors;
 pub mod mysql;
 pub use mysql::Mysql;
 pub mod oauth2;
@@ -78,6 +82,7 @@ pub struct Services {
     client: Client,
     account: Account,
     activities: Activities,
+    alerts: Alerts,
     apps: Apps,
     avatars: Avatars,
     backups: Backups,
@@ -91,6 +96,7 @@ pub struct Services {
     messaging: Messaging,
     migrations: Migrations,
     mongo: Mongo,
+    monitors: Monitors,
     mysql: Mysql,
     oauth2: Oauth2,
     organization: Organization,
@@ -116,6 +122,7 @@ impl Services {
         Self {
             account: Account::new(&client),
             activities: Activities::new(&client),
+            alerts: Alerts::new(&client),
             apps: Apps::new(&client),
             avatars: Avatars::new(&client),
             backups: Backups::new(&client),
@@ -129,6 +136,7 @@ impl Services {
             messaging: Messaging::new(&client),
             migrations: Migrations::new(&client),
             mongo: Mongo::new(&client),
+            monitors: Monitors::new(&client),
             mysql: Mysql::new(&client),
             oauth2: Oauth2::new(&client),
             organization: Organization::new(&client),
@@ -162,6 +170,10 @@ impl Services {
     /// Get Activities service
     pub fn activities(&self) -> &Activities {
         &self.activities
+    }
+    /// Get Alerts service
+    pub fn alerts(&self) -> &Alerts {
+        &self.alerts
     }
     /// Get Apps service
     pub fn apps(&self) -> &Apps {
@@ -214,6 +226,10 @@ impl Services {
     /// Get Mongo service
     pub fn mongo(&self) -> &Mongo {
         &self.mongo
+    }
+    /// Get Monitors service
+    pub fn monitors(&self) -> &Monitors {
+        &self.monitors
     }
     /// Get Mysql service
     pub fn mysql(&self) -> &Mysql {
