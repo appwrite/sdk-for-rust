@@ -48,6 +48,12 @@ pub mod project_list;
 pub use project_list::ProjectList;
 pub mod webhook_list;
 pub use webhook_list::WebhookList;
+pub mod monitor_list;
+pub use monitor_list::MonitorList;
+pub mod alert_list;
+pub use alert_list::AlertList;
+pub mod escalation_list;
+pub use escalation_list::EscalationList;
 pub mod key_list;
 pub use key_list::KeyList;
 pub mod country_list;
@@ -264,6 +270,14 @@ pub mod project_protocol;
 pub use project_protocol::ProjectProtocol;
 pub mod webhook;
 pub use webhook::Webhook;
+pub mod monitor;
+pub use monitor::Monitor;
+pub mod alert;
+pub use alert::Alert;
+pub mod escalation_step;
+pub use escalation_step::EscalationStep;
+pub mod escalation;
+pub use escalation::Escalation;
 pub mod key;
 pub use key::Key;
 pub mod ephemeral_key;
@@ -718,6 +732,9 @@ impl Model for DeploymentList {}
 impl Model for ExecutionList {}
 impl Model for ProjectList {}
 impl Model for WebhookList {}
+impl Model for MonitorList {}
+impl Model for AlertList {}
+impl Model for EscalationList {}
 impl Model for KeyList {}
 impl Model for CountryList {}
 impl Model for ContinentList {}
@@ -826,6 +843,10 @@ impl Model for ProjectAuthMethod {}
 impl Model for ProjectService {}
 impl Model for ProjectProtocol {}
 impl Model for Webhook {}
+impl Model for Monitor {}
+impl Model for Alert {}
+impl Model for EscalationStep {}
+impl Model for Escalation {}
 impl Model for Key {}
 impl Model for EphemeralKey {}
 impl Model for MockNumber {}

@@ -69,6 +69,168 @@ impl Organization {
             .await
     }
 
+    /// Get a list of your organization's escalations. Use `Query.search('search',
+    /// term)` to search escalation IDs and names.
+    pub async fn list_escalations(
+        &self,
+        queries: Option<Vec<String>>,
+        total: Option<bool>,
+    ) -> crate::error::Result<crate::models::EscalationList> {
+        let mut params = HashMap::new();
+        if let Some(value) = queries {
+            params.insert(
+                "queries".to_string(),
+                json!(value.into_iter().map(|s| s.into()).collect::<Vec<String>>()),
+            );
+        }
+        if let Some(value) = total {
+            params.insert("total".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/organization/escalations".to_string();
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Create an escalation for your organization. A monitor using it notifies the
+    /// escalation's steps one after another while its alert fires, each by email,
+    /// push and in the console, until a member acknowledges the alert or it
+    /// resolves. Each step waits its `delay` in seconds, after the alert fires for
+    /// the first step and after the previous step for the others, then notifies
+    /// the members holding its `roles` and those named in `userIds`. With
+    /// `repeat`, the steps run again from the first, a monitor's cooldown after
+    /// the last step.
+    pub async fn create_escalation(
+        &self,
+        escalation_id: impl Into<String>,
+        name: impl Into<String>,
+        steps: Vec<serde_json::Value>,
+        repeat: Option<i64>,
+    ) -> crate::error::Result<crate::models::Escalation> {
+        let mut params = HashMap::new();
+        params.insert("escalationId".to_string(), json!(escalation_id.into()));
+        params.insert("name".to_string(), json!(name.into()));
+        params.insert("steps".to_string(), json!(steps));
+        if let Some(value) = repeat {
+            params.insert("repeat".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let path = "/organization/escalations".to_string();
+
+        self.client
+            .call(Method::POST, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Get one of your organization's escalations by its ID.
+    pub async fn get_escalation(
+        &self,
+        escalation_id: impl Into<String>,
+    ) -> crate::error::Result<crate::models::Escalation> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let escalation_id = escalation_id.into();
+        if escalation_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"escalationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/organization/escalations/{escalationId}"
+            .to_string()
+            .replace("{escalationId}", &Client::encode_path(&escalation_id));
+
+        self.client
+            .call(Method::GET, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Update an escalation's name, steps or repeats; what you leave out stays as
+    /// it is. Alerts already escalating keep the steps they started with; the next
+    /// alert uses the new ones.
+    pub async fn update_escalation(
+        &self,
+        escalation_id: impl Into<String>,
+        name: Option<&str>,
+        steps: Option<Vec<serde_json::Value>>,
+        repeat: Option<i64>,
+    ) -> crate::error::Result<crate::models::Escalation> {
+        let mut params = HashMap::new();
+        if let Some(value) = name {
+            params.insert("name".to_string(), json!(value));
+        }
+        if let Some(value) = steps {
+            params.insert("steps".to_string(), json!(value));
+        }
+        if let Some(value) = repeat {
+            params.insert("repeat".to_string(), json!(value));
+        }
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let escalation_id = escalation_id.into();
+        if escalation_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"escalationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/organization/escalations/{escalationId}"
+            .to_string()
+            .replace("{escalationId}", &Client::encode_path(&escalation_id));
+
+        self.client
+            .call(Method::PATCH, &path, Some(api_headers), Some(params))
+            .await
+    }
+
+    /// Delete an escalation. An escalation that a monitor uses cannot be deleted:
+    /// move the monitor to another escalation or to `notify` roles first. Open
+    /// alerts keep the steps they started with.
+    pub async fn delete_escalation(
+        &self,
+        escalation_id: impl Into<String>,
+    ) -> crate::error::Result<()> {
+        let params = HashMap::new();
+        let mut api_headers = HashMap::new();
+        api_headers.insert("content-type".to_string(), "application/json".to_string());
+        api_headers.insert("accept".to_string(), "application/json".to_string());
+
+        let escalation_id = escalation_id.into();
+        if escalation_id.is_empty() {
+            return Err(crate::error::AppwriteError::new(
+                0,
+                "Missing required parameter: \"escalationId\"",
+                None,
+                String::new(),
+            ));
+        }
+
+        let path = "/organization/escalations/{escalationId}"
+            .to_string()
+            .replace("{escalationId}", &Client::encode_path(&escalation_id));
+
+        self.client
+            .call(Method::DELETE, &path, Some(api_headers), Some(params))
+            .await
+    }
+
     /// List app installations on the organization. Any organization member can
     /// read installations.
     pub async fn list_installations(

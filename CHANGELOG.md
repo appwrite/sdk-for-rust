@@ -1,1813 +1,329 @@
-# Changelog
-
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## [0.25.0] - TBD
-
-### Added
-- Initial release of Appwrite Rust SDK
-- Full support for Appwrite API 2.7.2
-- Async/await support with tokio runtime
-- Built-in error handling with custom error types
-- File upload support with automatic chunking
-- Query builder for database operations
-- Permission and role management utilities
-- ID generation utilities
-- Comprehensive documentation and examples
-- Support for self-signed certificates
-- Custom header support
-- Automatic JSON serialization/deserialization
-
-### Features
-- Account service with 77 methods
-- Activities service with 2 methods
-- Apps service with 22 methods
-- Avatars service with 11 methods
-- Backups service with 12 methods
-- Databases service with 72 methods
-- DocumentsDB service with 38 methods
-- Domains service with 47 methods
-- Embeddings service with 1 methods
-- Functions service with 26 methods
-- Graphql service with 2 methods
-- Locale service with 8 methods
-- Messaging service with 60 methods
-- Migrations service with 12 methods
-- Mongo service with 32 methods
-- Mysql service with 35 methods
-- Oauth2 service with 13 methods
-- Organization service with 23 methods
-- Postgresql service with 38 methods
-- Presences service with 5 methods
-- Project service with 140 methods
-- Proxy service with 13 methods
-- Advisor service with 5 methods
-- Sites service with 26 methods
-- Storage service with 13 methods
-- TablesDB service with 82 methods
-- Teams service with 18 methods
-- Tokens service with 5 methods
-- Users service with 53 methods
-- VectorsDB service with 36 methods
-- Waf service with 13 methods
-- Webhooks service with 6 methods
-
-### Services
-#### Account
-The Account service allows you to authenticate and manage a user account.
-- `get()` - Get the currently logged in user.
-- `create()` - Use this endpoint to allow a new user to register a new account in your project. After the user registration completes successfully, you can use the [/account/verfication](https://appwrite.io/docs/references/cloud/client-web/account#createVerification) route to start verifying the user email address. To allow the new user to login to their new account, you need to create a new [account session](https://appwrite.io/docs/references/cloud/client-web/account#createEmailSession).
-- `list_consents()` - Get a list of the OAuth2 consents the current user has given to third-party apps.
-- `get_consent()` - Get an OAuth2 consent the current user has given to a third-party app by its unique ID.
-- `delete_consent()` - Delete an OAuth2 consent by its unique ID. All token families issued under the consent are revoked, and the app must ask for consent again to regain access.
-- `list_consent_tokens()` - Get a list of the token families issued under an OAuth2 consent. Each entry represents one authorized device or session; the token secrets themselves are never returned.
-- `get_consent_token()` - Get a token family issued under an OAuth2 consent by its unique ID. The token secrets themselves are never returned.
-- `delete_consent_token()` - Delete a token family issued under an OAuth2 consent by its unique ID. The access and refresh tokens of the family stop working immediately; other token families and the consent itself are unaffected.
-- `create_device()` - Create an account switching device. A device is a container, scoped to one browser or app install, that holds multiple sessions and tracks which one is active. Once a device exists, session creation endpoints attach the new session to it automatically, so a single browser can stay signed in to several accounts and switch between them. A device holds at most one session per user: signing in again as a user it already holds replaces that user&#039;s session. The device lives as long as its newest session.
-
-The device secret is returned in a cookie. Run this on app start: if the browser already has a valid device, the existing one is returned with the same status code instead of an error, so it is always safe to call.
-
-Every session that joins the device rotates the device secret and re-issues the cookie, so an earlier copy of the secret stops working. A client that keeps the secret itself, rather than relying on the cookie, must replace it from each session response.
-- `get_device()` - Get the account switching device for the current browser, including every session it holds, the name of the user each session belongs to, and the ID of the active session. Use the string &#039;current&#039; to reference the current browser&#039;s device.
-- `delete_device()` - Delete the account switching device for the current browser. Every session the device holds is signed out, each firing its own session delete event, the device is removed, and both the device and session cookies are cleared. Use the string &#039;current&#039; to reference the current browser&#039;s device.
-- `update_device_session()` - Switch the active account on an account switching device to one of the sessions it holds. The chosen session becomes active and its secret is written to the browser&#039;s session cookie, so subsequent requests authenticate as that account. Use the string &#039;current&#039; to reference the current browser&#039;s device.
-
-Switching rotates the chosen session&#039;s secret. Any other holder of that session, such as a copy kept elsewhere, stops working, so a session should not be shared across devices.
-- `update_email()` - Update currently logged in user account email address. After changing user address, the user confirmation status will get reset. A new confirmation email is not sent automatically however you can use the send confirmation email endpoint again to send the confirmation email. For security measures, user password is required to complete this request.
-This endpoint can also be used to convert an anonymous account to a normal one, by passing an email address and a new password.
-
-- `list_identities()` - Get the list of identities for the currently logged in user.
-- `delete_identity()` - Delete an identity by its unique ID.
-- `list_memberships()` - Get the team memberships of the currently logged in user.
-- `update_mfa()` - Enable or disable MFA on an account.
-- `create_mfa_authenticator()` - Add an authenticator app to be used as an MFA factor. Verify the authenticator using the [verify authenticator](/docs/references/cloud/client-web/account#updateMfaAuthenticator) method.
-- `create_mfa_authenticator()` - Add an authenticator app to be used as an MFA factor. Verify the authenticator using the [verify authenticator](/docs/references/cloud/client-web/account#updateMfaAuthenticator) method.
-- `update_mfa_authenticator()` - Verify an authenticator app after adding it using the [add authenticator](/docs/references/cloud/client-web/account#createMfaAuthenticator) method.
-- `update_mfa_authenticator()` - Verify an authenticator app after adding it using the [add authenticator](/docs/references/cloud/client-web/account#createMfaAuthenticator) method.
-- `delete_mfa_authenticator()` - Delete an authenticator for a user by ID.
-- `delete_mfa_authenticator()` - Delete an authenticator for a user by ID.
-- `create_mfa_challenge()` - Begin the process of MFA verification after sign-in. Finish the flow with [updateMfaChallenge](/docs/references/cloud/client-web/account#updateMfaChallenge) method.
-- `create_mfa_challenge()` - Begin the process of MFA verification after sign-in. Finish the flow with [updateMfaChallenge](/docs/references/cloud/client-web/account#updateMfaChallenge) method.
-- `update_mfa_challenge()` - Complete the MFA challenge by providing the one-time password. Finish the process of MFA verification by providing the one-time password. To begin the flow, use [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge) method.
-- `update_mfa_challenge()` - Complete the MFA challenge by providing the one-time password. Finish the process of MFA verification by providing the one-time password. To begin the flow, use [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge) method.
-- `list_mfa_factors()` - List the factors available on the account to be used as a MFA challange.
-- `list_mfa_factors()` - List the factors available on the account to be used as a MFA challange.
-- `get_mfa_recovery_codes()` - Get recovery codes that can be used as backup for MFA flow. Before getting codes, they must be generated using [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes) method. An OTP challenge is required to read recovery codes.
-- `get_mfa_recovery_codes()` - Get recovery codes that can be used as backup for MFA flow. Before getting codes, they must be generated using [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes) method. An OTP challenge is required to read recovery codes.
-- `create_mfa_recovery_codes()` - Generate recovery codes as backup for MFA flow. It&#039;s recommended to generate and show then immediately after user successfully adds their authehticator. Recovery codes can be used as a MFA verification type in [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge) method.
-- `create_mfa_recovery_codes()` - Generate recovery codes as backup for MFA flow. It&#039;s recommended to generate and show then immediately after user successfully adds their authehticator. Recovery codes can be used as a MFA verification type in [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge) method.
-- `update_mfa_recovery_codes()` - Regenerate recovery codes that can be used as backup for MFA flow. Before regenerating codes, they must be first generated using [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes) method. An OTP challenge is required to regenreate recovery codes.
-- `update_mfa_recovery_codes()` - Regenerate recovery codes that can be used as backup for MFA flow. Before regenerating codes, they must be first generated using [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes) method. An OTP challenge is required to regenreate recovery codes.
-- `update_name()` - Update currently logged in user account name.
-- `list_passkeys()` - Get the list of verified passkeys registered by the currently logged in user.
-- `create_passkey()` - Start registering a passkey for the currently logged in user. The session must have signed in or completed an MFA challenge within the last 10 minutes. Pass the returned `publicKey` options to `navigator.credentials.create()`, then complete the registration with [Update passkey verification](/docs/references/cloud/client-web/account#updatePasskeyVerification). The passkey stays pending until verified, and the challenge expires after 5 minutes.
-- `get_passkey()` - Get a verified passkey of the currently logged in user by its unique ID.
-- `update_passkey()` - Rename a passkey of the currently logged in user.
-- `delete_passkey()` - Delete a passkey from the currently logged in user. The passkey can no longer be used to sign in, although it may remain stored on the user&#039;s device. The session must have signed in or completed an MFA challenge within the last 10 minutes.
-- `update_passkey_verification()` - Complete a passkey registration started with [Create passkey](/docs/references/cloud/client-web/account#createPasskey). Pass the JSON form of the credential returned by `navigator.credentials.create()`, for example `credential.toJSON()`. Each registration can be verified once; a failed attempt requires starting it again.
-- `update_password()` - Update currently logged in user password. For validation, user is required to pass in the new password, and the old password. For users created with OAuth, Team Invites and Magic URL, oldPassword is optional.
-- `update_phone()` - Update the currently logged in user&#039;s phone number. After updating the phone number, the phone verification status will be reset. A confirmation SMS is not sent automatically, however you can use the [POST /account/verification/phone](https://appwrite.io/docs/references/cloud/client-web/account#createPhoneVerification) endpoint to send a confirmation SMS.
-- `get_prefs()` - Get the preferences as a key-value object for the currently logged in user.
-- `update_prefs()` - Update currently logged in user account preferences. The object you pass is stored as is, and replaces any previous value. The maximum allowed prefs size is 64kB and throws error if exceeded.
-- `create_recovery()` - Sends the user an email with a temporary secret key for password reset. When the user clicks the confirmation link he is redirected back to your app password reset URL with the secret key and email address values attached to the URL query string. Use the query string params to submit a request to the [PUT /account/recovery](https://appwrite.io/docs/references/cloud/client-web/account#updateRecovery) endpoint to complete the process. The verification link sent to the user&#039;s email address is valid for 1 hour.
-- `update_recovery()` - Use this endpoint to complete the user account password reset. Both the **userId** and **secret** arguments will be passed as query parameters to the redirect URL you have provided when sending your request to the [POST /account/recovery](https://appwrite.io/docs/references/cloud/client-web/account#createRecovery) endpoint.
-
-Please note that in order to avoid a [Redirect Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md) the only valid redirect URLs are the ones from domains you have set when adding your platforms in the console interface.
-
-The new password must satisfy the project&#039;s enabled password policies, including custom deny lists. Dictionary entries match the entire password case-sensitively; personal-data terms match substrings case-insensitively. Personal-data validation runs after token verification against the recovered user&#039;s ID, name, email, and phone, closing the previous recovery gap for profile-based checks. A rejected password leaves the existing credentials unchanged and the recovery token usable.
-
-- `create_recovery_otp()` - Use this endpoint to send a 6-digit password recovery code to the user&#039;s email address. Unlike [createRecovery](https://appwrite.io/docs/references/cloud/client-web/account#createRecovery), this method requires no redirect URL, which makes it suitable for mobile and desktop apps that cannot host a recovery page. Learn more about how to [complete the recovery process](https://appwrite.io/docs/references/cloud/client-web/account#updateRecoveryOTP). The code sent to the user&#039;s email address is valid for 15 minutes.
-
-Enable the **phrase** parameter to include a randomly generated security phrase in both the email and the response. Showing that phrase in your app lets the user confirm the email genuinely came from your request, which helps protect against phishing.
-
-- `update_recovery_otp()` - Use this endpoint to complete the user password recovery process using the 6-digit code that was emailed by [createRecoveryOTP](https://appwrite.io/docs/references/cloud/client-web/account#createRecoveryOTP). Pass the **userId** of the user along with the **secret** code from the email and the new **password** to set. If confirmed, this route will return a 200 status code, the code is consumed and the user&#039;s password is updated.
-
-The new password must satisfy the project&#039;s enabled password policies, including custom deny lists. Dictionary entries match the entire password case-sensitively; personal-data terms match substrings case-insensitively. Personal-data validation runs after token verification against the recovered user&#039;s ID, name, email, and phone, closing the previous recovery gap for profile-based checks. A rejected password leaves the existing credentials unchanged and the recovery token usable.
-
-- `list_sessions()` - Get the list of active sessions across different devices for the currently logged in user.
-- `delete_sessions()` - Delete all sessions from the user account and remove any sessions cookies from the end client. Pass `current` as false to keep the session making the request and sign out of every other session.
-- `create_anonymous_session()` - Use this endpoint to allow a new user to register an anonymous account in your project. This route will also create a new session for the user. To allow the new user to convert an anonymous account to a normal account, you need to update its [email and password](https://appwrite.io/docs/references/cloud/client-web/account#updateEmail) or create an [OAuth2 session](https://appwrite.io/docs/references/cloud/client-web/account#CreateOAuth2Session).
-- `create_email_password_session()` - Allow the user to login into their account by providing a valid email and password combination. This route will create a new session for the user. Use the optional `duration` parameter to create a shorter session, for example when the user doesn&#039;t choose &quot;remember me&quot;. It must be at least 60 seconds and cannot exceed the project maximum session length.
-
-A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
-- `create_id_token_session()` - Allow the user to login to their account using an OpenID Connect ID token obtained natively from the OAuth2 provider, for example via Google Credential Manager on Android or Sign in with Apple on iOS. No browser or redirect is involved: the ID token is verified against the provider&#039;s published signing keys and a session is created in a single request.
-
-Native sign-in is switched on per provider with its nativeEnabled setting. It is independent of the browser-based flow&#039;s enabled setting, which has no effect on this endpoint. The token&#039;s audience must match the provider&#039;s configured client ID or one of its native client IDs; tokens issued for any other client ID are rejected. For Sign in with Apple, register your app&#039;s bundle ID as a native client ID. For Google, the web client ID used by Credential Manager is usually the configured client ID; add your Android and iOS client IDs as native client IDs if your app requests tokens for them.
-
-Pass the raw nonce used when requesting the ID token so it can be validated against the token&#039;s nonce claim. When signing in with Apple, the nonce is required: hash it with SHA-256 before passing it to the Apple SDK, and send the raw value here - Apple tokens requested without a nonce are rejected. For Google the nonce is optional: it is validated whenever the token carries one, and ignored when the provider issued the token without one. Apple only returns the user&#039;s name on the first authorization, and never inside the ID token - capture it on the client and pass it via the name parameter.
-
-If there is already an active session, the new session will be attached to the logged-in account. If there are no active sessions, the server will attempt to look for a user with the same email address as the verified email received from the provider and attach the new session to the existing user. If no matching user is found - the server will create a new user.
-
-This flow does not return provider refresh tokens. You may pass an access token the provider handed your client, along with its lifetime, to store it on the session - but Appwrite cannot renew it once it expires. If your app needs long-lived access to provider APIs, use the browser-based OAuth2 flow instead.
-
-A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
-
-- `create_ldap_session()` - Allow the user to login into their account by providing the username and password they use in the project&#039;s LDAP directory. The directory verifies the password; on the first sign-in an account is created from the directory entry, and on later sign-ins the name, email and phone follow the directory. This endpoint requires LDAP to be configured and enabled for the project. A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
-- `update_magic_url_session()` - Use this endpoint to create a session from token. Provide the **userId** and **secret** parameters from the successful response of authentication flows initiated by token creation. For example, magic URL and phone login.
-- `update_phone_session()` - Use this endpoint to create a session from token. Provide the **userId** and **secret** parameters from the successful response of authentication flows initiated by token creation. For example, magic URL and phone login.
-- `create_session()` - Use this endpoint to create a session from token. Provide the **userId** and **secret** parameters from the successful response of authentication flows initiated by token creation. For example, magic URL and phone login.
-- `get_session()` - Use this endpoint to get a logged in user&#039;s session using a Session ID. Inputting &#039;current&#039; will return the current session being used.
-- `update_session()` - Use this endpoint to extend a session&#039;s length. Extending a session is useful when session expiry is short. If the session was created using an OAuth provider, this endpoint refreshes the access token from the provider.
-- `delete_session()` - Logout the user. Use &#039;current&#039; as the session ID to logout on this device, use a session ID to logout on another device. If you&#039;re looking to logout the user on all devices, use [Delete Sessions](https://appwrite.io/docs/references/cloud/client-web/account#deleteSessions) instead.
-- `update_status()` - Block the currently logged in user account. Behind the scene, the user record is not deleted but permanently blocked from any access. To completely delete a user, use the Users API instead.
-- `create_email_token()` - Sends the user an email with a secret key for creating a session. If the email address has never been used, a **new account is created** using the provided `userId`. Otherwise, if the email address is already attached to an account, the **user ID is ignored**. Then, the user will receive an email with the one-time password. Use the returned user ID and secret and submit a request to the [POST /v1/account/sessions/token](https://appwrite.io/docs/references/cloud/client-web/account#createSession) endpoint to complete the login process. The secret sent to the user&#039;s email is valid for 15 minutes.
-
-A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
-
-- `create_magic_url_token()` - Sends the user an email with a secret key for creating a session. If the provided user ID has not been registered, a new user will be created. When the user clicks the link in the email, the user is redirected back to the URL you provided with the secret key and userId values attached to the URL query string. Use the query string parameters to submit a request to the [POST /v1/account/sessions/token](https://appwrite.io/docs/references/cloud/client-web/account#createSession) endpoint to complete the login process. The link sent to the user&#039;s email address is valid for 1 hour.
-
-A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
-
-- `create_o_auth2_token()` - Allow the user to login to their account using the OAuth2 provider of their choice. Each OAuth2 provider should be enabled from the Appwrite console first. Use the success and failure arguments to provide a redirect URL&#039;s back to your app when login is completed. 
-
-If authentication succeeds, `userId` and `secret` of a token will be appended to the success URL as query parameters. These can be used to create a new session using the [Create session](https://appwrite.io/docs/references/cloud/client-web/account#createSession) endpoint.
-
-If there is already an active session, the OAuth2 identity is attached to the logged-in account and that session stays active until the token is exchanged for a new one.
-
-A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
-- `create_passkey_token()` - Start signing in with a passkey. No email or user ID is needed: pass the returned `publicKey` options to `navigator.credentials.get()` and the user picks one of their passkeys. Then call [Update passkey token](/docs/references/cloud/client-web/account#updatePasskeyToken) with the credential to receive a token, and exchange it with [Create session](/docs/references/cloud/client-web/account#createSession). The challenge expires after 5 minutes.
-- `update_passkey_token()` - Complete a passkey sign-in started with [Create passkey token](/docs/references/cloud/client-web/account#createPasskeyToken). Pass the challenge ID and the JSON form of the credential returned by `navigator.credentials.get()`, for example `credential.toJSON()`. The returned token includes its secret and expires after 1 minute: exchange it for a session with [Create session](/docs/references/cloud/client-web/account#createSession). Passkeys require user verification, so the session also satisfies MFA. Each challenge can only be used once.
-- `create_phone_token()` - Sends the user an SMS with a secret key for creating a session. If the provided user ID has not be registered, a new user will be created. Use the returned user ID and secret and submit a request to the [POST /v1/account/sessions/token](https://appwrite.io/docs/references/cloud/client-web/account#createSession) endpoint to complete the login process. The secret sent to the user&#039;s phone is valid for 15 minutes.
-
-A user is limited to 10 active sessions at a time by default. [Learn more about session limits](https://appwrite.io/docs/authentication-security#limits).
-- `create_email_verification()` - Use this endpoint to send a verification message to your user email address to confirm they are the valid owners of that address. Both the **userId** and **secret** arguments will be passed as query parameters to the URL you have provided to be attached to the verification email. The provided URL should redirect the user back to your app and allow you to complete the verification process by verifying both the **userId** and **secret** parameters. Learn more about how to [complete the verification process](https://appwrite.io/docs/references/cloud/client-web/account#updateVerification). The verification link sent to the user&#039;s email address is valid for 7 days.
-
-Please note that in order to avoid a [Redirect Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md), the only valid redirect URLs are the ones from domains you have set when adding your platforms in the console interface.
-
-- `create_verification()` - Use this endpoint to send a verification message to your user email address to confirm they are the valid owners of that address. Both the **userId** and **secret** arguments will be passed as query parameters to the URL you have provided to be attached to the verification email. The provided URL should redirect the user back to your app and allow you to complete the verification process by verifying both the **userId** and **secret** parameters. Learn more about how to [complete the verification process](https://appwrite.io/docs/references/cloud/client-web/account#updateVerification). The verification link sent to the user&#039;s email address is valid for 7 days.
-
-Please note that in order to avoid a [Redirect Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md), the only valid redirect URLs are the ones from domains you have set when adding your platforms in the console interface.
-
-- `update_email_verification()` - Use this endpoint to complete the user email verification process. Use both the **userId** and **secret** parameters that were attached to your app URL to verify the user email ownership. If confirmed this route will return a 200 status code.
-- `update_verification()` - Use this endpoint to complete the user email verification process. Use both the **userId** and **secret** parameters that were attached to your app URL to verify the user email ownership. If confirmed this route will return a 200 status code.
-- `create_email_verification_otp()` - Use this endpoint to send a 6-digit verification code to the currently logged in user&#039;s email address. Unlike [createEmailVerification](https://appwrite.io/docs/references/cloud/client-web/account#createEmailVerification), this method requires no redirect URL, which makes it suitable for mobile and desktop apps that cannot host a verification page. Learn more about how to [complete the verification process](https://appwrite.io/docs/references/cloud/client-web/account#updateEmailVerificationOTP). The code sent to the user&#039;s email address is valid for 15 minutes.
-
-Enable the **phrase** parameter to include a randomly generated security phrase in both the email and the response. Showing that phrase in your app lets the user confirm the email genuinely came from your request, which helps protect against phishing.
-
-- `update_email_verification_otp()` - Use this endpoint to complete the user email verification process using the 6-digit code that was emailed by [createEmailVerificationOTP](https://appwrite.io/docs/references/cloud/client-web/account#createEmailVerificationOTP). Pass the **userId** of the user being verified along with the **secret** code from the email. If confirmed, this route will return a 200 status code and the code is consumed.
-
-- `create_phone_verification()` - Use this endpoint to send a verification SMS to the currently logged in user. This endpoint is meant for use after updating a user&#039;s phone number using the [accountUpdatePhone](https://appwrite.io/docs/references/cloud/client-web/account#updatePhone) endpoint. Learn more about how to [complete the verification process](https://appwrite.io/docs/references/cloud/client-web/account#updatePhoneVerification). The verification code sent to the user&#039;s phone number is valid for 15 minutes.
-- `update_phone_verification()` - Use this endpoint to complete the user phone verification process. Use the **userId** and **secret** that were sent to your user&#039;s phone number to verify the user email ownership. If confirmed this route will return a 200 status code.
-
-#### Activities
-The Activities service allows you to list and inspect project activity events.
-- `list_events()` - List all events for selected filters.
-- `get_event()` - Get event by ID.
-
-
-#### Apps
-The Apps service allows you to manage OAuth2 applications, their keys, secrets, scopes, and installations.
-- `list()` - List applications.
-- `create()` - Create a new application.
-- `list_installation_scopes()` - List scopes an application can request when installed on a team.
-- `list_o_auth2_scopes()` - List scopes an application can request during the OAuth2 flow.
-- `get()` - Get an application by its unique ID.
-- `update()` - Update an application by its unique ID.
-- `delete()` - Delete an application by its unique ID.
-- `list_installations()` - List installations of an application. Requires an app key sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header, or a caller with update access to the app.
-- `get_installation()` - Get an installation of an application by its unique ID. Requires an app key sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header, or a caller with update access to the app.
-- `delete_installation()` - Delete an installation of an application by its unique ID. Requires a caller with update access to the app. Previously issued installation access tokens are revoked.
-- `create_installation_token()` - Create a token for an installation of an application. Requires an app key sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header, or a caller with update access to the app. The returned token carries the scopes and authorization details granted to the installation, and can be used as an `Authorization: Bearer` header everywhere OAuth2 access tokens are accepted. Multiple tokens can be active for the same installation at once; each token stays valid until it expires or the installation is updated or deleted.
-- `list_keys()` - List app keys for an application.
-- `create_key()` - Create a new app key for an application. App keys carry no scopes; send one in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header to list the application&#039;s installations and create installation access tokens.
-- `get_key()` - Get an app key by its unique ID.
-- `delete_key()` - Delete an app key by its unique ID.
-- `update_labels()` - Update the labels of an application. Labels are read-only for clients; only a server SDK using a project API key can set them. Replaces the previous labels.
-- `list_secrets()` - List client secrets for an application.
-- `create_secret()` - Create a new client secret for an application.
-- `get_secret()` - Get an application client secret by its unique ID.
-- `delete_secret()` - Delete an application client secret by its unique ID.
-- `update_team()` - Transfer an application to another team by its unique ID.
-- `delete_tokens()` - Revoke all tokens for an application by its unique ID.
-
-#### Avatars
-The Avatars service aims to help you complete everyday tasks related to your app image, icons, and avatars.
-- `get_browser()` - You can use this endpoint to show different browser icons to your users. The code argument receives the browser code as it appears in your user [GET /account/sessions](https://appwrite.io/docs/references/cloud/client-web/account#getSessions) endpoint. Use width, height and quality arguments to change the output settings.
-
-When one dimension is specified and the other is 0, the image is scaled with preserved aspect ratio. If both dimensions are 0, the API provides an image at source quality. If dimensions are not specified, the default size of image returned is 100x100px.
-- `get_credit_card()` - The credit card endpoint will return you the icon of the credit card provider you need. Use width, height and quality arguments to change the output settings.
-
-When one dimension is specified and the other is 0, the image is scaled with preserved aspect ratio. If both dimensions are 0, the API provides an image at source quality. If dimensions are not specified, the default size of image returned is 100x100px.
-
-- `get_favicon()` - Use this endpoint to fetch the favorite icon (AKA favicon) of any remote website URL.
-
-This endpoint does not follow HTTP redirects.
-- `get_flag()` - You can use this endpoint to show different country flags icons to your users. The code argument receives the 2 letter country code. Use width, height and quality arguments to change the output settings. Country codes follow the [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1) standard.
-
-When one dimension is specified and the other is 0, the image is scaled with preserved aspect ratio. If both dimensions are 0, the API provides an image at source quality. If dimensions are not specified, the default size of image returned is 100x100px.
-
-- `get_image()` - Use this endpoint to fetch a remote image URL and crop it to any image size you want. This endpoint is very useful if you need to crop and display remote images in your app or in case you want to make sure a 3rd party image is properly served using a TLS protocol.
-
-When one dimension is specified and the other is 0, the image is scaled with preserved aspect ratio. If both dimensions are 0, the API provides an image at source quality. If dimensions are not specified, the default size of image returned is 400x400px.
-
-This endpoint does not follow HTTP redirects.
-- `get_initials()` - Use this endpoint to show your user initials avatar icon on your website or app. By default, this route will try to print your logged-in user name or email initials. You can also overwrite the user name if you pass the &#039;name&#039; parameter. If no name is given and no user is logged, an empty avatar will be returned.
-
-You can use the color and background params to change the avatar colors. By default, a random theme will be selected. The random theme will persist for the user&#039;s initials when reloading the same theme will always return for the same initials.
-
-When one dimension is specified and the other is 0, the image is scaled with preserved aspect ratio. If both dimensions are 0, the API provides an image at source quality. If dimensions are not specified, the default size of image returned is 100x100px.
-
-- `get_photo()` - Returns the best available profile photo for a user. The endpoint tries each source in priority order and returns the first successful result: a custom uploaded photo (see avatars.updatePhoto), OAuth2 identity photo, Gravatar, Libravatar, Appwrite Initials, built-in static fallback.
-
-Passing `userId` — `current()` for the authenticated user — resolves the photo from everything known about that user: identity photos, email, and name. An explicit `emailHash` or `name` then overrides just that value, and the user&#039;s remaining sources stay in the chain. Without `userId`, passing `emailHash` and/or `name` resolves the avatar from those values alone: the hash is looked up on Gravatar and Libravatar, the name is rendered as initials, and the session user stays out of the chain so their own photo never shadows the avatar being asked for. When nothing is passed, the photo resolves for the currently authenticated user. Emails are only ever accepted pre-hashed, so no address ends up in a URL.
-- `update_photo()` - Update the profile photo of the currently authenticated user. The uploaded image takes priority over every other photo source, including OAuth2 identity photos, Gravatar, and Libravatar. Updating an already customized photo replaces it. The image must be at most 5MB and is sent in a single request.
-- `delete_photo()` - Delete the profile photo of the currently authenticated user and store the built-in static placeholder in its place. The placeholder is the user&#039;s photo from then on, so it takes priority over every other photo source — OAuth2 identity photos, Gravatar, Libravatar, and initials — until a new photo is uploaded with avatars.updatePhoto.
-- `get_qr()` - Converts a given plain text to a QR code image. You can use the query parameters to change the size and style of the resulting image.
-
-- `get_screenshot()` - Use this endpoint to capture a screenshot of any website URL. This endpoint uses a headless browser to render the webpage and capture it as an image.
-
-You can configure the browser viewport size, theme, user agent, geolocation, permissions, and more. Capture either just the viewport or the full page scroll.
-
-When width and height are specified, the image is resized accordingly. If both dimensions are 0, the API provides an image at original size. If dimensions are not specified, the default viewport size is 1280x720px.
-
-Set `output` to `auto` to receive avif or webp when the `Accept` header of your request supports it, falling back to png.
-
-#### Backups
-The Backups service allows you to manage backup policies, archives, and restorations for your project.
-- `list_archives()` - List all archives for a project.
-- `create_archive()` - Create a new archive asynchronously for a project.
-- `get_archive()` - Get a backup archive using it&#039;s ID.
-- `delete_archive()` - Delete an existing archive for a project.
-- `list_policies()` - List all policies for a project.
-- `create_policy()` - Create a new backup policy.
-- `get_policy()` - Get a backup policy using it&#039;s ID.
-- `update_policy()` - Update an existing policy using it&#039;s ID.
-- `delete_policy()` - Delete a policy using it&#039;s ID.
-- `create_restoration()` - Create and trigger a new restoration for a backup on a project.
-
-For a backup of one database, the restoration resolves its destination before it is queued. When `newResourceId` is omitted, the archived database is restored in place and its own ID is returned in `options`. Pass a different `newResourceId` to restore alongside it as a new database instead.
-
-The restoration migration records the archived database in `resourceId` and `resourceType`, and the resolved database in `destinationResourceId` and `destinationResourceType`. Database types are stored canonically as `database`, `documentsdb`, or `vectorsdb`. Project-wide restorations leave these fields empty because they do not have a single source or destination database.
-
-To list every migration related to one database, use its canonical type in a nested `OR(AND(...), AND(...), AND(...))` across the root, parent, and destination relation pairs: `(resourceType, resourceId)`, `(parentResourceType, parentResourceId)`, and `(destinationResourceType, destinationResourceId)`. Legacy and TablesDB databases use `database`; the operational `resourceType` of a table migration is not rewritten to `tablesdb`.
-
-When restoring a DocumentsDB or VectorsDB database from a dedicated source, the restore provisions a fresh dedicated backing database at the source database&#039;s own specification and lands the data there. An in-place restore swaps the database onto that backing only once the restore has succeeded, and retires the backing it displaced only once that swap is confirmed, so the source keeps serving its own data until the restored data is in place and any failure leaves it untouched. A serverless source has no dedicated backing to clone and restores onto the archived database instead.
-
-- `list_restorations()` - List all backup restorations for a project.
-- `get_restoration()` - Get the current status of a backup restoration.
-
-#### Databases
-The Databases service allows you to create structured collections of documents, query and filter lists of documents
-- `list()` - Get a list of all databases from the current Appwrite project. You can use the search parameter to filter your results.
-- `create()` - Create a new Database.
-
-- `list_transactions()` - List transactions across all databases.
-- `create_transaction()` - Create a new transaction.
-- `get_transaction()` - Get a transaction by its unique ID.
-- `update_transaction()` - Update a transaction, to either commit or roll back its operations.
-- `delete_transaction()` - Delete a transaction by its unique ID.
-- `create_operations()` - Create multiple operations in a single transaction.
-- `get()` - Get a database by its unique ID. This endpoint response returns a JSON object with the database metadata.
-- `update()` - Update a database by its unique ID.
-- `delete()` - Delete a database by its unique ID. Only API keys with with databases.write scope can delete a database.
-- `list_collections()` - Get a list of all collections that belong to the provided databaseId. You can use the search parameter to filter your results.
-- `create_collection()` - Create a new Collection. Before using this route, you should create a new database resource using either a [server integration](https://appwrite.io/docs/server/databases#databasesCreateCollection) API or directly from your database console.
-- `get_collection()` - Get a collection by its unique ID. This endpoint response returns a JSON object with the collection metadata.
-- `update_collection()` - Update a collection by its unique ID.
-- `delete_collection()` - Delete a collection by its unique ID. Only users with write permissions have access to delete this resource.
-- `list_attributes()` - List attributes in the collection.
-- `create_big_int_attribute()` - Create a bigint attribute. Optionally, minimum and maximum values can be provided.
-
-- `update_big_int_attribute()` - Update a bigint attribute. Changing the `default` value will not update already existing documents.
-
-- `create_boolean_attribute()` - Create a boolean attribute.
-
-- `update_boolean_attribute()` - Update a boolean attribute. Changing the `default` value will not update already existing documents.
-- `create_datetime_attribute()` - Create a date time attribute according to the ISO 8601 standard.
-- `update_datetime_attribute()` - Update a date time attribute. Changing the `default` value will not update already existing documents.
-- `create_email_attribute()` - Create an email attribute.
-
-- `update_email_attribute()` - Update an email attribute. Changing the `default` value will not update already existing documents.
-
-- `create_enum_attribute()` - Create an enum attribute. The `elements` param acts as a white-list of accepted values for this attribute. 
-
-- `update_enum_attribute()` - Update an enum attribute. Changing the `default` value will not update already existing documents.
-
-- `create_float_attribute()` - Create a float attribute. Optionally, minimum and maximum values can be provided.
-
-- `update_float_attribute()` - Update a float attribute. Changing the `default` value will not update already existing documents.
-
-- `create_integer_attribute()` - Create an integer attribute. Optionally, minimum and maximum values can be provided.
-
-- `update_integer_attribute()` - Update an integer attribute. Changing the `default` value will not update already existing documents.
-
-- `create_ip_attribute()` - Create IP address attribute.
-
-- `update_ip_attribute()` - Update an ip attribute. Changing the `default` value will not update already existing documents.
-
-- `create_line_attribute()` - Create a geometric line attribute.
-- `update_line_attribute()` - Update a line attribute. Changing the `default` value will not update already existing documents.
-- `create_longtext_attribute()` - Create a longtext attribute.
-
-- `update_longtext_attribute()` - Update a longtext attribute. Changing the `default` value will not update already existing documents.
-
-- `create_mediumtext_attribute()` - Create a mediumtext attribute.
-
-- `update_mediumtext_attribute()` - Update a mediumtext attribute. Changing the `default` value will not update already existing documents.
-
-- `create_point_attribute()` - Create a geometric point attribute.
-- `update_point_attribute()` - Update a point attribute. Changing the `default` value will not update already existing documents.
-- `create_polygon_attribute()` - Create a geometric polygon attribute.
-- `update_polygon_attribute()` - Update a polygon attribute. Changing the `default` value will not update already existing documents.
-- `create_relationship_attribute()` - Create relationship attribute. [Learn more about relationship attributes](https://appwrite.io/docs/databases-relationships#relationship-attributes).
-
-- `update_relationship_attribute()` - Update relationship attribute. [Learn more about relationship attributes](https://appwrite.io/docs/databases-relationships#relationship-attributes).
-
-- `create_string_attribute()` - Create a string attribute.
-
-- `update_string_attribute()` - Update a string attribute. Changing the `default` value will not update already existing documents.
-
-- `create_text_attribute()` - Create a text attribute.
-
-- `update_text_attribute()` - Update a text attribute. Changing the `default` value will not update already existing documents.
-
-- `create_url_attribute()` - Create a URL attribute.
-
-- `update_url_attribute()` - Update an url attribute. Changing the `default` value will not update already existing documents.
-
-- `create_varchar_attribute()` - Create a varchar attribute.
-
-- `update_varchar_attribute()` - Update a varchar attribute. Changing the `default` value will not update already existing documents.
-
-- `get_attribute()` - Get attribute by ID.
-- `delete_attribute()` - Deletes an attribute.
-- `list_documents()` - Get a list of all the user&#039;s documents in a given collection. You can use the query params to filter your results.
-
-Documents returned by aggregate, groupBy or distinct queries hold only the attributes they select, group or aggregate, typed as a document types them, with a joined attribute named by its join alias (`alias.attribute`). The response omits their `$id`, `$sequence`, `$createdAt`, `$updatedAt`, `$permissions`, `$databaseId` and `$collectionId` unless they select or group it, and those of a right or full join document that no document of this collection matched. SDK document models fill omitted system attributes with empty values.
-- `create_document()` - Create a new Document. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#databasesCreateCollection) API or directly from your database console.
-- `create_documents()` - Create new Documents. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#databasesCreateCollection) API or directly from your database console.
-- `upsert_documents()` - Create or update Documents. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#databasesCreateCollection) API or directly from your database console.
-
-- `update_documents()` - Update all documents that match your queries, if no queries are submitted then all documents are updated. You can pass only specific fields to be updated.
-- `delete_documents()` - Bulk delete documents using queries, if no queries are passed then all documents are deleted.
-- `create_query()` - Get a list of all the user&#039;s documents in a given collection using a POST request. This behaves identically to the list documents endpoint but accepts the queries in the request body, allowing much larger `queries` arrays than can fit in a URL query string.
-
-- `get_document()` - Get a document by its unique ID. This endpoint response returns a JSON object with the document data.
-- `upsert_document()` - Create or update a Document. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#databasesCreateCollection) API or directly from your database console.
-- `update_document()` - Update a document by its unique ID. Using the patch method you can pass only specific fields that will get updated.
-- `delete_document()` - Delete a document by its unique ID.
-- `decrement_document_attribute()` - Decrement a specific attribute of a document by a given value.
-- `increment_document_attribute()` - Increment a specific attribute of a document by a given value.
-- `list_indexes()` - List indexes in the collection.
-- `create_index()` - Creates an index on the attributes listed. Your index should include all the attributes you will query in a single request.
-Attributes can be `key`, `fulltext`, `unique`, `spatial`, and `trigram`. `trigram` is only available on PostgreSQL and lets `contains`, `startsWith`, and `endsWith` queries on string attributes use an index.
-- `get_index()` - Get an index by its unique ID.
-- `delete_index()` - Delete an index.
-
-#### DocumentsDB
-
-- `list()` - Get a list of all databases from the current Appwrite project. You can use the search parameter to filter your results.
-- `create()` - Create a new Database.
-
-- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, its own prices and overage rates, and whether it is enabled for the organization.
-- `list_transactions()` - List transactions across all databases.
-- `create_transaction()` - Create a new transaction.
-- `get_transaction()` - Get a transaction by its unique ID.
-- `update_transaction()` - Update a transaction, to either commit or roll back its operations.
-- `delete_transaction()` - Delete a transaction by its unique ID.
-- `create_operations()` - Create multiple operations in a single transaction.
-- `get()` - Get a database by its unique ID. This endpoint response returns a JSON object with the database metadata.
-- `update()` - Update a database by its unique ID.
-- `delete()` - Delete a database by its unique ID. Only API keys with with databases.write scope can delete a database.
-- `list_collections()` - Get a list of all collections that belong to the provided databaseId. You can use the search parameter to filter your results.
-- `create_collection()` - Create a new Collection. Before using this route, you should create a new database resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
-- `get_collection()` - Get a collection by its unique ID. This endpoint response returns a JSON object with the collection metadata.
-- `update_collection()` - Update a collection by its unique ID.
-- `delete_collection()` - Delete a collection by its unique ID. Only users with write permissions have access to delete this resource.
-- `list_documents()` - Get a list of all the user&#039;s documents in a given collection. You can use the query params to filter your results.
-- `create_document()` - Create a new Document. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
-- `create_documents()` - Create new Documents. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
-- `upsert_documents()` - Create or update Documents. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
-
-- `update_documents()` - Update all documents that match your queries, if no queries are submitted then all documents are updated. You can pass only specific fields to be updated.
-- `delete_documents()` - Bulk delete documents using queries, if no queries are passed then all documents are deleted.
-- `create_query()` - Get a list of all the user&#039;s documents in a given collection using a POST request. This behaves identically to the list documents endpoint but accepts the queries in the request body, allowing much larger `queries` arrays than can fit in a URL query string.
-
-- `get_document()` - Get a document by its unique ID. This endpoint response returns a JSON object with the document data.
-- `upsert_document()` - Create or update a Document. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
-- `update_document()` - Update a document by its unique ID. Using the patch method you can pass only specific fields that will get updated.
-- `delete_document()` - Delete a document by its unique ID.
-- `decrement_document_attribute()` - Decrement a specific column of a row by a given value.
-- `increment_document_attribute()` - Increment a specific column of a row by a given value.
-- `list_indexes()` - List indexes in the collection.
-- `create_index()` - Creates an index on the attributes listed. Your index should include all the attributes you will query in a single request.
-Attributes can be `key`, `fulltext`, and `unique`.
-- `get_index()` - Get index by ID.
-- `delete_index()` - Delete an index.
-- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
-- `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
-- `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
-- `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
-
-#### Domains
-
-- `list()` - List all domains registered for this project. This endpoint supports pagination.
-- `create()` - Create a new domain. Before creating a domain, you need to ensure that your DNS provider is properly configured. After creating the domain, you can use the verification endpoint to check if the domain is ready to be used.
-- `get_price()` - Get the registration price for a domain name.
-- `list_prices()` - Check availability and get the requested registration price for one or more domain names. Availability is resolved for all domains in a single registrar lookup. Unavailable domains have a null price for new registrations, but can still be priced for renewal, transfer, or trade. Available domains have a null price for transfers, since an unregistered domain cannot be transferred, and the reason says so. Every priced domain also carries its renewal price for the same period, so a separate renewal lookup is not needed. A domain whose price could not be resolved, for example because its TLD is not supported, is returned with a null price.
-- `get()` - Get a domain by its unique ID.
-- `delete()` - Delete a domain by its unique ID. This endpoint can be used to delete a domain from your project.
-Once deleted, the domain will no longer be available for use and all associated resources will be removed.
-- `update_nameservers()` - Update the registrar nameservers for the given domain. When nameservers are not provided,
-the domain will be updated to use Appwrite nameservers.
-- `verify_nameservers()` - Verify which NS records are used and update the domain accordingly. This will check the domain&#039;s
-nameservers and update the domain&#039;s status based on whether the nameservers match the expected
-Appwrite nameservers.
-- `get_preset_google_workspace()` - List Google Workspace DNS records.
-- `create_preset_google_workspace()` - Add Google Workspace DNS records to the domain. This will create the required MX records 
-for Google Workspace email hosting.
-- `get_preset_i_cloud()` - List iCloud DNS records.
-- `create_preset_i_cloud()` - Add iCloud DNS records to the domain. This will create the required MX and SPF records
-for using iCloud email services with your domain.
-- `get_preset_mailgun()` - List Mailgun DNS records.
-- `create_preset_mailgun()` - Add Mailgun DNS records to the domain. This endpoint will create the required DNS records 
-for Mailgun in the specified domain.
-- `get_preset_outlook()` - List Outlook DNS records.
-- `create_preset_outlook()` - Add Outlook DNS records to the domain. This will create the required MX records
-for setting up Outlook email hosting for your domain.
-- `get_preset_proton_mail()` - List ProtonMail DNS records.
-- `create_preset_proton_mail()` - Add ProtonMail DNS records to the domain. This will create the required MX records
-for using ProtonMail with your custom domain.
-- `get_preset_zoho()` - List Zoho DNS records.
-- `create_preset_zoho()` - Add Zoho Mail DNS records to the domain. This will create the required MX records
-for setting up Zoho Mail on your domain.
-- `list_records()` - List DNS records for a given domain. You can use this endpoint to list all the DNS records
-associated with your domain.
-- `create_record_a()` - Create a new A record for the given domain. A records are used to point a domain name 
-to an IPv4 address. The record value should be a valid IPv4 address.
-- `update_record_a()` - Update an existing A record for the given domain. This endpoint allows you to modify 
-the properties of an A record including its name (subdomain), IPv4 address, TTL, 
-and optional comment.
-- `create_record_aaaa()` - Create a new AAAA record for the given domain. This endpoint allows you to add a new IPv6 DNS record 
-to your domain. The record will be used to point a hostname to an IPv6 address.
-- `update_record_aaaa()` - Update an existing AAAA record for the given domain. This endpoint allows you to modify
-the properties of an existing AAAA record, including its name (subdomain), IPv6 address,
-TTL, and optional comment.
-- `create_record_alias()` - Create a new ALIAS record for the given domain. This record type can be used to point your domain 
-to another domain name that will serve as an alias. This is particularly useful when you want to 
-map your domain to a target domain that may change its IP address.
-- `update_record_alias()` - Update an existing ALIAS record for the specified domain. This endpoint allows you to modify
-the properties of an existing ALIAS record including its name, target domain, TTL, and comment.
-    
-The ALIAS record type is similar to a CNAME record but can be used at the zone apex (root domain).
-It provides a way to map one domain name to another.
-- `create_record_caa()` - Create a new CAA record for the given domain. CAA records are used to specify which 
-Certificate Authorities (CAs) are allowed to issue SSL/TLS certificates for your domain.
-- `update_record_caa()` - Update an existing CAA record for the given domain. A CAA (Certification Authority Authorization) 
-record is used to specify which certificate authorities (CAs) are authorized to issue certificates 
-for a domain.
-- `create_record_cname()` - Create a new CNAME record for the given domain.
-    
-A CNAME record maps a subdomain to another domain name, allowing you to create aliases 
-for your domain. For example, you can create a CNAME record to point &#039;blog.example.com&#039; 
-to &#039;example.wordpress.com&#039;.
-- `update_record_cname()` - Update an existing CNAME record for the given domain.
-- `create_record_https()` - Create a new HTTPS record for the given domain. This record is used to configure HTTPS 
-settings for your domain, enabling secure communication over SSL/TLS.
-- `update_record_https()` - Update an existing HTTPS record for the given domain. This endpoint allows you to modify 
-the properties of an HTTPS record associated with your domain, including the name (subdomain), 
-target value, TTL, and optional comment.
-- `create_record_mx()` - Create a new MX record for the given domain. MX records are used to define the mail servers responsible 
-for accepting email messages for the domain. Multiple MX records can be created with different priorities.
-The priority parameter determines the order in which mail servers are used, with lower values indicating 
-higher priority.
-- `update_record_mx()` - Update an existing MX record for the given domain.
-- `create_record_ns()` - Create a new NS record for the given domain. NS records specify the nameservers that are used 
-to resolve the domain name to IP addresses. Each domain can have multiple NS records.
-- `update_record_ns()` - Update an existing NS record for the given domain. This endpoint allows you to modify 
-the properties of an NS (nameserver) record associated with your domain. You can update 
-the record name (subdomain), target nameserver value, TTL, and add or modify comments 
-for better record management.
-- `create_record_srv()` - Create a new SRV record for the given domain. SRV records are used to define the location 
-of servers for specific services. For example, they can be used to specify which server 
-handles a specific service like SIP or XMPP for the domain.
-- `update_record_srv()` - Update an existing SRV record for the given domain.
-    
-Required parameters:
-- domainId: Domain unique ID
-- recordId: DNS record unique ID
-- name: Record name (service name)
-- value: Target hostname for this SRV record
-- ttl: Time to live, in seconds
-- priority: Record priority
-- weight: Record weight
-- port: Port number for the service
-    
-Optional parameters:
-- comment: A comment for this record
-- `create_record_txt()` - Create a new TXT record for the given domain. TXT records can be used 
-to provide additional information about your domain, such as domain 
-verification records, SPF records, or DKIM records.
-- `update_record_txt()` - Update an existing TXT record for the given domain.
-    
-Update the TXT record details for a specific domain by providing the domain ID,
-record ID, and the new record configuration including name, value, TTL, and an optional comment.
-- `get_record()` - Get a single DNS record for a given domain by record ID.
-    
-This endpoint allows you to retrieve a specific DNS record associated with a domain
-using its unique identifier. The record contains information about the DNS configuration
-such as type, value, and TTL settings.
-- `delete_record()` - Delete a DNS record for the given domain. This endpoint allows you to delete an existing DNS record 
-from a specific domain.
-- `update_team()` - Update the team ID for a specific domain. The caller must administer the current
-team and be an owner of the destination team.
-
-Updating the team ID will transfer ownership and access control of the domain
-and all its DNS records to the new team.
-- `get_transfer_status()` - Retrieve the current transfer status for a domain. Returns the status, an optional reason, and a timestamp of the last status change.
-- `get_zone()` - Retrieve the DNS zone file for the given domain. This endpoint will return the DNS
-zone file in a standardized format that can be used to configure DNS servers.
-- `update_zone()` - Update the DNS zone for the given domain using the provided zone file content.
-All parsed records the domain does not already have are imported and then the main domain document is returned.
-
-#### Embeddings
-
-- `create_text_embeddings()` - Generate vector embeddings for an array of text using the selected embedding model. Use the returned vectors to power semantic search and similarity queries against your vector collections.
-
-
-#### Functions
-The Functions Service allows you view, create and manage your Cloud Functions.
-- `list()` - Get a list of all the project&#039;s functions. You can use the query params to filter your results.
-- `create()` - Create a new function. You can pass a list of [permissions](https://appwrite.io/docs/permissions) to allow different project users or team with access to execute the function using the client API.
-- `list_runtimes()` - Get a list of all runtimes that are currently active on your instance.
-- `list_specifications()` - List allowed function specifications for this instance.
-- `get()` - Get a function by its unique ID.
-- `update()` - Update function by its unique ID.
-- `delete()` - Delete a function by its unique ID.
-- `update_function_deployment()` - Update the function active deployment. Use this endpoint to switch the code deployment that should be used when visitor opens your function.
-- `list_deployments()` - Get a list of all the function&#039;s code deployments. You can use the query params to filter your results.
-- `create_deployment()` - Create a new function code deployment. Use this endpoint to upload a new version of your code function. To execute your newly uploaded code, you&#039;ll need to update the function&#039;s deployment to use your new deployment UID.
-
-This endpoint accepts a tar.gz file compressed with your code. Make sure to include any dependencies your code has within the compressed file. You can learn more about code packaging in the [Appwrite Cloud Functions tutorial](https://appwrite.io/docs/functions).
-
-Use the &quot;command&quot; param to set the entrypoint used to execute your code.
-- `create_duplicate_deployment()` - Create a new build for an existing function deployment. This endpoint allows you to rebuild a deployment with the updated function configuration, including its entrypoint and build commands if they have been modified. The build process will be queued and executed asynchronously. The original deployment&#039;s code will be preserved and used for the new build.
-- `create_template_deployment()` - Create a deployment based on a template.
-
-Use this endpoint with combination of [listTemplates](https://appwrite.io/docs/products/functions/templates) to find the template details.
-- `create_vcs_deployment()` - Create a deployment when a function is connected to VCS.
-
-This endpoint lets you create deployment from a branch, commit, or a tag.
-- `get_deployment()` - Get a function deployment by its unique ID.
-- `delete_deployment()` - Delete a code deployment by its unique ID.
-- `get_deployment_download()` - Get a function deployment content by its unique ID. The endpoint response return with a &#039;Content-Disposition: attachment&#039; header that tells the browser to start downloading the file to user downloads directory.
-- `update_deployment_status()` - Cancel an ongoing function deployment build. If the build is already in progress, it will be stopped and marked as canceled. If the build hasn&#039;t started yet, it will be marked as canceled without executing. You cannot cancel builds that have already completed (status &#039;ready&#039;) or failed. The response includes the final build status and details.
-- `list_executions()` - Get a list of all the current user function execution logs. You can use the query params to filter your results.
-- `create_execution()` - Trigger a function execution. The returned object will return you the current execution status. You can ping the `Get Execution` endpoint to get updates on the current execution status. Once this endpoint is called, your function execution process will start asynchronously.
-- `get_execution()` - Get a function execution log by its unique ID.
-- `delete_execution()` - Delete a function execution by its unique ID.
-- `list_variables()` - Get a list of all variables of a specific function.
-- `create_variable()` - Create a new function environment variable. These variables can be accessed in the function at runtime as environment variables.
-- `get_variable()` - Get a variable by its unique ID.
-- `update_variable()` - Update variable by its unique ID.
-- `delete_variable()` - Delete a variable by its unique ID.
-
-#### Graphql
-The GraphQL API allows you to query and mutate your Appwrite server using GraphQL.
-- `query()` - Execute a GraphQL mutation.
-- `mutation()` - Execute a GraphQL mutation.
-
-#### Locale
-The Locale service allows you to customize your app based on your users&#039; location.
-- `get()` - Get the current user location based on IP. Returns an object with user country code, country name, continent name, continent code, ip address and suggested currency. You can use the locale header to get the data in a supported language.
-
-([IP Geolocation by DB-IP](https://db-ip.com))
-- `list_codes()` - List of all locale codes in [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
-- `list_continents()` - List of all continents. You can use the locale header to get the data in a supported language.
-- `list_countries()` - List of all countries. You can use the locale header to get the data in a supported language.
-- `list_countries_eu()` - List of all countries that are currently members of the EU. You can use the locale header to get the data in a supported language.
-- `list_countries_phones()` - List of all countries phone codes. You can use the locale header to get the data in a supported language.
-- `list_currencies()` - List of all currencies, including currency symbol, name, plural, and decimal digits for all major and minor currencies. You can use the locale header to get the data in a supported language.
-- `list_languages()` - List of all languages classified by ISO 639-1 including 2-letter code, name in English, and name in the respective language.
-
-#### Messaging
-The Messaging service allows you to send messages to any provider type (SMTP, push notification, SMS, etc.).
-- `list_messages()` - Get a list of all messages from the current Appwrite project.
-- `create_email()` - Create a new email message.
-- `update_email()` - Update an email message by its unique ID. This endpoint only works on messages that are in draft status. Messages that are already processing, sent, or failed cannot be updated.
-
-- `create_push()` - Create a new push notification.
-- `update_push()` - Update a push notification by its unique ID. This endpoint only works on messages that are in draft status. Messages that are already processing, sent, or failed cannot be updated.
-
-- `create_sms()` - Create a new SMS message.
-- `create_sms()` - Create a new SMS message.
-- `update_sms()` - Update an SMS message by its unique ID. This endpoint only works on messages that are in draft status. Messages that are already processing, sent, or failed cannot be updated.
-
-- `update_sms()` - Update an SMS message by its unique ID. This endpoint only works on messages that are in draft status. Messages that are already processing, sent, or failed cannot be updated.
-
-- `get_message()` - Get a message by its unique ID.
-
-- `delete()` - Delete a message. If the message is not a draft or scheduled, but has been sent, this will not recall the message.
-- `list_targets()` - Get a list of the targets associated with a message.
-- `list_providers()` - Get a list of all providers from the current Appwrite project.
-- `create_apns_provider()` - Create a new Apple Push Notification service provider.
-- `create_apns_provider()` - Create a new Apple Push Notification service provider.
-- `update_apns_provider()` - Update a Apple Push Notification service provider by its unique ID.
-- `update_apns_provider()` - Update a Apple Push Notification service provider by its unique ID.
-- `create_appwrite_provider()` - Create a new Appwrite push provider.
-- `update_appwrite_provider()` - Update an Appwrite push provider by its unique ID.
-- `create_bird_email_provider()` - Create a new Bird email provider. It sends email through Bird&#039;s email API with a workspace API key that holds the `emails:write` scope.
-- `update_bird_email_provider()` - Update a Bird email provider by its unique ID.
-- `create_bird_sms_provider()` - Create a new Bird SMS provider. It sends SMS through Bird with a workspace API key that holds the `sms:write` scope.
-- `update_bird_sms_provider()` - Update a Bird SMS provider by its unique ID.
-- `create_fcm_provider()` - Create a new Firebase Cloud Messaging provider.
-- `create_fcm_provider()` - Create a new Firebase Cloud Messaging provider.
-- `update_fcm_provider()` - Update a Firebase Cloud Messaging provider by its unique ID.
-- `update_fcm_provider()` - Update a Firebase Cloud Messaging provider by its unique ID.
-- `create_mailgun_provider()` - Create a new Mailgun provider.
-- `update_mailgun_provider()` - Update a Mailgun provider by its unique ID.
-- `create_msg91_provider()` - Create a new MSG91 provider.
-- `update_msg91_provider()` - Update a MSG91 provider by its unique ID.
-- `create_resend_provider()` - Create a new Resend provider.
-- `update_resend_provider()` - Update a Resend provider by its unique ID.
-- `create_sendgrid_provider()` - Create a new Sendgrid provider.
-- `update_sendgrid_provider()` - Update a Sendgrid provider by its unique ID.
-- `create_ses_provider()` - Create a new Amazon SES provider.
-- `update_ses_provider()` - Update an Amazon SES provider by its unique ID.
-- `create_smtp_provider()` - Create a new SMTP provider.
-- `create_smtp_provider()` - Create a new SMTP provider.
-- `update_smtp_provider()` - Update a SMTP provider by its unique ID.
-- `update_smtp_provider()` - Update a SMTP provider by its unique ID.
-- `create_telesign_provider()` - Create a new Telesign provider.
-- `update_telesign_provider()` - Update a Telesign provider by its unique ID.
-- `create_textmagic_provider()` - Create a new Textmagic provider.
-- `update_textmagic_provider()` - Update a Textmagic provider by its unique ID.
-- `create_twilio_provider()` - Create a new Twilio provider.
-- `update_twilio_provider()` - Update a Twilio provider by its unique ID.
-- `create_vonage_provider()` - Create a new Vonage provider.
-- `update_vonage_provider()` - Update a Vonage provider by its unique ID.
-- `get_provider()` - Get a provider by its unique ID.
-
-- `delete_provider()` - Delete a provider by its unique ID.
-- `list_topics()` - Get a list of all topics from the current Appwrite project.
-- `create_topic()` - Create a new topic.
-- `get_topic()` - Get a topic by its unique ID.
-
-- `update_topic()` - Update a topic by its unique ID.
-
-- `delete_topic()` - Delete a topic by its unique ID.
-- `list_subscribers()` - Get a list of all subscribers from the current Appwrite project.
-- `create_subscriber()` - Create a new subscriber.
-- `get_subscriber()` - Get a subscriber by its unique ID.
-
-- `delete_subscriber()` - Delete a subscriber by its unique ID.
-
-#### Migrations
-The Migrations service allows you to migrate third-party data to your Appwrite project.
-- `list()` - List all migrations in the current project. This endpoint returns a list of all migrations including their status, progress, and any errors that occurred during the migration process.
-- `create_appwrite_migration()` - Migrate data from another Appwrite project to your current project. This endpoint allows you to migrate resources like databases, collections, documents, users, and files from an existing Appwrite project. 
-- `create_csv_export()` - Export documents to a CSV file from your Appwrite database. This endpoint allows you to export documents to a CSV file stored in a secure internal bucket. You&#039;ll receive an email with a download link when the export is complete.
-- `create_csv_import()` - Import documents from a CSV file into your Appwrite database. This endpoint allows you to import documents from a CSV file uploaded to Appwrite Storage bucket.
-- `create_firebase_migration()` - Migrate data from a Firebase project to your Appwrite project. This endpoint allows you to migrate resources like authentication and other supported services from a Firebase project. 
-- `create_json_export()` - Export documents to a JSON file from your Appwrite database. This endpoint allows you to export documents to a JSON file stored in a secure internal bucket. You&#039;ll receive an email with a download link when the export is complete.
-
-- `create_json_import()` - Import documents from a JSON file into your Appwrite database. This endpoint allows you to import documents from a JSON file uploaded to Appwrite Storage bucket.
-
-- `create_n_host_migration()` - Migrate data from an NHost project to your Appwrite project. This endpoint allows you to migrate resources like authentication, databases, and other supported services from an NHost project. 
-- `create_supabase_migration()` - Migrate data from a Supabase project to your Appwrite project. This endpoint allows you to migrate resources like authentication, databases, and other supported services from a Supabase project. 
-- `get()` - Get a migration by its unique ID. This endpoint returns detailed information about a specific migration including its current status, progress, and any errors that occurred during the migration process. 
-- `retry()` - Retry a failed migration. This endpoint allows you to retry a migration that has previously failed.
-- `delete()` - Delete a migration by its unique ID. This endpoint allows you to remove a migration from your project&#039;s migration history. 
-
-#### Mongo
-
-- `list()` - List all dedicated databases. Results support pagination.
-- `create()` - Create a new dedicated database with the chosen engine and configuration. Status will be &#039;provisioning&#039; until the database is ready.
-- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, its own prices and overage rates, and whether it is enabled for the organization.
-- `get()` - Get a dedicated database by its unique ID. Returns the database configuration and current status.
-- `update()` - Update a dedicated database configuration. All changes are applied with zero downtime. Specification changes (cpu, memory, storage) are handled via rolling cutover. Storage expansion is done online. All other settings are applied in-place.
-- `delete()` - Delete a dedicated database. This action is irreversible. The database status will be set to &#039;deleting&#039; and all resources will be cleaned up. Deletion is allowed from any state, and repeating the call re-dispatches the cleanup.
-- `list_backups()` - List all backups for a dedicated database. Results can be filtered by status and type.
-- `create_backup()` - Create a manual backup of a dedicated database. The backup will be created asynchronously and its status can be checked via the get backup endpoint.
-- `list_backup_policies()` - List scheduled backup policies for a dedicated database.
-- `create_backup_policy()` - Create a scheduled backup policy for a dedicated database.
-- `get_backup_policy()` - Get a scheduled backup policy for a dedicated database.
-- `update_backup_policy()` - Update a scheduled backup policy for a dedicated database.
-- `delete_backup_policy()` - Delete a scheduled backup policy for a dedicated database. Backups already taken by the policy are kept until their retention expires.
-- `update_backup_storage()` - Configure off-cluster backup storage for a dedicated database. Supports S3, GCS, and Azure Blob Storage destinations. Backups will be stored to the configured destination in addition to on-cluster storage.
-- `get_backup()` - Get details of a specific database backup including its status, size, and timestamps.
-- `delete_backup()` - Delete a database backup. This will permanently remove the backup from storage and cannot be undone.
-- `list_branches()` - List all ephemeral branches for a dedicated database. Returns branch metadata including ID, name, namespace, and expiration time.
-- `create_branch()` - Create an ephemeral database branch from the primary via PVC snapshot. The branch is a full copy of the database at the current point in time, useful for testing schema migrations or running experiments without affecting production data. Branches expire after the configured TTL (default 24 hours). The branch is created asynchronously.
-- `delete_branch()` - Delete an ephemeral database branch. This removes the branch namespace, its PVC, and the associated VolumeSnapshot. The deletion runs asynchronously and is irreversible.
-- `update_credentials()` - Queue a rotation of the primary connection credentials for a dedicated database. A hibernated database is woken by the worker before rotation. List database operations until the returned operation reaches a terminal status, then fetch the database again for the refreshed connection string.
-- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
-- `update_maintenance()` - Update the maintenance window for a dedicated database. Maintenance operations like minor version upgrades will be performed during this window.
-- `create_migration()` - Migrate a database between shared and dedicated types. Shared to dedicated provisions an always-on dedicated instance; dedicated to shared converts to a serverless instance that scales to zero when idle. Data is copied to the target with a brief read-only window during cutover.
-- `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
-- `get_pitr()` - Get available point-in-time recovery windows for a dedicated database. Returns the earliest and latest recovery points.
-- `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
-- `list_restorations()` - List all restorations for a dedicated database. Results can be filtered by status and type.
-- `create_restoration()` - Restore a database from a backup or to a specific point in time (PITR). For backup restoration, provide a backupId. For PITR, provide a targetTime as an ISO 8601 datetime. PITR requires the database to have PITR enabled and is only available for enterprise databases.
-
-By default the backup is replayed over the database it was taken from. Pass `restoreMode` as `clone` to recover it onto a second workload beside this database instead: this database keeps serving its own data while the clone is filled, and the switch happens as soon as the clone is ready, on the endpoint and credentials it already had. Pass `autoPromote` as false to hold the clone until you promote it yourself. Pass `restoreMode` as `copy` to recover onto a separate database with its own endpoint, either one you name with `targetDatabaseId` or one provisioned as a copy of this database&#039;s engine, version, specification and replicas. Neither mode is available for a point-in-time recovery or an incremental backup.
-- `get_restoration()` - Get details of a specific database restoration including its status, type, and timestamps.
-- `promote_restoration()` - Switch the database over to the clone a restoration recovered. The database keeps
-its endpoint and credentials; clients reconnect once. Writes made after the
-recovery point are discarded, and the side being replaced is retained briefly so
-the switch can be reversed.
-- `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
-- `create_upgrade()` - Upgrade a dedicated database to a new engine version. Uses blue-green deployment for zero-downtime cutover.
-
-#### Mysql
-
-- `list()` - List all dedicated databases. Results support pagination.
-- `create()` - Create a new dedicated database with the chosen engine and configuration. Status will be &#039;provisioning&#039; until the database is ready.
-- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, its own prices and overage rates, and whether it is enabled for the organization.
-- `get()` - Get a dedicated database by its unique ID. Returns the database configuration and current status.
-- `update()` - Update a dedicated database configuration. All changes are applied with zero downtime. Specification changes (cpu, memory, storage) are handled via rolling cutover. Storage expansion is done online. All other settings are applied in-place.
-- `delete()` - Delete a dedicated database. This action is irreversible. The database status will be set to &#039;deleting&#039; and all resources will be cleaned up. Deletion is allowed from any state, and repeating the call re-dispatches the cleanup.
-- `list_backups()` - List all backups for a dedicated database. Results can be filtered by status and type.
-- `create_backup()` - Create a manual backup of a dedicated database. The backup will be created asynchronously and its status can be checked via the get backup endpoint.
-- `list_backup_policies()` - List scheduled backup policies for a dedicated database.
-- `create_backup_policy()` - Create a scheduled backup policy for a dedicated database.
-- `get_backup_policy()` - Get a scheduled backup policy for a dedicated database.
-- `update_backup_policy()` - Update a scheduled backup policy for a dedicated database.
-- `delete_backup_policy()` - Delete a scheduled backup policy for a dedicated database. Backups already taken by the policy are kept until their retention expires.
-- `update_backup_storage()` - Configure off-cluster backup storage for a dedicated database. Supports S3, GCS, and Azure Blob Storage destinations. Backups will be stored to the configured destination in addition to on-cluster storage.
-- `get_backup()` - Get details of a specific database backup including its status, size, and timestamps.
-- `delete_backup()` - Delete a database backup. This will permanently remove the backup from storage and cannot be undone.
-- `list_branches()` - List all ephemeral branches for a dedicated database. Returns branch metadata including ID, name, namespace, and expiration time.
-- `create_branch()` - Create an ephemeral database branch from the primary via PVC snapshot. The branch is a full copy of the database at the current point in time, useful for testing schema migrations or running experiments without affecting production data. Branches expire after the configured TTL (default 24 hours). The branch is created asynchronously.
-- `delete_branch()` - Delete an ephemeral database branch. This removes the branch namespace, its PVC, and the associated VolumeSnapshot. The deletion runs asynchronously and is irreversible.
-- `update_credentials()` - Queue a rotation of the primary connection credentials for a dedicated database. A hibernated database is woken by the worker before rotation. List database operations until the returned operation reaches a terminal status, then fetch the database again for the refreshed connection string.
-- `create_execution()` - Execute SQL through the console-facing Cloud endpoint. Cloud proxies through the edge platform to the per-database SQL API sidecar. Application traffic should bypass cloud entirely and POST directly to the per-database hostname: `https://db-{project}-{db}.{region}.appwrite.center/v1/sql/executions` with an `X-Appwrite-Key` header — that path scales to the whole DB fleet without a per-query cloud round-trip. The statement type must be on the database&#039;s configured allow-list. Use bound parameters for any user-supplied values — the API does not interpolate raw strings. Long-running statements (for example CREATE INDEX) can outlive the HTTP request: if the request ends before a result is returned, check the database before retrying, and prefer a direct connection for work that may take minutes.
-- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
-- `update_maintenance()` - Update the maintenance window for a dedicated database. Maintenance operations like minor version upgrades will be performed during this window.
-- `create_migration()` - Migrate a database between shared and dedicated types. Shared to dedicated provisions an always-on dedicated instance; dedicated to shared converts to a serverless instance that scales to zero when idle. Data is copied to the target with a brief read-only window during cutover.
-- `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
-- `get_pitr()` - Get available point-in-time recovery windows for a dedicated database. Returns the earliest and latest recovery points.
-- `get_pooler()` - Get the connection pooler configuration for a dedicated database. Returns pooler mode, max connections, and pool size settings.
-- `update_pooler()` - Update the connection pooler configuration for a dedicated database. Configure pool mode, max connections, and pool sizes.
-- `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
-- `list_restorations()` - List all restorations for a dedicated database. Results can be filtered by status and type.
-- `create_restoration()` - Restore a database from a backup or to a specific point in time (PITR). For backup restoration, provide a backupId. For PITR, provide a targetTime as an ISO 8601 datetime. PITR requires the database to have PITR enabled and is only available for enterprise databases.
-
-By default the backup is replayed over the database it was taken from. Pass `restoreMode` as `clone` to recover it onto a second workload beside this database instead: this database keeps serving its own data while the clone is filled, and the switch happens as soon as the clone is ready, on the endpoint and credentials it already had. Pass `autoPromote` as false to hold the clone until you promote it yourself. Pass `restoreMode` as `copy` to recover onto a separate database with its own endpoint, either one you name with `targetDatabaseId` or one provisioned as a copy of this database&#039;s engine, version, specification and replicas. Neither mode is available for a point-in-time recovery or an incremental backup.
-- `get_restoration()` - Get details of a specific database restoration including its status, type, and timestamps.
-- `promote_restoration()` - Switch the database over to the clone a restoration recovered. The database keeps
-its endpoint and credentials; clients reconnect once. Writes made after the
-recovery point are discarded, and the side being replaced is retained briefly so
-the switch can be reversed.
-- `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
-- `create_upgrade()` - Upgrade a dedicated database to a new engine version. Uses blue-green deployment for zero-downtime cutover.
-
-#### Oauth2
-The OAuth2 service allows you to authorize apps and issue standards-based OAuth2 and OpenID Connect tokens.
-- `approve()` - Approve an OAuth2 grant after the user gives consent. Returns the `redirectUrl` the end user should be sent to. The consent screen may optionally pass enriched `authorization_details` to record the concrete resources the user selected. You can pass Accept header of `application/json` to receive a JSON response instead of a redirect.
-- `authorize()` - Begin the OAuth2 authorization flow. When called without a session, the user is redirected to the consent screen without grant ID. When called with a session, the redirect URL includes param for grant ID. You can pass Accept header of `application/json` to receive a JSON response instead of a redirect.
-- `authorize_post()` - Begin the OAuth2 authorization flow. When called without a session, the user is redirected to the consent screen without grant ID. When called with a session, the redirect URL includes param for grant ID. You can pass Accept header of `application/json` to receive a JSON response instead of a redirect.
-- `create_device_authorization()` - Start the OAuth2 Device Authorization Grant. Returns the device code, user code, verification URL, expiration, and polling interval.
-- `create_grant()` - Exchange a device flow user code for an OAuth2 grant. The authenticated user is bound to the pending grant. Pass the returned grant ID to the get grant endpoint to render the consent screen, then to the approve or reject endpoint to complete the flow.
-- `get_grant()` - Get an OAuth2 grant by its ID. Used by the consent screen to display the details of the authorization the user is being asked to approve. A grant can only be read by the user it belongs to, or by server SDK.
-- `introspect()` - Introspect an OAuth2 access token or refresh token. Authenticate with an API key holding the `oauth2.introspect` scope to introspect any token in the project, or with the client credentials of the app the token was issued to.
-- `list_organizations()` - List the organizations the OAuth2 access token can access. Resolves the token&#039;s `organization` authorization details, expanding the `*` wildcard into the concrete set of organizations the user can see.
-- `create_par()` - Store an OAuth2 authorization request server-side and receive a short-lived request_uri handle for the authorize endpoint.
-- `list_projects()` - List the projects the OAuth2 access token can access. Resolves the token&#039;s `project` authorization details, expanding the `*` wildcard into the concrete set of projects the user can see.
-- `reject()` - Reject an OAuth2 grant when the user denies consent. Returns the `redirectUrl` the end user should be sent to with an `access_denied` error. You can pass Accept header of `application/json` to receive a JSON response instead of a redirect.
-- `revoke()` - Revoke an OAuth2 access token or refresh token.
-- `create_token()` - Exchange an OAuth2 authorization code, refresh token, or device code for access and refresh tokens.
-
-#### Organization
-The Organization service allows you to manage organization-level projects.
-- `get()` - Get the current organization.
-- `update()` - Update the current organization&#039;s name.
-- `delete()` - Delete the current organization. All projects that belong to the organization are deleted as well.
-- `list_installations()` - List app installations on the organization. Any organization member can read installations.
-- `create_installation()` - Install an app on the organization. Only organization members with the owner role can install apps. The installation is granted the scopes the app currently requests.
-- `get_installation()` - Get an app installation on the organization by its unique ID. Any organization member can read installations.
-- `update_installation()` - Update an app installation on the organization. Only organization members with the owner role can update installations. The installation&#039;s granted scopes are refreshed to the scopes the app currently requests; previously issued installation access tokens are revoked.
-- `delete_installation()` - Uninstall an app from the organization by its installation ID. Only organization members with the owner role can remove installations. Previously issued installation access tokens are revoked.
-- `list_memberships()` - Get a list of all memberships from the current organization.
-- `create_membership()` - Invite a new member to join the current organization. An email with a link to join the organization will be sent to the new member&#039;s email address. If member doesn&#039;t exist in the project it will be automatically created.
-- `get_membership()` - Get a membership from the current organization by its unique ID.
-- `update_membership()` - Modify the roles of a member in the current organization.
-- `delete_membership()` - Remove a member from the current organization. The member is removed whether they accepted the invitation or not; a pending invitation is revoked.
-- `list_projects()` - Get a list of all projects. You can use the query params to filter your results.
-- `create_project()` - Create a new project.
-- `get_project()` - Get a project.
-- `update_project()` - Update a project by its unique ID.
-- `delete_project()` - Delete a project by its unique ID.
-- `list_project_keys()` - Get a list of all API keys of a project in your organization.
-- `create_ephemeral_project_key()` - Create a new ephemeral API key for a project in your organization. It&#039;s recommended to have multiple API keys with strict scopes for separate functions within your project.
-
-You can also create a standard API key if you need a longer-lived key instead.
-- `get_project_key()` - Get a project key by its unique ID.
-- `update_project_key()` - Update a project key by its unique ID. Use this endpoint to update the name, scopes, or expiration time of an API key.
-- `delete_project_key()` - Delete a project key by its unique ID. Once deleted, the key can no longer be used to authenticate API calls.
-
-#### Postgresql
-
-- `list()` - List all dedicated databases. Results support pagination.
-- `create()` - Create a new dedicated database with the chosen engine and configuration. Status will be &#039;provisioning&#039; until the database is ready.
-- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, its own prices and overage rates, and whether it is enabled for the organization.
-- `get()` - Get a dedicated database by its unique ID. Returns the database configuration and current status.
-- `update()` - Update a dedicated database configuration. All changes are applied with zero downtime. Specification changes (cpu, memory, storage) are handled via rolling cutover. Storage expansion is done online. All other settings are applied in-place.
-- `delete()` - Delete a dedicated database. This action is irreversible. The database status will be set to &#039;deleting&#039; and all resources will be cleaned up. Deletion is allowed from any state, and repeating the call re-dispatches the cleanup.
-- `list_backups()` - List all backups for a dedicated database. Results can be filtered by status and type.
-- `create_backup()` - Create a manual backup of a dedicated database. The backup will be created asynchronously and its status can be checked via the get backup endpoint.
-- `list_backup_policies()` - List scheduled backup policies for a dedicated database.
-- `create_backup_policy()` - Create a scheduled backup policy for a dedicated database.
-- `get_backup_policy()` - Get a scheduled backup policy for a dedicated database.
-- `update_backup_policy()` - Update a scheduled backup policy for a dedicated database.
-- `delete_backup_policy()` - Delete a scheduled backup policy for a dedicated database. Backups already taken by the policy are kept until their retention expires.
-- `update_backup_storage()` - Configure off-cluster backup storage for a dedicated database. Supports S3, GCS, and Azure Blob Storage destinations. Backups will be stored to the configured destination in addition to on-cluster storage.
-- `get_backup()` - Get details of a specific database backup including its status, size, and timestamps.
-- `delete_backup()` - Delete a database backup. This will permanently remove the backup from storage and cannot be undone.
-- `list_branches()` - List all ephemeral branches for a dedicated database. Returns branch metadata including ID, name, namespace, and expiration time.
-- `create_branch()` - Create an ephemeral database branch from the primary via PVC snapshot. The branch is a full copy of the database at the current point in time, useful for testing schema migrations or running experiments without affecting production data. Branches expire after the configured TTL (default 24 hours). The branch is created asynchronously.
-- `delete_branch()` - Delete an ephemeral database branch. This removes the branch namespace, its PVC, and the associated VolumeSnapshot. The deletion runs asynchronously and is irreversible.
-- `update_credentials()` - Queue a rotation of the primary connection credentials for a dedicated database. A hibernated database is woken by the worker before rotation. List database operations until the returned operation reaches a terminal status, then fetch the database again for the refreshed connection string.
-- `create_execution()` - Execute SQL through the console-facing Cloud endpoint. Cloud proxies through the edge platform to the per-database SQL API sidecar. Application traffic should bypass cloud entirely and POST directly to the per-database hostname: `https://db-{project}-{db}.{region}.appwrite.center/v1/sql/executions` with an `X-Appwrite-Key` header — that path scales to the whole DB fleet without a per-query cloud round-trip. The statement type must be on the database&#039;s configured allow-list. Use bound parameters for any user-supplied values — the API does not interpolate raw strings. Long-running statements (for example CREATE INDEX) can outlive the HTTP request: if the request ends before a result is returned, check the database before retrying, and prefer a direct connection for work that may take minutes.
-- `list_extensions()` - List installed and available extensions for a PostgreSQL database.
-- `create_extension()` - Install a database extension. Only available for PostgreSQL databases. The install runs asynchronously; poll the extensions list endpoint for status.
-- `delete_extension()` - Uninstall a database extension from a PostgreSQL database. The uninstall runs asynchronously; poll the extensions list endpoint for status.
-- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
-- `update_maintenance()` - Update the maintenance window for a dedicated database. Maintenance operations like minor version upgrades will be performed during this window.
-- `create_migration()` - Migrate a database between shared and dedicated types. Shared to dedicated provisions an always-on dedicated instance; dedicated to shared converts to a serverless instance that scales to zero when idle. Data is copied to the target with a brief read-only window during cutover.
-- `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
-- `get_pitr()` - Get available point-in-time recovery windows for a dedicated database. Returns the earliest and latest recovery points.
-- `get_pooler()` - Get the connection pooler configuration for a dedicated database. Returns pooler mode, max connections, and pool size settings.
-- `update_pooler()` - Update the connection pooler configuration for a dedicated database. Configure pool mode, max connections, and pool sizes.
-- `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
-- `list_restorations()` - List all restorations for a dedicated database. Results can be filtered by status and type.
-- `create_restoration()` - Restore a database from a backup or to a specific point in time (PITR). For backup restoration, provide a backupId. For PITR, provide a targetTime as an ISO 8601 datetime. PITR requires the database to have PITR enabled and is only available for enterprise databases.
-
-By default the backup is replayed over the database it was taken from. Pass `restoreMode` as `clone` to recover it onto a second workload beside this database instead: this database keeps serving its own data while the clone is filled, and the switch happens as soon as the clone is ready, on the endpoint and credentials it already had. Pass `autoPromote` as false to hold the clone until you promote it yourself. Pass `restoreMode` as `copy` to recover onto a separate database with its own endpoint, either one you name with `targetDatabaseId` or one provisioned as a copy of this database&#039;s engine, version, specification and replicas. Neither mode is available for a point-in-time recovery or an incremental backup.
-- `get_restoration()` - Get details of a specific database restoration including its status, type, and timestamps.
-- `promote_restoration()` - Switch the database over to the clone a restoration recovered. The database keeps
-its endpoint and credentials; clients reconnect once. Writes made after the
-recovery point are discarded, and the side being replaced is retained briefly so
-the switch can be reversed.
-- `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
-- `create_upgrade()` - Upgrade a dedicated database to a new engine version. Uses blue-green deployment for zero-downtime cutover.
-
-#### Presences
-The Presences service allows you to track and manage real-time user presence in your project.
-- `list()` - List presence logs. Expired entries are filtered out automatically.
-
-- `get()` - Get a presence log by its unique ID. Entries whose `expiresAt` is in the past are treated as not found.
-
-- `upsert()` - Create or update a presence log by its user ID.
-
-- `update()` - Update a presence log by its unique ID. Using the patch method you can pass only specific fields that will get updated.
-
-- `delete()` - Delete a presence log by its unique ID.
-
-
-#### Project
-The Project service allows you to manage all the projects in your Appwrite server.
-- `get()` - Get a project.
-- `delete()` - Delete a project.
-- `update_auth_method()` - Update properties of a specific auth method. Use this endpoint to enable or disable a method in your project. 
-- `list_environments()` - Get a list of all environments of the project. You can use the query params to filter your results. An environment is listed by its ID, the one passed in the `X-Appwrite-Environment` header to act in it.
-- `create_environment()` - Create a new environment of the project. An environment is a separate project in the same organization and region, with its own resources and users. Its usage is billed under the project it belongs to. Requests act in the environment when they carry the project&#039;s ID in the `X-Appwrite-Project` header and the environment&#039;s ID in the `X-Appwrite-Environment` header; the environment has no project ID of its own to pass.
-
-Pass `resources` to copy the project into the environment. The environment is returned at once and the copy runs as a migration of the environment, listed by its migrations routes and announced on its `migrations.*` realtime events; a resource whose ID can be chosen keeps it. Users are copied newest first and at most 90 of them, so the environment keeps room under its limit of 100 users for test accounts, and the memberships of users left behind are not copied.
-- `get_environment()` - Get an environment of the project by its ID, the one passed in the `X-Appwrite-Environment` header to act in it.
-- `update_environment()` - Update the name of an environment of the project. The environment ID cannot be changed.
-- `delete_environment()` - Delete an environment of the project, with all of its resources and users.
-- `list_keys()` - Get a list of all API keys from the current project.
-- `create_ephemeral_key()` - Create a new ephemeral API key. It&#039;s recommended to have multiple API keys with strict scopes for separate functions within your project.
-
-You can also create a standard API key if you need a longer-lived key instead.
-- `get_key()` - Get a key by its unique ID. 
-- `update_key()` - Update a key by its unique ID. Use this endpoint to update the name, scopes, or expiration time of an API key.
-- `delete_key()` - Delete a key by its unique ID. Once deleted, the key can no longer be used to authenticate API calls.
-- `update_labels()` - Update the project labels. Labels can be used to easily filter projects in an organization.
-- `update_ldap()` - Update the LDAP configuration for your project. Use this endpoint to connect your project to an LDAP directory, such as OpenLDAP or Active Directory, so users can sign in with their directory credentials. Omitted parameters keep their stored value. Enabling LDAP connects to the directory and binds as the service account, so a project cannot be left enabled with a configuration that cannot sign anyone in.
-- `create_ldap_test()` - Test the stored LDAP configuration against the directory without signing anyone in. Connects to the directory, binds as the service account and reads the base DN. Pass a username to also look the user up and check the required group, and a password to also verify it. The error names the step that failed.
-- `list_mock_phones()` - Get a list of all mock phones in the project. This endpoint returns an array of all mock phones and their OTPs.
-- `create_mock_phone()` - Create a new mock phone for your project. Use this endpoint to register a mock phone number and its sign-in OTP for your testers.
-- `get_mock_phone()` - Get a mock phone by its unique number. This endpoint returns the mock phone&#039;s OTP.
-- `update_mock_phone()` - Update a mock phone by its unique number. Use this endpoint to update the mock phone&#039;s OTP.
-- `delete_mock_phone()` - Delete a mock phone by its unique number. This endpoint removes the mock phone and its OTP configuration from the project.
-- `list_o_auth2_providers()` - Get a list of all OAuth2 providers supported by the server, along with the project&#039;s configuration for each. Credential fields are write-only and always returned empty.
-- `update_o_auth2_server()` - Update the OAuth2 server (OIDC provider) configuration.
-- `update_o_auth2_amazon()` - Update the project OAuth2 Amazon configuration.
-- `update_o_auth2_apple()` - Update the project OAuth2 Apple configuration.
-- `update_o_auth2_appwrite()` - Update the project OAuth2 Appwrite configuration.
-- `update_o_auth2_atlassian()` - Update the project OAuth2 Atlassian configuration.
-- `update_o_auth2_auth0()` - Update the project OAuth2 Auth0 configuration.
-- `update_o_auth2_authentik()` - Update the project OAuth2 Authentik configuration.
-- `update_o_auth2_autodesk()` - Update the project OAuth2 Autodesk configuration.
-- `update_o_auth2_bitbucket()` - Update the project OAuth2 Bitbucket configuration.
-- `update_o_auth2_bitly()` - Update the project OAuth2 Bitly configuration.
-- `update_o_auth2_box()` - Update the project OAuth2 Box configuration.
-- `update_o_auth2_cloudflare()` - Update the project OAuth2 Cloudflare configuration.
-- `update_o_auth2_dailymotion()` - Update the project OAuth2 Dailymotion configuration.
-- `update_o_auth2_discord()` - Update the project OAuth2 Discord configuration.
-- `update_o_auth2_disqus()` - Update the project OAuth2 Disqus configuration.
-- `update_o_auth2_dropbox()` - Update the project OAuth2 Dropbox configuration.
-- `update_o_auth2_etsy()` - Update the project OAuth2 Etsy configuration.
-- `update_o_auth2_facebook()` - Update the project OAuth2 Facebook configuration.
-- `update_o_auth2_figma()` - Update the project OAuth2 Figma configuration.
-- `update_o_auth2_fusion_auth()` - Update the project OAuth2 FusionAuth configuration.
-- `update_o_auth2_git_hub()` - Update the project OAuth2 GitHub configuration.
-- `update_o_auth2_gitlab()` - Update the project OAuth2 Gitlab configuration.
-- `update_o_auth2_google()` - Update the project OAuth2 Google configuration.
-- `update_o_auth2_hugging_face()` - Update the project OAuth2 Hugging Face configuration.
-- `update_o_auth2_instagram()` - Update the project OAuth2 Instagram configuration.
-- `update_o_auth2_kakao()` - Update the project OAuth2 Kakao configuration.
-- `update_o_auth2_keycloak()` - Update the project OAuth2 Keycloak configuration.
-- `update_o_auth2_kick()` - Update the project OAuth2 Kick configuration.
-- `update_o_auth2_line()` - Update the project OAuth2 LINE configuration.
-- `update_o_auth2_linear()` - Update the project OAuth2 Linear configuration.
-- `update_o_auth2_linkedin()` - Update the project OAuth2 Linkedin configuration.
-- `update_o_auth2_microsoft()` - Update the project OAuth2 Microsoft configuration.
-- `update_o_auth2_naver()` - Update the project OAuth2 Naver configuration.
-- `update_o_auth2_netlify()` - Update the project OAuth2 Netlify configuration.
-- `update_o_auth2_notion()` - Update the project OAuth2 Notion configuration.
-- `update_o_auth2_oidc()` - Update the project OAuth2 Oidc configuration.
-- `update_o_auth2_okta()` - Update the project OAuth2 Okta configuration.
-- `update_o_auth2_patreon()` - Update the project OAuth2 Patreon configuration.
-- `update_o_auth2_paypal()` - Update the project OAuth2 Paypal configuration.
-- `update_o_auth2_paypal_sandbox()` - Update the project OAuth2 PaypalSandbox configuration.
-- `update_o_auth2_podio()` - Update the project OAuth2 Podio configuration.
-- `update_o_auth2_railway()` - Update the project OAuth2 Railway configuration.
-- `update_o_auth2_reddit()` - Update the project OAuth2 Reddit configuration.
-- `update_o_auth2_resend()` - Update the project OAuth2 Resend configuration.
-- `update_o_auth2_roblox()` - Update the project OAuth2 Roblox configuration.
-- `update_o_auth2_salesforce()` - Update the project OAuth2 Salesforce configuration.
-- `update_o_auth2_slack()` - Update the project OAuth2 Slack configuration.
-- `update_o_auth2_spotify()` - Update the project OAuth2 Spotify configuration.
-- `update_o_auth2_strava()` - Update the project OAuth2 Strava configuration.
-- `update_o_auth2_stripe()` - Update the project OAuth2 Stripe configuration.
-- `update_o_auth2_tik_tok()` - Update the project OAuth2 TikTok configuration.
-- `update_o_auth2_tradeshift()` - Update the project OAuth2 Tradeshift configuration.
-- `update_o_auth2_tradeshift_sandbox()` - Update the project OAuth2 Tradeshift Sandbox configuration.
-- `update_o_auth2_twitch()` - Update the project OAuth2 Twitch configuration.
-- `update_o_auth2_vercel()` - Update the project OAuth2 Vercel configuration.
-- `update_o_auth2_vipps()` - Update the project OAuth2 Vipps MobilePay configuration.
-- `update_o_auth2_vipps_sandbox()` - Update the project OAuth2 Vipps MobilePay Sandbox configuration.
-- `update_o_auth2_vk()` - Update the project OAuth2 VK configuration.
-- `update_o_auth2_webflow()` - Update the project OAuth2 Webflow configuration.
-- `update_o_auth2_word_press()` - Update the project OAuth2 WordPress configuration.
-- `update_o_auth2_work_os()` - Update the project OAuth2 WorkOS configuration.
-- `update_o_auth2_x()` - Update the project OAuth2 X configuration.
-- `update_o_auth2_yahoo()` - Update the project OAuth2 Yahoo configuration.
-- `update_o_auth2_yandex()` - Update the project OAuth2 Yandex configuration.
-- `update_o_auth2_zoho()` - Update the project OAuth2 Zoho configuration.
-- `update_o_auth2_zoom()` - Update the project OAuth2 Zoom configuration.
-- `get_o_auth2_provider()` - Get a single OAuth2 provider configuration. Credential fields (client secret, p8 file, key/team IDs) are write-only and always returned empty.
-- `delete_passwords()` - Delete all passwords in the project, forcing every user to reset their password. Any password set before this request stops working for email and password sign-in immediately: signing in returns a `user_password_reset_required` error until the user sets a new password through password recovery, or until a new password is set for them with the Users API. Existing sessions are not affected; call the delete sessions endpoint to sign users out as well. Users without a password and API keys are not affected by this action.
-- `list_platforms()` - Get a list of all platforms in the project. This endpoint returns an array of all platforms and their configurations.
-- `create_android_platform()` - Create a new Android platform for your project. Use this endpoint to register a new Android platform where your users will run your application which will interact with the Appwrite API.
-- `update_android_platform()` - Update an Android platform by its unique ID. Use this endpoint to update the platform&#039;s name, application ID or signing certificate fingerprints.
-- `create_apple_platform()` - Create a new Apple platform for your project. Use this endpoint to register a new Apple platform where your users will run your application which will interact with the Appwrite API.
-- `update_apple_platform()` - Update an Apple platform by its unique ID. Use this endpoint to update the platform&#039;s name or bundle identifier.
-- `create_linux_platform()` - Create a new Linux platform for your project. Use this endpoint to register a new Linux platform where your users will run your application which will interact with the Appwrite API.
-- `update_linux_platform()` - Update a Linux platform by its unique ID. Use this endpoint to update the platform&#039;s name or package name.
-- `create_web_platform()` - Create a new web platform for your project. Use this endpoint to register a new platform where your users will run your application which will interact with the Appwrite API.
-- `update_web_platform()` - Update a web platform by its unique ID. Use this endpoint to update the platform&#039;s name or hostname.
-- `create_windows_platform()` - Create a new Windows platform for your project. Use this endpoint to register a new Windows platform where your users will run your application which will interact with the Appwrite API.
-- `update_windows_platform()` - Update a Windows platform by its unique ID. Use this endpoint to update the platform&#039;s name or package identifier name.
-- `get_platform()` - Get a platform by its unique ID. This endpoint returns the platform&#039;s details, including its name, type, and key configurations.
-- `delete_platform()` - Delete a platform by its unique ID. This endpoint removes the platform and all its configurations from the project.
-- `list_policies()` - Get a list of all project policies and their current configuration.
-- `update_account_devices_policy()` - Update whether account devices are enabled for the project. When enabled, a browser can create an account device that holds multiple sessions and switch between them. When disabled, account devices can no longer be created, so each browser is limited to a single active session.
-- `update_deny_aliased_email_policy()` - Configures if aliased emails such as subaddresses and emails with suffixes are denied during new users sign-ups and email updates.
-- `update_deny_corporate_email_policy()` - Configures if only corporate email addresses (non-free and non-disposable domains) are allowed during new user sign-ups and email updates.
-- `update_deny_disposable_email_policy()` - Configures if disposable emails from known temporary domains are denied during new users sign-ups and email updates.
-- `update_deny_free_email_policy()` - Configures if emails from free providers such as Gmail or Yahoo are denied during new users sign-ups and email updates.
-- `update_deny_realtime_guests_policy()` - Configures if guests, connections without a signed-in user, may subscribe to realtime channels. When enabled, a guest can still connect and sign in over the connection, but cannot subscribe until it does.
-- `update_membership_privacy_policy()` - Updating this policy allows you to control if team members can see other members information. When enabled, all team members can see ID, name, email, phone number, and MFA status of other members..
-- `update_mfa_factors_policy()` - Updating this policy allows you to control which factors users can use to complete an MFA challenge. Disabled factors cannot be used to create a challenge and are reported as unavailable when listing factors. The custom factor is disabled by default; enable it to deliver challenge codes through your own channel. Recovery codes always remain available as a fallback.
-- `update_passkey_policy()` - Set the relying party ID passkeys are bound to: the domain of your application. Passkeys work on the project&#039;s web platforms on that domain or its subdomains, and on the domain itself for Apple apps. A localhost web platform enables passkeys for local development without a relying party ID. The relying party ID cannot change while users have passkeys, and any change invalidates ceremonies in progress.
-- `update_password_dictionary_policy()` - Updating this policy allows you to control if new passwords are checked against most common passwords dictionary. When enabled, and user changes their password, password must not be contained in the dictionary.
-
-Custom denyList entries use case-sensitive equality and apply only while this policy is enabled. Omit denyList or pass null to preserve it, pass an array to replace it, or pass [] to clear it. Entries are stored without trimming or deduplication. Existing passwords remain valid for sign-in and password confirmation. The combined serialized project authentication configuration must fit within 16,384 characters, even when each list meets its entry limits.
-- `update_password_history_policy()` - Updates one of password strength policies. Based on total length configured, previous password hashes are stored, and users cannot choose a new password that is already stored in the passwird history list, when updating an user password, or setting new one through password recovery.
-
-Keep in mind, while password history policy is disabled, the history is not being stored. Enabling the policy will not have any history on existing users, and it will only start to collect and enforce the policy on password changes since the policy is enabled.
-- `update_password_personal_data_policy()` - Updating this policy allows you to control if password strength is checked against personal data. When enabled, and user sets or changes their password, the password must not contain user ID, name, email or phone number.
-
-Custom denyList entries use case-insensitive substring matching and apply only while this policy is enabled. Omit denyList or pass null to preserve it, pass an array to replace it, or pass [] to clear it. Entries are stored without trimming or deduplication. Existing passwords remain valid for sign-in and password confirmation. The combined serialized project authentication configuration must fit within 16,384 characters, even when each list meets its entry limits.
-Password recovery also checks the recovered user profile, closing the previous gap in profile-based personal-data validation.
-- `update_password_pwned_policy()` - Updating this policy allows you to control if passwords are checked against the Have I Been Pwned breach database. When enabled, every password a user signs up, signs in or resets with is checked and the result is recorded on the user as `passwordPwned`. On its own the policy only records. Enable `users` to reject a breached password when a user signs up or sets a new password, and `sessions` to refuse a sign-in with a breached password until it is reset. Only the first five characters of the password hash are ever shared with the service. Options left out keep their current value.
-- `update_password_rotation_policy()` - Require a password reset when an email/password sign-in uses a password older than the configured maximum age. Options left out keep their current value.
-- `update_password_strength_policy()` - Update the password strength requirements for users in the project.
-- `update_session_alert_policy()` - Updating this policy allows you to control if email alert is sent upon session creation. When enabled, and user signs into their account, they will be sent an email notification. There is an exception, the first session after a new sign up does not trigger an alert, even if the policy is enabled.
-- `update_session_duration_policy()` - Update maximum duration how long sessions created within a project should stay active for.
-- `update_session_invalidation_policy()` - Updating this policy allows you to control if existing sessions should be invalidated when a password of a user is changed. When enabled, and user changes their password, they will be logged out of all their devices.
-- `update_session_limit_policy()` - Update the maximum number of sessions allowed per user. When the limit is hit, the oldest session will be deleted to make room for new one.
-- `update_user_limit_policy()` - Update the maximum number of users in the project. When the limit is hit or amount of existing users already exceeded the limit, all users remain active, but new user sign up will be prohibited.
-- `get_policy()` - Get a policy by its unique ID. This endpoint returns the current configuration for the requested project policy.
-- `get_prefs()` - Get the project preferences. Preferences are a key-value object stored on the project for anyone working on it.
-- `update_prefs()` - Update the project preferences. The object you pass is stored as is and replaces any previous value. The maximum allowed prefs size is 64kB and throws an error if exceeded.
-- `update_protocol()` - Update properties of a specific protocol. Use this endpoint to enable or disable a protocol in your project. 
-- `update_service()` - Update properties of a specific service. Use this endpoint to enable or disable a service in your project. 
-- `delete_sessions()` - Delete all sessions in the project. Any session created before this request will be invalidated immediately: users will be signed out of every active client (web, mobile, server SDKs, JWTs), and will be able to sign in again afterwards. API keys are not affected by this action.
-- `update_smtp()` - Update the SMTP configuration for your project. Use this endpoint to configure your project&#039;s SMTP provider with your custom settings for sending transactional emails.
-- `create_smtp_test()` - Send a test email to verify SMTP configuration. 
-- `list_email_templates()` - Get a list of all custom email templates configured for the project. This endpoint returns an array of all configured email templates and their locales.
-- `update_email_template()` - Update a custom email template for the specified locale and type. Use this endpoint to modify the content of your email templates.
-- `get_email_template()` - Get a custom email template for the specified locale and type. This endpoint returns the template content, subject, and other configuration details.
-- `list_variables()` - Get a list of all project environment variables.
-- `create_variable()` - Create a new project environment variable. These variables can be accessed by all functions and sites in the project.
-- `get_variable()` - Get a variable by its unique ID. 
-- `update_variable()` - Update variable by its unique ID.
-- `delete_variable()` - Delete a variable by its unique ID. 
-
-#### Proxy
-The Proxy Service allows you to configure actions for your domains beyond DNS configuration.
-- `create_invalidation()` - Create a new CDN cache invalidation for a domain. Executes a hard purge of cached content.
-
-Depending on type, the invalidation purges a single cache tag, a single URL path, or all cached content for the domain.
-
-Domains that route to a function do not support cache invalidation.
-- `list_rules()` - Get a list of all the proxy rules. You can use the query params to filter your results.
-- `create_api_rule()` - Create a new proxy rule for serving Appwrite&#039;s API on custom domain.
-
-Rule ID is automatically generated as MD5 hash of a rule domain for performance purposes.
-- `create_function_rule()` - Create a new proxy rule for executing Appwrite Function on custom domain.
-
-Rule ID is automatically generated as MD5 hash of a rule domain for performance purposes.
-- `create_redirect_rule()` - Create a new proxy rule for to redirect from custom domain to another domain.
-
-Rule ID is automatically generated as MD5 hash of a rule domain for performance purposes.
-- `create_site_rule()` - Create a new proxy rule for serving Appwrite Site on custom domain.
-
-Rule ID is automatically generated as MD5 hash of a rule domain for performance purposes.
-- `create_smtp_rule()` - Create an SMTP ingress rule that asynchronously executes an Appwrite Function for incoming email.
-- `get_rule()` - Get a proxy rule by its unique ID.
-- `delete_rule()` - Delete a proxy rule by its unique ID.
-- `update_function_rule()` - Update the function and VCS branch a function proxy rule executes. The rule domain cannot be changed.
-- `update_redirect_rule()` - Update the target URL, status code and parent resource of a redirect proxy rule. The rule domain cannot be changed.
-- `update_site_rule()` - Update the site and VCS branch a site proxy rule serves. The rule domain cannot be changed.
-- `update_rule_status()` - If not succeeded yet, retry verification process of a proxy rule domain. This endpoint triggers domain verification by checking DNS records. If verification is successful, a TLS certificate will be automatically provisioned for the domain asynchronously in the background. A verified rule whose certificate renewal failed or is blocked, or whose certificate expired, is checked the same way, and its certificate renewed in the background.
-
-#### Advisor
-The Advisor service surfaces actionable reports about your project resources, with CTA descriptors for one-click remediation in the console.
-- `list_reports()` - Get a list of all the project&#039;s analyzer reports. You can use the query params to filter your results.
-
-- `get_report()` - Get an analyzer report by its unique ID. The response includes the report&#039;s metadata and the nested insights it produced.
-
-- `delete_report()` - Delete an analyzer report by its unique ID. Nested insights and CTA metadata are removed asynchronously by the deletes worker.
-
-- `list_insights()` - List the insights produced under a single analyzer report. You can use the query params to filter your results further.
-
-- `get_insight()` - Get an insight by its unique ID, scoped to its parent report.
-
-
-#### Sites
-The Sites Service allows you view, create and manage your web applications.
-- `list()` - Get a list of all the project&#039;s sites. You can use the query params to filter your results.
-- `create()` - Create a new site.
-- `list_frameworks()` - Get a list of all frameworks that are currently available on the server instance.
-- `list_specifications()` - List allowed site specifications for this instance.
-- `get()` - Get a site by its unique ID.
-- `update()` - Update site by its unique ID.
-- `delete()` - Delete a site by its unique ID.
-- `update_analytics()` - Turn analytics on or off for a site. Turning it on links an analytics property named after the site, creating one on first use, and injects the tracker into pages served on the site&#039;s production domains. Turning it on also needs the `analytics.write` scope. Turning it off stops the injection and keeps the property and its data.
-- `update_site_deployment()` - Update the site active deployment. Use this endpoint to switch the code deployment that should be used when visitor opens your site.
-- `list_deployments()` - Get a list of all the site&#039;s code deployments. You can use the query params to filter your results.
-- `create_deployment()` - Create a new site code deployment. Use this endpoint to upload a new version of your site code. To activate your newly uploaded code, you&#039;ll need to update the site&#039;s deployment to use your new deployment ID.
-- `create_duplicate_deployment()` - Create a new build for an existing site deployment. This endpoint allows you to rebuild a deployment with the updated site configuration, including its commands and output directory if they have been modified. The build process will be queued and executed asynchronously. The original deployment&#039;s code will be preserved and used for the new build.
-- `create_template_deployment()` - Create a deployment based on a template.
-
-Use this endpoint with combination of [listTemplates](https://appwrite.io/docs/products/sites/templates) to find the template details.
-- `create_vcs_deployment()` - Create a deployment when a site is connected to VCS.
-
-This endpoint lets you create deployment from a branch, commit, or a tag.
-- `get_deployment()` - Get a site deployment by its unique ID.
-- `delete_deployment()` - Delete a site deployment by its unique ID.
-- `get_deployment_download()` - Get a site deployment content by its unique ID. The endpoint response return with a &#039;Content-Disposition: attachment&#039; header that tells the browser to start downloading the file to user downloads directory.
-- `update_deployment_status()` - Cancel an ongoing site deployment build. If the build is already in progress, it will be stopped and marked as canceled. If the build hasn&#039;t started yet, it will be marked as canceled without executing. You cannot cancel builds that have already completed (status &#039;ready&#039;) or failed. The response includes the final build status and details.
-- `list_logs()` - Get a list of all site logs. You can use the query params to filter your results.
-- `get_log()` - Get a site request log by its unique ID.
-- `delete_log()` - Delete a site log by its unique ID.
-- `list_variables()` - Get a list of all variables of a specific site.
-- `create_variable()` - Create a new site variable. These variables can be accessed during build and runtime (server-side rendering) as environment variables.
-- `get_variable()` - Get a variable by its unique ID.
-- `update_variable()` - Update variable by its unique ID.
-- `delete_variable()` - Delete a variable by its unique ID.
-
-#### Storage
-The Storage service allows you to manage your project files.
-- `list_buckets()` - Get a list of all the storage buckets. You can use the query params to filter your results.
-- `create_bucket()` - Create a new storage bucket.
-- `get_bucket()` - Get a storage bucket by its unique ID. This endpoint response returns a JSON object with the storage bucket metadata.
-- `update_bucket()` - Update a storage bucket by its unique ID.
-- `delete_bucket()` - Delete a storage bucket by its unique ID.
-- `list_files()` - Get a list of all the user files. You can use the query params to filter your results.
-- `create_file()` - Create a new file. Before using this route, you should create a new bucket resource using either a [server integration](https://appwrite.io/docs/server/storage#storageCreateBucket) API or directly from your Appwrite console.
-
-Larger files should be uploaded using multiple requests with the [content-range](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Range) header to send a partial request with a maximum supported chunk of `5MB`. The `content-range` header values should always be in bytes.
-
-When the first request is sent, the server will return the **File** object, and the subsequent part request must include the file&#039;s **id** in `x-appwrite-id` header to allow the server to know that the partial upload is for the existing file and not for a new one.
-
-If you&#039;re creating a new file using one of the Appwrite SDKs, all the chunking logic will be managed by the SDK internally.
-
-- `get_file()` - Get a file by its unique ID. This endpoint response returns a JSON object with the file metadata.
-- `update_file()` - Update a file by its unique ID. Only users with write permissions have access to update this resource.
-- `delete_file()` - Delete a file by its unique ID. Only users with write permissions have access to delete this resource.
-- `get_file_download()` - Get a file content by its unique ID. The endpoint response return with a &#039;Content-Disposition: attachment&#039; header that tells the browser to start downloading the file to user downloads directory.
-- `get_file_preview()` - Get a file preview image. Currently, this method supports preview for image files (jpg, png, and gif), other supported formats, like pdf, docs, slides, and spreadsheets, will return the file icon image. You can also pass query string arguments for cutting and resizing your preview image. Set `output` to `auto` to receive avif or webp when the client&#039;s `Accept` header supports it, falling back to the original image format. Preview is supported only for image files smaller than 10MB.
-
-- `get_file_view()` - Get a file content by its unique ID. This endpoint is similar to the download method but returns with no  &#039;Content-Disposition: attachment&#039; header.
-
-#### TablesDB
-The TablesDB service allows you to create structured tables of columns, query and filter lists of rows
-- `list()` - Get a list of all databases from the current Appwrite project. You can use the search parameter to filter your results.
-- `create()` - Create a new Database.
-
-- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, its own prices and overage rates, and whether it is enabled for the organization.
-- `list_transactions()` - List transactions across all databases.
-- `create_transaction()` - Create a new transaction.
-- `get_transaction()` - Get a transaction by its unique ID.
-- `update_transaction()` - Update a transaction, to either commit or roll back its operations.
-- `delete_transaction()` - Delete a transaction by its unique ID.
-- `create_operations()` - Create multiple operations in a single transaction.
-- `get()` - Get a database by its unique ID. This endpoint response returns a JSON object with the database metadata.
-- `update()` - Update a database by its unique ID.
-- `delete()` - Delete a database by its unique ID. Only API keys with with databases.write scope can delete a database.
-- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
-- `list_migrations()` - List the dedicated migrations for a TablesDB database. A database has at most one in-flight migration.
-- `create_migration()` - Start migrating a serverless TablesDB database onto a dedicated MySQL compute. Data is copied to the target while the source stays live. Reads continue throughout. Row writes are held for up to a few seconds while routing switches to the dedicated compute; a write the switch has not absorbed within that hold is refused with `database_migration_cutover` and can be retried. Schema changes (tables, columns, indexes) are refused from creation until the cutover completes, and resume once the migration is `soaking`.
-- `get_migration()` - Get a single dedicated migration for a TablesDB database by its ID.
-- `delete_migration()` - Abort an in-flight TablesDB dedicated migration. Only allowed before cutover; once the migration has cut over it cannot be aborted.
-- `create_cutover()` - Cut a verified TablesDB migration over to its dedicated compute. Only applies to a migration created with `autoCutover` disabled, which waits at `ready_to_cutover` until this is called. The routing flip happens shortly after this returns. Reads are unaffected; row writes are held for up to a few seconds while it lands, and a write the flip has not absorbed within that hold is refused with `database_migration_cutover` and can be retried. One call buys one attempt: a cutover that fails a check returns the migration to `verifying` and parks it again, so call this once more to retry.
-- `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
-- `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
-- `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
-- `list_tables()` - Get a list of all tables that belong to the provided databaseId. You can use the search parameter to filter your results.
-- `create_table()` - Create a new Table. Before using this route, you should create a new database resource using either a [server integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable) API or directly from your database console.
-- `get_table()` - Get a table by its unique ID. This endpoint response returns a JSON object with the table metadata.
-- `update_table()` - Update a table by its unique ID.
-- `delete_table()` - Delete a table by its unique ID. Only users with write permissions have access to delete this resource.
-- `list_columns()` - List columns in the table.
-- `create_big_int_column()` - Create a bigint column. Optionally, minimum and maximum values can be provided.
-
-- `update_big_int_column()` - Update a bigint column. Changing the `default` value will not update already existing rows.
-
-- `create_boolean_column()` - Create a boolean column.
-
-- `update_boolean_column()` - Update a boolean column. Changing the `default` value will not update already existing rows.
-- `create_datetime_column()` - Create a date time column according to the ISO 8601 standard.
-- `update_datetime_column()` - Update a date time column. Changing the `default` value will not update already existing rows.
-- `create_email_column()` - Create an email column.
-
-- `update_email_column()` - Update an email column. Changing the `default` value will not update already existing rows.
-
-- `create_enum_column()` - Create an enumeration column. The `elements` param acts as a white-list of accepted values for this column.
-- `update_enum_column()` - Update an enum column. Changing the `default` value will not update already existing rows.
-
-- `create_float_column()` - Create a float column. Optionally, minimum and maximum values can be provided.
-
-- `update_float_column()` - Update a float column. Changing the `default` value will not update already existing rows.
-
-- `create_integer_column()` - Create an integer column. Optionally, minimum and maximum values can be provided.
-
-- `update_integer_column()` - Update an integer column. Changing the `default` value will not update already existing rows.
-
-- `create_ip_column()` - Create IP address column.
-
-- `update_ip_column()` - Update an ip column. Changing the `default` value will not update already existing rows.
-
-- `create_line_column()` - Create a geometric line column.
-- `update_line_column()` - Update a line column. Changing the `default` value will not update already existing rows.
-- `create_longtext_column()` - Create a longtext column.
-
-- `update_longtext_column()` - Update a longtext column. Changing the `default` value will not update already existing rows.
-
-- `create_mediumtext_column()` - Create a mediumtext column.
-
-- `update_mediumtext_column()` - Update a mediumtext column. Changing the `default` value will not update already existing rows.
-
-- `create_point_column()` - Create a geometric point column.
-- `update_point_column()` - Update a point column. Changing the `default` value will not update already existing rows.
-- `create_polygon_column()` - Create a geometric polygon column.
-- `update_polygon_column()` - Update a polygon column. Changing the `default` value will not update already existing rows.
-- `create_relationship_column()` - Create relationship column. [Learn more about relationship columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
-
-- `update_relationship_column()` - Update relationship column. [Learn more about relationship columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
-
-- `create_string_column()` - Create a string column.
-
-- `update_string_column()` - Update a string column. Changing the `default` value will not update already existing rows.
-
-- `create_text_column()` - Create a text column.
-
-- `update_text_column()` - Update a text column. Changing the `default` value will not update already existing rows.
-
-- `create_url_column()` - Create a URL column.
-
-- `update_url_column()` - Update an url column. Changing the `default` value will not update already existing rows.
-
-- `create_varchar_column()` - Create a varchar column.
-
-- `update_varchar_column()` - Update a varchar column. Changing the `default` value will not update already existing rows.
-
-- `get_column()` - Get column by ID.
-- `delete_column()` - Deletes a column.
-- `list_indexes()` - List indexes on the table.
-- `create_index()` - Creates an index on the columns listed. Your index should include all the columns you will query in a single request.
-Type can be `key`, `fulltext`, `unique`, `spatial`, or `trigram`. `trigram` is only available on PostgreSQL and lets `contains`, `startsWith`, and `endsWith` queries on string columns use an index.
-- `get_index()` - Get index by ID.
-- `delete_index()` - Delete an index.
-- `list_rows()` - Get a list of all the user&#039;s rows in a given table. You can use the query params to filter your results.
-
-Rows returned by aggregate, groupBy or distinct queries hold only the columns they select, group or aggregate, typed as a row types them, with a joined column named by its join alias (`alias.column`). The response omits their `$id`, `$sequence`, `$createdAt`, `$updatedAt`, `$permissions`, `$databaseId` and `$tableId` unless they select or group it, and those of a right or full join row that no row of this table matched. SDK row models fill omitted system columns with empty values.
-- `create_row()` - Create a new Row. Before using this route, you should create a new table resource using either a [server integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable) API or directly from your database console.
-- `create_rows()` - Create new Rows. Before using this route, you should create a new table resource using either a [server integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable) API or directly from your database console.
-- `upsert_rows()` - Create or update Rows. Before using this route, you should create a new table resource using either a [server integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable) API or directly from your database console.
-
-- `update_rows()` - Update all rows that match your queries, if no queries are submitted then all rows are updated. You can pass only specific fields to be updated.
-- `delete_rows()` - Bulk delete rows using queries, if no queries are passed then all rows are deleted.
-- `create_query()` - Get a list of all the user&#039;s rows in a given table using a POST request. This behaves identically to the list rows endpoint but accepts the queries in the request body, allowing much larger `queries` arrays than can fit in a URL query string.
-
-- `get_row()` - Get a row by its unique ID. This endpoint response returns a JSON object with the row data.
-- `upsert_row()` - Create or update a Row. Before using this route, you should create a new table resource using either a [server integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable) API or directly from your database console.
-- `update_row()` - Update a row by its unique ID. Using the patch method you can pass only specific fields that will get updated.
-- `delete_row()` - Delete a row by its unique ID.
-- `decrement_row_column()` - Decrement a specific column of a row by a given value.
-- `increment_row_column()` - Increment a specific column of a row by a given value.
-
-#### Teams
-The Teams service allows you to group users of your project and to enable them to share read and write access to your project resources
-- `list()` - Get a list of all the teams in which the current user is a member. You can use the parameters to filter your results.
-- `create()` - Create a new team. The user who creates the team will automatically be assigned as the owner of the team. Only the users with the owner role can invite new members, add new owners and delete or update the team.
-- `get()` - Get a team by its ID. All team members have read access for this resource.
-- `update_name()` - Update the team&#039;s name by its unique ID.
-- `delete()` - Delete a team using its ID. Only team members with the owner role can delete the team.
-- `list_installations()` - List app installations on a team. Any team member can read installations.
-- `create_installation()` - Install an app on a team. When authenticated as a user, only team members with the owner role can install apps. Requests using an API key or in admin mode can install apps on any team. The installation is granted the scopes the app currently requests.
-- `get_installation()` - Get an app installation on a team by its unique ID. Any team member can read installations.
-- `update_installation()` - Update an app installation on a team. Only team members with the owner role can update installations. The installation&#039;s granted scopes are refreshed to the scopes the app currently requests; previously issued installation access tokens are revoked.
-- `delete_installation()` - Uninstall an app from a team by its installation ID. Only team members with the owner role can remove installations. Previously issued installation access tokens are revoked.
-- `list_memberships()` - Use this endpoint to list a team&#039;s members using the team&#039;s ID. All team members have read access to this endpoint. Hide sensitive attributes from the response by toggling membership privacy in the Console.
-- `create_membership()` - Invite a new member to join your team. Provide an ID for existing users, or invite unregistered users using an email or phone number. If initiated from a Client SDK, Appwrite will send an email or sms with a link to join the team to the invited user, and an account will be created for them if one doesn&#039;t exist. If initiated from a Server SDK, the new member will be added automatically to the team.
-
-You only need to provide one of a user ID, email, or phone number. Appwrite will prioritize accepting the user ID &gt; email &gt; phone number if you provide more than one of these parameters.
-
-Use the `url` parameter to redirect the user from the invitation email to your app. After the user is redirected, use the [Update Team Membership Status](https://appwrite.io/docs/references/cloud/client-web/teams#updateMembershipStatus) endpoint to allow the user to accept the invitation to the team. 
-
-Please note that to avoid a [Redirect Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md) Appwrite will accept the only redirect URLs under the domains you have added as a platform on the Appwrite Console.
-
-- `get_membership()` - Get a team member by the membership unique id. All team members have read access for this resource. Hide sensitive attributes from the response by toggling membership privacy in the Console.
-- `update_membership()` - Modify the roles of a team member. Only team members with the owner role have access to this endpoint. Learn more about [roles and permissions](https://appwrite.io/docs/permissions).
-
-- `delete_membership()` - This endpoint allows a user to leave a team or for a team owner to delete the membership of any other team member. You can also use this endpoint to delete a user membership even if it is not accepted.
-- `update_membership_status()` - Use this endpoint to allow a user to accept an invitation to join a team after being redirected back to your app from the invitation email received by the user.
-
-If the request is successful, a session for the user is automatically created.
-
-- `get_prefs()` - Get the team&#039;s shared preferences by its unique ID. If a preference doesn&#039;t need to be shared by all team members, prefer storing them in [user preferences](https://appwrite.io/docs/references/cloud/client-web/account#getPrefs).
-- `update_prefs()` - Update the team&#039;s preferences by its unique ID. The object you pass is stored as is and replaces any previous value. The maximum allowed prefs size is 64kB and throws an error if exceeded.
-
-#### Tokens
-The Tokens service allows you to create and manage resource tokens for secure file access.
-- `list()` - List all the tokens created for a specific file or bucket. You can use the query params to filter your results.
-- `create_file_token()` - Create a new token. A token is linked to a file. Token can be passed as a request URL search parameter.
-- `get()` - Get a token by its unique ID.
-- `update()` - Update a token by its unique ID. Use this endpoint to update a token&#039;s expiry date.
-- `delete()` - Delete a token by its unique ID.
-
-#### Users
-The Users service allows you to manage your project users.
-- `list()` - Get a list of all the project&#039;s users. You can use the query params to filter your results.
-- `create()` - Create a new user.
-- `create_argon2_user()` - Create a new user. Password provided must be hashed with the [Argon2](https://en.wikipedia.org/wiki/Argon2) algorithm. Use the [POST /users](https://appwrite.io/docs/server/users#usersCreate) endpoint to create users with a plain text password.
-- `create_bcrypt_user()` - Create a new user. Password provided must be hashed with the [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt) algorithm. Use the [POST /users](https://appwrite.io/docs/server/users#usersCreate) endpoint to create users with a plain text password.
-- `list_identities()` - Get identities for all users.
-- `delete_identity()` - Delete an identity by its unique ID.
-- `create_md5_user()` - Create a new user. Password provided must be hashed with the [MD5](https://en.wikipedia.org/wiki/MD5) algorithm. Use the [POST /users](https://appwrite.io/docs/server/users#usersCreate) endpoint to create users with a plain text password.
-- `create_ph_pass_user()` - Create a new user. Password provided must be hashed with the [PHPass](https://www.openwall.com/phpass/) algorithm. Use the [POST /users](https://appwrite.io/docs/server/users#usersCreate) endpoint to create users with a plain text password.
-- `create_scrypt_user()` - Create a new user. Password provided must be hashed with the [Scrypt](https://github.com/Tarsnap/scrypt) algorithm. Use the [POST /users](https://appwrite.io/docs/server/users#usersCreate) endpoint to create users with a plain text password.
-- `create_scrypt_modified_user()` - Create a new user. Password provided must be hashed with the [Scrypt Modified](https://gist.github.com/Meldiron/eecf84a0225eccb5a378d45bb27462cc) algorithm. Use the [POST /users](https://appwrite.io/docs/server/users#usersCreate) endpoint to create users with a plain text password.
-- `create_sha_user()` - Create a new user. Password provided must be hashed with the [SHA](https://en.wikipedia.org/wiki/Secure_Hash_Algorithm) algorithm. Use the [POST /users](https://appwrite.io/docs/server/users#usersCreate) endpoint to create users with a plain text password.
-- `get()` - Get a user by its unique ID.
-- `delete()` - Delete a user by its unique ID, thereby releasing it&#039;s ID. Since ID is released and can be reused, all user-related resources like documents or storage files should be deleted before user deletion. If you want to keep ID reserved, use the [updateStatus](https://appwrite.io/docs/server/users#usersUpdateStatus) endpoint instead.
-- `update_email()` - Update the user email by its unique ID.
-- `update_impersonator()` - Enable or disable whether a user can impersonate other users. When impersonation headers are used, the request runs as the target user for API behavior, while internal audit logs still attribute the action to the original impersonator and store the impersonated target details only in internal audit payload data. Account endpoints are read-only while impersonating: they report the target&#039;s account, and anything that would change it is refused, so an impersonator cannot alter the target&#039;s credentials or delete their account.
-
-- `create_jwt()` - Use this endpoint to create a JSON Web Token for user by its unique ID. You can use the resulting JWT to authenticate on behalf of the user. The JWT secret will become invalid if the session it uses gets deleted.
-- `update_labels()` - Update the user labels by its unique ID. 
-
-Labels can be used to grant access to resources. While teams are a way for user&#039;s to share access to a resource, labels can be defined by the developer to grant access without an invitation. See the [Permissions docs](https://appwrite.io/docs/permissions) for more info.
-- `list_memberships()` - Get the user membership list by its unique ID.
-- `update_mfa()` - Enable or disable MFA on a user account.
-- `update_mfa()` - Enable or disable MFA on a user account.
-- `delete_mfa_authenticator()` - Delete an authenticator app.
-- `delete_mfa_authenticator()` - Delete an authenticator app.
-- `get_mfa_challenge()` - Get a custom MFA challenge for a user, including the code to be delivered through your own channel.
-- `list_mfa_factors()` - List the factors available on the account to be used as a MFA challange.
-- `list_mfa_factors()` - List the factors available on the account to be used as a MFA challange.
-- `get_mfa_recovery_codes()` - Get recovery codes that can be used as backup for MFA flow by User ID. Before getting codes, they must be generated using [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes) method.
-- `get_mfa_recovery_codes()` - Get recovery codes that can be used as backup for MFA flow by User ID. Before getting codes, they must be generated using [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes) method.
-- `update_mfa_recovery_codes()` - Regenerate recovery codes that can be used as backup for MFA flow by User ID. Before regenerating codes, they must be first generated using [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes) method.
-- `update_mfa_recovery_codes()` - Regenerate recovery codes that can be used as backup for MFA flow by User ID. Before regenerating codes, they must be first generated using [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes) method.
-- `create_mfa_recovery_codes()` - Generate recovery codes used as backup for MFA flow for User ID. Recovery codes can be used as a MFA verification type in [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge) method by client SDK.
-- `create_mfa_recovery_codes()` - Generate recovery codes used as backup for MFA flow for User ID. Recovery codes can be used as a MFA verification type in [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge) method by client SDK.
-- `update_name()` - Update the user name by its unique ID.
-- `list_passkeys()` - Get the list of verified passkeys registered by a user.
-- `get_passkey()` - Get a verified passkey of a user by its unique ID.
-- `update_passkey()` - Rename a passkey of a user.
-- `delete_passkey()` - Delete a passkey from a user, for example when a device is lost. The passkey can no longer be used to sign in.
-- `update_password()` - Update the user password by its unique ID.
-- `update_phone()` - Update the user phone by its unique ID.
-- `get_prefs()` - Get the user preferences by its unique ID.
-- `update_prefs()` - Update the user preferences by its unique ID. The object you pass is stored as is, and replaces any previous value. The maximum allowed prefs size is 64kB and throws error if exceeded.
-- `list_sessions()` - Get the user sessions list by its unique ID.
-- `create_session()` - Creates a session for a user. Returns an immediately usable session object.
-
-If you want to generate a token for a custom authentication flow, use the [POST /users/{userId}/tokens](https://appwrite.io/docs/server/users#createToken) endpoint.
-- `delete_sessions()` - Delete all user&#039;s sessions by using the user&#039;s unique ID.
-- `delete_session()` - Delete a user sessions by its unique ID.
-- `update_status()` - Update the user status by its unique ID. Use this endpoint as an alternative to deleting a user if you want to keep user&#039;s ID reserved.
-- `list_targets()` - List the messaging targets that are associated with a user.
-- `create_target()` - Create a messaging target.
-- `get_target()` - Get a user&#039;s push notification target by ID.
-- `update_target()` - Update a messaging target.
-- `delete_target()` - Delete a messaging target.
-- `create_token()` - Returns a token with a secret key for creating a session. Use the user ID and secret and submit a request to the [PUT /account/sessions/token](https://appwrite.io/docs/references/cloud/client-web/account#createSession) endpoint to complete the login process.
-
-- `update_email_verification()` - Update the user email verification status by its unique ID.
-- `update_phone_verification()` - Update the user phone verification status by its unique ID.
-
-#### VectorsDB
-
-- `list()` - Get a list of all databases from the current Appwrite project. You can use the search parameter to filter your results.
-- `create()` - Create a new Database.
-
-- `list_specifications()` - List the dedicated database specifications available on the current plan. Each specification reports its resource limits, its own prices and overage rates, and whether it is enabled for the organization.
-- `list_transactions()` - List transactions across all databases.
-- `create_transaction()` - Create a new transaction.
-- `get_transaction()` - Get a transaction by its unique ID.
-- `update_transaction()` - Update a transaction, to either commit or roll back its operations.
-- `delete_transaction()` - Delete a transaction by its unique ID.
-- `create_operations()` - Create multiple operations in a single transaction.
-- `get()` - Get a database by its unique ID. This endpoint response returns a JSON object with the database metadata.
-- `update()` - Update a database by its unique ID.
-- `delete()` - Delete a database by its unique ID. Only API keys with with databases.write scope can delete a database.
-- `list_collections()` - Get a list of all collections that belong to the provided databaseId. You can use the search parameter to filter your results.
-- `create_collection()` - Create a new Collection. Before using this route, you should create a new database resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
-- `get_collection()` - Get a collection by its unique ID. This endpoint response returns a JSON object with the collection metadata.
-- `update_collection()` - Update a collection by its unique ID.
-- `delete_collection()` - Delete a collection by its unique ID. Only users with write permissions have access to delete this resource.
-- `list_documents()` - Get a list of all the user&#039;s documents in a given collection. You can use the query params to filter your results.
-- `create_document()` - Create a new Document. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
-- `create_documents()` - Create new Documents. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
-- `upsert_documents()` - Create or update Documents. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
-
-- `update_documents()` - Update all documents that match your queries, if no queries are submitted then all documents are updated. You can pass only specific fields to be updated.
-- `delete_documents()` - Bulk delete documents using queries, if no queries are passed then all documents are deleted.
-- `create_query()` - Get a list of all the user&#039;s documents in a given collection using a POST request. This behaves identically to the list documents endpoint but accepts the queries in the request body, allowing much larger `queries` arrays than can fit in a URL query string.
-
-- `get_document()` - Get a document by its unique ID. This endpoint response returns a JSON object with the document data.
-- `upsert_document()` - Create or update a Document. Before using this route, you should create a new collection resource using either a [server integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection) API or directly from your database console.
-- `update_document()` - Update a document by its unique ID. Using the patch method you can pass only specific fields that will get updated.
-- `delete_document()` - Delete a document by its unique ID.
-- `list_indexes()` - List indexes in the collection.
-- `create_index()` - Creates an index on the attributes listed. Your index should include all the attributes you will query in a single request.
-Attributes can be `key`, `fulltext`, and `unique`.
-- `get_index()` - Get index by ID.
-- `delete_index()` - Delete an index.
-- `create_failover()` - Trigger a manual failover for a dedicated database with high availability enabled. Promotes a replica to primary. The failover runs asynchronously; poll the database document for status updates. A database left mid-operation also accepts this call as a repair once nothing is driving the operation it is stuck in. Repairing a failover that did not finish, a `failed` database, a stranded upgrade or migrate, or a stranded compute resize additionally requires `targetReplicaId` to name the member to promote, because the default target may be the member that operation already promoted.
-- `list_operations()` - List the lifecycle operations recorded for a dedicated database, newest first. Every provision, update, restore, backup and replication action is recorded here with its outcome, including an attempt that was abandoned because another worker took over the database.
-- `get_replicas()` - Get high availability status for a dedicated database. Returns replica statuses, replication lag, and sync mode.
-- `get_status()` - Get real-time health and status information for a dedicated database. Returns health status, readiness, uptime, connection info, replica status, and volume information.
-
-#### Waf
-
-- `list_rules()` - List WAF rules for the current project.
-
-- `create_bypass_rule()` - Create a bypass WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
-
-- `update_bypass_rule()` - Update a bypass WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
-
-- `create_challenge_rule()` - Create a challenge WAF rule. Use `difficulty` (1 easiest to 5 hardest) to tune the client-side proof-of-work cost, and `ttl` to control how long, in seconds, a visitor stays cleared after passing the challenge before being challenged again. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
-
-- `update_challenge_rule()` - Update a challenge WAF rule. Use `difficulty` (1 easiest to 5 hardest) to tune the client-side proof-of-work cost, and `ttl` to control how long, in seconds, a visitor stays cleared after passing the challenge before being challenged again. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
-
-- `create_deny_rule()` - Create a deny WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon. `sessionAge` and `mfaAge` hold the seconds since the request&#039;s session was created and since its last MFA challenge. Both are null for requests without a session, such as guests and API keys, while a request authenticated with the `x-appwrite-jwt` header carries the age of the session its token is bound to; on `functions` rules the session comes from the `x-appwrite-user-jwt` header, and `mfaAge` is null when the session never completed MFA. A deny matching on `mfaAge` returns `user_challenge_required` and one matching on `sessionAge` returns `user_reauthentication_required`, both with status 401, so the user can sign in again and retry. To also deny requests without a session, combine `isNull` and `greaterThan` in an `or` condition.
-
-- `update_deny_rule()` - Update a deny WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon. `sessionAge` and `mfaAge` hold the seconds since the request&#039;s session was created and since its last MFA challenge. Both are null for requests without a session, such as guests and API keys, while a request authenticated with the `x-appwrite-jwt` header carries the age of the session its token is bound to; on `functions` rules the session comes from the `x-appwrite-user-jwt` header, and `mfaAge` is null when the session never completed MFA. A deny matching on `mfaAge` returns `user_challenge_required` and one matching on `sessionAge` returns `user_reauthentication_required`, both with status 401, so the user can sign in again and retry. To also deny requests without a session, combine `isNull` and `greaterThan` in an `or` condition.
-
-- `create_rate_limit_rule()` - Create a rate limit WAF rule. Use `key` to choose the counter: `ip` limits per client IP, while `userId` limits per authenticated user (requests without an authenticated user skip `userId` rules). Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
-
-- `update_rate_limit_rule()` - Update a rate limit WAF rule. Use `key` to choose the counter: `ip` limits per client IP, while `userId` limits per authenticated user (requests without an authenticated user skip `userId` rules). Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
-
-- `create_redirect_rule()` - Create a redirect WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
-
-- `update_redirect_rule()` - Update a redirect WAF rule. Conditions can match request attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`, `headers.&lt;name&gt;`, `query.&lt;key&gt;`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city` and `state` require the premium Geo DB addon.
-
-- `get_rule()` - Get a WAF rule by its ID.
-
-- `delete_rule()` - Delete a WAF rule.
-
-
-#### Webhooks
-The Webhooks service allows you to manage your project webhooks.
-- `list()` - Get a list of all webhooks belonging to the project. You can use the query params to filter your results.
-- `create()` - Create a new webhook. Use this endpoint to configure a URL that will receive events from Appwrite when specific events occur.
-- `get()` - Get a webhook by its unique ID. This endpoint returns details about a specific webhook configured for a project. 
-- `update()` - Update a webhook by its unique ID. Use this endpoint to update the URL, events, or status of an existing webhook.
-- `delete()` - Delete a webhook by its unique ID. Once deleted, the webhook will no longer receive project events. 
-- `update_secret()` - Update the webhook signing key. This endpoint can be used to regenerate the signing key used to sign and validate payload deliveries for a specific webhook.
-
-
-### Models
-- `RowList` - Rows List
-- `DocumentList` - Documents List
-- `PresenceList` - Presences List
-- `TableList` - Tables List
-- `CollectionList` - Collections List
-- `DatabaseList` - Databases List
-- `IndexList` - Indexes List
-- `ColumnIndexList` - Column Indexes List
-- `UserList` - Users List
-- `SessionList` - Sessions List
-- `IdentityList` - Identities List
-- `FileList` - Files List
-- `BucketList` - Buckets List
-- `ResourceTokenList` - Resource Tokens List
-- `TeamList` - Teams List
-- `MembershipList` - Memberships List
-- `SiteList` - Sites List
-- `FunctionList` - Functions List
-- `FrameworkList` - Frameworks List
-- `RuntimeList` - Runtimes List
-- `DeploymentList` - Deployments List
-- `ExecutionList` - Executions List
-- `ProjectList` - Projects List
-- `WebhookList` - Webhooks List
-- `KeyList` - API Keys List
-- `CountryList` - Countries List
-- `ContinentList` - Continents List
-- `LanguageList` - Languages List
-- `CurrencyList` - Currencies List
-- `PhoneList` - Phones List
-- `VariableList` - Variables List
-- `MockNumberList` - Mock Numbers List
-- `PolicyList` - Policies List
-- `EmailTemplateList` - Email Templates List
-- `ProxyRuleList` - Rule List
-- `LocaleCodeList` - Locale codes list
-- `ProviderList` - Provider list
-- `MessageList` - Message list
-- `TopicList` - Topic list
-- `SubscriberList` - Subscriber list
-- `TargetList` - Target list
-- `TransactionList` - Transaction List
-- `MigrationList` - Migrations List
-- `SpecificationList` - Specifications List
-- `VectorsdbCollectionList` - VectorsDB Collections List
-- `EmbeddingList` - Embedding list
-- `InsightList` - Insights List
-- `ReportList` - Reports List
-- `Database` - Database
-- `Embedding` - Embedding
-- `Collection` - Collection
-- `AttributeList` - Attributes List
-- `AttributeString` - AttributeString
-- `AttributeInteger` - AttributeInteger
-- `AttributeBigint` - AttributeBigInt
-- `AttributeFloat` - AttributeFloat
-- `AttributeBoolean` - AttributeBoolean
-- `AttributeEmail` - AttributeEmail
-- `AttributeEnum` - AttributeEnum
-- `AttributeIp` - AttributeIP
-- `AttributeUrl` - AttributeURL
-- `AttributeDatetime` - AttributeDatetime
-- `AttributeRelationship` - AttributeRelationship
-- `AttributePoint` - AttributePoint
-- `AttributeLine` - AttributeLine
-- `AttributePolygon` - AttributePolygon
-- `AttributeVarchar` - AttributeVarchar
-- `AttributeText` - AttributeText
-- `AttributeMediumtext` - AttributeMediumtext
-- `AttributeLongtext` - AttributeLongtext
-- `VectorsdbCollection` - VectorsDB Collection
-- `AttributeObject` - AttributeObject
-- `AttributeVector` - AttributeVector
-- `Table` - Table
-- `ColumnList` - Columns List
-- `ColumnString` - ColumnString
-- `ColumnInteger` - ColumnInteger
-- `ColumnBigint` - ColumnBigInt
-- `ColumnFloat` - ColumnFloat
-- `ColumnBoolean` - ColumnBoolean
-- `ColumnEmail` - ColumnEmail
-- `ColumnEnum` - ColumnEnum
-- `ColumnIp` - ColumnIP
-- `ColumnUrl` - ColumnURL
-- `ColumnDatetime` - ColumnDatetime
-- `ColumnRelationship` - ColumnRelationship
-- `ColumnPoint` - ColumnPoint
-- `ColumnLine` - ColumnLine
-- `ColumnPolygon` - ColumnPolygon
-- `ColumnVarchar` - ColumnVarchar
-- `ColumnText` - ColumnText
-- `ColumnMediumtext` - ColumnMediumtext
-- `ColumnLongtext` - ColumnLongtext
-- `Index` - Index
-- `ColumnIndex` - Index
-- `Row` - Row
-- `Document` - Document
-- `Presence` - Presence
-- `User` - User
-- `AlgoMd5` - AlgoMD5
-- `AlgoSha` - AlgoSHA
-- `AlgoPhpass` - AlgoPHPass
-- `AlgoBcrypt` - AlgoBcrypt
-- `AlgoScrypt` - AlgoScrypt
-- `AlgoScryptModified` - AlgoScryptModified
-- `AlgoArgon2` - AlgoArgon2
-- `Account` - Account
-- `Preferences` - Preferences
-- `Session` - Session
-- `Device` - Device
-- `Identity` - Identity
-- `Token` - Token
-- `Jwt` - JWT
-- `Locale` - Locale
-- `LocaleCode` - LocaleCode
-- `File` - File
-- `Bucket` - Bucket
-- `ResourceToken` - ResourceToken
-- `Team` - Team
-- `Membership` - Membership
-- `Site` - Site
-- `Function` - Function
-- `Runtime` - Runtime
-- `Framework` - Framework
-- `FrameworkAdapter` - Framework Adapter
-- `Deployment` - Deployment
-- `Execution` - Execution
-- `Project` - Project
-- `ProjectAuthMethod` - ProjectAuthMethod
-- `ProjectService` - ProjectService
-- `ProjectProtocol` - ProjectProtocol
-- `Webhook` - Webhook
-- `Key` - Key
-- `EphemeralKey` - Ephemeral Key
-- `MockNumber` - Mock Number
-- `OAuth2Github` - OAuth2GitHub
-- `OAuth2Discord` - OAuth2Discord
-- `OAuth2Figma` - OAuth2Figma
-- `OAuth2Dropbox` - OAuth2Dropbox
-- `OAuth2Dailymotion` - OAuth2Dailymotion
-- `OAuth2Bitbucket` - OAuth2Bitbucket
-- `OAuth2Bitly` - OAuth2Bitly
-- `OAuth2Box` - OAuth2Box
-- `OAuth2Autodesk` - OAuth2Autodesk
-- `OAuth2Google` - OAuth2Google
-- `OAuth2Zoom` - OAuth2Zoom
-- `OAuth2Zoho` - OAuth2Zoho
-- `OAuth2Yandex` - OAuth2Yandex
-- `OAuth2X` - OAuth2X
-- `OAuth2WordPress` - OAuth2WordPress
-- `OAuth2Webflow` - OAuth2Webflow
-- `OAuth2Twitch` - OAuth2Twitch
-- `OAuth2Stripe` - OAuth2Stripe
-- `OAuth2Spotify` - OAuth2Spotify
-- `OAuth2Slack` - OAuth2Slack
-- `OAuth2Podio` - OAuth2Podio
-- `OAuth2Notion` - OAuth2Notion
-- `OAuth2Salesforce` - OAuth2Salesforce
-- `OAuth2Yahoo` - OAuth2Yahoo
-- `OAuth2Cloudflare` - OAuth2Cloudflare
-- `OAuth2HuggingFace` - OAuth2HuggingFace
-- `OAuth2Instagram` - OAuth2Instagram
-- `OAuth2Patreon` - OAuth2Patreon
-- `OAuth2Strava` - OAuth2Strava
-- `OAuth2VK` - OAuth2VK
-- `OAuth2Netlify` - OAuth2Netlify
-- `OAuth2Railway` - OAuth2Railway
-- `OAuth2Reddit` - OAuth2Reddit
-- `OAuth2Vercel` - OAuth2Vercel
-- `OAuth2Atlassian` - OAuth2Atlassian
-- `OAuth2Line` - OAuth2Line
-- `OAuth2Linear` - OAuth2Linear
-- `OAuth2Roblox` - OAuth2Roblox
-- `OAuth2WorkOS` - OAuth2WorkOS
-- `OAuth2Linkedin` - OAuth2Linkedin
-- `OAuth2Disqus` - OAuth2Disqus
-- `OAuth2Amazon` - OAuth2Amazon
-- `OAuth2Etsy` - OAuth2Etsy
-- `OAuth2Facebook` - OAuth2Facebook
-- `OAuth2Tradeshift` - OAuth2Tradeshift
-- `OAuth2Paypal` - OAuth2Paypal
-- `OAuth2Gitlab` - OAuth2Gitlab
-- `OAuth2Appwrite` - OAuth2Appwrite
-- `OAuth2Authentik` - OAuth2Authentik
-- `OAuth2Auth0` - OAuth2Auth0
-- `OAuth2FusionAuth` - OAuth2FusionAuth
-- `OAuth2Keycloak` - OAuth2Keycloak
-- `OAuth2Oidc` - OAuth2Oidc
-- `OAuth2Okta` - OAuth2Okta
-- `OAuth2Kick` - OAuth2Kick
-- `OAuth2Vipps` - OAuth2Vipps
-- `OAuth2Apple` - OAuth2Apple
-- `OAuth2Microsoft` - OAuth2Microsoft
-- `OAuth2Resend` - OAuth2Resend
-- `OAuth2TikTok` - OAuth2TikTok
-- `OAuth2Kakao` - OAuth2Kakao
-- `OAuth2Naver` - OAuth2Naver
-- `OAuth2ProviderList` - OAuth2 Providers List
-- `PolicyPasswordDictionary` - Policy Password Dictionary
-- `PolicyPasswordHistory` - Policy Password History
-- `PolicyPasswordStrength` - Policy Password Strength
-- `PolicyPasswordPersonalData` - Policy Password Personal Data
-- `PolicyPasswordPwned` - Policy Password Pwned
-- `PolicyPasswordRotation` - Policy Password Rotation
-- `PolicySessionAlert` - Policy Session Alert
-- `PolicySessionDuration` - Policy Session Duration
-- `PolicySessionInvalidation` - Policy Session Invalidation
-- `PolicySessionLimit` - Policy Session Limit
-- `PolicyUserLimit` - Policy User Limit
-- `PolicyMembershipPrivacy` - Policy Membership Privacy
-- `PolicyMfaFactors` - Policy MFA Factors
-- `PolicyPasskey` - Policy Passkey
-- `PolicyDenyAliasedEmail` - Policy Deny Aliased Email
-- `PolicyDenyDisposableEmail` - Policy Deny Disposable Email
-- `PolicyDenyFreeEmail` - Policy Deny Free Email
-- `PolicyDenyCorporateEmail` - Policy Deny Corporate Email
-- `PolicyDenyRealtimeGuests` - Policy Deny Realtime Guests
-- `PolicyAccountDevices` - Policy Account Devices
-- `PlatformWeb` - Platform Web
-- `PlatformApple` - Platform Apple
-- `PlatformAndroid` - Platform Android
-- `PlatformWindows` - Platform Windows
-- `PlatformLinux` - Platform Linux
-- `PlatformList` - Platforms List
-- `Variable` - Variable
-- `Country` - Country
-- `Continent` - Continent
-- `Language` - Language
-- `Currency` - Currency
-- `Phone` - Phone
-- `Headers` - Headers
-- `Specification` - Specification
-- `ProxyRule` - Rule
-- `EmailTemplate` - EmailTemplate
-- `MfaChallenge` - MFA Challenge
-- `MfaChallengeSecret` - MFA Challenge Secret
-- `TokenSecret` - Token Secret
-- `Passkey` - Passkey
-- `PasskeyChallenge` - Passkey Challenge
-- `PasskeyList` - Passkeys List
-- `MfaRecoveryCodes` - MFA Recovery Codes
-- `MfaType` - MFAType
-- `MfaFactors` - MFAFactors
-- `Provider` - Provider
-- `Message` - Message
-- `Topic` - Topic
-- `Transaction` - Transaction
-- `Subscriber` - Subscriber
-- `Target` - Target
-- `Migration` - Migration
-- `Insight` - Insight
-- `InsightCTA` - InsightCTA
-- `Report` - Report
-- `ActivityEvent` - ActivityEvent
-- `AdditionalResource` - AdditionalResource
-- `BackupArchive` - Archive
-- `DedicatedDatabaseBackup` - Backup
-- `DedicatedDatabaseBackupList` - BackupList
-- `DedicatedDatabaseBackupStorage` - BackupStorageConfig
-- `BillingLimits` - Limits
-- `BillingPlan` - billingPlan
-- `BillingPlanAddon` - Addon
-- `BillingPlanAddonDetails` - Details
-- `BillingPlanLimits` - PlanLimits
-- `BillingPlanDedicatedDatabaseLimits` - dedicatedDatabaseLimits
-- `BillingPlanSupportedAddons` - BillingPlanSupportedAddons
-- `Block` - Block
-- `DedicatedDatabaseBranch` - Branch
-- `DedicatedDatabaseBranchList` - BranchList
-- `DatabaseMigration` - Database Migration
-- `DedicatedDatabase` - DedicatedDatabase
-- `DedicatedDatabaseExecution` - Execution
-- `DedicatedDatabaseExecutionColumn` - ExecutionColumn
-- `DedicatedDatabaseRestoration` - Restoration
-- `DatabaseStatus` - Status
-- `DnsRecord` - DNSRecord
-- `Domain` - Domain
-- `DomainPrice` - DomainPrice
-- `DomainTransferStatus` - domainTransferStatus
-- `DedicatedDatabaseExtensions` - Extensions
-- `DedicatedDatabaseMember` - Member
-- `DedicatedDatabaseOperation` - Operation
-- `DedicatedDatabaseOperationList` - OperationList
-- `DedicatedDatabaseReplicas` - Replicas
-- `ProxyInvalidation` - Invalidation
-- `Organization` - Organization
-- `DedicatedDatabasePITRWindows` - PITRWindows
-- `BackupPolicy` - backup
-- `DedicatedDatabasePooler` - PoolerConfig
-- `PostgresExtension` - Postgres extension
-- `Program` - Program
-- `Environment` - Environment
-- `EnvironmentList` - Environments list
-- `BackupRestoration` - Restoration
-- `DedicatedDatabaseRestorationList` - Dedicated database restorations list
-- `DedicatedDatabaseSpecification` - Specification
-- `DedicatedDatabaseSpecificationList` - SpecificationList
-- `DatabaseStatusConnections` - Connections
-- `DatabaseStatusReplica` - Replica
-- `DatabaseStatusVolume` - Volume
-- `UsageBillingPlan` - usageBillingPlan
-- `App` - App
-- `AppSecret` - AppSecret
-- `AppSecretPlaintext` - AppSecretPlaintext
-- `AppScope` - AppScope
-- `AppInstallation` - AppInstallation
-- `AppKey` - AppKey
-- `Oauth2Authorize` - OAuth2 Authorize
-- `Oauth2Approve` - OAuth2 Approve
-- `Oauth2Reject` - OAuth2 Reject
-- `Oauth2Grant` - OAuth2 Grant
-- `Oauth2DeviceAuthorization` - OAuth2 Device Authorization
-- `Oauth2PAR` - OAuth2 PAR
-- `Oauth2Token` - OAuth2 Token
-- `Oauth2Introspection` - OAuth2 Introspection
-- `Oauth2Consent` - OAuth2 Consent
-- `Oauth2ConsentToken` - OAuth2 Consent Token
-- `WafRuleBypass` - WafRuleBypass
-- `WafRuleDeny` - WafRuleDeny
-- `WafRuleChallenge` - WafRuleChallenge
-- `WafRuleRateLimit` - WafRuleRateLimit
-- `WafRuleRedirect` - WafRuleRedirect
-- `WafRuleList` - WAF rule list
-- `Oauth2Project` - OAuth2 Project
-- `Oauth2Organization` - OAuth2 Organization
-- `Oauth2ProjectList` - OAuth2 accessible projects list
-- `Oauth2OrganizationList` - OAuth2 accessible organizations list
-- `Oauth2ConsentList` - OAuth2 consents list
-- `Oauth2ConsentTokenList` - OAuth2 consent tokens list
-- `ActivityEventList` - Activity event list
-- `BackupArchiveList` - Backup archive list
-- `BackupPolicyList` - Backup policy list
-- `BackupRestorationList` - Backup restoration list
-- `DatabaseMigrationList` - Database Migrations List
-- `DedicatedDatabaseList` - Dedicated databases list
-- `DnsRecordsList` - DNS records list
-- `DomainPricesList` - Domain prices list
-- `DomainsList` - Domains list
-- `AppsList` - Apps list
-- `AppSecretList` - App secrets list
-- `AppScopeList` - App scopes list
-- `AppInstallationList` - App installations list
-- `AppKeyList` - App keys list
-
-### Dependencies
-- reqwest 0.12+ for HTTP client
-- serde 1.0+ for JSON serialization
-- tokio 1.0+ for async runtime
-- fastrand 2.0+ for ID generation
-- thiserror 1.0+ for error handling
-
-### Documentation
-- Complete API documentation
-- Usage examples for all methods
-- Error handling guide
-- File upload examples
-- Query builder documentation
-
-[0.25.0]: https://github.com/appwrite/sdk-for-rust/releases/tag/0.25.0
+# Change Log
+
+## 0.26.0
+
+* Added: `monitors` service to create, list, get, update and delete HTTP, DNS, TCP, SMTP and usage monitors
+* Added: `alerts` service to list and get alerts, and acknowledge them with `alerts.update`
+* Added: `organization.listEscalations`, `createEscalation`, `getEscalation`, `updateEscalation` and `deleteEscalation`
+* Added: `Monitor`, `Alert`, `Escalation` and `EscalationStep` models, their list models, and the `Monitor*` and `Alert*` enums
+
+## 0.25.0
+
+* Added: `messaging.create_bird_email_provider`, `update_bird_email_provider`, `create_bird_sms_provider` and `update_bird_sms_provider` for the Bird email and SMS providers
+* Added: Atlassian, Instagram, LINE, Linear, Netlify, Patreon, Railway, Reddit, Roblox, Strava, Vercel, VK and WorkOS to `OAuthProvider`
+* Added: `project` OAuth2 settings and models for Atlassian, Instagram, LINE, Linear, Netlify, Patreon, Railway, Reddit, Roblox, Strava, Vercel, VK and WorkOS
+
+## 0.24.0
+
+* Added: `account.create_ldap_session` for LDAP sign-in
+* Added: `project.update_ldap` and `project.create_ldap_test` to configure and test a project's LDAP directory, the `ProjectLDAPEncryption` enum and `ldap*` fields on `Project`
+* Added: `project.update_o_auth2_naver`, the `OAuth2Naver` model and `OAuthProvider::Naver`
+* Added: `project.delete_passwords` to force every user to reset their password
+* Added: `sites.update_analytics` and `analyticsEnabled` and `analyticsPropertyId` on `Site`
+* Added: `reason` on `DomainPrice`, set when a domain was not priced for the requested registration type
+* Added: `ImageFormat::Auto` on `Storage.getFilePreview` and the avatar endpoints, serving avif or webp when the `Accept` header supports it
+* Updated: requests send `X-Appwrite-Response-Format: 2.7.2`
+
+## 0.23.0
+
+* Updated: `project.list_environments`, `project.create_environment`, `project.get_environment`, `project.update_environment` return `Environment` models instead of `Project`
+* Added: `account.create_device`, `account.get_device`, `account.delete_device` and `account.update_device_session`, and the `Device` model
+* Added: `project.update_account_devices_policy`, `ProjectPolicyId::AccountDevices` and the `PolicyAccountDevices` model
+* Added: `project.update_o_auth2_vipps`, `project.update_o_auth2_vipps_sandbox` and the `OAuth2Vipps` model
+* Added: `OAuthProvider::Vipps` and `OAuthProvider::VippsSandbox`
+* Added: `proxy.update_function_rule`, `proxy.update_redirect_rule` and `proxy.update_site_rule`
+* Added: optional `schedule` on `waf` rule create and update methods and on `WafRule*` models
+* Added: `project.get_prefs` and `project.update_prefs` for project preferences
+* Added: `Client::set_environment` to act in a project environment
+* Added: `AppwriteMigrationResource::ProjectPreferences` to migrate project preferences
+* Added: `monitors.read`, `monitors.write`, `alerts.read`, `alerts.write`, `reviews.read` and `reviews.write` to `ProjectKeyScopes`
+* Added: `Organization.budget_notify`, `budget_critical` and `education_expires_at`
+* Added: `Project.environment_id`, `Session.user_name` and `ActivityEvent.reason`
+* Added: `ProxyRule.expire_at` and `certificate_status`
+* Updated: requests send response format `2.7.1`; README targets Appwrite 2.7.x
+
+## 0.22.0
+
+* Updated: requests send response format `2.6.2`
+* Updated: redirects are no longer followed; a 3xx response returns an `AppwriteError` naming its `Location`
+* Fixed: a `.` or `..` path segment returns an `AppwriteError` before the request is sent
+* Added: `migrations` service with `list`, `get`, `retry`, `delete`, Appwrite, Firebase, NHost and Supabase migrations, and CSV and JSON imports and exports
+* Added: `AppwriteMigrationResource`, `FirebaseMigrationResource`, `NHostMigrationResource`, `SupabaseMigrationResource` and `OnDuplicate` enums
+* Added: `Migration`, `MigrationList` and `MigrationReport` models
+* Added: `project.update_deny_realtime_guests_policy`, `ProjectPolicyId::DenyRealtimeGuests` and the `PolicyDenyRealtimeGuests` model
+* Added: `project.delete_sessions` to sign out every session in the project
+* Added: `deployment_retention`, `deployment_retention_max` and `deployments_retention_count` on `BillingPlan`
+* Added: `Python315`, `Deno29`, `Go127` and `Rust199` on `Runtime` and `BuildRuntime`
+* Fixed: path parameters and upload IDs are percent-encoded as one segment, so `/`, `?` and `#` stay in the value
+
+## 0.21.1
+
+* Fixed: decimals in responses, such as stddev and variance aggregates, parse exactly instead of sometimes losing their last digit
+
+## 0.21.0
+
+* Breaking: create and update methods for databases, collections, tables, attributes, columns, indexes, buckets, functions, sites, variables, topics, webhooks and keys take `description`
+* Breaking: `tables_db`, `documents_db` and `vectors_db` `create` and `update` take `description` before `specification`
+* Breaking: list methods in `activities`, `backups`, `domains`, `mongo`, `mysql` and `postgresql` take `total`
+* Breaking: `messaging.create_email` and `messaging.update_email` take `emails`
+* Breaking: `project.update_password_dictionary_policy` and `update_password_personal_data_policy` take `deny_list`
+* Breaking: the minimum supported Rust is 1.85
+* Breaking: `storage.create_bucket` and `update_bucket` take `strip_metadata` after `description`
+* Added: `create_query` on `databases`, `documents_db` and `tables_db` to send list queries in the request body
+* Added: `account.list_memberships`
+* Added: `description` on the matching models, `deny_list` on the policy models and `BillingPlan.functions_allow_cron`
+* Added: `join_on`, `right_join_on` and `full_outer_join_on` on the query builder
+* Added: `strip_metadata` on the `Bucket` model
+
+## 0.20.0
+
+* Breaking: requests send response format `2.5.0`; `Project.dev_keys` was removed
+* Breaking: removed `account.list_logs` and `users.list_logs` with the `Log` and `LogList` models
+* Breaking: removed `organization.create_key`, `get_key`, `list_keys`, `update_key` and `delete_key`, and `OrganizationKeyScopes`; use `organization.list_project_keys`, `get_project_key`, `update_project_key` and `delete_project_key` instead
+* Breaking: removed `BillingPlanGroup::Starter`; use `BillingPlanGroup::Free`
+* Breaking: `project.update_o_auth2_kakao` takes `enabled` before `prompt`
+* Breaking: `ExecutionMethod::default()` is now `POST`, the spec default, instead of `GET`
+* Breaking: removed `Block` fields `project_name`, `region`, `organization_name`, `organization_id`, `billing_plan` and `reason`
+* Breaking: `list_specifications` returns each specification's prices and overage rates on the row itself. Removed the list-level `pricing` field and the `DedicatedDatabaseSpecificationPricing` model
+* Breaking: `BackupRestoration.options` is a `serde_json::Value`, not a `String`
+* Breaking: billing, backup, restoration and dedicated database fields the API can omit are `Option`
+* Breaking: `prompt`, `native_client_ids`, `native_enabled`, `fingerprints` and similar fields are no longer `Option`
+* Breaking: `functions.update` takes `email_enabled`
+* Breaking: `mongo`, `mysql` and `postgresql` `create_restoration` take `restore_mode`, `target_name` and `auto_promote` after `target_time`
+* Added: `Client::single_upload` for endpoints that take a file in one request
+* Added: `Topic` helper to build MQTT topics for push messages
+* Added: `mongo`, `mysql` and `postgresql` `promote_restoration`, and `DedicatedDatabaseRestoration.restore_mode`
+* Added: `proxy.create_smtp_rule`, the `ProxyRuleProtocol` enum and `ProxyRule.protocol`
+* Added: `Function.email_enabled` and `ExecutionTrigger::Email`
+* Added: `Query` aggregates (`count`, `count_distinct`, `sum`, `avg`, `min`, `max` and more), `group_by`, `having`, `distinct`, joins, `relationship`, `covers`, `spatial_equals` and `page`
+* Added: `Query::builder()` to chain queries into a list
+* Updated: models fill fields missing from a response with their documented defaults
+
+## 0.19.0
+
+* Breaking: new optional parameters are appended to existing methods (e.g. `delete_sessions`, the `total` lists, OAuth2 `prompt`); new enum variants and model fields break exhaustive matches and struct literals
+* Added: `domains` service to manage domains, DNS records, email presets, prices, transfer status and zones
+* Added: `waf` service with bypass, challenge, deny, rate-limit and redirect rules
+* Added: `account.create_email_verification_otp`, `update_email_verification_otp`, `create_recovery_otp` and `update_recovery_otp`
+* Added: `account.create_id_token_session` and `Identity.provider_id_token`
+* Added: `oauth2.introspect`
+* Added: project environments with `project.create_environment`, `get_environment`, `list_environments`, `update_environment` and `delete_environment`
+* Added: `organization.create_ephemeral_project_key`, `list_project_keys`, `get_project_key`, `update_project_key` and `delete_project_key`
+* Added: Kakao, TikTok and Webflow OAuth2 providers with `project.update_o_auth2_kakao`, `update_o_auth2_tik_tok` and `update_o_auth2_webflow`
+* Added: optional `prompt` on the Auth0, Discord, GitHub, Microsoft, Okta, Salesforce and Zoho OAuth2 settings, and native client IDs on Apple and Google
+* Added: `project.update_password_pwned_policy`, `project.update_password_rotation_policy` and `User.password_pwned`
+* Added: `messaging.create_appwrite_provider` and `messaging.update_appwrite_provider`
+* Added: optional `reply_to_email` and `reply_to_name` on email messages, `channel_id` on push messages, and `qos` and `expiry` on topics
+* Added: `avatars.update_photo` and `avatars.delete_photo`
+* Added: optional `duration` on `account.create_email_password_session`, `current` on `account.delete_sessions`, `membership_id` on `teams.create_membership` and `fingerprints` on Android platforms
+* Added: optional `total` on the locale, transaction, runtime, specification and framework lists
+* Added: `dart-3.13` and `flutter-3.47` runtimes, the `jaspr` framework, the `trigram` index type, `auto` image gravity, the `dedicatedDatabase` proxy rule resource type, OTP email templates and new key scopes
+* Added: optional fields on `BillingPlan`, `DedicatedDatabase`, `DedicatedDatabaseSpecification`, `Project` and `Topic`, and `free` and `start` in `BillingPlanGroup`
+
+## 0.18.0
+
+* Breaking: `ProjectAuthMethodId` and `ProjectPolicyId` gain a `Passkey` variant; exhaustive `match` expressions need a new arm
+* Added: `ProjectAuthMethodId::Passkey`, so `project.update_auth_method` can enable passkeys
+* Added: `ProjectPolicyId::Passkey` and the `PolicyPasskey` model, so `get_policy` and `list_policies` return the passkey policy
+
+## 0.17.0
+
+* Added: `account` passkey methods `listPasskeys`, `createPasskey`, `getPasskey`, `updatePasskey`, `deletePasskey` and `updatePasskeyVerification`
+* Added: `account.createPasskeyToken` and `account.updatePasskeyToken` for passkey sign-in
+* Added: `users.listPasskeys`, `users.getPasskey`, `users.updatePasskey` and `users.deletePasskey`
+* Added: `project.updatePasskeyPolicy` to configure passkey sign-in
+* Added: `Passkey`, `PasskeyList`, `PasskeyChallenge` and `TokenSecret` models
+
+## 0.16.0
+
+* Breaking: `functions.create` and `functions.update` take a new optional `interval` argument; pass `None` to keep the current behaviour
+* Added: `interval` on the `Function` model and `functions_interval_minimum` on the `BillingPlan` model
+
+## 0.15.0
+
+* Breaking: `create_o_auth2_token` takes a new optional `state` argument, returned unchanged on the success and failure URLs; pass `None` to keep the current behaviour
+
+## 0.14.0
+
+* Stable release of the dedicated database APIs: `mysql`, `postgresql`, `mongo`, `documentsDB`, and `vectorsDB` services, previously released as release candidates
+* Breaking: `tablesDB.cutoverMigration` is renamed to `tablesDB.createCutover`
+* Breaking: `Execution.functionId` is replaced by `resourceId` and `resourceType`, covering function and site executions
+* Added: Cloudflare, Resend, and Hugging Face OAuth providers
+* Added: `usageAggregateOnlyMetrics` on the `BillingPlan` model
+* Fixed: `transactionId` is accepted again by `documentsDB` and `vectorsDB` `createDocument` and `createDocuments`
+* Updated: `X-Appwrite-Response-Format` is now `2.0.0`
+* Updated: `FrameworkAdapter.fallbackFile` is now optional
+
+## 0.14.0-rc.1
+
+* Breaking: `Execution.functionId` is replaced by `resourceId` and `resourceType`, now that executions cover both functions and sites
+* Breaking: `AppInstallation.authorizationDetails` is now an array instead of an object
+* Breaking: removed `dedicatedDatabases.execute` from `ProjectKeyScopes`
+* Breaking: `EmbeddingModel` no longer offers `embedding-gemma` or `bge-small`
+* Added: `documentsDB`, `vectorsDB`, `mysql`, `postgresql`, and `mongo` services, no longer hidden from server SDKs
+* Added: `DocumentsDBIndexType` and `VectorsDBIndexType` enums
+* Added: dedicated database models for branches, backups, restorations, poolers, PITR windows, extensions, and executions
+* Added: `PostgresExtension`, `VectorsdbCollection`, `AttributeObject`, and `AttributeVector` models
+* Added: `ExecutionResourceType` enum and `resourceType` on the `Execution` model
+* Added: `OAuth2HuggingFace` model and the `huggingface` OAuth provider
+* Added: `userId`, `emailHash`, and `name` parameters to `avatars.getPhoto`
+* Added: `error`, `containerStatus`, and `lifecycleState` on the `Database` model
+* Added: `changelogWatermark` on the `DatabaseMigration` model
+* Added: `total` on the `DedicatedDatabaseBranchList` model
+* Updated: `DedicatedDatabaseOperation.status` documents the new `queued` state
+
+## 0.13.0
+
+* Breaking: removed `account.createJWT`; use `users.createJWT` instead. A leaked JWT could mint further JWTs, letting a credential outlive its own expiry — a session cannot duplicate itself to live forever either
+* Breaking: removed `project.createKey`. A leaked key could mint further hidden keys, making a compromise far harder to contain and revoke
+* Breaking: `activities.listEvents` `queries` now takes an array instead of a string
+* Added: `embeddings` service with `createTextEmbeddings`, plus the `EmbeddingModel` enum
+* Added: TablesDB migration methods `listMigrations`, `createMigration`, `getMigration`, `deleteMigration`, `cutoverMigration`, and `listOperations`
+* Added: `proxy.createInvalidation` for purging cached edge responses, plus the `InvalidationType` enum
+* Added: `apps.deleteInstallation`
+* Added: `users.getMFAChallenge` and the `MfaChallengeSecret` model
+* Added: `project.updateMFAFactorsPolicy` and the `PolicyMfaFactors` model
+* Added: `client.setOrganization` for organization-scoped requests
+* Added: `folder` parameter to `storage.createFile`
+* Added: `syncMode` parameter to `tablesDB.create` and `tablesDB.update`, and `specification` to `tablesDB.update`
+* Added: `installationScopes` parameter to `project.updateOAuth2Server`
+* Added: `custom` authentication factor, `node-26` runtime, `mfa-factors` project policy, and the `embeddings.write` and `proxy.invalidations.write` key scopes
+* Updated: response format to `1.9.6`
+
+## 0.12.0
+
+* Breaking: added `token` parameter to `sites.get_deployment_download`
+* Added: `Apps` service for managing OAuth2 applications, keys, and installations
+* Added: `OAuth2` service with authorize, grant, device authorization, and consent flows
+* Added: account OAuth2 consent methods `list_consents`, `get_consent`, `delete_consent`, and consent token methods
+* Added: app installation management methods to `Organization` and `Teams` services
+* Added: `installation_access_token_duration` parameter to `project.update_o_auth2_server`
+* Added: `oauth2.introspect` and organization installation key scopes
+
+## 0.11.0
+
+* Breaking: removed `Health` service and all `Health*` models and enums
+* Breaking: removed `Usage` service (`list_events`, `list_gauges`) and `Usage*` list/metric models
+* Breaking: removed `Notifications` service, `Notification`, and `NotificationList` models
+* Breaking: removed messaging `list_message_logs`, `list_provider_logs`, `list_subscriber_logs`, `list_topic_logs`
+* Breaking: renamed `tables_db.create()` parameter `dedicated_database_id` to `specification`
+* Breaking: added `new_specification` parameter to `backups.create_restoration()`
+* Breaking: added `token` parameter to `functions.get_deployment_download()`
+* Breaking: added `prompt` and `max_age` parameters to `project.update_o_auth2_oidc()`
+* Breaking: added `default_scopes` parameter to `project.update_o_auth2_server()`
+* Breaking: added required `mode` field to `Block` model
+* Added: `Organization` service `get`, `update`, `delete`, and membership management methods
+* Added: `update_o_auth2_appwrite()` method, `OAuth2Appwrite` model, and `Appwrite` OAuth provider
+* Added: client setters `set_bearer`, `set_dev_key`, `set_cookie`, `set_forwarded_user_agent`, and impersonation headers
+* Added: `Query::vector_dot`, `Query::vector_cosine`, `Query::vector_euclidean` vector search methods
+* Added: `BillingPlan` model family, `Program`, `AdditionalResource`, `UsageBillingPlan` models
+* Added: `DatabaseStatus`, `BillingPlanGroup`, `OAuth2OidcPrompt`, `ProjectOAuth2OidcPrompt` enums
+* Added: optional `status` field on `Database` model
+* Added: geolocation, timezone, ASN, and ISP fields on `Locale` model
+* Added: organization and `project.oauth2` key scopes to key scope enums
+* Added: `oAuth2ServerDefaultScopes` field on `Project` model
+
+## 0.10.0
+
+* Breaking: Reworked `listEvents` and `listGauges` in `usage` with a required `metrics` param and new `interval`, `dimensions`, date-range, and ordering options
+* Breaking: Replaced `UsageEvent` and `UsageGauge` models with `UsageDataPoint` and `UsageMetric`
+* Added: `Notifications` service with `Notification` and `NotificationList` models
+* Added: `getQueueNotifications` health check to `health`
+* Added: `updateDenyCorporateEmailPolicy` and `PolicyDenyCorporateEmail` to `project`
+* Updated: All requests now send an `Accept: application/json` header
+
+
+## 0.9.0
+
+* Added: `createSesProvider` and `updateSesProvider` to `messaging`
+* Added: `updateOAuth2Server` to `project` for OAuth2 server settings
+* Added: `updatePasswordStrengthPolicy` and `PolicyPasswordStrength` to `project`
+* Added: `getAuditsDB` health check to `health`
+* Added: `password-strength` to `ProjectPolicyId`
+* Added: `apps.read` and `apps.write` to `ProjectKeyScopes`
+
+
+## 0.8.0
+
+* Breaking: Removed `githubImagine` and `googleImagine` from `ProjectOAuthProviderId`
+* Breaking: Removed `deno-1.21`, `deno-1.24`, and `deno-1.35` from `Runtime` and `BuildRuntime`
+* Breaking: Dropped numeric suffixes from `StatusCode` redirect members
+* Added: `Organization` service for managing projects and API keys
+* Added: `PolicyDenyAliasedEmail`, `PolicyDenyDisposableEmail`, and `PolicyDenyFreeEmail` policy models
+* Added: `deny-aliased-email`, `deny-disposable-email`, and `deny-free-email` to `ProjectPolicyId`
+* Replaced: `BrowserTheme`, `HealthQueueName`, `OrganizationKeyScopes`, and `Region` enums
+* Added: `dart-3.12` and `flutter-3.44` runtimes
+* Added: `ProjectList` model and new attributes on `Function`, `Site`, and `UsageGauge`
+* Updated: `functions`, `sites`, `usage`, `health`, and `avatars` services
+* Updated: Renamed `updatePresence` to `update` in the `presences` service
+
+## 0.6.0
+
+* Breaking: Renamed `AuthMethod` enum to `ProjectAuthMethodId`
+* Breaking: Renamed `EmailTemplateType` to `ProjectEmailTemplateId` and `EmailTemplateLocale` to `ProjectEmailTemplateLocale`
+* Breaking: Renamed `ServiceId` to `ProjectServiceId`, `ProtocolId` to `ProjectProtocolId`, `Secure` to `ProjectSMTPSecure`, `ProjectPolicy` to `ProjectPolicyId`
+* Breaking: Replaced `Scopes` enum with `ProjectKeyScopes` for project key endpoints
+* Breaking: Removed `Project::update_deny_canonical_email_policy`; replaced with `update_deny_aliased_email_policy`, `update_deny_disposable_email_policy`, and `update_deny_free_email_policy`
+* Breaking: Removed `AuthProvider` model; use new `ProjectOAuthProviderId` enum instead
+* Added: `Project::get` method to fetch current project details
+* Added: `Advisor`, `Presences`, and `Usage` services
+* Added: `Insight`, `Presence`, `Report`, `UsageEvent`, and `UsageGauge` models with list variants
+* Added: `ProjectAuthMethod`, `ProjectProtocol`, and `ProjectService` models
+* Added: `ProjectOAuthProviderId` and `ProjectOAuth2GooglePrompt` enums
+* Updated: `Project`, `Database`, and `OAuth2Google` model schemas
+* Updated: `X-Appwrite-Response-Format` header to `1.9.5`
+
+## 0.5.0
+
+* Added: Introduced `bigint` create/update APIs for legacy Databases attributes
+* Added: Introduced `bigint` create/update APIs for `TablesDB` columns
+* Updated: Extended key-list query filters with `key`, `resourceType`, `resourceId`, and `secret`
+
+## 0.4.0
+
+* Breaking: Renamed `Project::update_protocol_status` to `Project::update_protocol`
+* Breaking: Renamed `Project::update_service_status` to `Project::update_service`
+* Breaking: Renamed `Project` model field `smtp_reply_to` to `smtp_reply_to_email`
+* Added password, session and membership policy methods: `update_membership_privacy_policy`, `update_password_dictionary_policy`, `update_password_history_policy`, `update_password_personal_data_policy`, `update_session_alert_policy`, `update_session_duration_policy`, `update_session_invalidation_policy`, `update_session_limit_policy`, `update_user_limit_policy`
+* Added `Project::update_smtp` and `Project::create_smtp_test`
+* Added email template methods: `update_email_template`, `get_email_template`
+* Added `EmailTemplate` model and `EmailTemplateLocale`, `EmailTemplateType`, `Secure` enums
+* Added `auth_memberships_user_id`, `auth_memberships_user_phone`, `smtp_reply_to_name` fields to `Project` model
+* Added `user_phone` field to `Membership` model
+* Added `templates.read` and `templates.write` to `Scopes` enum
+* Added `deno-1.21`, `deno-1.24`, `deno-1.35` to `Runtime` and `BuildRuntime` enums
+* Updated `X-Appwrite-Response-Format` header to `1.9.2`
+* Updated `Cargo.toml` to constrain `url` to `>=2.5.4, <2.6` and add `idna` and `idna_adapter`
+* Fixed examples to wrap optional parameters in `Some(...)`
+
+## 0.3.0
+
+* [BREAKING] Renamed Webhook model fields: `security` → `tls`, `httpUser` → `authUsername`, `httpPass` → `authPassword`, `signatureKey` → `secret`
+* [BREAKING] Renamed Webhook service parameters to match: `security` → `tls`, `httpUser` → `authUsername`, `httpPass` → `authPassword`
+* [BREAKING] Renamed `Webhooks::update_signature()` to `Webhooks::update_secret()` with new optional `secret` parameter
+* Added `Client::get_headers()` method to retrieve request headers
+* Added `secret` parameter to Webhook create and update methods
+* Added `x` OAuth provider to `OAuthProvider` enum
+* Added `userType` field to `Log` model
+* Added `purge` parameter to `update_collection` and `update_table` for cache invalidation
+* Added Project service: platform CRUD, key CRUD, protocol/service status management
+* Added new models: `Key`, `KeyList`, `Project`, `DevKey`, `MockNumber`, `AuthProvider`, `PlatformAndroid`, `PlatformApple`, `PlatformLinux`, `PlatformList`, `PlatformWeb`, `PlatformWindows`, `BillingLimits`, `Block`
+* Added new enums: `PlatformType`, `ProtocolId`, `ServiceId`
+* Updated `BuildRuntime`, `Runtime` enums with `dart-3.11` and `flutter-3.41`
+* Updated `Scopes` enum with `keysRead`, `keysWrite`, `platformsRead`, `platformsWrite`
+* Updated `X-Appwrite-Response-Format` header to `1.9.1`
+* Updated TTL description for list caching in Databases and TablesDB
+* Updated `Cargo.toml` dependencies with pinned versions and added `security-framework` for Apple platforms
+
+## 0.2.0
+
+* Added Project service with 5 methods
+* Updated Health service from 29 to 24 methods
+* Added new enums: BackupServices, BuildRuntime, DatabaseType, DatabasesIndexType, Runtime, Scopes, TablesDbIndexType, TemplateReferenceType
+* Added new models: AttributeList, ColumnList, Table
+* Updated Collection model
+* Added new services: Backups, TablesDB
+
+## 0.1.0
+
+* Initial release
