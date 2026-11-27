@@ -544,6 +544,14 @@ pub mod activity_event;
 pub use activity_event::ActivityEvent;
 pub mod additional_resource;
 pub use additional_resource::AdditionalResource;
+pub mod analytics_annotation;
+pub use analytics_annotation::AnalyticsAnnotation;
+pub mod analytics_metric;
+pub use analytics_metric::AnalyticsMetric;
+pub mod analytics_metric_list;
+pub use analytics_metric_list::AnalyticsMetricList;
+pub mod analytics_property;
+pub use analytics_property::AnalyticsProperty;
 pub mod backup_archive;
 pub use backup_archive::BackupArchive;
 pub mod dedicated_database_backup;
@@ -694,6 +702,10 @@ pub mod oauth2_consent_token_list;
 pub use oauth2_consent_token_list::Oauth2ConsentTokenList;
 pub mod activity_event_list;
 pub use activity_event_list::ActivityEventList;
+pub mod analytics_property_list;
+pub use analytics_property_list::AnalyticsPropertyList;
+pub mod analytics_annotation_list;
+pub use analytics_annotation_list::AnalyticsAnnotationList;
 pub mod backup_archive_list;
 pub use backup_archive_list::BackupArchiveList;
 pub mod backup_policy_list;
@@ -1000,6 +1012,10 @@ impl Model for VideoRendition {}
 impl Model for VideoCaption {}
 impl Model for ActivityEvent {}
 impl Model for AdditionalResource {}
+impl Model for AnalyticsAnnotation {}
+impl Model for AnalyticsMetric {}
+impl Model for AnalyticsMetricList {}
+impl Model for AnalyticsProperty {}
 impl Model for BackupArchive {}
 impl Model for DedicatedDatabaseBackup {}
 impl Model for DedicatedDatabaseBackupList {}
@@ -1075,6 +1091,8 @@ impl Model for Oauth2OrganizationList {}
 impl Model for Oauth2ConsentList {}
 impl Model for Oauth2ConsentTokenList {}
 impl Model for ActivityEventList {}
+impl Model for AnalyticsPropertyList {}
+impl Model for AnalyticsAnnotationList {}
 impl Model for BackupArchiveList {}
 impl Model for BackupPolicyList {}
 impl Model for BackupRestorationList {}
