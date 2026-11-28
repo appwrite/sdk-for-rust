@@ -6,6 +6,8 @@ pub mod activities;
 pub use activities::Activities;
 pub mod alerts;
 pub use alerts::Alerts;
+pub mod analytics;
+pub use analytics::Analytics;
 pub mod apps;
 pub use apps::Apps;
 pub mod avatars;
@@ -85,6 +87,7 @@ pub struct Services {
     account: Account,
     activities: Activities,
     alerts: Alerts,
+    analytics: Analytics,
     apps: Apps,
     avatars: Avatars,
     backups: Backups,
@@ -126,6 +129,7 @@ impl Services {
             account: Account::new(&client),
             activities: Activities::new(&client),
             alerts: Alerts::new(&client),
+            analytics: Analytics::new(&client),
             apps: Apps::new(&client),
             avatars: Avatars::new(&client),
             backups: Backups::new(&client),
@@ -178,6 +182,10 @@ impl Services {
     /// Get Alerts service
     pub fn alerts(&self) -> &Alerts {
         &self.alerts
+    }
+    /// Get Analytics service
+    pub fn analytics(&self) -> &Analytics {
+        &self.analytics
     }
     /// Get Apps service
     pub fn apps(&self) -> &Apps {
